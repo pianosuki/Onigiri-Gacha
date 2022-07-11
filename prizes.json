@@ -9,8 +9,8 @@
     {
       "blue": "100 EXP",
       "green": "200 EXP + WL",
-      "red": "250 EXP + WL",
-      "silver": "300 EXP",
+      "red": "250 EXP + 3 Points",
+      "silver": "300 EXP + 5 Points",
       "gold": "1 Gacha Fragment",
       "platinum": "Regular Steam Key"
     }
@@ -24,9 +24,9 @@
     "regulated": false,
     "prizes":
     {
-      "blue": "250 EXP",
-      "green": "300 EXP + WL",
-      "red": "500 EXP + WL",
+      "blue": "250 EXP + 3 Points",
+      "green": "300 EXP + 5 Points",
+      "red": "400 EXP + 10 Points",
       "silver": "500 EXP + 1 Gacha Fragment",
       "gold": "Regular Steam Key",
       "platinum": "Premium  Steam Key"
@@ -41,8 +41,8 @@
     "regulated": false,
     "prizes":
     {
-      "blue": "500 EXP",
-      "green": "1000 EXP",
+      "blue": "500 EXP + 1 Gacha Fragment",
+      "green": "700 EXP + 3 Gacha Fragments EXP",
       "red": "Premium  Steam Key",
       "silver": "Legendary Steam Key",
       "gold": "1 Gacha Ticket",
@@ -59,11 +59,11 @@
     "prizes":
     {
       "blue": "2000 EXP",
-      "green": "3000 EXP",
+      "green": "3000 EXP + 1 Gacha Fragment",
       "red": "Legendary Steam Key",
       "silver": "Ultimate Steam Key",
       "gold": "1 Month Nitro",
-      "platinum": "1 Onigiri NFT"
+      "platinum": "1 Aotuverse NFT"
     }
   }
 }
