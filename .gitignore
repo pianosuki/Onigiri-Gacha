@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Tokens file
+*tokens.py
+
+# Pycharm
+.idea
+
+# Database files
+*.db

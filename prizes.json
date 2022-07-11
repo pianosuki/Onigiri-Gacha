@@ -1,0 +1,69 @@
+{
+  "tier_1":
+  {
+    "name": "Tier 1",
+    "symbol": "🥉",
+    "tickets_required": 1,
+    "regulated": false,
+    "prizes":
+    {
+      "blue": "100 EXP",
+      "green": "200 EXP + WL",
+      "red": "250 EXP + WL",
+      "silver": "300 EXP",
+      "gold": "1 Gacha Fragment",
+      "platinum": "Regular Steam Key"
+    }
+  },
+
+  "tier_2":
+  {
+    "name": "Tier 2",
+    "symbol": "🥈",
+    "tickets_required": 3,
+    "regulated": false,
+    "prizes":
+    {
+      "blue": "250 EXP",
+      "green": "300 EXP + WL",
+      "red": "500 EXP + WL",
+      "silver": "500 EXP + 1 Gacha Fragment",
+      "gold": "Regular Steam Key",
+      "platinum": "Premium  Steam Key"
+    }
+  },
+
+  "tier_3":
+  {
+    "name": "Tier 3",
+    "symbol": "🥇",
+    "tickets_required": 5,
+    "regulated": false,
+    "prizes":
+    {
+      "blue": "500 EXP",
+      "green": "1000 EXP",
+      "red": "Premium  Steam Key",
+      "silver": "Legendary Steam Key",
+      "gold": "1 Gacha Ticket",
+      "platinum": "1 Month Nitro"
+    }
+  },
+
+  "tier_4":
+  {
+    "name": "Tier 4",
+    "symbol": "🏅",
+    "tickets_required": 10,
+    "regulated": true,
+    "prizes":
+    {
+      "blue": "2000 EXP",
+      "green": "3000 EXP",
+      "red": "Legendary Steam Key",
+      "silver": "Ultimate Steam Key",
+      "gold": "1 Month Nitro",
+      "platinum": "1 Onigiri NFT"
+    }
+  }
+}
