@@ -2,10 +2,11 @@
 ### Created by pianosuki
 ### https://github.com/pianosuki
 ### For use by Catheon only
-### Version 1.1
+branch_name = "Onigiri"
+bot_version = "1.2"
 
 import config
-from db import Database
+from database import Database
 import discord, re, time, random, json
 from discord.ext import commands
 from datetime import datetime
@@ -15,10 +16,10 @@ from collections import Counter
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix = config.prefix, intents = intents)
-db = Database("gachadata.db")
-db.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, gacha_tickets INTEGER, gacha_fragments INTEGER, total_rolls INTEGER)")
-db.execute("CREATE TABLE IF NOT EXISTS prizehistory (prize_id TEXT PRIMARY KEY UNIQUE, user_id INTEGER, date TEXT, tickets_spent TEXT, tier TEXT, capsule TEXT, prize TEXT)")
-db.execute("CREATE TABLE IF NOT EXISTS backstock (prize TEXT PRIMARY KEY UNIQUE, current_stock INTEGER, times_rolled INTEGER, max_limit INTEGER)")
+DB = Database("gachadata.db")
+DB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, gacha_tickets INTEGER, gacha_fragments INTEGER, total_rolls INTEGER)")
+DB.execute("CREATE TABLE IF NOT EXISTS prizehistory (prize_id TEXT PRIMARY KEY UNIQUE, user_id INTEGER, date TEXT, tickets_spent TEXT, tier TEXT, capsule TEXT, prize TEXT)")
+DB.execute("CREATE TABLE IF NOT EXISTS backstock (prize TEXT PRIMARY KEY UNIQUE, current_stock INTEGER, times_rolled INTEGER, max_limit INTEGER)")
 
 @bot.event
 async def on_ready():
@@ -55,8 +56,8 @@ async def waitForReaction(ctx, message, e, emojis, modmsg = True):
     return reaction, user
 
 async def getUserInv(user_id):
-    db.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
-    inventory = db.userdata[user_id]
+    DB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
+    inventory = DB.userdata[user_id]
     return inventory
 
 def randomWeighted(list, weights):
@@ -123,7 +124,7 @@ async def roll(ctx, skip=None):
         name = prizes[tier]["name"]
         symbol = prizes[tier]["symbol"]
         cost = prizes[tier]["tickets_required"]
-        e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = "Spin to win!", color = default_color)
+        e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Spin to win!", color = default_color)
         e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_6.png")
         e.add_field(name = f"{name} Raffle", value = symbol, inline = True)
         e.add_field(name = "Admission:", value = f"🎟️ x {cost} ticket(s)", inline = True)
@@ -137,7 +138,7 @@ async def roll(ctx, skip=None):
             emojis = ["🎲", "↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
             if reaction is None:
-                return True
+                return message, e, False
             match str(reaction.emoji):
                 case "🎲":
                     e.set_field_at(5, name = "►🎲 ────  Spin the Gacha  ──── 🎲 ◄", value = menu_separator, inline = False)
@@ -158,18 +159,18 @@ async def roll(ctx, skip=None):
             emojis = ["↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
             if reaction is None:
-                return True
+                return message, e, False
             match str(reaction.emoji):
                 case "↩️":
                     e.set_field_at(5, name = "►↩️  ──  Select another Raffle  ──  ↩️ ◄", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
-                    return False
+                    return message, e, False
 
     async def rollGacha(ctx, message, e, tier, name, cost, symbol, skip):
         # Subtract ticket(s) from user's inventory, increment roll count, then roll the gacha
-        db.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
-        e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = "Good luck!", color = default_color)
+        DB.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
+        e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Good luck!", color = default_color)
         e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_1.png")
         e.add_field(name = f"Spinning the {name} Raffle:", value = menu_top, inline = False)
         e.add_field(name = progressbar[0], value = menu_bottom, inline = False)
@@ -184,8 +185,8 @@ async def roll(ctx, skip=None):
         if prizes[tier]["regulated"]:
             # Modify probability for regulated prize
             regulated_prize = prizes[tier]["prizes"]["platinum"]
-            db.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{regulated_prize}', '0', '0', '0')")
-            stock = db.backstock[regulated_prize]
+            DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{regulated_prize}', '0', '0', '0')")
+            stock = DB.backstock[regulated_prize]
             current_stock = stock.current_stock
             times_rolled = stock.times_rolled
             max_limit = stock.max_limit
@@ -202,7 +203,7 @@ async def roll(ctx, skip=None):
         else:
             # Use unmodified probabilities
             capsule = randomWeighted(capsules, cold_weights)
-        e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = f"🎉 Congratulations {ctx.author.mention}! 🎊")
+        e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = f"🎉 Congratulations {ctx.author.mention}! 🎊")
         match capsule:
             case "blue":
                 e.color = capsule_colors[0]
@@ -234,15 +235,15 @@ async def roll(ctx, skip=None):
         # Add record of prize to database
         prize_id = str(user_id) + str("{:05d}".format(total_rolls + 1))
         now = datetime.utcnow()
-        db.prizehistory[prize_id] = {"user_id": user_id, "date": now, "tickets_spent": cost, "tier": tier, "capsule": capsule, "prize": prize}
+        DB.prizehistory[prize_id] = {"user_id": user_id, "date": now, "tickets_spent": cost, "tier": tier, "capsule": capsule, "prize": prize}
         if prizes[tier]["regulated"] and capsule == "platinum":
             # Update stock of prize if the prize was regulated
-            db.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{prize}', '0', '0', '0')")
-            stock = db.backstock[regulated_prize]
+            DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{prize}', '0', '0', '0')")
+            stock = DB.backstock[regulated_prize]
             current_stock = stock.current_stock
             times_rolled = stock.times_rolled
             max_limit = stock.max_limit
-            db.backstock[prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
+            DB.backstock[prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
         e.set_footer(text = f"Prize ID: {prize_id}")
         await message.edit(embed = e)
         return message, e
@@ -251,7 +252,7 @@ async def roll(ctx, skip=None):
     exit_flag = edit_flag = False
     while not (exit_flag):
         prev_flag = False
-        e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = "Test your luck for amazing prizes!", color = default_color)
+        e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Test your luck for amazing prizes!", color = default_color)
         e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_1.png")
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ 📜 ─────  Prize  List  ────── 📜 ◁", value = menu_separator, inline = False)
@@ -281,7 +282,7 @@ async def roll(ctx, skip=None):
                 e.set_field_at(1, name = "►📜 ─────  Prize  List  ────── 📜 ◄", value = menu_separator, inline = False)
                 await message.edit(embed = e)
                 await message.clear_reactions()
-                e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = "Here are today's prize pools:", color = default_color)
+                e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
                 e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_3.png")
                 e.add_field(name = f"Tier 1: {prizes['tier_1']['symbol']}", value = formatPrizeList(prizes["tier_1"]["prizes"]), inline = True)
                 e.add_field(name = f"Tier 2: {prizes['tier_2']['symbol']}", value = formatPrizeList(prizes["tier_2"]["prizes"]), inline = True)
@@ -307,7 +308,7 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 while not (exit_flag or prev_flag):
-                    e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = "Select a Gacha Unit to spin!", color = default_color)
+                    e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Select a Gacha Unit to spin!", color = default_color)
                     e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_5.png")
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                     e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
@@ -387,7 +388,7 @@ async def roll(ctx, skip=None):
                 e.set_field_at(3, name = "►📦 ── View your inventory ─── 📦 ◄", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
                 await message.clear_reactions()
-                e = discord.Embed(title = "Welcome to the Onigiri Gacha!", description = "Your inventory:", color = default_color)
+                e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Your inventory:", color = default_color)
                 e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_5.png")
                 e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
                 e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
@@ -414,8 +415,8 @@ async def inv(ctx, target = None):
     if re.match(r"<(@|@&)[0-9]{18}>", target):
         user_id = await convertMentionToId(target)
         # Check if user is already in database, if not then set them up default values of 0
-        db.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
-        inventory   = db.userdata[user_id]
+        DB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
+        inventory   = DB.userdata[user_id]
         tickets     = inventory.gacha_tickets
         fragments   = inventory.gacha_fragments
         total_rolls = inventory.total_rolls
@@ -435,8 +436,8 @@ async def craft(ctx):
     menu_separator  = "├───────────────────────┤"
     menu_bottom     = "└───────────────────────┘"
     user_id = await convertMentionToId(ctx.author.mention)
-    db.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
-    inventory   = db.userdata[user_id]
+    DB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
+    inventory   = DB.userdata[user_id]
     tickets     = inventory.gacha_tickets
     fragments   = inventory.gacha_fragments
     total_rolls = inventory.total_rolls
@@ -463,7 +464,7 @@ async def craft(ctx):
                 e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + 1}", inline = False)
                 await message.edit(embed = e)
                 await message.clear_reactions()
-                db.userdata[user_id] = {"gacha_tickets": tickets + 1, "gacha_fragments": fragments - 4, "total_rolls": total_rolls}
+                DB.userdata[user_id] = {"gacha_tickets": tickets + 1, "gacha_fragments": fragments - 4, "total_rolls": total_rolls}
             case "❌":
                 e.set_field_at(4, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
@@ -474,7 +475,7 @@ async def craft(ctx):
 
 @bot.command()
 async def history(ctx, target = None):
-    ''' | Usage: +history | View prize history '''
+    ''' | Usage: +history [@user] | View prize history of a user '''
     if target is None:
         target = ctx.author.mention
     if not checkAdmin(ctx):
@@ -484,7 +485,7 @@ async def history(ctx, target = None):
             await ctx.send("Admin-only: Please **@ mention** a valid user to view prize history of")
             return
     user_id = await convertMentionToId(target)
-    history = db.query(f"SELECT * FROM prizehistory WHERE user_id = '{user_id}'")
+    history = DB.query(f"SELECT * FROM prizehistory WHERE user_id = '{user_id}'")
     history.reverse()
     history_length = len(history)
     e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
@@ -493,7 +494,7 @@ async def history(ctx, target = None):
     counter = 0
     if history_length == 0:
         e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_2.png")
-        e.add_field(name = "User has not rolled any prizes yet!", value = "Try `=roll` to change that", inline = False)
+        e.add_field(name = "User has not rolled any prizes yet!", value = "Try `+roll` to change that", inline = False)
         await ctx.send(embed = e)
         return
     for index, entry in enumerate(history):
@@ -554,30 +555,25 @@ async def reward(ctx, target: str, item: str, quantity):
             quantity = int(quantity)
             user_id = await convertMentionToId(target)
             # Check if user is already in database, if not then set them up default values of 0
-            db.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
-            inventory   = db.userdata[user_id]
+            DB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
+            inventory   = DB.userdata[user_id]
             tickets     = inventory.gacha_tickets
             fragments   = inventory.gacha_fragments
             total_rolls = inventory.total_rolls
             # Add the respective reward on top of what the user already has
             match item:
                 case "ticket" | "tickets":
-                    db.userdata[user_id] = {"gacha_tickets": tickets + quantity, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                    DB.userdata[user_id] = {"gacha_tickets": tickets + quantity, "gacha_fragments": fragments, "total_rolls": total_rolls}
                     await ctx.send(f"Rewarded {target} with `{quantity}` **Gacha Ticket(s)**! User now has a total of `{tickets + quantity}`.")
                 case "fragment" | "fragments":
-                    db.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + quantity, "total_rolls": total_rolls}
+                    DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + quantity, "total_rolls": total_rolls}
                     await ctx.send(f"Rewarded {target} with `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
                 case _:
-                    await ctx.send("Please enter a **valid item** to reward (+help reward)")
+                    await ctx.send(f"Please enter a **valid item** to reward ({config.prefix}help reward)")
         except ValueError:
-            await ctx.send("Please enter an **integer** of item(s) to reward (+help reward)")
+            await ctx.send(f"Please enter an **integer** of item(s) to reward ({config.prefix}help reward)")
     else:
-        await ctx.send("Please **@ mention** a valid user to reward (+help reward)")
-
-@bot.command()
-@commands.check(checkAdmin)
-async def verify(ctx, prize_id):
-    pass
+        await ctx.send(f"Please **@ mention** a valid user to reward ({config.prefix}help reward)")
 
 @bot.command()
 @commands.check(checkAdmin)
@@ -595,12 +591,12 @@ async def simulate(ctx, tier, n: int):
 @bot.command()
 @commands.check(checkAdmin)
 async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool = True):
-    ''' | Usage: +restock <"Prize name"> <Stock> <Maximum roll limit> [Reset "times_rolled" counter? Default = True] '''
-    data = db.query(f"SELECT * FROM backstock WHERE prize = '{prize}'")
+    ''' | Usage: +restock <"Prize name"> <Stock> [Maximum roll limit] [Reset "times_rolled" counter? Default = True] '''
+    data = DB.query(f"SELECT * FROM backstock WHERE prize = '{prize}'")
     if reset:
         times_rolled = 0
     else:
-        times_rolled = db.backstock[prize].times_rolled
+        times_rolled = DB.backstock[prize].times_rolled
     if max_limit == -1:
         max_limit = stock
     if data:
@@ -608,7 +604,6 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool 
         e.add_field(name = f"Stock of '{prize}' will be set to:", value = stock, inline = False)
         e.add_field(name = f"With a maximum limit of:", value = max_limit, inline = False)
         e.add_field(name = "Reset 'Times Rolled' counter:", value = reset, inline = False)
-        #await ctx.send(f"Confirm: Stock of **'{prize}'** will be set to `{stock}` with a maximum limit of `{max_limit}`? (Reset 'times_rolled' counter = *{reset}*)")
         message = await ctx.send(embed = e)
         emojis = ["✅", "❌"]
         reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -616,14 +611,13 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool 
             return
         match str(reaction.emoji):
             case "✅":
-                db.backstock[prize] = {"current_stock": stock, "times_rolled": times_rolled, "max_limit": max_limit}
+                DB.backstock[prize] = {"current_stock": stock, "times_rolled": times_rolled, "max_limit": max_limit}
             case "❌":
                 await ctx.send("❌ Aborted")
                 return
     else:
         e = discord.Embed(title = "Restock Prize Database", description = "Confirm the following:", color = 0xc0ca33)
         e.add_field(name = f"Prize '{prize}' Does not exist in database.", value = "Add it now?", inline = False)
-        #message = await ctx.send(f"Prize '{prize}' Does not exist in database, add it now?")
         message = await ctx.send(embed = e)
         emojis = ["✅", "❌"]
         reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -632,7 +626,6 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool 
         match str(reaction.emoji):
             case "✅":
                 await message.clear_reactions()
-                #message = await ctx.send(f"Confirm: Stock of **'{prize}'** will be set to `{stock}` with a maximum limit of `{max_limit}`? (Reset 'times_rolled' counter = *{reset}*)")
                 e = discord.Embed(title = "Restock Prize Database", description = "Confirm the following:", color = 0xc0ca33)
                 e.add_field(name = f"Stock of '{prize}' will be set to:", value = stock, inline = False)
                 e.add_field(name = f"With a maximum limit of:", value = max_limit, inline = False)
@@ -642,8 +635,8 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool 
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 match str(reaction.emoji):
                     case "✅":
-                        db.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('1 Onigiri NFT', '0', '0', '0')")
-                        db.backstock[prize] = {"current_stock": stock, "times_rolled": times_rolled, "max_limit": max_limit}
+                        DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{prize}', '0', '0', '0')")
+                        DB.backstock[prize] = {"current_stock": stock, "times_rolled": times_rolled, "max_limit": max_limit}
                     case "❌":
                         await ctx.send("❌ Aborted")
                         return
@@ -651,6 +644,44 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool 
                 await ctx.send("❌ Aborted")
                 return
     await ctx.send(f"✅ Set stock of **{prize}** to `{stock}` with a maximum roll limit of `{max_limit}`.")
+
+@bot.command(aliases = ["dashboard", "database"])
+@commands.check(checkAdmin)
+async def db(ctx):
+    ''' | Usage: +dashboard | View current statistics of the database '''
+
+    def accumulateEntries(data):
+        return len(data)
+
+    userdata = DB.query("SELECT * FROM userdata")
+    prizehistory = DB.query("SELECT * FROM prizehistory")
+    backstock = DB.backstock[f"1 {branch_name} NFT"]
+    total_users = accumulateEntries(userdata)
+    total_rolls = accumulateEntries(prizehistory)
+    if backstock:
+        nft_stock = backstock.current_stock
+        nft_rolls = backstock.times_rolled
+        nft_limit = backstock.max_limit
+    else:
+        nft_stock = 0
+        nft_rolls = 0
+        nft_limit = 0
+
+    e = discord.Embed(title = f"{branch_name} Gacha  ─  Admin Dashboard", description = "Database statistics:", color = 0xe53935)
+    e.add_field(name = "──────────────────────────────────────────", value = "──────────────────────────────────────────", inline = False)
+    e.add_field(name = "│ 🤖 Bot version", value = f"│  └  `{bot_version}`", inline = True)
+    e.add_field(name = "│ 🧍 Accumulated users", value = f"│  └  `{total_users}`", inline = True)
+    e.add_field(name = "│ 🎲 Rolls performed", value = f"│  └  `{total_rolls}`", inline = True)
+    e.add_field(name = "│ 🏦 NFTs in stock", value = f"│  └  `{nft_stock}`", inline = True)
+    e.add_field(name = "│ 🛡️ NFT roll limit", value = f"│  └  `{nft_limit}`", inline = True)
+    e.add_field(name = "│ 🎉 NFT rolls", value = f"│  └  `{nft_rolls}`", inline = True)
+    e.add_field(name = "──────────────────────────────────────────", value = "──────────────────────────────────────────", inline = False)
+    await ctx.send(embed = e)
+
+@bot.command()
+@commands.check(checkAdmin)
+async def verify(ctx, prize_id):
+    pass
 
 @bot.command()
 @commands.check(checkAdmin)
