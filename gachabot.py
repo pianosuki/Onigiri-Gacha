@@ -2,7 +2,7 @@
 ### Created by pianosuki
 ### https://github.com/pianosuki
 ### For use by Catheon only
-### Version 1.0
+### Version 1.1
 
 import config
 from db import Database
@@ -26,10 +26,17 @@ async def on_ready():
     await bot.change_presence(status = discord.Status.online, activity = discord.Game("=roll to spin the Gacha!"))
 
 ### Functions
+def checkAdmin(ctx):
+    if ctx.author.id in config.admin_list:
+        return True
+    admin_role = discord.utils.get(ctx.guild.roles, name = config.admin_role)
+    if admin_role in ctx.author.roles:
+        return True
+
 async def convertMentionToId(target):
     return int(target[1:][:len(target)-2].replace("@","").replace("&",""))
 
-async def waitForReaction(ctx, message, e, emojis):
+async def waitForReaction(ctx, message, e, emojis, modmsg = True):
     for emoji in emojis:
         await message.add_reaction(emoji)
     def checkReaction(reaction, user):
@@ -40,9 +47,9 @@ async def waitForReaction(ctx, message, e, emojis):
     except Exception as error:
         # Operation timed out
         await message.clear_reactions()
-        e.description = "Operation timed out!"
-        e.color = 0xe3e6df
-        # e.clear_fields()
+        if modmsg:
+            e.description = "Operation timed out!"
+            e.color = 0xe3e6df
         await message.edit(embed = e)
         return None, None
     return reaction, user
@@ -97,7 +104,7 @@ async def roll(ctx, skip=None):
                        "🕒  -=|     ━━━━━━━━━━━━━━━─     |=-  🕒",
                        "🕓  -=|     ━━━━━━━━━━━━━━━━     |=-  🕓"]
 
-    if ctx.author.id in config.admin_list and skip == "skip":
+    if checkAdmin(ctx) and skip == "skip":
         skip = True
     else:
         skip = False
@@ -112,7 +119,7 @@ async def roll(ctx, skip=None):
     def getPrize(tier, capsule):
         return prizes[tier]["prizes"][capsule]
 
-    async def raffleEntry(tier, skip):
+    async def raffleEntry(ctx, message, e, tier, skip):
         name = prizes[tier]["name"]
         symbol = prizes[tier]["symbol"]
         cost = prizes[tier]["tickets_required"]
@@ -136,13 +143,13 @@ async def roll(ctx, skip=None):
                     e.set_field_at(5, name = "►🎲 ────  Spin the Gacha  ──── 🎲 ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
-                    await rollGacha(ctx, message, e, tier, name, cost, symbol, skip)
-                    return True
+                    message, e = await rollGacha(ctx, message, e, tier, name, cost, symbol, skip)
+                    return message, e, True
                 case "↩️":
                     e.set_field_at(6, name = "►↩️  ──  Select another Raffle  ──  ↩️ ◄", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
-                    return False
+                    return message, e, False
         else:
             e.add_field(name = "You need this many more tickets to spin:", value = cost - tickets, inline = False)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
@@ -169,7 +176,8 @@ async def roll(ctx, skip=None):
         await message.edit(embed = e)
         if not skip:
             await loadProgressBar(ctx, message, e)
-        await pullCapsule(ctx, message, e, tier, name, cost, symbol)
+        message, e = await pullCapsule(ctx, message, e, tier, name, cost, symbol)
+        return message, e
 
     async def pullCapsule(ctx, message, e, tier, name, cost, symbol):
         cold_weights = config.weights[tier]
@@ -237,6 +245,7 @@ async def roll(ctx, skip=None):
             db.backstock[prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
         e.set_footer(text = f"Prize ID: {prize_id}")
         await message.edit(embed = e)
+        return message, e
 
     # main()
     exit_flag = edit_flag = False
@@ -258,16 +267,27 @@ async def roll(ctx, skip=None):
             break
         match str(reaction.emoji):
             case "📜":
+                def formatPrizeList(prize_list):
+                    formatted_prize_list = f"\
+                        🔵  ─  *Blue*  ─  {config.encouragement[0]}%\n  └ **`{prize_list['blue']}`**\n\
+                        🟢  ─  *Green*  ─  {config.encouragement[1]}%\n  └ **`{prize_list['green']}`**\n\
+                        🔴  ─  *Red*  ─  {config.encouragement[2]}%\n  └ **`{prize_list['red']}`**\n\
+                        ⚪  ─  *Silver*  ─  {config.encouragement[3]}%\n  └ **`{prize_list['silver']}`**\n\
+                        🟡  ─  *Gold*  ─  {config.encouragement[4]}%\n  └ **`{prize_list['gold']}`**\n\
+                        🟣  ─  *Platinum*  ─  {config.encouragement[5]}%\n  └ **`{prize_list['platinum']}`**\n\
+                    "
+                    return formatted_prize_list
+
                 e.set_field_at(1, name = "►📜 ─────  Prize  List  ────── 📜 ◄", value = menu_separator, inline = False)
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = "Welcome to the Aotu Gacha!", description = "Here are today's prize pools:", color = default_color)
                 e.set_thumbnail(url = "http://a.pianosuki.com/u/camil1.png")
-                e.add_field(name = "Tier 1:", value = json.dumps(prizes["tier_1"]["prizes"], indent = 1), inline = True)
-                e.add_field(name = "Tier 2:", value = json.dumps(prizes["tier_2"]["prizes"], indent = 1), inline = True)
+                e.add_field(name = f"Tier 1: {prizes['tier_1']['symbol']}", value = formatPrizeList(prizes["tier_1"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 2: {prizes['tier_2']['symbol']}", value = formatPrizeList(prizes["tier_2"]["prizes"]), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
-                e.add_field(name = "Tier 3:", value = json.dumps(prizes["tier_3"]["prizes"], indent = 1), inline = True)
-                e.add_field(name = "Tier 4:", value = json.dumps(prizes["tier_4"]["prizes"], indent = 1), inline = True)
+                e.add_field(name = f"Tier 3: {prizes['tier_3']['symbol']}", value = formatPrizeList(prizes["tier_3"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 4: {prizes['tier_4']['symbol']}", value = formatPrizeList(prizes["tier_4"]["prizes"]), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
@@ -307,34 +327,62 @@ async def roll(ctx, skip=None):
                             e.set_field_at(1, name = "►🥉 ───── Tier 1 Raffle ───── 🥉 ◄", value = menu_separator, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
-                            if await raffleEntry(tier, skip):
-                                exit_flag = True
+                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                            if status:
+                                rolled_flag = True
+                            else:
+                                rolled_flag = False
                         case "🥈":
                             tier = "tier_2"
                             e.set_field_at(2, name = "►🥈 ───── Tier 2 Raffle ───── 🥈 ◄", value = menu_separator, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
-                            if await raffleEntry(tier, skip):
-                                exit_flag = True
+                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                            if status:
+                                rolled_flag = True
+                            else:
+                                rolled_flag = False
                         case "🥇":
                             tier = "tier_3"
                             e.set_field_at(3, name = "►🥇 ───── Tier 3 Raffle ───── 🥇 ◄", value = menu_separator, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
-                            if await raffleEntry(tier, skip):
-                                exit_flag = True
+                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                            if status:
+                                rolled_flag = True
+                            else:
+                                rolled_flag = False
                         case "🏅":
                             tier = "tier_4"
                             e.set_field_at(4, name = "►🏅 ───── Tier 4 Raffle ───── 🏅 ◄", value = menu_separator, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
-                            if await raffleEntry(tier, skip):
-                                exit_flag = True
+                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                            if status:
+                                rolled_flag = True
+                            else:
+                                rolled_flag = False
                         case "↩️":
                             prev_flag = edit_flag = True
                             e.set_field_at(5, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
+                            break
+                    if rolled_flag:
+                        time.sleep(0.3)
+                        emojis = ["🔁", "❌"]
+                        reaction, user = await waitForReaction(ctx, message, e, emojis, False)
+                        if reaction is None:
+                            exit_flag = True
+                            break
+                        match str(reaction.emoji):
+                            case "🔁":
+                                await message.clear_reactions()
+                                exit_flag = edit_flag = False
+                                prev_flag = True
+                            case "❌":
+                                await message.clear_reactions()
+                                exit_flag = True
             case "📦":
                 e.set_field_at(3, name = "►📦 ── View your inventory ─── 📦 ◄", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
@@ -424,14 +472,77 @@ async def craft(ctx):
         e.add_field(name = "You have insufficient ticket pieces.", value = f"Need 🧩 x {4 - fragments} more!", inline = False)
         await ctx.send(embed = e)
 
-### Admin Commands
-def checkAdmin(ctx):
-    if ctx.author.id in config.admin_list:
-        return True
-    admin_role = discord.utils.get(ctx.guild.roles, name = config.admin_role)
-    if admin_role in ctx.author.roles:
-        return True
+@bot.command()
+async def history(ctx, target = None):
+    ''' | Usage: =history | View prize history '''
+    if target is None:
+        target = ctx.author.mention
+    if not checkAdmin(ctx):
+        target = ctx.author.mention
+    else:
+        if not re.match(r"<(@|@&)[0-9]{18}>", target):
+            await ctx.send("Admin-only: Please **@ mention** a valid user to view prize history of")
+            return
+    user_id = await convertMentionToId(target)
+    history = db.query(f"SELECT * FROM prizehistory WHERE user_id = '{user_id}'")
+    history.reverse()
+    history_length = len(history)
+    e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
+    e.set_thumbnail(url = "http://a.pianosuki.com/u/kallie1.png")
+    edit_flag = False
+    counter = 0
+    if history_length == 0:
+        e.set_thumbnail(url = "http://a.pianosuki.com/u/kallie1.png")
+        e.add_field(name = "User has not rolled any prizes yet!", value = "Try `=roll` to change that", inline = False)
+        await ctx.send(embed = e)
+        return
+    for index, entry in enumerate(history):
+        prize_id = entry[0]
+        prize_user = entry[1]
+        prize_date = entry[2]
+        prize_tickets = entry[3]
+        prize_tier = entry[4]
+        prize_capsule = entry[5]
+        prize_prize = entry[6]
+        match prize_capsule:
+            case "blue":
+                circle = "🔵"
+            case "green":
+                circle = "🟢"
+            case "red":
+                circle = "🔴"
+            case "silver":
+                circle = "⚪"
+            case "gold":
+                circle = "🟡"
+            case "platinum":
+                circle = "🟣"
+        e.add_field(name = f"{index + 1}  ─  {circle} {prize_prize}", value = f"Prize ID: {prize_id}", inline = False)
+        counter += 1
+        if counter == 5 or index + 1 == history_length:
+            if not edit_flag:
+                message = await ctx.send(embed = e)
+                edit_flag = True
+            else:
+                await message.edit(embed = e)
+            if index + 1 < history_length:
+                emojis = ["⏩", "❌"]
+            else:
+                emojis = ["❌"]
+            reaction, user = await waitForReaction(ctx, message, e, emojis)
+            if reaction is None:
+                exit_flag = True
+                return
+            match str(reaction.emoji):
+                case "⏩":
+                    await message.clear_reactions()
+                    e.clear_fields()
+                    counter = 0
+                case "❌":
+                    await message.clear_reactions()
+                    return
 
+### Admin Commands
 @bot.command()
 @commands.check(checkAdmin)
 async def reward(ctx, target: str, item: str, quantity):
@@ -457,11 +568,11 @@ async def reward(ctx, target: str, item: str, quantity):
                     db.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + quantity, "total_rolls": total_rolls}
                     await ctx.send(f"Rewarded {target} with `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
                 case _:
-                    await ctx.send("Please enter a **valid item** to reward (!help reward)")
+                    await ctx.send("Please enter a **valid item** to reward (=help reward)")
         except ValueError:
-            await ctx.send("Please enter an **integer** of item(s) to reward (!help reward)")
+            await ctx.send("Please enter an **integer** of item(s) to reward (=help reward)")
     else:
-        await ctx.send("Please **@ mention** a valid user to reward (!help reward)")
+        await ctx.send("Please **@ mention** a valid user to reward (=help reward)")
 
 @bot.command()
 @commands.check(checkAdmin)
@@ -485,7 +596,7 @@ async def simulate(ctx, tier, n: int):
 @commands.check(checkAdmin)
 async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool = True):
     ''' | Usage: =restock <"Prize name"> <Stock> <Maximum roll limit> [Reset "times_rolled" counter? Default = True] '''
-    data = db.query(f"SELECT * FROM backstock where prize = '{prize}'")
+    data = db.query(f"SELECT * FROM backstock WHERE prize = '{prize}'")
     if reset:
         times_rolled = 0
     else:
