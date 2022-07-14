@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.3"
+bot_version = "1.4"
 
 import config
 from database import Database
@@ -257,12 +257,13 @@ async def roll(ctx, skip=None):
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ 📜 ─────  Prize  List  ────── 📜 ◁", value = menu_separator, inline = False)
         e.add_field(name = "▷ 🎰 ──── Select  a  Raffle ──── 🎰 ◁", value = menu_separator, inline = False)
-        e.add_field(name = "▷ 📦 ── View your inventory ─── 📦 ◁", value = menu_bottom, inline = False)
+        e.add_field(name = "▷ 📦 ── View your inventory ─── 📦 ◁", value = menu_separator, inline = False)
+        e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
         if not edit_flag:
             message = await ctx.send(embed = e)
         else:
             await message.edit(embed = e)
-        emojis = ["📜", "🎰", "📦"]
+        emojis = ["📜", "🎰", "📦", "❌"]
         reaction, user = await waitForReaction(ctx, message, e, emojis)
         if reaction is None:
             break
@@ -385,6 +386,10 @@ async def roll(ctx, skip=None):
                                 await message.clear_reactions()
                                 exit_flag = True
             case "📦":
+                inventory       = await getUserInv(user_id)
+                tickets         = inventory.gacha_tickets
+                fragments       = inventory.gacha_fragments
+                total_rolls     = inventory.total_rolls
                 e.set_field_at(3, name = "►📦 ── View your inventory ─── 📦 ◄", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
                 await message.clear_reactions()
@@ -392,6 +397,7 @@ async def roll(ctx, skip=None):
                 e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_5.png")
                 e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
                 e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
+                e.add_field(name = "Total roll count:", value = f"🎲 x {total_rolls} roll(s)", inline = False)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
@@ -402,9 +408,14 @@ async def roll(ctx, skip=None):
                 match str(reaction.emoji):
                     case "↩️":
                         prev_flag = edit_flag = True
-                        e.set_field_at(3, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                        e.set_field_at(4, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                         await message.edit(embed = e)
                         await message.clear_reactions()
+            case "❌":
+                e.set_field_at(4, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
+                await message.edit(embed = e)
+                await message.clear_reactions()
+                return
 
 @bot.command(aliases = ["inventory"])
 async def inv(ctx, target = None):
@@ -510,58 +521,80 @@ async def history(ctx, target = None):
     history_length = len(history)
     e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
     e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_3.png")
-    edit_flag = False
-    counter = 0
+    exit_flag = edit_flag = False
     if history_length == 0:
         e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_2.png")
-        e.add_field(name = "User has not rolled any prizes yet!", value = "Try `+roll` to change that", inline = False)
+        e.add_field(name = "User has not rolled any prizes yet!", value = f"Try `{config.prefix}roll` to change that", inline = False)
         await ctx.send(embed = e)
         return
-    for index, entry in enumerate(history):
-        prize_id = entry[0]
-        prize_user = entry[1]
-        prize_date = entry[2]
-        prize_tickets = entry[3]
-        prize_tier = entry[4]
-        prize_capsule = entry[5]
-        prize_prize = entry[6]
-        match prize_capsule:
-            case "blue":
-                circle = "🔵"
-            case "green":
-                circle = "🟢"
-            case "red":
-                circle = "🔴"
-            case "silver":
-                circle = "⚪"
-            case "gold":
-                circle = "🟡"
-            case "platinum":
-                circle = "🟣"
-        e.add_field(name = f"{index + 1}  ─  {circle} {prize_prize}", value = f"Prize ID: `{prize_id}`", inline = False)
-        counter += 1
-        if counter == 5 or index + 1 == history_length:
-            if not edit_flag:
-                message = await ctx.send(embed = e)
-                edit_flag = True
-            else:
-                await message.edit(embed = e)
-            if index + 1 < history_length:
-                emojis = ["⏩", "❌"]
-            else:
-                emojis = ["❌"]
-            reaction, user = await waitForReaction(ctx, message, e, emojis)
-            if reaction is None:
-                exit_flag = True
-                return
-            match str(reaction.emoji):
-                case "⏩":
-                    await message.clear_reactions()
-                    e.clear_fields()
-                    counter = 0
-                case "❌":
-                    await message.clear_reactions()
-                    return
+    # Set offset to 0 (page 1) and begin bidirectional page system
+    offset = 0
+    while not exit_flag:
+        counter = 0
+        # Iterate through history in groups of 5
+        for index, entry in enumerate(history):
+            if index < offset:
+                # Skipping to next entry until arriving at the proper page/offset
+                continue
+            prize_id = entry[0]
+            prize_user = entry[1]
+            prize_date = entry[2]
+            prize_tickets = entry[3]
+            prize_tier = entry[4]
+            prize_capsule = entry[5]
+            prize_prize = entry[6]
+            match prize_capsule:
+                case "blue":
+                    circle = "🔵"
+                case "green":
+                    circle = "🟢"
+                case "red":
+                    circle = "🔴"
+                case "silver":
+                    circle = "⚪"
+                case "gold":
+                    circle = "🟡"
+                case "platinum":
+                    circle = "🟣"
+            e.add_field(name = f"{index + 1}  ─  {circle} {prize_prize}", value = f"Prize ID: `{prize_id}`", inline = False)
+            counter += 1
+            # Once a full page is assembled, print it
+            if counter == 5 or index + 1 == history_length:
+                if not edit_flag:
+                    message = await ctx.send(embed = e)
+                    edit_flag = True
+                else:
+                    await message.edit(embed = e)
+                if index + 1 > 5 and index + 1 < history_length:
+                    # Is a middle page
+                    emojis = ["⏪", "⏩", "❌"]
+                elif index + 1 < history_length:
+                    # Is the first page
+                    emojis = ["⏩", "❌"]
+                else:
+                    # Is the last page
+                    emojis = ["⏪", "❌"]
+                reaction, user = await waitForReaction(ctx, message, e, emojis)
+                if reaction is None:
+                    exit_flag = True
+                    break
+                match str(reaction.emoji):
+                    case "⏩":
+                        # Tell upcomming re-iteration to skip to the next page's offset
+                        offset += 5
+                        await message.clear_reactions()
+                        e.clear_fields()
+                        break
+                    case "⏪":
+                        # Tell upcomming re-iteration to skip to the previous page's offset
+                        offset -= 5
+                        await message.clear_reactions()
+                        e.clear_fields()
+                        break
+                    case "❌":
+                        exit_flag = True
+                        await message.clear_reactions()
+                        break
 
 ### Admin Commands
 @bot.command()
@@ -743,5 +776,10 @@ async def verify(ctx, prize_id):
 @commands.check(checkAdmin)
 async def test(ctx, tier, times_rolled: int):
     pass
+
+@bot.command()
+@commands.is_owner()
+async def shutdown(ctx):
+    await bot.close()
 
 bot.run(config.discord_token)
