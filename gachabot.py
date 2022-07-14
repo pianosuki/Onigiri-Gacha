@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Aotu"
-bot_version = "1.2"
+bot_version = "1.3"
 
 import config
 from database import Database
@@ -76,10 +76,6 @@ async def roll(ctx, skip=None):
     ''' | Usage: =roll | Use reactions to navigate the menus'''
     prizes          = json.load(open('prizes.json'))
     user_id         = ctx.author.id
-    inventory       = await getUserInv(user_id)
-    tickets         = inventory.gacha_tickets
-    fragments       = inventory.gacha_fragments
-    total_rolls     = inventory.total_rolls
     menu_top        = "┌───────────────────────┐"
     menu_separator  = "├───────────────────────┤"
     menu_bottom     = "└───────────────────────┘"
@@ -121,9 +117,13 @@ async def roll(ctx, skip=None):
         return prizes[tier]["prizes"][capsule]
 
     async def raffleEntry(ctx, message, e, tier, skip):
-        name = prizes[tier]["name"]
-        symbol = prizes[tier]["symbol"]
-        cost = prizes[tier]["tickets_required"]
+        inventory       = await getUserInv(user_id)
+        tickets         = inventory.gacha_tickets
+        fragments       = inventory.gacha_fragments
+        total_rolls     = inventory.total_rolls
+        name            = prizes[tier]["name"]
+        symbol          = prizes[tier]["symbol"]
+        cost            = prizes[tier]["tickets_required"]
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Spin to win!", color = default_color)
         e.set_thumbnail(url = "http://a.pianosuki.com/u/camil1.png")
         e.add_field(name = f"{name} Raffle", value = symbol, inline = True)
@@ -144,7 +144,7 @@ async def roll(ctx, skip=None):
                     e.set_field_at(5, name = "►🎲 ────  Spin the Gacha  ──── 🎲 ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
-                    message, e = await rollGacha(ctx, message, e, tier, name, cost, symbol, skip)
+                    message, e = await rollGacha(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls, skip)
                     return message, e, True
                 case "↩️":
                     e.set_field_at(6, name = "►↩️  ──  Select another Raffle  ──  ↩️ ◄", value = menu_bottom, inline = False)
@@ -167,7 +167,7 @@ async def roll(ctx, skip=None):
                     await message.clear_reactions()
                     return message, e, False
 
-    async def rollGacha(ctx, message, e, tier, name, cost, symbol, skip):
+    async def rollGacha(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls, skip):
         # Subtract ticket(s) from user's inventory, increment roll count, then roll the gacha
         DB.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Good luck!", color = default_color)
@@ -177,10 +177,10 @@ async def roll(ctx, skip=None):
         await message.edit(embed = e)
         if not skip:
             await loadProgressBar(ctx, message, e)
-        message, e = await pullCapsule(ctx, message, e, tier, name, cost, symbol)
+        message, e = await pullCapsule(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls)
         return message, e
 
-    async def pullCapsule(ctx, message, e, tier, name, cost, symbol):
+    async def pullCapsule(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls):
         cold_weights = config.weights[tier]
         if prizes[tier]["regulated"]:
             # Modify probability for regulated prize
@@ -430,8 +430,8 @@ async def inv(ctx, target = None):
         await ctx.send("Please **@ mention** a valid user to check their inventory (!help inv)")
 
 @bot.command()
-async def craft(ctx):
-    ''' | Usage: =craft | Craft a Gacha Ticket from 4 Gacha Pieces '''
+async def craft(ctx, amount:str = "1"):
+    ''' | Usage: =craft [integer or "all"] | Craft a Gacha Ticket from 4 Gacha Pieces '''
     menu_top        = "┌───────────────────────┐"
     menu_separator  = "├───────────────────────┤"
     menu_bottom     = "└───────────────────────┘"
@@ -441,37 +441,57 @@ async def craft(ctx):
     tickets     = inventory.gacha_tickets
     fragments   = inventory.gacha_fragments
     total_rolls = inventory.total_rolls
-    e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Fragments into Gacha Tickets!", color = 0x00897b)
+
+    if amount == "all":
+        # Calculate maximum number of tickets user can craft with their current fragments
+        craft_amount = math.trunc(fragments / 4)
+        if craft_amount == 0:
+            # Assume user is trying to craft at least 1 ticket
+            craft_amount += 1
+    else:
+        try:
+            craft_amount = int(amount)
+            if craft_amount == 0:
+                raise ValueError
+        except ValueError:
+            await ctx.send("Please enter a valid amount of tickets to craft! (**integer** or **\"all\"**)")
+            return
+
+    e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
     e.set_thumbnail(url = "http://a.pianosuki.com/u/camil1.png")
     e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
-    e.add_field(name = "Your Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
-    if not fragments < 4:
-        e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-        e.add_field(name = "▷ ⚒️ ─── Craft Gacha Ticket ─── ⚒️ ◁", value = menu_separator, inline = False)
-        e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
-        message = await ctx.send(embed = e)
-        emojis = ["⚒️", "❌"]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            return
-        match str(reaction.emoji):
-            case "⚒️":
-                e.set_field_at(3, name = "►⚒️ ─── Craft Gacha Ticket ─── ⚒️ ◄", value = menu_separator, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                e = discord.Embed(title = "Crafting Menu", description = "Successfully crafted a Gacha Ticket!", color = 0x00897b)
+    e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
+    e.add_field(name = "Tickets to craft:", value = f"🎟️ x {craft_amount} ticket(s)", inline = True)
+    e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+    e.add_field(name = "▷ ⚒️  ── Craft Gacha Ticket(s) ──  ⚒️ ◁", value = menu_separator, inline = False)
+    e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
+    message = await ctx.send(embed = e)
+    emojis = ["⚒️", "❌"]
+    reaction, user = await waitForReaction(ctx, message, e, emojis)
+    if reaction is None:
+        return
+    match str(reaction.emoji):
+        case "⚒️":
+            e.set_field_at(4, name = "►⚒️ ─── Craft Gacha Ticket ─── ⚒️ ◄", value = menu_separator, inline = False)
+            await message.edit(embed = e)
+            await message.clear_reactions()
+            if fragments >= craft_amount * 4:
+                e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
                 e.set_thumbnail(url = "http://a.pianosuki.com/u/camil1.png")
-                e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + 1}", inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                DB.userdata[user_id] = {"gacha_tickets": tickets + 1, "gacha_fragments": fragments - 4, "total_rolls": total_rolls}
-            case "❌":
-                e.set_field_at(4, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-    else:
-        e.add_field(name = "You have insufficient ticket pieces.", value = f"Need 🧩 x {4 - fragments} more!", inline = False)
-        await ctx.send(embed = e)
+                e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
+                e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
+                await ctx.send(embed = e)
+                # Add crafted tickets to and subtract used fragments from database
+                DB.userdata[user_id] = {"gacha_tickets": tickets + craft_amount, "gacha_fragments": fragments - craft_amount * 4, "total_rolls": total_rolls}
+            else:
+                e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
+                e.set_thumbnail(url = "http://a.pianosuki.com/u/camil1.png")
+                e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
+                await ctx.send(embed = e)
+        case "❌":
+            e.set_field_at(5, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
+            await message.edit(embed = e)
+            await message.clear_reactions()
 
 @bot.command()
 async def history(ctx, target = None):
@@ -518,7 +538,7 @@ async def history(ctx, target = None):
                 circle = "🟡"
             case "platinum":
                 circle = "🟣"
-        e.add_field(name = f"{index + 1}  ─  {circle} {prize_prize}", value = f"Prize ID: {prize_id}", inline = False)
+        e.add_field(name = f"{index + 1}  ─  {circle} {prize_prize}", value = f"Prize ID: `{prize_id}`", inline = False)
         counter += 1
         if counter == 5 or index + 1 == history_length:
             if not edit_flag:
@@ -681,7 +701,43 @@ async def db(ctx):
 @bot.command()
 @commands.check(checkAdmin)
 async def verify(ctx, prize_id):
-    pass
+    if re.match(r"^[0-9]{23}$", prize_id):
+        prize_info      = DB.prizehistory[prize_id]
+        prize_user      = prize_info.user_id
+        prize_date      = prize_info.date
+        prize_tickets   = prize_info.tickets_spent
+        prize_tier      = prize_info.tier
+        prize_capsule   = prize_info.capsule
+        prize_prize     = prize_info.prize
+        prizes          = json.load(open('prizes.json'))
+        tier_name       = prizes[prize_tier]["name"]
+        tier_symbol     = prizes[prize_tier]["symbol"]
+        match prize_capsule:
+            case "blue":
+                circle = "🔵"
+            case "green":
+                circle = "🟢"
+            case "red":
+                circle = "🔴"
+            case "silver":
+                circle = "⚪"
+            case "gold":
+                circle = "🟡"
+            case "platinum":
+                circle = "🟣"
+
+        e = discord.Embed(title = "Prize Info", description = f"Viewing metadata of prize: `{prize_id}`", color = 0x8e24aa)
+        e.add_field(name = "──────────────────────────────────────────", value = "──────────────────────────────────────────", inline = False)
+        e.add_field(name = f"│ 🧍 User", value = f"│  └  <@{prize_user}>", inline = True)
+        e.add_field(name = f"│ 📆 Date (UTC)", value = f"│  └  {prize_date}", inline = True)
+        e.add_field(name = f"│ 🎟️ Cost", value = f"│  └  {prize_tickets}", inline = True)
+        e.add_field(name = f"│ {tier_symbol} Tier", value = f"│  └  {tier_name}", inline = True)
+        e.add_field(name = f"│ {circle} Capsule", value = f"│  └  {prize_capsule.capitalize()}", inline = True)
+        e.add_field(name = f"│ 🎉 Prize", value = f"│  └  ***{prize_prize}***", inline = True)
+        e.add_field(name = "──────────────────────────────────────────", value = "──────────────────────────────────────────", inline = False)
+        await ctx.send(embed = e)
+    else:
+        await ctx.send("Please provide a valid 23-digit Prize ID")
 
 @bot.command()
 @commands.check(checkAdmin)
