@@ -22,7 +22,7 @@ def resCreate(dictionary, Resource = {}):
                 for item in dictionary[key]:
                     try:
                         file = discord.File(item[0], filename = item[1])
-                        url = f"http://{config.ip}/u/{item[0]}"
+                        url = f"http://{config.ip}/{config.serve_dir}/{item[0]}"
                         Resource.update({f"{key}-{index}": [url, file, item[2]]})
                         print(Resource[f"{key}-{index}"])
                         index +=1
