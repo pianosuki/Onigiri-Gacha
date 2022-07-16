@@ -24,7 +24,6 @@ def resCreate(dictionary, Resource = {}):
                         file = discord.File(item[0], filename = item[1])
                         url = f"http://{config.ip}/{config.serve_dir}/{item[0]}"
                         Resource.update({f"{key}-{index}": [url, file, item[2]]})
-                        print(Resource[f"{key}-{index}"])
                         index +=1
                     except FileNotFoundError:
                         # Only build resource with existing local files
@@ -33,6 +32,6 @@ def resCreate(dictionary, Resource = {}):
                 if isArray(dictionary[key]):
                     # Handle tails
                     file = discord.File(dictionary[key][0], filename = dictionary[key][1])
-                    url = f"{config.ip}/{config.serve_dir}/{dictionary[key][0]}"
+                    url = f"http://{config.ip}/{config.serve_dir}/{dictionary[key][0]}"
                     Resource.update({key: [url, file, dictionary[key][2]]})
     return Resource

@@ -86,7 +86,7 @@ async def roll(ctx, skip=None):
     menu_bottom     = "└───────────────────────┘"
     default_color   = 0xfdd835
     colors          = [0xe53935, 0xd81b60, 0x8e24aa, 0x5e35b1, 0x3949ab, 0x1e88e5, 0x039be5, 0x00acc1, 0x00897b, 0x43a047, 0x7cb342, 0xc0ca33, 0xfdd835, 0xffb300, 0xfb8c00, 0xf4511e]
-    capsule_colors  = [0x2196f3, 0x4caf50, 0xef5350, 0xeceff1, 0xffeb3b, 0xe8eaf6]
+    capsule_colors  = [0x2196f3, 0x4caf50, 0xef5350, 0xeceff1, 0xffeb3b, 0xd1c4e9]
     capsules        = ["blue", "green", "red", "silver", "gold", "platinum"]
     progressbar     = ["🕛  -=| ──────────────── |=-  🕛",
                        "🕐  -=| ━───────────────  |=-  🕐",
