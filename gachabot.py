@@ -3,9 +3,9 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.4"
+bot_version = "1.5"
 
-import config
+import config, dresource
 from database import Database
 import discord, re, time, random, json, math
 from discord.ext import commands
@@ -13,18 +13,22 @@ from datetime import datetime
 import numpy as np
 from collections import Counter
 
-intents = discord.Intents.default()
+intents                 = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix = config.prefix, intents = intents)
-DB = Database("gachadata.db")
+bot                     = commands.Bot(command_prefix = config.prefix, intents = intents)
+DB                      = Database("gachadata.db") # Initialize sqlite3 database
 DB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, gacha_tickets INTEGER, gacha_fragments INTEGER, total_rolls INTEGER)")
 DB.execute("CREATE TABLE IF NOT EXISTS prizehistory (prize_id TEXT PRIMARY KEY UNIQUE, user_id INTEGER, date TEXT, tickets_spent TEXT, tier TEXT, capsule TEXT, prize TEXT)")
 DB.execute("CREATE TABLE IF NOT EXISTS backstock (prize TEXT PRIMARY KEY UNIQUE, current_stock INTEGER, times_rolled INTEGER, max_limit INTEGER)")
+Prizes                  = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
+Graphics                = json.load(open("graphics.json")) # Load list of graphical assets to build Resource with
+Resource                = dresource.resCreate(Graphics) # Generate discord file attachment resource
 
 @bot.event
 async def on_ready():
-    print("Logged in as {0.user}".format(bot))
-    await bot.change_presence(status = discord.Status.online, activity = discord.Game("+roll to spin the Gacha!"))
+    # Go Online
+    await bot.change_presence(status = discord.Status.online, activity = discord.Game(f"{config.prefix}roll to spin the Gacha!"))
+    print(f"Logged in as {bot.user} | Version: {bot_version}")
 
 ### Functions
 def checkAdmin(ctx):
@@ -40,8 +44,10 @@ async def convertMentionToId(target):
 async def waitForReaction(ctx, message, e, emojis, modmsg = True):
     for emoji in emojis:
         await message.add_reaction(emoji)
+
     def checkReaction(reaction, user):
         return user != bot.user and reaction.message == message and user == ctx.author and str(reaction.emoji) in emojis
+
     # Wait for user to react
     try:
         reaction, user = await bot.wait_for("reaction_add", check = checkReaction, timeout = 120)
@@ -74,7 +80,6 @@ def randomWeighted(list, weights):
 @bot.command(aliases = ["gacha", "spin"])
 async def roll(ctx, skip=None):
     ''' | Usage: +roll | Use reactions to navigate the menus'''
-    prizes          = json.load(open('prizes.json'))
     user_id         = ctx.author.id
     menu_top        = "┌───────────────────────┐"
     menu_separator  = "├───────────────────────┤"
@@ -114,18 +119,18 @@ async def roll(ctx, skip=None):
             time.sleep(0.5)
 
     def getPrize(tier, capsule):
-        return prizes[tier]["prizes"][capsule]
+        return Prizes[tier]["prizes"][capsule]
 
     async def raffleEntry(ctx, message, e, tier, skip):
         inventory       = await getUserInv(user_id)
         tickets         = inventory.gacha_tickets
         fragments       = inventory.gacha_fragments
         total_rolls     = inventory.total_rolls
-        name            = prizes[tier]["name"]
-        symbol          = prizes[tier]["symbol"]
-        cost            = prizes[tier]["tickets_required"]
+        name            = Prizes[tier]["name"]
+        symbol          = Prizes[tier]["symbol"]
+        cost            = Prizes[tier]["tickets_required"]
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Spin to win!", color = default_color)
-        e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_6.png")
+        e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
         e.add_field(name = f"{name} Raffle", value = symbol, inline = True)
         e.add_field(name = "Admission:", value = f"🎟️ x {cost} ticket(s)", inline = True)
         e.add_field(name = "Your current tickets:", value = tickets, inline = False)
@@ -134,7 +139,7 @@ async def roll(ctx, skip=None):
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
             e.add_field(name = "▷ 🎲 ────  Spin the Gacha  ──── 🎲 ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ ↩️  ──  Select another Raffle  ──  ↩️ ◁", value = menu_bottom, inline = False)
-            await message.edit(embed=e)
+            await message.edit(embed = e)
             emojis = ["🎲", "↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
             if reaction is None:
@@ -171,7 +176,7 @@ async def roll(ctx, skip=None):
         # Subtract ticket(s) from user's inventory, increment roll count, then roll the gacha
         DB.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Good luck!", color = default_color)
-        e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_1.png")
+        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = f"Spinning the {name} Raffle:", value = menu_top, inline = False)
         e.add_field(name = progressbar[0], value = menu_bottom, inline = False)
         await message.edit(embed = e)
@@ -182,9 +187,9 @@ async def roll(ctx, skip=None):
 
     async def pullCapsule(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls):
         cold_weights = config.weights[tier]
-        if prizes[tier]["regulated"]:
+        if Prizes[tier]["regulated"]:
             # Modify probability for regulated prize
-            regulated_prize = prizes[tier]["prizes"]["platinum"]
+            regulated_prize = Prizes[tier]["prizes"]["platinum"]
             DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{regulated_prize}', '0', '0', '0')")
             stock = DB.backstock[regulated_prize]
             current_stock = stock.current_stock
@@ -207,28 +212,28 @@ async def roll(ctx, skip=None):
         match capsule:
             case "blue":
                 e.color = capsule_colors[0]
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_2.png")
-                e.set_image(url = "http://a.pianosuki.com/u/Capsule_Blue.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_image(url = Resource["Blue"][0])
             case "green":
                 e.color = capsule_colors[1]
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_2.png")
-                e.set_image(url = "http://a.pianosuki.com/u/Capsule_Green.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_image(url = Resource["Green"][0])
             case "red":
                 e.color = capsule_colors[2]
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_3.png")
-                e.set_image(url = "http://a.pianosuki.com/u/Capsule_Red.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_image(url = Resource["Red"][0])
             case "silver":
                 e.color = capsule_colors[3]
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_3.png")
-                e.set_image(url = "http://a.pianosuki.com/u/Capsule_Silver.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_image(url = Resource["Silver"][0])
             case "gold":
                 e.color = capsule_colors[4]
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_4.png")
-                e.set_image(url = "http://a.pianosuki.com/u/Capsule_Gold.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                e.set_image(url = Resource["Gold"][0])
             case "platinum":
                 e.color = capsule_colors[5]
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_4.png")
-                e.set_image(url = "http://a.pianosuki.com/u/Capsule_Platinum.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                e.set_image(url = Resource["Platinum"][0])
         prize = getPrize(tier, capsule)
         e.add_field(name = "Raffle Spun:", value = f"{symbol} {name} {symbol}", inline = True)
         e.add_field(name = "You Won:", value = f"🎁 {prize} 🎁", inline = True)
@@ -236,7 +241,7 @@ async def roll(ctx, skip=None):
         prize_id = str(user_id) + str("{:05d}".format(total_rolls + 1))
         now = datetime.utcnow()
         DB.prizehistory[prize_id] = {"user_id": user_id, "date": now, "tickets_spent": cost, "tier": tier, "capsule": capsule, "prize": prize}
-        if prizes[tier]["regulated"] and capsule == "platinum":
+        if Prizes[tier]["regulated"] and capsule == "platinum":
             # Update stock of prize if the prize was regulated
             DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{prize}', '0', '0', '0')")
             stock = DB.backstock[regulated_prize]
@@ -253,7 +258,7 @@ async def roll(ctx, skip=None):
     while not (exit_flag):
         prev_flag = False
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Test your luck for amazing prizes!", color = default_color)
-        e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_1.png")
+        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ 📜 ─────  Prize  List  ────── 📜 ◁", value = menu_separator, inline = False)
         e.add_field(name = "▷ 🎰 ──── Select  a  Raffle ──── 🎰 ◁", value = menu_separator, inline = False)
@@ -284,12 +289,12 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_3.png")
-                e.add_field(name = f"Tier 1: {prizes['tier_1']['symbol']}", value = formatPrizeList(prizes["tier_1"]["prizes"]), inline = True)
-                e.add_field(name = f"Tier 2: {prizes['tier_2']['symbol']}", value = formatPrizeList(prizes["tier_2"]["prizes"]), inline = True)
+                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}", value = formatPrizeList(Prizes["tier_1"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}", value = formatPrizeList(Prizes["tier_2"]["prizes"]), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
-                e.add_field(name = f"Tier 3: {prizes['tier_3']['symbol']}", value = formatPrizeList(prizes["tier_3"]["prizes"]), inline = True)
-                e.add_field(name = f"Tier 4: {prizes['tier_4']['symbol']}", value = formatPrizeList(prizes["tier_4"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}", value = formatPrizeList(Prizes["tier_3"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 4: {Prizes['tier_4']['symbol']}", value = formatPrizeList(Prizes["tier_4"]["prizes"]), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
@@ -301,7 +306,7 @@ async def roll(ctx, skip=None):
                 match str(reaction.emoji):
                     case "↩️":
                         prev_flag = edit_flag = True
-                        e.set_field_at(2, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                        e.set_field_at(7, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                         await message.edit(embed = e)
                         await message.clear_reactions()
             case "🎰":
@@ -310,7 +315,7 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 while not (exit_flag or prev_flag):
                     e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Select a Gacha Unit to spin!", color = default_color)
-                    e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_5.png")
+                    e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                     e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
                     e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
@@ -394,7 +399,7 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Your inventory:", color = default_color)
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_5.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                 e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
                 e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
                 e.add_field(name = "Total roll count:", value = f"🎲 x {total_rolls} roll(s)", inline = False)
@@ -432,7 +437,7 @@ async def inv(ctx, target = None):
         fragments   = inventory.gacha_fragments
         total_rolls = inventory.total_rolls
         e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
-        e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_6.png")
+        e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
         e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
         e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
         e.add_field(name = "Total roll count:", value = f"🎲 x {total_rolls} roll(s)", inline = False)
@@ -469,7 +474,7 @@ async def craft(ctx, amount:str = "1"):
             return
 
     e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
-    e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_1.png")
+    e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
     e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
     e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
     e.add_field(name = "Tickets to craft:", value = f"🎟️ x {craft_amount} ticket(s)", inline = True)
@@ -488,7 +493,7 @@ async def craft(ctx, amount:str = "1"):
             await message.clear_reactions()
             if fragments >= craft_amount * 4:
                 e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_6.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
                 e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
                 e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
                 await ctx.send(embed = e)
@@ -496,7 +501,7 @@ async def craft(ctx, amount:str = "1"):
                 DB.userdata[user_id] = {"gacha_tickets": tickets + craft_amount, "gacha_fragments": fragments - craft_amount * 4, "total_rolls": total_rolls}
             else:
                 e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
-                e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_2.png")
+                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
                 e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
                 await ctx.send(embed = e)
         case "❌":
@@ -520,10 +525,10 @@ async def history(ctx, target = None):
     history.reverse()
     history_length = len(history)
     e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
-    e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_3.png")
+    e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
     exit_flag = edit_flag = False
     if history_length == 0:
-        e.set_thumbnail(url = "http://a.pianosuki.com/u/KinkaMei_2.png")
+        e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
         e.add_field(name = "User has not rolled any prizes yet!", value = f"Try `{config.prefix}roll` to change that", inline = False)
         await ctx.send(embed = e)
         return
@@ -630,16 +635,70 @@ async def reward(ctx, target: str, item: str, quantity):
 
 @bot.command()
 @commands.check(checkAdmin)
-async def simulate(ctx, tier, n: int):
-    ''' | Usage: +simulate <Tier> <Simulations> '''
-    capsules = [1, 2, 3, 4, 5, 6]
+async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
+    ''' | Usage: +simulate <tier_#> <Simulations> '''
+    capsules = ["blue", "green", "red", "silver", "gold", "platinum"]
     outcomes = []
+    # Argument checking
+    try:
+        cold_weights = config.weights[tier]
+    except KeyError:
+        tiers = []
+        for key in config.weights:
+            tiers.append(f"`{key}`")
+        tiers = str(tiers).replace("'", "")
+        await ctx.send(f"Tier '`{tier}`' does not exist! Possible values: {tiers}")
+        return
+    if n == -1:
+        await ctx.send("Please provide an amount of simulations to roll.")
+        return
+    if which_mod != 0:
+        # Set and apply the weight mod
+        try:
+            mod = config.weight_mods[which_mod]
+            hot_weights = [cold_weights[0], cold_weights[1], cold_weights[2], cold_weights[3], cold_weights[4] + mod, cold_weights[5] - mod]
+            weights = hot_weights
+        except IndexError:
+            possible_values = {}
+            index = 0
+            for item in config.weight_mods:
+                possible_values.update({f"`{index}`": f"*{item}*"})
+                index +=1
+            possible_values = str(possible_values).replace("'", "")
+            await ctx.send(f"Weight mod `{which_mod}` does not exist! Possible values: {possible_values}")
+            return
+    else:
+        # Use unmodified weights
+        weights = cold_weights
     for _ in range(n):
-        outcomes.append(randomWeighted(capsules, config.weights[tier]))
+        # Roll the gacha n times
+        outcomes.append(randomWeighted(capsules, weights))
     c = Counter(outcomes)
+    e = discord.Embed(title = "Roll simulation", color = 0x3949ab)
+    e.add_field(name = f"│ {Prizes[tier]['symbol']} Tier", value = f"│ {Prizes[tier]['name']}", inline = True)
+    e.add_field(name = "│ 🎲 Rolls", value = f"│ {n}x", inline = True)
+    e.add_field(name = "│ │ 🔵 Blue", value = "│  └  0x   ─   0%", inline = False)
+    e.add_field(name = "│ 🟢 Green", value = "│  └  0x   ─   0%", inline = False)
+    e.add_field(name = "│ 🔴 Red", value = "│  └  0x   ─   0%", inline = False)
+    e.add_field(name = "│ ⚪ Silver", value = "│  └  0x   ─   0%", inline = False)
+    e.add_field(name = "│ 🟡 Gold", value = "│  └  0x   ─   0%", inline = False)
+    e.add_field(name = "│ 🟣 Platinum", value = "│  └  0x   ─   0%", inline = False)
     for key in c:
-        c[key] = c[key] / n
-    await ctx.send(f"{sorted(c.values())}")
+        # Set the results of the simulation accordingly
+        match key:
+            case "blue":
+                e.set_field_at(2, name = "│ 🔵 Blue", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+            case "green":
+                e.set_field_at(3, name = "│ 🟢 Green", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+            case "red":
+                e.set_field_at(4, name = "│ 🔴 Red", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+            case "silver":
+                e.set_field_at(5, name = "│ ⚪ Silver", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+            case "gold":
+                e.set_field_at(6, name = "│ 🟡 Gold", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+            case "platinum":
+                e.set_field_at(7, name = "│ 🟣 Platinum", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+    await ctx.send(embed = e)
 
 @bot.command()
 @commands.check(checkAdmin)
@@ -701,7 +760,7 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool 
 @bot.command(aliases = ["dashboard", "database"])
 @commands.check(checkAdmin)
 async def db(ctx):
-    ''' | Usage: +dashboard | View current statistics of the database '''
+    ''' | Usage: +db | View current statistics of the database '''
 
     def accumulateEntries(data):
         return len(data)
@@ -734,6 +793,7 @@ async def db(ctx):
 @bot.command()
 @commands.check(checkAdmin)
 async def verify(ctx, prize_id):
+    ''' | Usage: +verify | Query all metadata of a Prize ID  '''
     if re.match(r"^[0-9]{23}$", prize_id):
         prize_info      = DB.prizehistory[prize_id]
         prize_user      = prize_info.user_id
@@ -742,9 +802,8 @@ async def verify(ctx, prize_id):
         prize_tier      = prize_info.tier
         prize_capsule   = prize_info.capsule
         prize_prize     = prize_info.prize
-        prizes          = json.load(open('prizes.json'))
-        tier_name       = prizes[prize_tier]["name"]
-        tier_symbol     = prizes[prize_tier]["symbol"]
+        tier_name       = Prizes[prize_tier]["name"]
+        tier_symbol     = Prizes[prize_tier]["symbol"]
         match prize_capsule:
             case "blue":
                 circle = "🔵"
@@ -774,8 +833,8 @@ async def verify(ctx, prize_id):
 
 @bot.command()
 @commands.check(checkAdmin)
-async def test(ctx, tier, times_rolled: int):
-    pass
+async def test(ctx):
+    await ctx.send(f"You are on ***The List***, {ctx.author.mention}")
 
 @bot.command()
 @commands.is_owner()

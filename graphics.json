@@ -1,0 +1,36 @@
+{
+    "Capsules": {
+        "Blue": ["Graphics/Capsules/Blue.png", "blue.png", "attachment://blue.png"],
+        "Green": ["Graphics/Capsules/Green.png", "green.png", "attachment://green.png"],
+        "Red": ["Graphics/Capsules/Red.png", "red.png", "attachment://red.png"],
+        "Silver": ["Graphics/Capsules/Silver.png", "silver.png", "attachment://silver.png"],
+        "Gold": ["Graphics/Capsules/Gold.png", "gold.png", "attachment://gold.png"],
+        "Platinum": ["Graphics/Capsules/Platinum.png", "platinum.png", "attachment://platinum.png"]
+    },
+    "Characters": {
+        "Onigiri": {
+            "Kinka_Mei": [
+                ["Graphics/Characters/Onigiri/Kinka_Mei/1.png", "kinkamei-1.png", "attachment://kinkamei-1.png"],
+                ["Graphics/Characters/Onigiri/Kinka_Mei/2.png", "kinkamei-2.png", "attachment://kinkamei-2.png"],
+                ["Graphics/Characters/Onigiri/Kinka_Mei/3.png", "kinkamei-3.png", "attachment://kinkamei-3.png"],
+                ["Graphics/Characters/Onigiri/Kinka_Mei/4.png", "kinkamei-4.png", "attachment://kinkamei-4.png"],
+                ["Graphics/Characters/Onigiri/Kinka_Mei/5.png", "kinkamei-5.png", "attachment://kinkamei-5.png"],
+                ["Graphics/Characters/Onigiri/Kinka_Mei/6.png", "kinkamei-6.png", "attachment://kinkamei-6.png"]
+            ]
+        },
+        "Aotuverse": {
+            "Camil": [
+                ["Graphics/Characters/Aotuverse/Camil/1.png", "camil-1.png", "attachment://camil-1.png"]
+            ],
+            "Kallie": [
+                ["Graphics/Characters/Aotuverse/Kallie/1.png", "kallie-1.png", "attachment://kallie-1.png"]
+            ],
+            "King": [
+                ["Graphics/Characters/Aotuverse/King/1.png", "king-1.png", "attachment://king-1.png"]
+            ],
+            "Ray": [
+                ["Graphics/Characters/Aotuverse/Ray/1.png", "ray-1.png", "attachment://ray-1.png"]
+            ]
+        }
+    }
+}
