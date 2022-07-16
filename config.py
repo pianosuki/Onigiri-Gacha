@@ -10,3 +10,5 @@ weights         = {"tier_1": [10, 20, 20, 15, 25, 10],
                    "tier_4": [35, 25, 18, 13, 8, 1]}
 weight_mods     = [0, 0.5]
 encouragement   = [32, 25, 18, 12, 8, 5]
+ip              = "137.220.33.63"
+serve_dir       = "u"
