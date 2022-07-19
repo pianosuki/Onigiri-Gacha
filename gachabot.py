@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Aotu"
-bot_version = "1.5"
+bot_version = "1.5.2"
 
 import config, dresource
 from database import Database
