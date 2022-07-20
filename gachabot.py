@@ -137,7 +137,7 @@ async def roll(ctx, skip=None):
                 await member.add_roles(discord.utils.get(member.guild.roles, name=config.og_role))
                 await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
 
-    def getPrize(tier, capsule):
+    def getPrize(tier, capsule, filter = True):
         prize_array = Prizes[tier]["prizes"][capsule]
         prize_length = len(prize_array)
         full_prize = ""
@@ -154,7 +154,8 @@ async def roll(ctx, skip=None):
                 max_limit = stock.max_limit
                 if not times_rolled < max_limit and not current_stock > 0:
                     # Prize is out of stock, skip it
-                    continue
+                    if filter:
+                        continue
             full_prize += sub_prize
             if prize_counter < prize_length:
                 # Add separator between prizes in the string
@@ -232,7 +233,7 @@ async def roll(ctx, skip=None):
         cold_weights = config.weights[tier]
         if Prizes[tier]["regulated"]:
             # Modify probability for regulated prize
-            regulated_prize = Prizes[tier]["prizes"]["platinum"]
+            regulated_prize = getPrize(tier, "platinum", filter = False)
             DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{regulated_prize}', '0', '0', '0')")
             stock = DB.backstock[regulated_prize]
             current_stock = stock.current_stock
