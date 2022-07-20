@@ -2,7 +2,7 @@
 ### Created by pianosuki
 ### https://github.com/pianosuki
 ### For use by Catheon only
-branch_name = "Aotu"
+branch_name = "Aotuverse"
 bot_version = "1.6"
 
 import config, dresource
