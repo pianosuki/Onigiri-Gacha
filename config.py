@@ -3,6 +3,7 @@ import tokens
 discord_token   = tokens.discord_token
 prefix          = "+"
 admin_role      = "Catheon Core"
+wl_role         = "Kamikui (WL)"
 admin_list      = [462763810365898783, 859699653128486912, 629713896747433995, 458993054674583556, 889201372636004432]
 weights         = {"tier_1": [10, 20, 20, 15, 25, 10],
                    "tier_2": [15, 20, 20, 25, 10, 10],
