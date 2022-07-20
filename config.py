@@ -1,7 +1,7 @@
 import tokens
 
 discord_token   = tokens.discord_token
-prefix          = "!"
+prefix          = "="
 admin_role      = "Aotu Team"
 og_role         = "GOD (First 500)"
 admin_list      = [462763810365898783, 859699653128486912, 629713896747433995, 458993054674583556, 886841560275234856, 889201372636004432, 115775022848671749]
