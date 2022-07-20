@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Aotu"
-bot_version = "1.5.2"
+bot_version = "1.6"
 
 import config, dresource
 from database import Database
@@ -118,8 +118,51 @@ async def roll(ctx, skip=None):
             await message.edit(embed = e)
             time.sleep(0.5)
 
+    async def rewardPrize(ctx, tier, capsule):
+        prize_array = Prizes[tier]["prizes"][capsule]
+        for sub_prize in prize_array:
+            data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
+            if data:
+                stock = DB.backstock[sub_prize]
+                current_stock = stock.current_stock
+                times_rolled = stock.times_rolled
+                max_limit = stock.max_limit
+                if times_rolled < max_limit and current_stock > 0:
+                    DB.backstock[sub_prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
+                else:
+                    await ctx.send(f"Prize **'{sub_prize}'** is out of stock!")
+                    continue
+            if sub_prize == "OG":
+                member = ctx.author
+                await member.add_roles(discord.utils.get(member.guild.roles, name=config.og_role))
+                await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
+
     def getPrize(tier, capsule):
-        return Prizes[tier]["prizes"][capsule]
+        prize_array = Prizes[tier]["prizes"][capsule]
+        prize_length = len(prize_array)
+        full_prize = ""
+        prize_counter = 0
+        for sub_prize in prize_array:
+            # Build full string with all prizes in array
+            prize_counter += 1
+            data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
+            if data:
+                # Check backstock of sub prize
+                stock = DB.backstock[sub_prize]
+                current_stock = stock.current_stock
+                times_rolled = stock.times_rolled
+                max_limit = stock.max_limit
+                if not times_rolled < max_limit and not current_stock > 0:
+                    # Prize is out of stock, skip it
+                    continue
+            full_prize += sub_prize
+            if prize_counter < prize_length:
+                # Add separator between prizes in the string
+                full_prize += " + "
+        # Ensure not empty string
+        if full_prize == "":
+            full_prize = " "
+        return full_prize
 
     async def raffleEntry(ctx, message, e, tier, skip):
         inventory       = await getUserInv(user_id)
@@ -241,15 +284,9 @@ async def roll(ctx, skip=None):
         prize_id = str(user_id) + str("{:05d}".format(total_rolls + 1))
         now = datetime.utcnow()
         DB.prizehistory[prize_id] = {"user_id": user_id, "date": now, "tickets_spent": cost, "tier": tier, "capsule": capsule, "prize": prize}
-        if Prizes[tier]["regulated"] and capsule == "platinum":
-            # Update stock of prize if the prize was regulated
-            DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{prize}', '0', '0', '0')")
-            stock = DB.backstock[regulated_prize]
-            current_stock = stock.current_stock
-            times_rolled = stock.times_rolled
-            max_limit = stock.max_limit
-            DB.backstock[prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
         e.set_footer(text = f"Prize ID: {prize_id}")
+        # Reward prizes if applicable
+        await rewardPrize(ctx, tier, capsule)
         await message.edit(embed = e)
         return message, e
 
@@ -274,14 +311,14 @@ async def roll(ctx, skip=None):
             break
         match str(reaction.emoji):
             case "📜":
-                def formatPrizeList(prize_list):
+                def formatPrizeList(tier):
                     formatted_prize_list = f"\
-                        🔵  ─  *Blue*  ─  {config.encouragement[0]}%\n  └ **`{prize_list['blue']}`**\n\
-                        🟢  ─  *Green*  ─  {config.encouragement[1]}%\n  └ **`{prize_list['green']}`**\n\
-                        🔴  ─  *Red*  ─  {config.encouragement[2]}%\n  └ **`{prize_list['red']}`**\n\
-                        ⚪  ─  *Silver*  ─  {config.encouragement[3]}%\n  └ **`{prize_list['silver']}`**\n\
-                        🟡  ─  *Gold*  ─  {config.encouragement[4]}%\n  └ **`{prize_list['gold']}`**\n\
-                        🟣  ─  *Platinum*  ─  {config.encouragement[5]}%\n  └ **`{prize_list['platinum']}`**\n\
+                        🔵  ─  *Blue*  ─  {config.encouragement[0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
+                        🟢  ─  *Green*  ─  {config.encouragement[1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
+                        🔴  ─  *Red*  ─  {config.encouragement[2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
+                        ⚪  ─  *Silver*  ─  {config.encouragement[3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
+                        🟡  ─  *Gold*  ─  {config.encouragement[4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
+                        🟣  ─  *Platinum*  ─  {config.encouragement[5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
                     "
                     return formatted_prize_list
 
@@ -290,11 +327,11 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
                 e.set_thumbnail(url = Resource["Camil-1"][0])
-                e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}", value = formatPrizeList(Prizes["tier_1"]["prizes"]), inline = True)
-                e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}", value = formatPrizeList(Prizes["tier_2"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}", value = formatPrizeList("tier_1"), inline = True)
+                e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}", value = formatPrizeList("tier_2"), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
-                e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}", value = formatPrizeList(Prizes["tier_3"]["prizes"]), inline = True)
-                e.add_field(name = f"Tier 4: {Prizes['tier_4']['symbol']}", value = formatPrizeList(Prizes["tier_4"]["prizes"]), inline = True)
+                e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}", value = formatPrizeList("tier_3"), inline = True)
+                e.add_field(name = f"Tier 4: {Prizes['tier_4']['symbol']}", value = formatPrizeList("tier_4"), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
@@ -576,9 +613,12 @@ async def history(ctx, target = None):
                 elif index + 1 < history_length:
                     # Is the first page
                     emojis = ["⏩", "❌"]
-                else:
+                elif history_length > 5:
                     # Is the last page
                     emojis = ["⏪", "❌"]
+                else:
+                    # Is the only page
+                    emojis = ["❌"]
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 if reaction is None:
                     exit_flag = True
@@ -833,8 +873,76 @@ async def verify(ctx, prize_id):
 
 @bot.command()
 @commands.check(checkAdmin)
+async def backstock(ctx):
+    ''' | Usage: =backstock | View current backstock of limited prizes '''
+    stock = DB.query(f"SELECT * FROM backstock")
+    stock_length = len(stock)
+    e = discord.Embed(title = "View Backstock", color = 0xe53935)
+    exit_flag = edit_flag = False
+    if stock_length == 0:
+        await ctx.send("There are no entries to show in backstock!")
+        return
+    # Set offset to 0 (page 1) and begin bidirectional page system
+    offset = 0
+    while not exit_flag:
+        counter = 0
+        # Iterate through stock in groups of 5
+        for index, entry in enumerate(stock):
+            if index < offset:
+                # Skipping to next entry until arriving at the proper page/offset
+                continue
+
+            prize = entry[0]
+            current_stock = entry[1]
+            times_rolled = entry[2]
+            max_limit = entry[3]
+            e.add_field(name = f"Prize: {prize}", value = f"Stock: `{current_stock}` | Limit: `{max_limit}` | Rolled: `{times_rolled}`", inline = False)
+            counter += 1
+            # Once a full page is assembled, print it
+            if counter == 5 or index + 1 == stock_length:
+                if not edit_flag:
+                    message = await ctx.send(embed = e)
+                    edit_flag = True
+                else:
+                    await message.edit(embed = e)
+                if index + 1 > 5 and index + 1 < stock_length:
+                    # Is a middle page
+                    emojis = ["⏪", "⏩", "❌"]
+                elif index + 1 < stock_length:
+                    # Is the first page
+                    emojis = ["⏩", "❌"]
+                elif stock_length > 5:
+                    # Is the last page
+                    emojis = ["⏪", "❌"]
+                else:
+                    # Is the only page
+                    emojis = ["❌"]
+                reaction, user = await waitForReaction(ctx, message, e, emojis)
+                if reaction is None:
+                    exit_flag = True
+                    break
+                match str(reaction.emoji):
+                    case "⏩":
+                        # Tell upcomming re-iteration to skip to the next page's offset
+                        offset += 5
+                        await message.clear_reactions()
+                        e.clear_fields()
+                        break
+                    case "⏪":
+                        # Tell upcomming re-iteration to skip to the previous page's offset
+                        offset -= 5
+                        await message.clear_reactions()
+                        e.clear_fields()
+                        break
+                    case "❌":
+                        exit_flag = True
+                        await message.clear_reactions()
+                        break
+
+@bot.command()
+@commands.check(checkAdmin)
 async def test(ctx):
-    await ctx.send(f"You are on ***The List***, {ctx.author.mention}")
+    pass
 
 @bot.command()
 @commands.is_owner()

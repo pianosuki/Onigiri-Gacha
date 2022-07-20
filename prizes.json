@@ -7,12 +7,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": "100 EXP",
-      "green": "200 EXP + WL",
-      "red": "250 EXP + 3 Points",
-      "silver": "OG + 5 Points",
-      "gold": "1 Gacha Fragment",
-      "platinum": "Regular Steam Key"
+      "blue": ["100 EXP"],
+      "green": ["200 EXP", "WL"],
+      "red": ["250 EXP", "3 Points"],
+      "silver": ["OG", "5 Points"],
+      "gold": ["1 Gacha Fragment"],
+      "platinum": ["Regular Steam Key"]
     }
   },
 
@@ -24,12 +24,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": "250 EXP + 3 Points",
-      "green": "300 EXP + 5 Points",
-      "red": "OG + 400 EXP + 10 points",
-      "silver": "500 EXP + 1 Gacha Fragment",
-      "gold": "Regular Steam Key",
-      "platinum": "Premium  Steam Key"
+      "blue": ["250 EXP", "3 Points"],
+      "green": ["300 EXP", "5 Points"],
+      "red": ["OG", "400 EXP", "10 points"],
+      "silver": ["500 EXP", "1 Gacha Fragment"],
+      "gold": ["Regular Steam Key"],
+      "platinum": ["Premium Steam Key"]
     }
   },
 
@@ -41,12 +41,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": "500 EXP + 1 Gacha Fragment",
-      "green": "700 EXP + 3 Gacha Fragments",
-      "red": "Premium  Steam Key",
-      "silver": "Legendary Steam Key",
-      "gold": "1 Gacha Ticket",
-      "platinum": "1 Month Nitro"
+      "blue": ["500 EXP", "1 Gacha Fragment"],
+      "green": ["700 EXP", "3 Gacha Fragments"],
+      "red": ["Premium Steam Key"],
+      "silver": ["Legendary Steam Key"],
+      "gold": ["1 Gacha Ticket"],
+      "platinum": ["1 Month Nitro"]
     }
   },
 
@@ -58,12 +58,12 @@
     "regulated": true,
     "prizes":
     {
-      "blue": "2000 EXP",
-      "green": "3000 EXP + 1 Gacha Fragment",
-      "red": "Legendary Steam Key",
-      "silver": "Ultimate Steam Key",
-      "gold": "1 Month Nitro",
-      "platinum": "1 Aotuverse NFT"
+      "blue": ["2000 EXP"],
+      "green": ["3000 EXP", "1 Gacha Fragment"],
+      "red": ["Legendary Steam Key"],
+      "silver": ["Ultimate Steam Key"],
+      "gold": ["1 Month Nitro"],
+      "platinum": ["1 Aotuverse NFT"]
     }
   }
 }
