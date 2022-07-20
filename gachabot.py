@@ -833,7 +833,7 @@ async def db(ctx):
 @bot.command()
 @commands.check(checkAdmin)
 async def verify(ctx, prize_id):
-    ''' | Usage: +verify | Query all metadata of a Prize ID  '''
+    ''' | Usage: =verify | Query all metadata of a Prize ID  '''
     if re.match(r"^[0-9]{23}$", prize_id):
         prize_info      = DB.prizehistory[prize_id]
         prize_user      = prize_info.user_id
