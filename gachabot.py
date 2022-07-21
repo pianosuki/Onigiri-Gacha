@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.6"
+bot_version = "1.7"
 
 import config, dresource
 from database import Database
@@ -79,7 +79,7 @@ def randomWeighted(list, weights):
 ### User Commands
 @bot.command(aliases = ["gacha", "spin"])
 async def roll(ctx, skip=None):
-    ''' | Usage: +roll | Use reactions to navigate the menus'''
+    ''' | Usage: +roll | Use reactions to navigate the menus '''
     user_id         = ctx.author.id
     menu_top        = "┌───────────────────────┐"
     menu_separator  = "├───────────────────────┤"
@@ -120,6 +120,7 @@ async def roll(ctx, skip=None):
 
     async def rewardPrize(ctx, tier, capsule):
         prize_array = Prizes[tier]["prizes"][capsule]
+        member = ctx.author
         for sub_prize in prize_array:
             data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
             if data:
@@ -132,10 +133,23 @@ async def roll(ctx, skip=None):
                 else:
                     await ctx.send(f"Prize **'{sub_prize}'** is out of stock!")
                     continue
-            if sub_prize == "WL":
-                member = ctx.author
-                await member.add_roles(discord.utils.get(member.guild.roles, name=config.wl_role))
-                await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+            match sub_prize:
+                case "WL":
+                    wl_role = discord.utils.get(ctx.guild.roles, name = config.wl_role)
+                    if not wl_role in ctx.author.roles:
+                        await member.add_roles(wl_role)
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+                case "OG":
+                    og_role = discord.utils.get(ctx.guild.roles, name = config.og_role)
+                    if not og_role in ctx.author.roles:
+                        await member.add_roles(og_role)
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
+                case x if x.endswith("EXP"):
+                    exp = x.rstrip(" EXP")
+                    channel = bot.get_channel(config.exp_channel)
+                    role_id = config.gacha_mod_role
+                    await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
+                    await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
 
     def getPrize(tier, capsule, filter = True):
         prize_array = Prizes[tier]["prizes"][capsule]
@@ -677,7 +691,7 @@ async def reward(ctx, target: str, item: str, quantity):
 @bot.command()
 @commands.check(checkAdmin)
 async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
-    ''' | Usage: +simulate <tier_#> <Simulations> '''
+    ''' | Usage: +simulate <tier_X> <Simulations> '''
     capsules = ["blue", "green", "red", "silver", "gold", "platinum"]
     outcomes = []
     # Argument checking

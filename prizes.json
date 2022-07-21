@@ -12,7 +12,7 @@
       "red": ["250 EXP", "WL"],
       "silver": ["300 EXP"],
       "gold": ["1 Gacha Fragment"],
-      "platinum": ["Regular Steam Key"]
+      "platinum": ["Regular Steam Key", "OG"]
     }
   },
 
@@ -28,7 +28,7 @@
       "green": ["300 EXP", "WL"],
       "red": ["500 EXP", "WL"],
       "silver": ["500 EXP", "1 Gacha Fragment"],
-      "gold": ["Regular Steam Key"],
+      "gold": ["Regular Steam Key", "OG"],
       "platinum": ["Premium Steam Key"]
     }
   },
