@@ -148,7 +148,7 @@ async def roll(ctx, skip=None):
                     exp = x.rstrip(" EXP")
                     channel = bot.get_channel(config.exp_channel)
                     role_id = config.gacha_mod_role
-                    await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
+                    await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`:?modifyexp add {exp} {ctx.author.mention}`")
                     await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
 
     def getPrize(tier, capsule, filter = True):
