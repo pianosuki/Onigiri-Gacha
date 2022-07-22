@@ -126,6 +126,7 @@ async def roll(ctx, skip=None):
         tickets         = inventory.gacha_tickets
         fragments       = inventory.gacha_fragments
         total_rolls     = inventory.total_rolls
+        grand_prize_string = f"1 {branch_name} NFT"
         for sub_prize in prize_array:
             data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
             if data:
@@ -163,7 +164,7 @@ async def roll(ctx, skip=None):
                     amount = int(x.split(" ")[0])
                     DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                     await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                case f"1 {branch_name} NFT":
+                case grand_prize_string:
                     role_id = config.gacha_mod_role
                     await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
 
