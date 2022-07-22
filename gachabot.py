@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Aotuverse"
-bot_version = "1.7"
+bot_version = "1.7.1"
 
 import config, dresource
 from database import Database
@@ -119,8 +119,13 @@ async def roll(ctx, skip=None):
             time.sleep(0.5)
 
     async def rewardPrize(ctx, tier, capsule):
-        prize_array = Prizes[tier]["prizes"][capsule]
-        member = ctx.author
+        prize_array     = Prizes[tier]["prizes"][capsule]
+        user_id         = ctx.author.id
+        member          = ctx.author
+        inventory       = await getUserInv(user_id)
+        tickets         = inventory.gacha_tickets
+        fragments       = inventory.gacha_fragments
+        total_rolls     = inventory.total_rolls
         for sub_prize in prize_array:
             data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
             if data:
@@ -150,6 +155,17 @@ async def roll(ctx, skip=None):
                     role_id = config.gacha_mod_role
                     await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`:?modifyexp add {exp} {ctx.author.mention}`")
                     await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
+                case x if x.endswith("Fragment") or x.endswith("Fragments"):
+                    amount = int(x.split(" ")[0])
+                    DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
+                    await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
+                case x if x.endswith("Ticket") or x.endswith("Tickets"):
+                    amount = int(x.split(" ")[0])
+                    DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                    await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
+                case f"1 {branch_name} NFT":
+                    role_id = config.gacha_mod_role
+                    await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
 
     def getPrize(tier, capsule, filter = True):
         prize_array = Prizes[tier]["prizes"][capsule]
