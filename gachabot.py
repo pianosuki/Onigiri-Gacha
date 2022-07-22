@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.7"
+bot_version = "1.7.1"
 
 import config, dresource
 from database import Database
