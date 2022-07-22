@@ -164,8 +164,8 @@ async def roll(ctx, skip=None):
                     DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                     await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
                 case f"1 {branch_name} NFT":
-                role_id = config.gacha_mod_role
-                await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
+                    role_id = config.gacha_mod_role
+                    await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
 
     def getPrize(tier, capsule, filter = True):
         prize_array = Prizes[tier]["prizes"][capsule]
