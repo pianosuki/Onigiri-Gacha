@@ -154,7 +154,7 @@ async def roll(ctx, skip=None):
                     exp = x.rstrip(" EXP")
                     channel = bot.get_channel(config.exp_channel)
                     role_id = config.gacha_mod_role
-                    await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`:?modifyexp add {exp} {ctx.author.mention}`")
+                    #await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`:?modifyexp add {exp} {ctx.author.mention}`")
                     await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
                     amount = int(x.split(" ")[0])
@@ -164,7 +164,7 @@ async def roll(ctx, skip=None):
                     amount = int(x.split(" ")[0])
                     DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                     await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                case grand_prize_string:
+                case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
                     await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
 
