@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.7.1"
+bot_version = "1.7.2"
 
 import config, dresource
 from database import Database
@@ -277,7 +277,7 @@ async def roll(ctx, skip=None):
             else:
                 # Nullify chance to roll platinum
                 mod = cold_weights[5]
-            hot_weights = [cold_weights[0], cold_weights[1], cold_weights[2], cold_weights[3], cold_weights[4] + mod, cold_weights[5] - mod]
+            hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
             # Use modified probabilities
             capsule = randomWeighted(capsules, hot_weights)
         else:
