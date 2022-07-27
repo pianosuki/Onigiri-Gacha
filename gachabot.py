@@ -118,6 +118,22 @@ async def roll(ctx, skip=None):
             await message.edit(embed = e)
             time.sleep(0.5)
 
+    async def updateStock(ctx, sub_prize):
+        data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
+        if data:
+            stock = DB.backstock[sub_prize]
+            current_stock = stock.current_stock
+            times_rolled = stock.times_rolled
+            max_limit = stock.max_limit
+            if times_rolled < max_limit and current_stock > 0:
+                DB.backstock[sub_prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
+                return True
+            else:
+                await ctx.send(f"Prize **'{sub_prize}'** is out of stock!")
+                return False
+        else:
+            return True
+
     async def rewardPrize(ctx, tier, capsule):
         prize_array     = Prizes[tier]["prizes"][capsule]
         user_id         = ctx.author.id
@@ -128,49 +144,57 @@ async def roll(ctx, skip=None):
         total_rolls     = inventory.total_rolls
         grand_prize_string = f"1 {branch_name} NFT"
         for sub_prize in prize_array:
-            data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
-            if data:
-                stock = DB.backstock[sub_prize]
-                current_stock = stock.current_stock
-                times_rolled = stock.times_rolled
-                max_limit = stock.max_limit
-                if times_rolled < max_limit and current_stock > 0:
-                    DB.backstock[sub_prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
-                else:
-                    await ctx.send(f"Prize **'{sub_prize}'** is out of stock!")
-                    continue
             match sub_prize:
                 case "WL":
                     wl_role = discord.utils.get(ctx.guild.roles, name = config.wl_role)
                     if not wl_role in ctx.author.roles:
-                        await member.add_roles(wl_role)
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+                        if await updateStock(ctx, sub_prize):
+                            await member.add_roles(wl_role)
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+                        else:
+                            continue
                 case "OG":
                     og_role = discord.utils.get(ctx.guild.roles, name = config.og_role)
                     if not og_role in ctx.author.roles:
-                        await member.add_roles(og_role)
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
+                        if await updateStock(ctx, sub_prize):
+                            await member.add_roles(og_role)
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
+                        else:
+                            continue
                 case x if x.endswith("EXP"):
                     exp = x.rstrip(" EXP")
                     channel = bot.get_channel(config.exp_channel)
                     role_id = config.gacha_mod_role
-                    await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
-                    await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
+                    if await updateStock(ctx, sub_prize):
+                        if not checkAdmin(ctx):
+                            await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
+                        await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
+                    else:
+                        continue
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
                     channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
-                    DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
-                    await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
-                    await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                    if await updateStock(ctx, sub_prize):
+                        DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
+                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                    else:
+                        continue
                 case x if x.endswith("Ticket") or x.endswith("Tickets"):
                     channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
-                    DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
-                    await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                    await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                    if await updateStock(ctx, sub_prize):
+                        DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
+                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                    else:
+                        continue
                 case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
-                    await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
+                    if await updateStock(ctx, sub_prize):
+                        await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
+                    else:
+                        continue
 
     def getPrize(tier, capsule, filter = True):
         prize_array = Prizes[tier]["prizes"][capsule]
