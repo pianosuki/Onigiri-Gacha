@@ -345,12 +345,12 @@ async def roll(ctx, skip=None):
             case "📜":
                 def formatPrizeList(tier):
                     formatted_prize_list = f"\
-                        🔵  ─  *Blue*  ─  {config.encouragement[0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
-                        🟢  ─  *Green*  ─  {config.encouragement[1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
-                        🔴  ─  *Red*  ─  {config.encouragement[2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
-                        ⚪  ─  *Silver*  ─  {config.encouragement[3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
-                        🟡  ─  *Gold*  ─  {config.encouragement[4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
-                        🟣  ─  *Platinum*  ─  {config.encouragement[5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
+                        🔵  ─  *Blue*  ─  {config.encouragement[tier][0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
+                        🟢  ─  *Green*  ─  {config.encouragement[tier][1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
+                        🔴  ─  *Red*  ─  {config.encouragement[tier][2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
+                        ⚪  ─  *Silver*  ─  {config.encouragement[tier][3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
+                        🟡  ─  *Gold*  ─  {config.encouragement[tier][4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
+                        🟣  ─  *Platinum*  ─  {config.encouragement[tier][5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
                     "
                     return formatted_prize_list
 

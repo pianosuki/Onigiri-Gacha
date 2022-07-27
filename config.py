@@ -10,7 +10,10 @@ weights         = {"tier_1": [10, 20, 20, 15, 25, 10],
                    "tier_3": [10, 25, 15, 15, 30, 5],
                    "tier_4": [35, 25, 18, 13, 8, 1]}
 weight_mods     = [-20, 0.1, 0.25, 0.5]
-encouragement   = [32, 25, 18, 12, 8, "BOOSTED UP TO 20% - Limited time only!"]
+encouragement   = {"tier_1": [32, 25, 18, 12, 8, 5],
+                   "tier_2": [32, 25, 18, 12, 8, 5],
+                   "tier_3": [32, 25, 18, 12, 8, 5],
+                   "tier_4": [32, 25, 18, 12, 8, "BOOSTED UP TO 20% - Limited time only!"]}
 
 # Server
 ip              = "137.220.33.63"
