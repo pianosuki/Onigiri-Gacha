@@ -728,11 +728,11 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
     if n == -1:
         await ctx.send("Please provide an amount of simulations to roll.")
         return
-    if which_mod != 0:
+    if which_mod != -1:
         # Set and apply the weight mod
         try:
             mod = config.weight_mods[which_mod]
-            hot_weights = [cold_weights[0], cold_weights[1], cold_weights[2], cold_weights[3], cold_weights[4] + mod, cold_weights[5] - mod]
+            hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
             weights = hot_weights
         except IndexError:
             possible_values = {}
@@ -775,6 +775,7 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
             case "platinum":
                 e.set_field_at(7, name = "│ 🟣 Platinum", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
     await ctx.send(embed = e)
+    await ctx.send(f"Weights used: `{weights}`")
 
 @bot.command()
 @commands.check(checkAdmin)
