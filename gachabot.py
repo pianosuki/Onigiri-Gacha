@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Aotuverse"
-bot_version = "1.7.1"
+bot_version = "1.7.2"
 
 import config, dresource
 from database import Database
@@ -157,13 +157,17 @@ async def roll(ctx, skip=None):
                     await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`:?modifyexp add {exp} {ctx.author.mention}`")
                     await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
+                    channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
                     await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
+                    await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
                 case x if x.endswith("Ticket") or x.endswith("Tickets"):
+                    channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                     await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
+                    await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                 case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
                     await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
@@ -277,7 +281,7 @@ async def roll(ctx, skip=None):
             else:
                 # Nullify chance to roll platinum
                 mod = cold_weights[5]
-            hot_weights = [cold_weights[0], cold_weights[1], cold_weights[2], cold_weights[3], cold_weights[4] + mod, cold_weights[5] - mod]
+            hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
             # Use modified probabilities
             capsule = randomWeighted(capsules, hot_weights)
         else:
@@ -345,12 +349,12 @@ async def roll(ctx, skip=None):
             case "📜":
                 def formatPrizeList(tier):
                     formatted_prize_list = f"\
-                        🔵  ─  *Blue*  ─  {config.encouragement[0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
-                        🟢  ─  *Green*  ─  {config.encouragement[1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
-                        🔴  ─  *Red*  ─  {config.encouragement[2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
-                        ⚪  ─  *Silver*  ─  {config.encouragement[3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
-                        🟡  ─  *Gold*  ─  {config.encouragement[4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
-                        🟣  ─  *Platinum*  ─  {config.encouragement[5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
+                        🔵  ─  *Blue*  ─  {config.encouragement[tier][0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
+                        🟢  ─  *Green*  ─  {config.encouragement[tier][1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
+                        🔴  ─  *Red*  ─  {config.encouragement[tier][2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
+                        ⚪  ─  *Silver*  ─  {config.encouragement[tier][3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
+                        🟡  ─  *Gold*  ─  {config.encouragement[tier][4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
+                        🟣  ─  *Platinum*  ─  {config.encouragement[tier][5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
                     "
                     return formatted_prize_list
 

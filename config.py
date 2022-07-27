@@ -10,7 +10,10 @@ weights         = {"tier_1": [10, 20, 20, 15, 25, 10],
                    "tier_3": [10, 25, 15, 15, 30, 5],
                    "tier_4": [35, 25, 18, 13, 8, 1]}
 weight_mods     = [0, 0.7]
-encouragement   = [32, 25, 18, 12, 8, 5]
+encouragement   = {"tier_1": [32, 25, 18, 12, 8, 5],
+                   "tier_2": [32, 25, 18, 12, 8, 5],
+                   "tier_3": [32, 25, 18, 12, 8, 5],
+                   "tier_4": [32, 25, 18, 12, 8, 5]}
 
 # Server
 ip              = "137.220.33.63"
@@ -23,4 +26,5 @@ og_role         = "(First 500)"
 gacha_mod_role  = 999774678799360050
 
 # Channels
-exp_channel     = 999774143329337435
+exp_channel         = 999774143329337435
+gachaproof_channel  = 996762869045657600
