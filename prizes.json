@@ -3,7 +3,7 @@
   {
     "name": "Tier 1",
     "symbol": "🥉",
-    "tickets_required": 1,
+    "tickets_required": 3,
     "regulated": false,
     "prizes":
     {
@@ -20,7 +20,7 @@
   {
     "name": "Tier 2",
     "symbol": "🥈",
-    "tickets_required": 3,
+    "tickets_required": 5,
     "regulated": false,
     "prizes":
     {
@@ -37,7 +37,7 @@
   {
     "name": "Tier 3",
     "symbol": "🥇",
-    "tickets_required": 5,
+    "tickets_required": 10,
     "regulated": false,
     "prizes":
     {
@@ -54,7 +54,7 @@
   {
     "name": "Tier 4",
     "symbol": "🏅",
-    "tickets_required": 10,
+    "tickets_required": 15,
     "regulated": true,
     "prizes":
     {
