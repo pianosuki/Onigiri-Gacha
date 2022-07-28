@@ -2,8 +2,8 @@
 ### Created by pianosuki
 ### https://github.com/pianosuki
 ### For use by Catheon only
-branch_name = "Onigiri"
-bot_version = "1.6"
+branch_name = "War Of Gama"
+bot_version = "1.7.2"
 
 import config, dresource
 from database import Database
@@ -118,26 +118,85 @@ async def roll(ctx, skip=None):
             await message.edit(embed = e)
             time.sleep(0.5)
 
-    async def rewardPrize(ctx, tier, capsule):
-        prize_array = Prizes[tier]["prizes"][capsule]
-        for sub_prize in prize_array:
-            data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
-            if data:
-                stock = DB.backstock[sub_prize]
-                current_stock = stock.current_stock
-                times_rolled = stock.times_rolled
-                max_limit = stock.max_limit
-                if times_rolled < max_limit and current_stock > 0:
-                    DB.backstock[sub_prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
-                else:
-                    await ctx.send(f"Prize **'{sub_prize}'** is out of stock!")
-                    continue
-            if sub_prize == "WL":
-                member = ctx.author
-                await member.add_roles(discord.utils.get(member.guild.roles, name=config.wl_role))
-                await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+    async def updateStock(ctx, sub_prize):
+        data = DB.query(f"SELECT * FROM backstock WHERE prize = '{sub_prize}'")
+        if data:
+            stock = DB.backstock[sub_prize]
+            current_stock = stock.current_stock
+            times_rolled = stock.times_rolled
+            max_limit = stock.max_limit
+            if times_rolled < max_limit and current_stock > 0:
+                DB.backstock[sub_prize] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
+                return True
+            else:
+                await ctx.send(f"Prize **'{sub_prize}'** is out of stock!")
+                return False
+        else:
+            return True
 
-    def getPrize(tier, capsule):
+    async def rewardPrize(ctx, tier, capsule):
+        prize_array     = Prizes[tier]["prizes"][capsule]
+        user_id         = ctx.author.id
+        member          = ctx.author
+        inventory       = await getUserInv(user_id)
+        tickets         = inventory.gacha_tickets
+        fragments       = inventory.gacha_fragments
+        total_rolls     = inventory.total_rolls
+        grand_prize_string = f"1 {branch_name} NFT"
+        for sub_prize in prize_array:
+            match sub_prize:
+                # case "WL":
+                #     wl_role = discord.utils.get(ctx.guild.roles, name = config.wl_role)
+                #     if not wl_role in ctx.author.roles:
+                #         if await updateStock(ctx, sub_prize):
+                #             await member.add_roles(wl_role)
+                #             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+                #         else:
+                #             continue
+                # case "OG":
+                #     og_role = discord.utils.get(ctx.guild.roles, name = config.og_role)
+                #     if not og_role in ctx.author.roles:
+                #         if await updateStock(ctx, sub_prize):
+                #             await member.add_roles(og_role)
+                #             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
+                #         else:
+                #             continue
+                case x if x.endswith("EXP"):
+                    exp = x.rstrip(" EXP")
+                    channel = bot.get_channel(config.exp_channel)
+                    role_id = config.gacha_mod_role
+                    if await updateStock(ctx, sub_prize):
+                        if not checkAdmin(ctx):
+                            await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
+                        await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
+                    else:
+                        continue
+                case x if x.endswith("Fragment") or x.endswith("Fragments"):
+                    channel = bot.get_channel(config.gachaproof_channel)
+                    amount = int(x.split(" ")[0])
+                    if await updateStock(ctx, sub_prize):
+                        DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
+                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                    else:
+                        continue
+                case x if x.endswith("Ticket") or x.endswith("Tickets"):
+                    channel = bot.get_channel(config.gachaproof_channel)
+                    amount = int(x.split(" ")[0])
+                    if await updateStock(ctx, sub_prize):
+                        DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
+                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                    else:
+                        continue
+                case x if x == grand_prize_string:
+                    role_id = config.gacha_mod_role
+                    if await updateStock(ctx, sub_prize):
+                        await ctx.send(f"<@&{role_id}> | 🎉 {ctx.author.mention} has just won the grand prize! 🏆 Congratulations! 🎉")
+                    else:
+                        continue
+
+    def getPrize(tier, capsule, filter = True):
         prize_array = Prizes[tier]["prizes"][capsule]
         prize_length = len(prize_array)
         full_prize = ""
@@ -154,7 +213,8 @@ async def roll(ctx, skip=None):
                 max_limit = stock.max_limit
                 if not times_rolled < max_limit and not current_stock > 0:
                     # Prize is out of stock, skip it
-                    continue
+                    if filter:
+                        continue
             full_prize += sub_prize
             if prize_counter < prize_length:
                 # Add separator between prizes in the string
@@ -173,7 +233,7 @@ async def roll(ctx, skip=None):
         symbol          = Prizes[tier]["symbol"]
         cost            = Prizes[tier]["tickets_required"]
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Spin to win!", color = default_color)
-        e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+        e.set_thumbnail(url = Resource["Portraits-5"][0])
         e.add_field(name = f"{name} Raffle", value = symbol, inline = True)
         e.add_field(name = "Admission:", value = f"🎟️ x {cost} ticket(s)", inline = True)
         e.add_field(name = "Your current tickets:", value = tickets, inline = False)
@@ -219,7 +279,7 @@ async def roll(ctx, skip=None):
         # Subtract ticket(s) from user's inventory, increment roll count, then roll the gacha
         DB.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Good luck!", color = default_color)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["Portraits-7"][0])
         e.add_field(name = f"Spinning the {name} Raffle:", value = menu_top, inline = False)
         e.add_field(name = progressbar[0], value = menu_bottom, inline = False)
         await message.edit(embed = e)
@@ -232,7 +292,7 @@ async def roll(ctx, skip=None):
         cold_weights = config.weights[tier]
         if Prizes[tier]["regulated"]:
             # Modify probability for regulated prize
-            regulated_prize = Prizes[tier]["prizes"]["platinum"]
+            regulated_prize = getPrize(tier, "platinum", filter = False)
             DB.execute(f"INSERT OR IGNORE INTO backstock (prize, current_stock, times_rolled, max_limit) values ('{regulated_prize}', '0', '0', '0')")
             stock = DB.backstock[regulated_prize]
             current_stock = stock.current_stock
@@ -245,7 +305,7 @@ async def roll(ctx, skip=None):
             else:
                 # Nullify chance to roll platinum
                 mod = cold_weights[5]
-            hot_weights = [cold_weights[0], cold_weights[1], cold_weights[2], cold_weights[3], cold_weights[4] + mod, cold_weights[5] - mod]
+            hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
             # Use modified probabilities
             capsule = randomWeighted(capsules, hot_weights)
         else:
@@ -255,27 +315,27 @@ async def roll(ctx, skip=None):
         match capsule:
             case "blue":
                 e.color = capsule_colors[0]
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["Portraits-1"][0])
                 e.set_image(url = Resource["Blue"][0])
             case "green":
                 e.color = capsule_colors[1]
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["Portraits-1"][0])
                 e.set_image(url = Resource["Green"][0])
             case "red":
                 e.color = capsule_colors[2]
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["Portraits-1"][0])
                 e.set_image(url = Resource["Red"][0])
             case "silver":
                 e.color = capsule_colors[3]
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["Portraits-1"][0])
                 e.set_image(url = Resource["Silver"][0])
             case "gold":
                 e.color = capsule_colors[4]
-                e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                e.set_thumbnail(url = Resource["Portraits-1"][0])
                 e.set_image(url = Resource["Gold"][0])
             case "platinum":
                 e.color = capsule_colors[5]
-                e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                e.set_thumbnail(url = Resource["Portraits-1"][0])
                 e.set_image(url = Resource["Platinum"][0])
         prize = getPrize(tier, capsule)
         e.add_field(name = "Raffle Spun:", value = f"{symbol} {name} {symbol}", inline = True)
@@ -295,7 +355,7 @@ async def roll(ctx, skip=None):
     while not (exit_flag):
         prev_flag = False
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Test your luck for amazing prizes!", color = default_color)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["Portraits-1"][0])
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ 📜 ─────  Prize  List  ────── 📜 ◁", value = menu_separator, inline = False)
         e.add_field(name = "▷ 🎰 ──── Select  a  Raffle ──── 🎰 ◁", value = menu_separator, inline = False)
@@ -313,12 +373,12 @@ async def roll(ctx, skip=None):
             case "📜":
                 def formatPrizeList(tier):
                     formatted_prize_list = f"\
-                        🔵  ─  *Blue*  ─  {config.encouragement[0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
-                        🟢  ─  *Green*  ─  {config.encouragement[1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
-                        🔴  ─  *Red*  ─  {config.encouragement[2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
-                        ⚪  ─  *Silver*  ─  {config.encouragement[3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
-                        🟡  ─  *Gold*  ─  {config.encouragement[4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
-                        🟣  ─  *Platinum*  ─  {config.encouragement[5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
+                        🔵  ─  *Blue*  ─  {config.encouragement[tier][0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
+                        🟢  ─  *Green*  ─  {config.encouragement[tier][1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
+                        🔴  ─  *Red*  ─  {config.encouragement[tier][2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
+                        ⚪  ─  *Silver*  ─  {config.encouragement[tier][3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
+                        🟡  ─  *Gold*  ─  {config.encouragement[tier][4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
+                        🟣  ─  *Platinum*  ─  {config.encouragement[tier][5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
                     "
                     return formatted_prize_list
 
@@ -326,7 +386,7 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["Portraits-3"][0])
                 e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}", value = formatPrizeList("tier_1"), inline = True)
                 e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}", value = formatPrizeList("tier_2"), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
@@ -352,7 +412,7 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 while not (exit_flag or prev_flag):
                     e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Select a Gacha Unit to spin!", color = default_color)
-                    e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                    e.set_thumbnail(url = Resource["Portraits-4"][0])
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                     e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
                     e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
@@ -436,7 +496,7 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Your inventory:", color = default_color)
-                e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                e.set_thumbnail(url = Resource["Portraits-2"][0])
                 e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
                 e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
                 e.add_field(name = "Total roll count:", value = f"🎲 x {total_rolls} roll(s)", inline = False)
@@ -474,7 +534,7 @@ async def inv(ctx, target = None):
         fragments   = inventory.gacha_fragments
         total_rolls = inventory.total_rolls
         e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
-        e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+        e.set_thumbnail(url = Resource["Portraits-2"][0])
         e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
         e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
         e.add_field(name = "Total roll count:", value = f"🎲 x {total_rolls} roll(s)", inline = False)
@@ -511,7 +571,7 @@ async def craft(ctx, amount:str = "1"):
             return
 
     e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
-    e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+    e.set_thumbnail(url = Resource["Portraits-6"][0])
     e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
     e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
     e.add_field(name = "Tickets to craft:", value = f"🎟️ x {craft_amount} ticket(s)", inline = True)
@@ -530,7 +590,7 @@ async def craft(ctx, amount:str = "1"):
             await message.clear_reactions()
             if fragments >= craft_amount * 4:
                 e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
-                e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+                e.set_thumbnail(url = Resource["Portraits-6"][0])
                 e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
                 e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
                 await ctx.send(embed = e)
@@ -538,7 +598,7 @@ async def craft(ctx, amount:str = "1"):
                 DB.userdata[user_id] = {"gacha_tickets": tickets + craft_amount, "gacha_fragments": fragments - craft_amount * 4, "total_rolls": total_rolls}
             else:
                 e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["Portraits-6"][0])
                 e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
                 await ctx.send(embed = e)
         case "❌":
@@ -562,10 +622,10 @@ async def history(ctx, target = None):
     history.reverse()
     history_length = len(history)
     e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
-    e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+    e.set_thumbnail(url = Resource["Portraits-7"][0])
     exit_flag = edit_flag = False
     if history_length == 0:
-        e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+        e.set_thumbnail(url = Resource["Portraits-7"][0])
         e.add_field(name = "User has not rolled any prizes yet!", value = f"Try `{config.prefix}roll` to change that", inline = False)
         await ctx.send(embed = e)
         return
@@ -676,7 +736,7 @@ async def reward(ctx, target: str, item: str, quantity):
 @bot.command()
 @commands.check(checkAdmin)
 async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
-    ''' | Usage: +simulate <tier_#> <Simulations> '''
+    ''' | Usage: +simulate <tier_X> <Simulations> '''
     capsules = ["blue", "green", "red", "silver", "gold", "platinum"]
     outcomes = []
     # Argument checking
@@ -692,11 +752,11 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
     if n == -1:
         await ctx.send("Please provide an amount of simulations to roll.")
         return
-    if which_mod != 0:
+    if which_mod != -1:
         # Set and apply the weight mod
         try:
             mod = config.weight_mods[which_mod]
-            hot_weights = [cold_weights[0], cold_weights[1], cold_weights[2], cold_weights[3], cold_weights[4] + mod, cold_weights[5] - mod]
+            hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
             weights = hot_weights
         except IndexError:
             possible_values = {}
@@ -739,6 +799,7 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
             case "platinum":
                 e.set_field_at(7, name = "│ 🟣 Platinum", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
     await ctx.send(embed = e)
+    await ctx.send(f"Weights used: `{weights}`")
 
 @bot.command()
 @commands.check(checkAdmin)
