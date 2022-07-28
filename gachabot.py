@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.7.2"
+bot_version = "1.7.3"
 
 import config, dresource
 from database import Database
@@ -75,6 +75,25 @@ def randomWeighted(list, weights):
     for i in range(len(cum_weights)):
         if x < cum_weights[i]:
             return list[i]
+
+def rebalanceWeights(cold_weights):
+    total = 0
+    relevant_length = 0
+    for i in cold_weights:
+        total += i
+        if i > 0:
+            relevant_length += 1
+    if total < 100:
+        refill = (100 - total) / relevant_length
+        index = 0
+        hot_weights = cold_weights
+        for i in hot_weights:
+            if i > 0:
+                hot_weights[index] = i + refill
+            index +=1
+        return hot_weights
+    else:
+        return cold_weights
 
 ### User Commands
 @bot.command(aliases = ["gacha", "spin"])
@@ -290,6 +309,15 @@ async def roll(ctx, skip=None):
 
     async def pullCapsule(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls):
         cold_weights = config.weights[tier]
+
+        # Nullify chances to roll a capsule if its prize array is empty
+        for index, category in enumerate(Prizes[tier]["prizes"]):
+            if not Prizes[tier]["prizes"][category]:
+                cold_weights[index] = 0
+
+        # Rebalance weights to ensure they add up to 100
+        cold_weights = rebalanceWeights(cold_weights)
+
         if Prizes[tier]["regulated"]:
             # Modify probability for regulated prize
             regulated_prize = getPrize(tier, "platinum", filter = False)
@@ -742,6 +770,15 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
     # Argument checking
     try:
         cold_weights = config.weights[tier]
+
+        # Nullify chances to roll a capsule if its prize array is empty
+        for index, category in enumerate(Prizes[tier]["prizes"]):
+            if not Prizes[tier]["prizes"][category]:
+                cold_weights[index] = 0
+
+        # Rebalance weights to ensure they add up to 100
+        cold_weights = rebalanceWeights(cold_weights)
+        
     except KeyError:
         tiers = []
         for key in config.weights:
