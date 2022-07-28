@@ -8,15 +8,15 @@
         "Platinum": ["Graphics/Capsules/Platinum.png", "platinum.png", "attachment://platinum.png"]
     },
     "Characters": {
-        "War of Gama": {
+        "WarOfGama": {
             "Portraits": [
-                ["Graphics/Characters/War of Gama/Portraits/1.png", "gama-1.png", "attachment://gama-1.png"],
-                ["Graphics/Characters/War of Gama/Portraits/2.png", "gama-2.png", "attachment://gama-2.png"],
-                ["Graphics/Characters/War of Gama/Portraits/3.png", "gama-3.png", "attachment://gama-3.png"],
-                ["Graphics/Characters/War of Gama/Portraits/4.png", "gama-4.png", "attachment://gama-4.png"],
-                ["Graphics/Characters/War of Gama/Portraits/5.png", "gama-5.png", "attachment://gama-5.png"],
-                ["Graphics/Characters/War of Gama/Portraits/6.png", "gama-6.png", "attachment://gama-6.png"],
-                ["Graphics/Characters/War of Gama/Portraits/7.png", "gama-7.png", "attachment://gama-7.png"]
+                ["Graphics/Characters/WarOfGama/Portraits/1.png", "gama-1.png", "attachment://gama-1.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/2.png", "gama-2.png", "attachment://gama-2.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/3.png", "gama-3.png", "attachment://gama-3.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/4.png", "gama-4.png", "attachment://gama-4.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/5.png", "gama-5.png", "attachment://gama-5.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/6.png", "gama-6.png", "attachment://gama-6.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/7.png", "gama-7.png", "attachment://gama-7.png"]
             ]
         }
     }

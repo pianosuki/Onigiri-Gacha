@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "War Of Gama"
-bot_version = "1.7.2"
+bot_version = "1.7.3"
 
 import config, dresource
 from database import Database
@@ -75,6 +75,25 @@ def randomWeighted(list, weights):
     for i in range(len(cum_weights)):
         if x < cum_weights[i]:
             return list[i]
+
+def rebalanceWeights(cold_weights):
+    total = 0
+    relevant_length = 0
+    for i in cold_weights:
+        total += i
+        if i > 0:
+            relevant_length += 1
+    if total < 100:
+        refill = (100 - total) / relevant_length
+        index = 0
+        hot_weights = cold_weights
+        for i in hot_weights:
+            if i > 0:
+                hot_weights[index] = i + refill
+            index +=1
+        return hot_weights
+    else:
+        return cold_weights
 
 ### User Commands
 @bot.command(aliases = ["gacha", "spin"])
@@ -161,32 +180,32 @@ async def roll(ctx, skip=None):
                 #             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
                 #         else:
                 #             continue
-                case x if x.endswith("EXP"):
-                    exp = x.rstrip(" EXP")
-                    channel = bot.get_channel(config.exp_channel)
-                    role_id = config.gacha_mod_role
-                    if await updateStock(ctx, sub_prize):
-                        if not checkAdmin(ctx):
-                            await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
-                        await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
-                    else:
-                        continue
+                # case x if x.endswith("EXP"):
+                #     exp = x.rstrip(" EXP")
+                #     channel = bot.get_channel(config.exp_channel)
+                #     role_id = config.gacha_mod_role
+                #     if await updateStock(ctx, sub_prize):
+                #         if not checkAdmin(ctx):
+                #             await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
+                #         await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
+                #     else:
+                #         continue
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
-                    channel = bot.get_channel(config.gachaproof_channel)
+                    #channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
-                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                        #await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
                     else:
                         continue
                 case x if x.endswith("Ticket") or x.endswith("Tickets"):
-                    channel = bot.get_channel(config.gachaproof_channel)
+                    #channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                        #await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                     else:
                         continue
                 case x if x == grand_prize_string:
@@ -290,6 +309,15 @@ async def roll(ctx, skip=None):
 
     async def pullCapsule(ctx, message, e, tier, name, cost, symbol, tickets, fragments, total_rolls):
         cold_weights = config.weights[tier]
+
+        # Nullify chances to roll a capsule if its prize array is empty
+        for index, category in enumerate(Prizes[tier]["prizes"]):
+            if not Prizes[tier]["prizes"][category]:
+                cold_weights[index] = 0
+
+        # Rebalance weights to ensure they add up to 100
+        cold_weights = rebalanceWeights(cold_weights)
+
         if Prizes[tier]["regulated"]:
             # Modify probability for regulated prize
             regulated_prize = getPrize(tier, "platinum", filter = False)
@@ -373,8 +401,6 @@ async def roll(ctx, skip=None):
             case "📜":
                 def formatPrizeList(tier):
                     formatted_prize_list = f"\
-                        🔵  ─  *Blue*  ─  {config.encouragement[tier][0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
-                        🟢  ─  *Green*  ─  {config.encouragement[tier][1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
                         🔴  ─  *Red*  ─  {config.encouragement[tier][2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
                         ⚪  ─  *Silver*  ─  {config.encouragement[tier][3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
                         🟡  ─  *Gold*  ─  {config.encouragement[tier][4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
@@ -742,6 +768,15 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
     # Argument checking
     try:
         cold_weights = config.weights[tier]
+
+        # Nullify chances to roll a capsule if its prize array is empty
+        for index, category in enumerate(Prizes[tier]["prizes"]):
+            if not Prizes[tier]["prizes"][category]:
+                cold_weights[index] = 0
+
+        # Rebalance weights to ensure they add up to 100
+        cold_weights = rebalanceWeights(cold_weights)
+
     except KeyError:
         tiers = []
         for key in config.weights:
