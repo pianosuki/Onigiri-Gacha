@@ -8,11 +8,11 @@
     "prizes":
     {
       "blue": ["100 EXP"],
-      "green": ["200 EXP", "WL"],
-      "red": ["250 EXP", "WL"],
-      "silver": ["300 EXP"],
-      "gold": ["1 Gacha Fragment"],
-      "platinum": ["Regular Steam Key", "OG"]
+      "green": ["200 EXP", "1 Gacha Fragment"],
+      "red": ["300 EXP", "2 Gacha Fragments"],
+      "silver": ["WL", "3 Gacha Fragments"],
+      "gold": ["WL", "1 Gacha Ticket"],
+      "platinum": ["Regular Steam Key"]
     }
   },
 
@@ -24,11 +24,11 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["250 EXP"],
-      "green": ["300 EXP", "WL"],
-      "red": ["500 EXP", "WL"],
-      "silver": ["500 EXP", "1 Gacha Fragment"],
-      "gold": ["Regular Steam Key", "OG"],
+      "blue": ["200 EXP"],
+      "green": ["300 EXP", "2 Gacha Fragments"],
+      "red": ["500 EXP", "1 Gacha Ticket"],
+      "silver": ["WL", "2 Gacha Tickets"],
+      "gold": ["WL", "3 Gacha Tickets"],
       "platinum": ["Premium Steam Key"]
     }
   },
@@ -43,9 +43,9 @@
     {
       "blue": ["500 EXP"],
       "green": ["1000 EXP"],
-      "red": ["Premium Steam Key"],
-      "silver": ["Legendary Steam Key"],
-      "gold": ["1 Gacha Ticket"],
+      "red": ["OG", "2 Gacha Tickets"],
+      "silver": ["OG", "4 Gacha Tickets"],
+      "gold": ["Legendary Steam Key"],
       "platinum": ["1 Month Nitro"]
     }
   },
@@ -60,9 +60,9 @@
     {
       "blue": ["2000 EXP"],
       "green": ["3000 EXP"],
-      "red": ["Legendary Steam Key"],
-      "silver": ["Ultimate Steam Key"],
-      "gold": ["1 Month Nitro"],
+      "red": ["OG", "4 Gacha Tickets"],
+      "silver": ["OG", "8 Gacha Tickets"],
+      "gold": ["Ultimate Steam Key"],
       "platinum": ["1 Onigiri NFT"]
     }
   }
