@@ -778,7 +778,7 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
 
         # Rebalance weights to ensure they add up to 100
         cold_weights = rebalanceWeights(cold_weights)
-        
+
     except KeyError:
         tiers = []
         for key in config.weights:
@@ -840,20 +840,26 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
 
 @bot.command()
 @commands.check(checkAdmin)
-async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: bool = True):
-    ''' | Usage: +restock <"Prize name"> <Stock> [Maximum roll limit] [Reset "times_rolled" counter? Default = True] '''
+async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: int = -1):
+    ''' | Usage: +restock <"Prize name"> <Stock> [Maximum roll limit] [Reset "times_rolled" counter? (-1: Reset, 0: Don't reset, n: Set counter to n) ] '''
     data = DB.query(f"SELECT * FROM backstock WHERE prize = '{prize}'")
-    if reset:
-        times_rolled = 0
-    else:
-        times_rolled = DB.backstock[prize].times_rolled
+    match reset:
+        case -1:
+            times_rolled = 0
+            reset_option = "Reset counter to 0"
+        case 0:
+            times_rolled = DB.backstock[prize].times_rolled
+            reset_option = "Leave counter unchanged"
+        case x if x > 0:
+            times_rolled = x
+            reset_option = f"Set counter to {x}"
     if max_limit == -1:
         max_limit = stock
     if data:
         e = discord.Embed(title = "Restock Prize Database", description = "Confirm the following:", color = 0xc0ca33)
         e.add_field(name = f"Stock of '{prize}' will be set to:", value = stock, inline = False)
         e.add_field(name = f"With a maximum limit of:", value = max_limit, inline = False)
-        e.add_field(name = "Reset 'Times Rolled' counter:", value = reset, inline = False)
+        e.add_field(name = "Reset 'Times Rolled' counter:", value = reset_option, inline = False)
         message = await ctx.send(embed = e)
         emojis = ["✅", "❌"]
         reaction, user = await waitForReaction(ctx, message, e, emojis)
