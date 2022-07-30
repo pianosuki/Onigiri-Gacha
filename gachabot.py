@@ -252,6 +252,7 @@ async def roll(ctx, skip=None):
         symbol          = Prizes[tier]["symbol"]
         cost            = Prizes[tier]["tickets_required"]
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Spin to win!", color = default_color)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
         e.add_field(name = f"{name} Raffle", value = symbol, inline = True)
         e.add_field(name = "Admission:", value = f"🎟️ x {cost} ticket(s)", inline = True)
@@ -298,6 +299,7 @@ async def roll(ctx, skip=None):
         # Subtract ticket(s) from user's inventory, increment roll count, then roll the gacha
         DB.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Good luck!", color = default_color)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = f"Spinning the {name} Raffle:", value = menu_top, inline = False)
         e.add_field(name = progressbar[0], value = menu_bottom, inline = False)
@@ -340,6 +342,7 @@ async def roll(ctx, skip=None):
             # Use unmodified probabilities
             capsule = randomWeighted(capsules, cold_weights)
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = f"🎉 Congratulations {ctx.author.mention}! 🎊")
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         match capsule:
             case "blue":
                 e.color = capsule_colors[0]
@@ -383,6 +386,7 @@ async def roll(ctx, skip=None):
     while not (exit_flag):
         prev_flag = False
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Test your luck for amazing prizes!", color = default_color)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ 📜 ─────  Prize  List  ────── 📜 ◁", value = menu_separator, inline = False)
@@ -414,6 +418,7 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
                 e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
                 e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_1']['tickets_required']}", value = formatPrizeList("tier_1"), inline = True)
                 e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_2']['tickets_required']}", value = formatPrizeList("tier_2"), inline = True)
@@ -440,6 +445,7 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 while not (exit_flag or prev_flag):
                     e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Select a Gacha Unit to spin!", color = default_color)
+                    e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
                     e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                     e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
@@ -524,6 +530,7 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Your inventory:", color = default_color)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
                 e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                 e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
                 e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
@@ -562,6 +569,7 @@ async def inv(ctx, target = None):
         fragments   = inventory.gacha_fragments
         total_rolls = inventory.total_rolls
         e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
         e.add_field(name = "Gacha Tickets:", value = f"🎟️ x {tickets} ticket(s)", inline = False)
         e.add_field(name = "Gacha Ticket Fragments:", value = f"🧩 x {fragments} piece(s)", inline = False)
@@ -599,6 +607,7 @@ async def craft(ctx, amount:str = "1"):
             return
 
     e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
     e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
     e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
     e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
@@ -618,6 +627,7 @@ async def craft(ctx, amount:str = "1"):
             await message.clear_reactions()
             if fragments >= craft_amount * 4:
                 e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
                 e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
                 e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
                 e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
@@ -626,6 +636,7 @@ async def craft(ctx, amount:str = "1"):
                 DB.userdata[user_id] = {"gacha_tickets": tickets + craft_amount, "gacha_fragments": fragments - craft_amount * 4, "total_rolls": total_rolls}
             else:
                 e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
                 e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
                 e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
                 await ctx.send(embed = e)
@@ -650,6 +661,7 @@ async def history(ctx, target = None):
     history.reverse()
     history_length = len(history)
     e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
     e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
     exit_flag = edit_flag = False
     if history_length == 0:
@@ -812,6 +824,7 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
         outcomes.append(randomWeighted(capsules, weights))
     c = Counter(outcomes)
     e = discord.Embed(title = "Roll simulation", color = 0x3949ab)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
     e.add_field(name = f"│ {Prizes[tier]['symbol']} Tier", value = f"│ {Prizes[tier]['name']}", inline = True)
     e.add_field(name = "│ 🎲 Rolls", value = f"│ {n}x", inline = True)
     e.add_field(name = "│ │ 🔵 Blue", value = "│  └  0x   ─   0%", inline = False)
@@ -857,6 +870,7 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: int =
         max_limit = stock
     if data:
         e = discord.Embed(title = "Restock Prize Database", description = "Confirm the following:", color = 0xc0ca33)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.add_field(name = f"Stock of '{prize}' will be set to:", value = stock, inline = False)
         e.add_field(name = f"With a maximum limit of:", value = max_limit, inline = False)
         e.add_field(name = "Reset 'Times Rolled' counter:", value = reset_option, inline = False)
@@ -873,6 +887,7 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: int =
                 return
     else:
         e = discord.Embed(title = "Restock Prize Database", description = "Confirm the following:", color = 0xc0ca33)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.add_field(name = f"Prize '{prize}' Does not exist in database.", value = "Add it now?", inline = False)
         message = await ctx.send(embed = e)
         emojis = ["✅", "❌"]
@@ -883,6 +898,7 @@ async def restock(ctx, prize: str, stock: int, max_limit: int = -1, reset: int =
             case "✅":
                 await message.clear_reactions()
                 e = discord.Embed(title = "Restock Prize Database", description = "Confirm the following:", color = 0xc0ca33)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
                 e.add_field(name = f"Stock of '{prize}' will be set to:", value = stock, inline = False)
                 e.add_field(name = f"With a maximum limit of:", value = max_limit, inline = False)
                 e.add_field(name = "Reset 'Times Rolled' counter:", value = reset, inline = False)
@@ -924,6 +940,7 @@ async def db(ctx):
         nft_limit = 0
 
     e = discord.Embed(title = f"{branch_name} Gacha  ─  Admin Dashboard", description = "Database statistics:", color = 0xe53935)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
     e.add_field(name = "──────────────────────────────────────────", value = "──────────────────────────────────────────", inline = False)
     e.add_field(name = "│ 🤖 Bot version", value = f"│  └  `{bot_version}`", inline = True)
     e.add_field(name = "│ 🧍 Accumulated users", value = f"│  └  `{total_users}`", inline = True)
@@ -963,6 +980,7 @@ async def verify(ctx, prize_id):
                 circle = "🟣"
 
         e = discord.Embed(title = "Prize Info", description = f"Viewing metadata of prize: `{prize_id}`", color = 0x8e24aa)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
         e.add_field(name = "──────────────────────────────────────────", value = "──────────────────────────────────────────", inline = False)
         e.add_field(name = f"│ 🧍 User", value = f"│  └  <@{prize_user}>", inline = True)
         e.add_field(name = f"│ 📆 Date (UTC)", value = f"│  └  {prize_date}", inline = True)
@@ -982,6 +1000,7 @@ async def backstock(ctx):
     stock = DB.query(f"SELECT * FROM backstock")
     stock_length = len(stock)
     e = discord.Embed(title = "View Backstock", color = 0xe53935)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.avatar.url)
     exit_flag = edit_flag = False
     if stock_length == 0:
         await ctx.send("There are no entries to show in backstock!")
