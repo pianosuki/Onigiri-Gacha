@@ -125,7 +125,7 @@ async def roll(ctx, skip=None):
                        "🕒  -=|     ━━━━━━━━━━━━━━━─     |=-  🕒",
                        "🕓  -=|     ━━━━━━━━━━━━━━━━     |=-  🕓"]
 
-    if checkAdmin(ctx) and skip == "skip":
+    if skip == "skip":
         skip = True
     else:
         skip = False
