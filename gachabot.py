@@ -553,7 +553,7 @@ async def inv(ctx, target = None):
     if target is None:
         target = ctx.author.mention
     # Ensure valid discord ID
-    if re.match(r"<(@|@&)[0-9]{18}>", target):
+    if re.match(r"<(@|@&)[0-9]{18,19}>", target):
         user_id = await convertMentionToId(target)
         # Check if user is already in database, if not then set them up default values of 0
         DB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
@@ -642,7 +642,7 @@ async def history(ctx, target = None):
     if not checkAdmin(ctx):
         target = ctx.author.mention
     else:
-        if not re.match(r"<(@|@&)[0-9]{18}>", target):
+        if not re.match(r"<(@|@&)[0-9]{18,19}>", target):
             await ctx.send("Admin-only: Please **@ mention** a valid user to view prize history of")
             return
     user_id = await convertMentionToId(target)
@@ -735,7 +735,7 @@ async def history(ctx, target = None):
 async def reward(ctx, target: str, item: str, quantity):
     ''' | Usage: +reward <@user> <item> <quantity> | Items: "ticket", "fragment" '''
     # Ensure valid discord ID
-    if re.match(r"<(@|@&)[0-9]{18}>", target):
+    if re.match(r"<(@|@&)[0-9]{18,19}>", target):
         # Ensure integer
         try:
             quantity = int(quantity)
@@ -938,7 +938,7 @@ async def db(ctx):
 @commands.check(checkAdmin)
 async def verify(ctx, prize_id):
     ''' | Usage: +verify | Query all metadata of a Prize ID  '''
-    if re.match(r"^[0-9]{23}$", prize_id):
+    if re.match(r"^[0-9]{23,24}$", prize_id):
         prize_info      = DB.prizehistory[prize_id]
         prize_user      = prize_info.user_id
         prize_date      = prize_info.date
