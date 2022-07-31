@@ -43,8 +43,8 @@
     {
       "blue": ["500 EXP"],
       "green": ["1000 EXP"],
-      "red": ["OG", "2 Gacha Tickets"],
-      "silver": ["OG", "4 Gacha Tickets"],
+      "red": ["2 Gacha Tickets"],
+      "silver": ["4 Gacha Tickets"],
       "gold": ["Legendary Steam Key"],
       "platinum": ["1 Month Nitro"]
     }
@@ -58,9 +58,9 @@
     "regulated": true,
     "prizes":
     {
-      "blue": ["2000 EXP"],
-      "green": ["3000 EXP"],
-      "red": ["OG", "4 Gacha Tickets"],
+      "blue": ["1000 EXP"],
+      "green": ["1500 EXP"],
+      "red": ["4 Gacha Tickets"],
       "silver": ["OG", "8 Gacha Tickets"],
       "gold": ["Ultimate Steam Key"],
       "platinum": ["1 Onigiri NFT"]
