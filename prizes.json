@@ -12,7 +12,7 @@
       "red": ["300 EXP", "2 Gacha Fragments"],
       "silver": ["WL", "3 Gacha Fragments"],
       "gold": ["WL", "1 Gacha Ticket"],
-      "platinum": ["Regular Steam Key"]
+      "platinum": ["10 Oni-Coins"]
     }
   },
 
@@ -29,7 +29,7 @@
       "red": ["500 EXP", "1 Gacha Ticket"],
       "silver": ["WL", "2 Gacha Tickets"],
       "gold": ["WL", "3 Gacha Tickets"],
-      "platinum": ["Premium Steam Key"]
+      "platinum": ["20 Oni-Coins"]
     }
   },
 
@@ -45,8 +45,8 @@
       "green": ["1000 EXP"],
       "red": ["2 Gacha Tickets"],
       "silver": ["4 Gacha Tickets"],
-      "gold": ["Legendary Steam Key"],
-      "platinum": ["1 Month Nitro"]
+      "gold": ["30 Oni-Coins"],
+      "platinum": ["100 Oni-Coins"]
     }
   },
 
@@ -62,7 +62,7 @@
       "green": ["1500 EXP"],
       "red": ["4 Gacha Tickets"],
       "silver": ["OG", "8 Gacha Tickets"],
-      "gold": ["Ultimate Steam Key"],
+      "gold": ["200 Oni-Coins"],
       "platinum": ["1 Onigiri NFT"]
     }
   }

@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.7.3"
+bot_version = "1.7.4"
 
 import config, dresource
 from database import Database
@@ -23,6 +23,19 @@ DB.execute("CREATE TABLE IF NOT EXISTS backstock (prize TEXT PRIMARY KEY UNIQUE,
 Prizes                  = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
 Graphics                = json.load(open("graphics.json")) # Load list of graphical assets to build Resource with
 Resource                = dresource.resCreate(Graphics) # Generate discord file attachment resource
+
+# class UnfilteredBot(commands.Bot):
+#     """An overridden version of the Bot class that will listen to other bots."""
+#
+#     async def process_commands(self, message):
+#         """Override process_commands to listen to bots."""
+#         ctx = await self.get_context(message)
+#         await self.invoke(ctx)
+#
+# async def process_commands(self, message):
+#     """Override process_commands to listen to bots."""
+#     ctx = await self.get_context(message)
+#     await self.invoke(ctx)
 
 @bot.event
 async def on_ready():
@@ -206,6 +219,16 @@ async def roll(ctx, skip=None):
                         DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
                         await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                    else:
+                        continue
+                case x if x.endswith("Oni-Coins"):
+                    coins = x.rstrip(" Oni-Coins")
+                    channel = bot.get_channel(config.oni_coins_channel)
+                    role_id = config.gacha_mod_role
+                    if await updateStock(ctx, sub_prize):
+                        if not checkAdmin(ctx):
+                            await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {coins} Oni-Coins from the Gacha! Please paste this to reward them:{chr(10)}`!give-coins {ctx.author.mention} {coins}`")
+                        await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with <:onidcoin:1003586012057964575> x **{coins} Oni-Coins**!")
                     else:
                         continue
                 case x if x == grand_prize_string:
@@ -802,20 +825,24 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
         await ctx.send("Please provide an amount of simulations to roll.")
         return
     if which_mod != -1:
-        # Set and apply the weight mod
-        try:
-            mod = config.weight_mods[which_mod]
-            hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
-            weights = hot_weights
-        except IndexError:
-            possible_values = {}
-            index = 0
-            for item in config.weight_mods:
-                possible_values.update({f"`{index}`": f"*{item}*"})
-                index +=1
-            possible_values = str(possible_values).replace("'", "")
-            await ctx.send(f"Weight mod `{which_mod}` does not exist! Possible values: {possible_values}")
-            return
+        if Prizes[tier]["regulated"]:
+            # Set and apply the weight mod
+            try:
+                mod = config.weight_mods[which_mod]
+                hot_weights = [cold_weights[0] + mod / 5, cold_weights[1] + mod / 5, cold_weights[2] + mod / 5, cold_weights[3] + mod / 5, cold_weights[4] + mod / 5, cold_weights[5] - mod]
+                weights = hot_weights
+            except IndexError:
+                possible_values = {}
+                index = 0
+                for item in config.weight_mods:
+                    possible_values.update({f"`{index}`": f"*{item}*"})
+                    index +=1
+                possible_values = str(possible_values).replace("'", "")
+                await ctx.send(f"Weight mod `{which_mod}` does not exist! Possible values: {possible_values}")
+                return
+        else:
+            # Use unmodified weights
+            weights = cold_weights
     else:
         # Use unmodified weights
         weights = cold_weights
@@ -827,7 +854,7 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
     e.add_field(name = f"│ {Prizes[tier]['symbol']} Tier", value = f"│ {Prizes[tier]['name']}", inline = True)
     e.add_field(name = "│ 🎲 Rolls", value = f"│ {n}x", inline = True)
-    e.add_field(name = "│ │ 🔵 Blue", value = "│  └  0x   ─   0%", inline = False)
+    e.add_field(name = "│ 🔵 Blue", value = "│  └  0x   ─   0%", inline = False)
     e.add_field(name = "│ 🟢 Green", value = "│  └  0x   ─   0%", inline = False)
     e.add_field(name = "│ 🔴 Red", value = "│  └  0x   ─   0%", inline = False)
     e.add_field(name = "│ ⚪ Silver", value = "│  └  0x   ─   0%", inline = False)
@@ -837,17 +864,17 @@ async def simulate(ctx, tier, n: int = -1, which_mod: int = 0):
         # Set the results of the simulation accordingly
         match key:
             case "blue":
-                e.set_field_at(2, name = "│ 🔵 Blue", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+                e.set_field_at(2, name = f"│ 🔵 Blue - {Prizes[tier]['prizes']['blue']}", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
             case "green":
-                e.set_field_at(3, name = "│ 🟢 Green", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+                e.set_field_at(3, name = f"│ 🟢 Green - {Prizes[tier]['prizes']['green']}", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
             case "red":
-                e.set_field_at(4, name = "│ 🔴 Red", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+                e.set_field_at(4, name = f"│ 🔴 Red - {Prizes[tier]['prizes']['red']}", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
             case "silver":
-                e.set_field_at(5, name = "│ ⚪ Silver", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+                e.set_field_at(5, name = f"│ ⚪ Silver - {Prizes[tier]['prizes']['silver']}", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
             case "gold":
-                e.set_field_at(6, name = "│ 🟡 Gold", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+                e.set_field_at(6, name = f"│ 🟡 Gold - {Prizes[tier]['prizes']['gold']}", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
             case "platinum":
-                e.set_field_at(7, name = "│ 🟣 Platinum", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
+                e.set_field_at(7, name = f"│ 🟣 Platinum - {Prizes[tier]['prizes']['platinum']}", value = f"│  └  `{c[key]}x`   ─   *{round(c[key] / n * 100, 2)}%*", inline = False)
     await ctx.send(embed = e)
     await ctx.send(f"Weights used: `{weights}`")
 
@@ -1065,6 +1092,8 @@ async def backstock(ctx):
 @bot.command()
 @commands.check(checkAdmin)
 async def test(ctx):
+    #await ctx.send(f".give-item {ctx.author.mention} 10 Gacha Tickets")
+    # await ctx.send(".help")
     pass
 
 @bot.command()
