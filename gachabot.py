@@ -45,7 +45,7 @@ async def on_ready():
 
 ### Functions
 def checkChannel(ctx):
-    if ctx.channel in config.gacha_channels or checkAdmin(ctx):
+    if ctx.channel.id in config.gacha_channels or checkAdmin(ctx):
         return True
 
 def checkAdmin(ctx):
