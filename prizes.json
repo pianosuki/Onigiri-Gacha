@@ -29,7 +29,7 @@
       "red": ["500 EXP", "1 Gacha Ticket"],
       "silver": ["WL", "2 Gacha Tickets"],
       "gold": ["WL", "3 Gacha Tickets"],
-      "platinum": ["20 Oni-Coins"]
+      "platinum": ["OG", "20 Oni-Coins"]
     }
   },
 
@@ -45,7 +45,7 @@
       "green": ["1000 EXP"],
       "red": ["2 Gacha Tickets"],
       "silver": ["4 Gacha Tickets"],
-      "gold": ["30 Oni-Coins"],
+      "gold": ["OG", "30 Oni-Coins"],
       "platinum": ["100 Oni-Coins"]
     }
   },
