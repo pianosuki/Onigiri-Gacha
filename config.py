@@ -29,4 +29,3 @@ gacha_mod_role  = 999762450570285076
 # Channels
 exp_channel         = 999759477026852955
 oni_coins_channel   = 1004143982428815471
-gachaproof_channel  = 995123628259672084

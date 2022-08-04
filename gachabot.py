@@ -204,21 +204,17 @@ async def roll(ctx, skip=None):
                     else:
                         continue
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
-                    channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
-                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**! User now has a total of `{fragments + amount}`.")
                     else:
                         continue
                 case x if x.endswith("Ticket") or x.endswith("Tickets"):
-                    channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                     else:
                         continue
                 case x if x.endswith("Oni-Coins"):
