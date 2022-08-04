@@ -27,5 +27,6 @@ og_role         = "OniOG"
 gacha_mod_role  = 999762450570285076
 
 # Channels
+gacha_channels      = [969165756489171001, 1002074803336908860]
 exp_channel         = 999759477026852955
 oni_coins_channel   = 1004143982428815471

@@ -44,6 +44,10 @@ async def on_ready():
     print(f"Logged in as {bot.user} | Version: {bot_version}")
 
 ### Functions
+def checkChannel(ctx):
+    if ctx.channel in config.gacha_channels or checkAdmin(ctx):
+        return True
+
 def checkAdmin(ctx):
     if ctx.author.id in config.admin_list:
         return True
@@ -110,6 +114,7 @@ def rebalanceWeights(cold_weights):
 
 ### User Commands
 @bot.command(aliases = ["gacha", "spin"])
+@commands.check(checkChannel)
 async def roll(ctx, skip=None):
     ''' | Usage: +roll | Use reactions to navigate the menus '''
     user_id         = ctx.author.id
