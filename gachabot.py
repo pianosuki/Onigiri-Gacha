@@ -31,13 +31,11 @@ MarketDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY K
 # User items
 ItemsDB = Database("useritems.db")
 
-# Quests
-QuestDB = Database("questdata.db")
-QuestDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
-
-# Dungeons
-DungeonDB = Database("dungeondata.db")
-DungeonDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
+# Energy
+ActivityDB = Database("activity.db")
+ActivityDB.execute("CREATE TABLE IF NOT EXISTS quests (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
+ActivityDB.execute("CREATE TABLE IF NOT EXISTS dungeons (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
+ActivityDB.execute("CREATE TABLE IF NOT EXISTS chat (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
 
 # Player Stats
 PlayerDB = Database("playerdata.db")
@@ -48,13 +46,35 @@ Prizes      = json.load(open("prizes.json")) # Load list of prizes for the gacha
 Products    = json.load(open("products.json")) # Load list of products for shop to sell
 Graphics    = json.load(open("graphics.json")) # Load list of graphical assets to build Resource with
 Quests      = json.load(open("quests.json")) # Load list of quests for the questing system
+Tables      = json.load(open("tables.json")) # Load tables for systems to use constants from
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
+Icons       = config.custom_emojis
 
 @bot.event
 async def on_ready():
     # Go Online
     await bot.change_presence(status = discord.Status.online, activity = discord.Game(f"{config.prefix}roll to spin the Gacha!"))
     print(f"Logged in as {bot.user} | Version: {bot_version}")
+
+@bot.event
+async def on_message(ctx):
+    if ctx.author.bot:
+        return
+    if ctx.channel.id in config.chat_earn_channels:
+        user_id = ctx.author.id
+        level = getPlayerLevel(user_id)
+        ryou_earn_range = config.chat_ryou_earn
+        chat_earn_wait = config.chat_earn_wait
+        last_chat = getLastChat(user_id)
+        now = int(time.time())
+        if now >= last_chat:
+            marketdata = getUserMarketInv(user_id)
+            ryou = marketdata.ryou
+            ryou_earned = random.randint(ryou_earn_range[0], ryou_earn_range[1]) * level
+            MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_earned, user_id))
+            ActivityDB.execute("UPDATE chat SET last_activity = ? WHERE user_id = ?", (now + chat_earn_wait, user_id))
+            await ctx.add_reaction(Icons["ryou"])
+    await bot.process_commands(ctx)
 
 ### Functions
 def checkChannel(ctx):
@@ -92,34 +112,66 @@ async def waitForReaction(ctx, message, e, emojis, modmsg = True):
     return reaction, user
 
 def getUserGachaInv(user_id):
-    GachaDB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
+    GachaDB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values (%s, '0', '0', '0')" % str(user_id))
     inventory = GachaDB.userdata[user_id]
     return inventory
 
 def getUserMarketInv(user_id):
-    MarketDB.execute("INSERT OR IGNORE INTO userdata (user_id, ryou) VALUES (?, '0');", (str(user_id), ))
+    MarketDB.execute("INSERT OR IGNORE INTO userdata (user_id, ryou) VALUES (%s, '0')" % str(user_id))
     inventory = MarketDB.userdata[user_id]
     return inventory
 
 def getUserItemsInv(user_id):
-    ItemsDB.execute("CREATE TABLE IF NOT EXISTS {} (idx INTEGER PRIMARY KEY, item TEXT)".format(f"user_{user_id}"))
+    ItemsDB.execute("CREATE TABLE IF NOT EXISTS user_%s (idx INTEGER PRIMARY KEY, item TEXT)" % str(user_id))
     inventory = ItemsDB.query("SELECT * FROM user_%s" % user_id)
     return inventory
 
 def getLastQuest(user_id):
-    QuestDB.execute("INSERT OR IGNORE INTO userdata (user_id, last_activity) VALUES (%s, 0)" % str(user_id))
-    last_quest = QuestDB.userdata[user_id].last_activity
+    ActivityDB.execute("INSERT OR IGNORE INTO quests (user_id, last_activity) VALUES (%s, '0')" % str(user_id))
+    last_quest = ActivityDB.quests[user_id].last_activity
     return last_quest
 
 def getLastDungeon(user_id):
-    DungeonDB.execute("INSERT OR IGNORE INTO userdata (user_id, last_activity) VALUES (?, '0');", (str(user_id), ))
-    last_dungeon = DungeonDB.userdata[user_id].last_activity
+    ActivityDB.execute("INSERT OR IGNORE INTO dungeons (user_id, last_activity) VALUES (%s, '0')" % str(user_id))
+    last_dungeon = ActivityDB.dungeons[user_id].last_activity
     return last_dungeon
 
+def getLastChat(user_id):
+    ActivityDB.execute("INSERT OR IGNORE INTO chat (user_id, last_activity) VALUES (%s, '0')" % str(user_id))
+    last_chat = ActivityDB.chat[user_id].last_activity
+    return last_chat
+
 def getPlayerData(user_id):
-    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp) VALUES (%s, 0)" % str(user_id))
+    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp) VALUES (%s, '0')" % str(user_id))
     playerdata = PlayerDB.query(f"SELECT * FROM userdata WHERE user_id = '{user_id}'")
     return playerdata
+
+def getPlayerExp(user_id):
+    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp) VALUES (%s, '0')" % str(user_id))
+    exp = PlayerDB.query(f"SELECT exp FROM userdata WHERE user_id = '{user_id}'")[0][0]
+    return exp
+
+def getPlayerLevel(user_id):
+    ExpTable = Tables["ExpTable"]
+    exp = getPlayerExp(user_id)
+    for row in ExpTable:
+        if exp >= row[1]:
+            continue
+        else:
+            level = row[0] - 1
+            break
+    return level
+
+def getUserBoost(ctx):
+    role_boosts = config.role_boosts
+    user = ctx.author
+    user_roles = [role.name for role in user.roles]
+    boost = 0
+    for role in user_roles:
+        if role in role_boosts:
+            boost += role_boosts[role]
+    return boost
+
 
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
@@ -157,16 +209,21 @@ async def quests(ctx):
     ''' | Usage: +quests '''
     user_id         = ctx.author.id
     default_color   = config.default_color
-    icons           = config.custom_emojis
     last_quest      = getLastQuest(user_id)
-    wait            = config.quest_wait
+    wait            = 0 if checkAdmin(ctx) else config.quest_wait
     now             = int(time.time())
-
+    # guild = bot.get_guild(994048549551607898)
+    # print(guild)
+    # member = ctx.message.author
+    # member = await guild.fetch_member(user_id)
+    # print(member)
+    # user_roles = [role.name for role in member.roles]
+    # print(user_roles)
     def chooseRandomQuest():
         while True:
             choice = random.choice(list(Quests))
-            # to-do
-            if Quests[choice]["Level_Required"] >= 10:
+            level = getPlayerLevel(user_id)
+            if Quests[choice]["Level_Required"] > level:
                 continue
             else:
                 break
@@ -177,6 +234,7 @@ async def quests(ctx):
         lvl = Quests[quest]["Level_Required"]
         conditions = getConditions(quest)
         rewards = getRewards(quest)
+        boost = getUserBoost(ctx)
         e = discord.Embed(title = "🗺️ Quest found!", description = "Will you accept this quest?", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
@@ -184,7 +242,7 @@ async def quests(ctx):
         e.add_field(name = "🧍 NPC", value = f"`{npc}`", inline = True)
         e.add_field(name = "⚙️ Level Required", value = f"`{lvl}`", inline = True)
         e.add_field(name = "📌 Clearing Conditions:", value = conditions, inline = True)
-        e.add_field(name = "🎁 Rewards:", value = rewards, inline = True)
+        e.add_field(name = f"🎁 Rewards:{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = rewards, inline = True)
         message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
         emojis = ["✅", "❌"]
         reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -209,7 +267,7 @@ async def quests(ctx):
             for key, value in condition.items():
                 match key:
                     case "Defeat":
-                        conditions += key + ": " + str(value[1]) + " " + value[0] + "\n"
+                        conditions += f"**{key}**" + ": " + str(f"*{value[1]}*") + " " + f"__{value[0]}__" + "\n"
                     case "Clear":
                         match value[1]:
                             case 0:
@@ -222,36 +280,40 @@ async def quests(ctx):
                                 difficulty = "Hell"
                             case 4:
                                 difficulty = "Oni"
-                        conditions += key + ": " + value[0] + " - " + difficulty + "\n"
+                        conditions += f"**{key}**" + ": " + f"__{value[0]}__" + " - " + f"*{difficulty}*" + "\n"
         return conditions
 
     def getRewards(quest):
         rewards_list = Quests[quest]["Rewards"]
         rewards = ""
-        for reward in rewards_list:
-            for key, value in reward.items():
-                match key:
-                    case "Ryou":
-                        rewards += "Ryou range: " + icons["ryou"] + " " + str(value[0]) + " - " + str(value[1]) + "\n"
-                    case "EXP":
-                        rewards += "EXP range: " + icons["exp"] + " x " + str(value[0]) + " - " + str(value[1]) + "\n"
+        for key, value in rewards_list.items():
+            match key:
+                case "Ryou":
+                    rewards += "**Ryou range**" + ": " + Icons["ryou"] + " __" + str(value[0]) + " - " + str(value[1]) + "__\n"
+                case "EXP":
+                    rewards += "**EXP range**" + ": " + Icons["exp"] + " __" + str(value[0]) + " - " + str(value[1]) + "__\n"
+        rewards = "None" if rewards == "" else rewards
         return rewards
 
     async def startQuest(ctx, message, flag, quest):
         marketdata = getUserMarketInv(user_id)
-        playerdata = getPlayerData(user_id)
         ryou = marketdata.ryou
-        exp = playerdata[0][1]
-        for reward in Quests[quest]["Rewards"]:
-            for key, value in reward.items():
-                if key == "Ryou":
-                    ryou_range = value
-                if key == "EXP":
-                    exp_range = value
-        ryou_reward = random.randint(ryou_range[0], ryou_range[1])
-        exp_reward = random.randint(exp_range[0], exp_range[1])
+        exp = getPlayerExp(user_id)
+        boost = getUserBoost(ctx)
+        now = int(time.time())
+        rewards_list = Quests[quest]["Rewards"]
+        ryou_range = rewards_list["Ryou"] if "Ryou" in rewards_list else [0, 0]
+        exp_range = rewards_list["EXP"] if "EXP" in rewards_list else [0, 0]
+        ryou_random = random.randint(ryou_range[0], ryou_range[1])
+        ryou_reward = ryou_random + math.floor(ryou_random * (boost / 100.))
+        exp_random = random.randint(exp_range[0], exp_range[1])
+        exp_reward = exp_random + math.floor(exp_random * (boost / 100.))
         MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_reward, user_id))
         PlayerDB.execute("UPDATE userdata SET exp = ? WHERE user_id = ?", (exp + exp_reward, user_id))
+        ActivityDB.execute("UPDATE quests SET last_activity = ? WHERE user_id = ?", (now, user_id))
+        # e = discord.Embed(title = "🗺️ Quest found!", description = "Will you accept this quest?", color = default_color)
+        # e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        # e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         await ctx.send(f" {ctx.author.mention} Finished quest - **{quest}**\nReceived rewards:\n```Ryou : {ryou_reward}\nEXP : {exp_reward}```")
         return message, flag
 
@@ -278,7 +340,6 @@ async def market(ctx):
     default_color   = config.default_color
     numbers         = config.numbers
     conv_rate       = config.conv_rate
-    icons           = config.custom_emojis
 
     async def menuMain(ctx, message, flag):
         #banner = Resource["Gold"][1]
@@ -326,27 +387,27 @@ async def market(ctx):
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *Ryou D-Coins* and *Gacha Tickets*!", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-            e.add_field(name = "Conversion Rate:", value = f"{icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {icons['ticket']} x `{conv_rate[1]}` *Gacha Tickets*", inline = False)
-            e.add_field(name = "Your Ryou D-Coins:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-            e.add_field(name = "Your Gacha Tickets:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
+            e.add_field(name = "Conversion Rate:", value = f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {Icons['ticket']} x `{conv_rate[1]}` *Gacha Tickets*", inline = False)
+            e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+            e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-            e.add_field(name = f"▷ {icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {icons['ticket']} ◁", value = menu_separator, inline = False)
-            e.add_field(name = f"▷ {icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {icons['ryou']} ◁", value = menu_separator, inline = False)
+            e.add_field(name = f"▷ {Icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {Icons['ticket']} ◁", value = menu_separator, inline = False)
+            e.add_field(name = f"▷ {Icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {Icons['ryou']} ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
             await message.edit(embed = e)
-            emojis = [icons['ticket'], icons['ryou'], "↩️"]
+            emojis = [Icons['ticket'], Icons['ryou'], "↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
             if reaction is None:
                 flag = False
                 return message, flag
             match str(reaction.emoji):
-                case x if x == icons['ticket']:
-                    e.set_field_at(4, name = f"►{icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {icons['ticket']} ◄", value = menu_separator, inline = False)
+                case x if x == Icons['ticket']:
+                    e.set_field_at(4, name = f"►{Icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {Icons['ticket']} ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     message, flag = await ryouToTickets(ctx, message, flag)
-                case x if x == icons['ryou']:
-                    e.set_field_at(5, name = f"►{icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {icons['ryou']} ◄", value = menu_separator, inline = False)
+                case x if x == Icons['ryou']:
+                    e.set_field_at(5, name = f"►{Icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {Icons['ryou']} ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     message, flag = await ticketsToRyou(ctx, message, flag)
@@ -371,9 +432,9 @@ async def market(ctx):
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Ryou D-Coins* into *Gacha Tickets*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-            e.add_field(name = "Conversion Rate:", value = f"{icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*", inline = False)
-            e.add_field(name = "Your Ryou D-Coins:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-            e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
+            e.add_field(name = "Conversion Rate:", value = f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*", inline = False)
+            e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+            e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
             e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
@@ -405,10 +466,10 @@ async def market(ctx):
             e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Ryou D-Coins* into *Gacha Tickets*!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
-            e.add_field(name = "Traded *Ryou D-Coins*:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
-            e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
-            e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
-            e.add_field(name = "Your total *Gacha Tickets* are now:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets + tickets_traded)}`", inline = False)
+            e.add_field(name = "Traded *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
+            e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
+            e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
+            e.add_field(name = "Your total *Gacha Tickets* are now:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets + tickets_traded)}`", inline = False)
             message = await ctx.send(embed = e)
             MarketDB.userdata[user_id] = {"ryou": ryou - ryou_traded}
             GachaDB.userdata[user_id] = {"gacha_tickets": tickets + tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
@@ -418,7 +479,7 @@ async def market(ctx):
             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-            e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
+            e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
             return message, flag
@@ -434,9 +495,9 @@ async def market(ctx):
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Gacha Tickets* into *Ryou D-Coins*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-            e.add_field(name = "Conversion Rate:", value = f"{icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*", inline = False)
-            e.add_field(name = "Your Gacha Tickets:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
-            e.add_field(name = "Bulk Ryou D-Coins yield:", value = f"{icons['ryou']} x `{'{:,}'.format(math.floor(tickets * conv_rate[0]))}`", inline = True)
+            e.add_field(name = "Conversion Rate:", value = f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*", inline = False)
+            e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
+            e.add_field(name = "Bulk Ryou D-Coins yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * conv_rate[0]))}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
             e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
@@ -468,10 +529,10 @@ async def market(ctx):
             e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Tickets* into *Ryou D-Coins*!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
-            e.add_field(name = "Traded *Gacha Tickets*:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
-            e.add_field(name = "Obtained *Ryou D-Coins*:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
-            e.add_field(name = "You now have this many *Gacha Tickets* left:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets - tickets_traded)}`", inline = False)
-            e.add_field(name = "Your total *Ryou D-Coins* are now:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou + ryou_traded)}`", inline = False)
+            e.add_field(name = "Traded *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
+            e.add_field(name = "Obtained *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
+            e.add_field(name = "You now have this many *Gacha Tickets* left:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets - tickets_traded)}`", inline = False)
+            e.add_field(name = "Your total *Ryou D-Coins* are now:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou + ryou_traded)}`", inline = False)
             message = await ctx.send(embed = e)
             GachaDB.userdata[user_id] = {"gacha_tickets": tickets - tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
             MarketDB.userdata[user_id] = {"ryou": ryou + ryou_traded}
@@ -481,7 +542,7 @@ async def market(ctx):
             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-            e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
+            e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {Icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
             return message, flag
@@ -493,7 +554,7 @@ async def market(ctx):
             e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
             emojis = []
             for index, product in enumerate(Products):
-                e.add_field(name = f"{numbers[index]}  -  ***{product}***", value = f"╰ Price: {icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
+                e.add_field(name = f"{numbers[index]}  -  ***{product}***", value = f"╰ Price: {Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
                 emojis.append(numbers[index])
             await message.edit(embed = e)
             emojis.append("↩️")
@@ -541,7 +602,7 @@ async def market(ctx):
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
         e.add_field(name = "Product name", value = f"🏷️ **{product}**", inline = True)
-        e.add_field(name = "Price", value = f"{icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
+        e.add_field(name = "Price", value = f"{Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
         e.add_field(name = "Current stock", value = f"🏦 `Unlimited`", inline = True)
         for field_add, attribute in enumerate(Products[product]["Attributes"]):
             border = ""
@@ -585,9 +646,9 @@ async def market(ctx):
             e = discord.Embed(title = "Checkout Result", description = f"✅ Purchase was successful!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
-            e.add_field(name = "Spent *Ryou D-Coins*:", value = f"{icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
+            e.add_field(name = "Spent *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
             e.add_field(name = "Obtained *Item*:", value = f"🏷️ ***{product}***", inline = True)
-            e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
+            e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
             message = await ctx.send(embed = e)
             MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou - price, user_id))
             ItemsDB.execute("INSERT INTO {} (item) VALUES ('{}')".format(f"user_{user_id}", product))
@@ -595,7 +656,7 @@ async def market(ctx):
             e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-            e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
+            e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
             message = await ctx.send(embed = e)
         return message, flag
 
@@ -618,7 +679,6 @@ async def roll(ctx, skip=None):
     capsules        = config.capsules
     capsule_colors  = config.capsule_colors
     progressbar     = config.progressbar
-    icons           = config.custom_emojis
 
     if skip == "skip":
         skip = True
@@ -1035,10 +1095,10 @@ async def roll(ctx, skip=None):
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Your inventory:", color = default_color)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                 e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-                e.add_field(name = "Gacha Tickets:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = False)
-                e.add_field(name = "Gacha Fragments:", value = f"{icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = False)
+                e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = False)
+                e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = False)
                 e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = False)
-                e.add_field(name = "Ryou D-Coins:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = False)
+                e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = False)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
@@ -1074,16 +1134,18 @@ async def inv(ctx, target = None):
         fragments   = inv_gacha.gacha_fragments
         total_rolls = inv_gacha.total_rolls
         ryou        = inv_market.ryou
-        exp         = playerdata[0][1]
-        icons       = config.custom_emojis
+        exp         = getPlayerExp(user_id)
+        level       = getPlayerLevel(user_id)
+        Icons       = config.custom_emojis
         e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
-        e.add_field(name = "Gacha Tickets:", value = f"{icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
-        e.add_field(name = "Gacha Fragments:", value = f"{icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
+        e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
+        e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
         e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
-        e.add_field(name = "Ryou D-Coins:", value = f"{icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-        e.add_field(name = "EXP:", value = f"{icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
+        e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+        e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
+        e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
         for item in inv_items:
             border = ""
             for _ in item[1]:
@@ -1273,18 +1335,17 @@ async def reward(ctx, target: str, item: str, quantity):
             fragments   = inv_gacha.gacha_fragments
             total_rolls = inv_gacha.total_rolls
             ryou        = inv_market.ryou
-            icons       = config.custom_emojis
             # Add the respective reward on top of what the user already has
             match item:
                 case "ticket" | "tickets":
                     GachaDB.userdata[user_id] = {"gacha_tickets": tickets + quantity, "gacha_fragments": fragments, "total_rolls": total_rolls}
-                    await ctx.send(f"Rewarded {target} with {icons['ticket']} `{quantity}` **Gacha Ticket(s)**! User now has a total of `{tickets + quantity}`.")
+                    await ctx.send(f"Rewarded {target} with {Icons['ticket']} `{quantity}` **Gacha Ticket(s)**! User now has a total of `{tickets + quantity}`.")
                 case "fragment" | "fragments":
                     GachaDB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + quantity, "total_rolls": total_rolls}
-                    await ctx.send(f"Rewarded {target} with {icons['fragment']} `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
+                    await ctx.send(f"Rewarded {target} with {Icons['fragment']} `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
                 case "ryou" | "coins":
                     MarketDB.userdata[user_id] = {"ryou": ryou + quantity}
-                    await ctx.send(f"Rewarded {target} with {icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
+                    await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
                 case _:
                     await ctx.send(f"Please enter a **valid item** to reward ({config.prefix}help reward)")
         except ValueError:
@@ -1584,6 +1645,24 @@ async def backstock(ctx):
                         exit_flag = True
                         await message.clear_reactions()
                         break
+
+@bot.command()
+@commands.check(checkAdmin)
+async def leaderboard(ctx):
+    user_id = ctx.author.id
+    msg = []
+    data = GachaDB.query(f"SELECT * FROM userdata")
+    to_sort = {}
+    for entry in data:
+        tickets = entry[1]
+        user = entry[0]
+        to_sort[str(user)] = tickets
+    sorted_dict = sorted(to_sort.items(), key=lambda x: x[1], reverse = True)
+    for counter, entry in enumerate(sorted_dict):
+        if counter > 20:
+            break
+        msg.append(str(entry))
+    await ctx.send(str(msg))
 
 @bot.command()
 @commands.check(checkAdmin)

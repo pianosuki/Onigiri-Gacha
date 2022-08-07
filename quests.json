@@ -15,10 +15,10 @@
             {"Clear": ["Den of Karma", 0]}
         ],
         "Rewards":
-        [
-            {"Ryou": [100, 1000]},
-            {"EXP": [100, 1000]}
-        ]
+        {
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
+        }
     },
 
     "Challenging the Daiku Cave":
@@ -38,10 +38,10 @@
             {"Clear": ["Daiku Cave", 0]}
         ],
         "Rewards":
-        [
-            {"Ryou": [100, 1000]},
-            {"EXP": [100, 1000]}
-        ]
+        {
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
+        }
     },
 
     "For Dango's Sake":
@@ -59,10 +59,10 @@
             {"Defeat": ["Amagaeru", 5]}
         ],
         "Rewards":
-        [
-            {"Ryou": [100, 1000]},
-            {"EXP": [100, 1000]}
-        ]
+        {
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
+        }
     },
 
     "Sushi Store Troubles":
@@ -81,10 +81,10 @@
             {"Defeat": ["Kappa", 10]}
         ],
         "Rewards":
-        [
-            {"Ryou": [100, 1000]},
-            {"EXP": [100, 1000]}
-        ]
+        {
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
+        }
     },
 
     "Sightseeing and Daruma Destruction":
@@ -103,10 +103,10 @@
             {"Defeat": ["Gloom Daruma", 5]}
         ],
         "Rewards":
-        [
-            {"Ryou": [100, 1000]},
-            {"EXP": [100, 1000]}
-        ]
+        {
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
+        }
     },
 
     "The Village Handy ...man?":
@@ -129,10 +129,10 @@
             {"Clear": ["Hoori Shrine", 0]}
         ],
         "Rewards":
-        [
-            {"Ryou": [1000, 10000]},
-            {"EXP": [1000, 10000]}
-        ]
+        {
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
+        }
     },
 
     "I'm bad with those things...":
@@ -153,10 +153,10 @@
             {"Defeat": ["Aburasumashi", 10]}
         ],
         "Rewards":
-        [
-            {"Ryou": [1000, 10000]},
-            {"EXP": [1000, 10000]}
-        ]
+        {
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
+        }
     },
 
     "1 Step Back, 2 Steps Forward":
@@ -174,10 +174,10 @@
             {"Defeat": ["Gama", 5]}
         ],
         "Rewards":
-        [
-            {"Ryou": [1000, 10000]},
-            {"EXP": [1000, 10000]}
-        ]
+        {
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
+        }
     },
 
     "Brotherly Bonds":
@@ -195,10 +195,10 @@
             {"Clear": ["Hosuseri Shrine", 0]}
         ],
         "Rewards":
-        [
-            {"Ryou": [1000, 10000]},
-            {"EXP": [1000, 10000]}
-        ]
+        {
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
+        }
     },
 
     "Defeat the Oogama":
@@ -217,9 +217,9 @@
             {"Clear": ["Hoderi Shrine", 0]}
         ],
         "Rewards":
-        [
-            {"Ryou": [1000, 10000]},
-            {"EXP": [1000, 10000]}
-        ]
+        {
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
+        }
     }
 }

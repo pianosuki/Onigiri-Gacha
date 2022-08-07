@@ -4,7 +4,48 @@
         "Price": 1000000000,
         "Attributes":
         [
-            "1 Free Onigiri NFT"
+            "1 Free Onigiri NFT",
+            "Requires: 'Diamond Oni'"
+        ]
+    },
+
+    "Diamond Oni":
+    {
+        "Price": 500000000,
+        "Attributes":
+        [
+            "Required to buy: '1 Onigiri NFT'",
+            "Requires: 'Gold Oni'"
+        ]
+    },
+
+    "Gold Oni":
+    {
+        "Price": 100000000,
+        "Attributes":
+        [
+            "Required to buy: 'Diamond Oni'",
+            "Requires: 'Silver Oni'"
+        ]
+    },
+
+    "Silver Oni":
+    {
+        "Price": 50000000,
+        "Attributes":
+        [
+            "Required to buy: 'Gold Oni'",
+            "Requires: 'Gold Oni'"
+        ]
+    },
+
+    "Diamond Oni":
+    {
+        "Price": 500000000,
+        "Attributes":
+        [
+            "Required to buy: '1 Onigiri NFT'",
+            "Requires: 'Gold Oni'"
         ]
     }
 }

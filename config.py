@@ -28,6 +28,7 @@ gacha_mod_role  = 999762450570285076
 
 # Channels
 gacha_channels      = [969165756489171001, 1002074803336908860]
+chat_earn_channels  = [1002074803336908860]
 exp_channel         = 999759477026852955
 oni_coins_channel   = 1004143982428815471
 
@@ -57,11 +58,27 @@ colors          = [0xe53935, 0xd81b60, 0x8e24aa, 0x5e35b1, 0x3949ab, 0x1e88e5, 0
 capsule_colors  = [0x2196f3, 0x4caf50, 0xef5350, 0xeceff1, 0xffeb3b, 0xd1c4e9]
 capsules        = ["blue", "green", "red", "silver", "gold", "platinum"]
 numbers         = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "0️⃣"]
-custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "🕹️"}
+custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "<:exp:1005561171295879308>", "level": "<:level:1005563309124223067>"}
 
 # Conversion rate
-conv_rate       = [100000, 1]
+conv_rate   = [1000000, 1]
 
 # Intervals
-quest_wait      = 43200
-deungeon_wait   = 21600
+quest_wait      = 28800
+dungeon_wait    = 43200
+chat_earn_wait  = 3600
+
+# Ranges
+chat_ryou_earn  = [10, 100]
+
+# Boosts
+role_boosts = {
+    "Diamond-Oni": 5,
+    "Gold-Oni": 3,
+    "Silver-Oni": 2,
+    "Oni": 3,
+    "Demi-God": 3,
+    "Exemplar": 2,
+    "OniOG": 2,
+    "Oni-Booster": 2
+}
