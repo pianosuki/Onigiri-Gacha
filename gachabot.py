@@ -16,7 +16,7 @@ from collections import Counter
 
 intents                 = discord.Intents.default()
 intents.message_content = True
-bot                     = commands.Bot(command_prefix = "!" if debug_mode else config.prefix, intents = intents)
+bot                     = commands.Bot(command_prefix = "=" if debug_mode else config.prefix, intents = intents)
 
 # Gacha
 GachaDB = Database("gachadata.db")
@@ -31,11 +31,15 @@ MarketDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY K
 # User items
 ItemsDB = Database("useritems.db")
 
-# Energy
+# Activity
 ActivityDB = Database("activity.db")
 ActivityDB.execute("CREATE TABLE IF NOT EXISTS quests (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
 ActivityDB.execute("CREATE TABLE IF NOT EXISTS dungeons (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
 ActivityDB.execute("CREATE TABLE IF NOT EXISTS chat (user_id INTEGER PRIMARY KEY UNIQUE, last_activity INTEGER)")
+
+# Quests
+QuestsDB = Database("quests.db")
+QuestsDB.execute("CREATE TABLE IF NOT EXISTS quests (user_id INTEGER PRIMARY KEY UNIQUE, quest TEXT)")
 
 # Player Stats
 PlayerDB = Database("playerdata.db")
@@ -172,6 +176,10 @@ def getUserBoost(ctx):
             boost += role_boosts[role]
     return boost
 
+def getPlayerQuest(user_id):
+    QuestsDB.execute("INSERT OR IGNORE INTO quests (user_id, quest) VALUES (%s, '')" % str(user_id))
+    quest = QuestsDB.query(f"SELECT quest FROM quests WHERE user_id = '{user_id}'")[0][0]
+    return quest
 
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
@@ -205,20 +213,13 @@ def rebalanceWeights(cold_weights):
 ### User Commands
 @bot.command(aliases = ["quest"])
 @commands.check(checkChannel)
-async def quests(ctx):
-    ''' | Usage: +quests '''
+async def quests(ctx, arg: str = None):
+    ''' | Usage: +quests [collect]'''
     user_id         = ctx.author.id
     default_color   = config.default_color
     last_quest      = getLastQuest(user_id)
     wait            = 0 if checkAdmin(ctx) else config.quest_wait
     now             = int(time.time())
-    # guild = bot.get_guild(994048549551607898)
-    # print(guild)
-    # member = ctx.message.author
-    # member = await guild.fetch_member(user_id)
-    # print(member)
-    # user_roles = [role.name for role in member.roles]
-    # print(user_roles)
     def chooseRandomQuest():
         while True:
             choice = random.choice(list(Quests))
@@ -252,7 +253,7 @@ async def quests(ctx):
         match str(reaction.emoji):
             case "✅":
                 await message.clear_reactions()
-                message, flag = await startQuest(ctx, message, flag, quest)
+                message, flag = await startQuest(ctx, message, flag, quest, e)
                 return message, flag
             case "❌":
                 await message.clear_reactions()
@@ -289,13 +290,29 @@ async def quests(ctx):
         for key, value in rewards_list.items():
             match key:
                 case "Ryou":
-                    rewards += "**Ryou range**" + ": " + Icons["ryou"] + " __" + str(value[0]) + " - " + str(value[1]) + "__\n"
+                    rewards += "**Ryou range**" + ": " + Icons["ryou"] + " __" + '{:,}'.format(value[0]) + " - " + '{:,}'.format(value[1]) + "__\n"
                 case "EXP":
-                    rewards += "**EXP range**" + ": " + Icons["exp"] + " __" + str(value[0]) + " - " + str(value[1]) + "__\n"
+                    rewards += "**EXP range**" + ": " + Icons["exp"] + " __" + '{:,}'.format(value[0]) + " - " + '{:,}'.format(value[1]) + "__\n"
         rewards = "None" if rewards == "" else rewards
         return rewards
 
-    async def startQuest(ctx, message, flag, quest):
+    async def startQuest(ctx, message, flag, quest, e):
+        current_quest = getPlayerQuest(user_id)
+        if current_quest == "":
+            QuestsDB.execute("UPDATE quests SET quest = ? WHERE user_id = ?", (quest, user_id))
+            e.title = "🧭 Quest accepted!"
+            e.description = f"*You set off to complete the conditions.*\n**Type **`{config.prefix}quest collect` **to collect the rewards.**"
+            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            message = await message.edit(embed = e)
+        else:
+            e = discord.Embed(title = "❌ Failed to accept quest!", description = "You already have a quest in progress.", color = 0xef5350)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.add_field(name = f"Current Quest: `{current_quest}`", value = f"Type `{config.prefix}quest collect` to complete this quest first.")
+            await ctx.send(embed = e)
+        return message, flag
+
+    async def completeQuest(ctx, message, flag, quest):
         marketdata = getUserMarketInv(user_id)
         ryou = marketdata.ryou
         exp = getPlayerExp(user_id)
@@ -311,15 +328,23 @@ async def quests(ctx):
         MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_reward, user_id))
         PlayerDB.execute("UPDATE userdata SET exp = ? WHERE user_id = ?", (exp + exp_reward, user_id))
         ActivityDB.execute("UPDATE quests SET last_activity = ? WHERE user_id = ?", (now, user_id))
-        # e = discord.Embed(title = "🗺️ Quest found!", description = "Will you accept this quest?", color = default_color)
-        # e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        # e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
-        await ctx.send(f" {ctx.author.mention} Finished quest - **{quest}**\nReceived rewards:\n```Ryou : {ryou_reward}\nEXP : {exp_reward}```")
+        QuestsDB.execute("UPDATE quests SET quest = ? WHERE user_id = ?", ("", user_id))
+        e = discord.Embed(title = "💰 Quest Completed!", description = "Recieved the following rewards:", color = 0x4caf50)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+        e.add_field(name = f"Ryou{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_reward)}`", inline = True)
+        e.add_field(name = f"EXP{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = f"{Icons['exp']} x `{'{:,}'.format(exp_reward)}`", inline = True)
+        message = await ctx.send(embed = e)
         return message, flag
 
     # main()
+    current_quest = getPlayerQuest(user_id)
     message = None
     flag = True
+    if arg == "collect" and current_quest != "":
+        quest = getPlayerQuest(user_id)
+        await completeQuest(ctx, message, flag, quest)
+        return
     if now >= last_quest + wait:
         quest = chooseRandomQuest()
         message, flag = await promptQuest(ctx, message, flag, quest)
@@ -1335,6 +1360,7 @@ async def reward(ctx, target: str, item: str, quantity):
             fragments   = inv_gacha.gacha_fragments
             total_rolls = inv_gacha.total_rolls
             ryou        = inv_market.ryou
+            exp         = getPlayerExp(user_id)
             # Add the respective reward on top of what the user already has
             match item:
                 case "ticket" | "tickets":
@@ -1346,6 +1372,9 @@ async def reward(ctx, target: str, item: str, quantity):
                 case "ryou" | "coins":
                     MarketDB.userdata[user_id] = {"ryou": ryou + quantity}
                     await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
+                case "exp" | "xp":
+                    PlayerDB.userdata[user_id] = {"exp": exp + quantity}
+                    await ctx.send(f"Rewarded {target} with {Icons['exp']} `{quantity}` **Experience Points**! User now has a total of `{exp + quantity}`.")
                 case _:
                     await ctx.send(f"Please enter a **valid item** to reward ({config.prefix}help reward)")
         except ValueError:
