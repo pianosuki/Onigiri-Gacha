@@ -35,7 +35,7 @@ channels = {
     "tavern": [1005908816061288539],
     "quests": [1005915625912279050],
     "dungeons": [1002074803336908860],
-    "chat_earn": [1002074803336908860, 969165756237504575, 981351052693610516, 991304857183080489, 979615300028862486, 979615328394948658, 987205873078251550, 989796364152082502],
+    "chat_earn": [969165756237504575],
     "exp": [999759477026852955]
 }
 
@@ -65,7 +65,8 @@ colors          = [0xe53935, 0xd81b60, 0x8e24aa, 0x5e35b1, 0x3949ab, 0x1e88e5, 0
 capsule_colors  = [0x2196f3, 0x4caf50, 0xef5350, 0xeceff1, 0xffeb3b, 0xd1c4e9]
 capsules        = ["blue", "green", "red", "silver", "gold", "platinum"]
 numbers         = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "0️⃣"]
-custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "<:exp:1005561171295879308>", "level": "<:level:1005563309124223067>"}
+# Testing server: custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "<:exp:1005561171295879308>", "level": "<:level:1005563309124223067>"}
+custom_emojis   = {"ryou": "<:ryouu1:1004945234108629113>", "ticket": "<:gachaticket:1003606286501412895>", "fragment": "<:GachaTicketReg:1004959142458446005>", "exp": "<:exp:1006052726603517954>", "level": "<:level:1006053105420484669>"}
 
 # Conversion rate
 conv_rate   = [1000000, 1] # [Ryou, Tickets]
