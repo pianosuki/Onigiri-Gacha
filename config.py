@@ -4,12 +4,15 @@ import tokens
 discord_token   = tokens.discord_token
 prefix          = "+"
 
+# RPG
+level_cap       = 9
+
 # RNG
-weights         = {"tier_1": [25, 20, 15, 10, 10, 20],
+weights         = {"tier_1": [25, 20, 15, 10, 10, 20], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
                    "tier_2": [25, 20, 20, 15, 15, 5],
                    "tier_3": [25, 20, 19, 18, 3, 15],
                    "tier_4": [20, 20, 20, 19, 20, 1]}
-weight_mods     = [0, 0.1, 0.9, 1]
+weight_mods     = [0, 0.1, 0.9, 1] # Applied respectively according to how many times prize has been rolled. 0 rolled = weight_mods[0], 1 rolled = weight_mods[1], etc.
 encouragement   = {"tier_1": [32, 25, 18, 12, 8, 5],
                    "tier_2": [32, 25, 18, 12, 8, 5],
                    "tier_3": [32, 25, 18, 12, 8, 5],
@@ -27,10 +30,14 @@ og_role         = "OniOG"
 gacha_mod_role  = 999762450570285076
 
 # Channels
-gacha_channels      = [969165756489171001, 1002074803336908860]
-chat_earn_channels  = [1002074803336908860]
-exp_channel         = 999759477026852955
-oni_coins_channel   = 1004143982428815471
+channels = {
+    "roll": [969165756489171001, 1002074803336908860],
+    "tavern": [1005908816061288539],
+    "quests": [1005915625912279050],
+    "dungeons": [1002074803336908860],
+    "chat_earn": [1002074803336908860, 969165756237504575, 981351052693610516, 991304857183080489, 979615300028862486, 979615328394948658, 987205873078251550, 989796364152082502],
+    "exp": [999759477026852955]
+}
 
 # UI
 menu_top        = "┌───────────────────────┐"
@@ -61,15 +68,15 @@ numbers         = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️�
 custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "<:exp:1005561171295879308>", "level": "<:level:1005563309124223067>"}
 
 # Conversion rate
-conv_rate   = [1000000, 1]
+conv_rate   = [1000000, 1] # [Ryou, Tickets]
 
-# Intervals
+# Intervals (seconds)
 quest_wait      = 28800
 dungeon_wait    = 43200
 chat_earn_wait  = 3600
 
 # Ranges
-chat_ryou_earn  = [10, 100]
+chat_ryou_earn  = [10, 100] # [Min, Max]
 
 # Boosts
 role_boosts = {

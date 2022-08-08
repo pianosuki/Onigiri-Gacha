@@ -1,5 +1,12 @@
 {
-    "Capsules": {
+    "Banners":
+    {
+        "Oni-Tavern": ["Graphics/Banners/Oni-Tavern.png", "Oni-Tavern.png", "attachment://oni-tavern.png"],
+        "Oni-Quests": ["Graphics/Banners/Oni-Quests.png", "Oni-Quests.png", "attachment://oni-quests.png"]
+    },
+
+    "Capsules":
+    {
         "Blue": ["Graphics/Capsules/Blue.png", "blue.png", "attachment://blue.png"],
         "Green": ["Graphics/Capsules/Green.png", "green.png", "attachment://green.png"],
         "Red": ["Graphics/Capsules/Red.png", "red.png", "attachment://red.png"],
@@ -7,9 +14,13 @@
         "Gold": ["Graphics/Capsules/Gold.png", "gold.png", "attachment://gold.png"],
         "Platinum": ["Graphics/Capsules/Platinum.png", "platinum.png", "attachment://platinum.png"]
     },
-    "Characters": {
-        "Onigiri": {
-            "Kinka_Mei": [
+
+    "Characters":
+    {
+        "Onigiri":
+        {
+            "Kinka_Mei":
+            [
                 ["Graphics/Characters/Onigiri/Kinka_Mei/1.png", "kinkamei-1.png", "attachment://kinkamei-1.png"],
                 ["Graphics/Characters/Onigiri/Kinka_Mei/2.png", "kinkamei-2.png", "attachment://kinkamei-2.png"],
                 ["Graphics/Characters/Onigiri/Kinka_Mei/3.png", "kinkamei-3.png", "attachment://kinkamei-3.png"],
@@ -18,17 +29,26 @@
                 ["Graphics/Characters/Onigiri/Kinka_Mei/6.png", "kinkamei-6.png", "attachment://kinkamei-6.png"]
             ]
         },
-        "Aotuverse": {
-            "Camil": [
+
+        "Aotuverse":
+        {
+            "Camil":
+            [
                 ["Graphics/Characters/Aotuverse/Camil/1.png", "camil-1.png", "attachment://camil-1.png"]
             ],
-            "Kallie": [
+
+            "Kallie":
+            [
                 ["Graphics/Characters/Aotuverse/Kallie/1.png", "kallie-1.png", "attachment://kallie-1.png"]
             ],
-            "King": [
+
+            "King":
+            [
                 ["Graphics/Characters/Aotuverse/King/1.png", "king-1.png", "attachment://king-1.png"]
             ],
-            "Ray": [
+            
+            "Ray":
+            [
                 ["Graphics/Characters/Aotuverse/Ray/1.png", "ray-1.png", "attachment://ray-1.png"]
             ]
         }
