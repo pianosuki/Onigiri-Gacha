@@ -64,14 +64,14 @@
         }
     },
 
-    "Energy Restore (WIP)":
+    "Energy Restore":
     {
         "Price": 2000000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
         [
-            "Bypass a quest's wait timer"
+            "Bypass a quest's wait timer (WIP)"
         ],
         "Requirements":
         {
