@@ -54,6 +54,9 @@ Tables      = json.load(open("tables.json")) # Load tables for systems to use co
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
 Icons       = config.custom_emojis
 
+# Names
+coin_name = config.coin_name
+
 @bot.event
 async def on_ready():
     # Go Online
@@ -1279,6 +1282,7 @@ async def tavern(ctx):
 #                 return
 
 @bot.command(aliases = ["inventory"])
+@commands.check(checkChannel)
 async def inv(ctx, target = None):
     ''' | Usage: +inv [@user] | Check the inventory of a user '''
     if target is None:
@@ -1316,6 +1320,7 @@ async def inv(ctx, target = None):
         await ctx.send("Please **@ mention** a valid user to check their inventory (!help inv)")
 
 @bot.command()
+@commands.check(checkChannel)
 async def craft(ctx, amount:str = "1"):
     ''' | Usage: +craft [integer or "all"] | Craft a Gacha Ticket from 4 Gacha Pieces '''
     menu_top        = "┌───────────────────────┐"
@@ -1383,6 +1388,7 @@ async def craft(ctx, amount:str = "1"):
             await message.clear_reactions()
 
 @bot.command()
+@commands.check(checkChannel)
 async def history(ctx, target = None):
     ''' | Usage: +history [@user] | View prize history of a user '''
     if target is None:
@@ -1477,6 +1483,30 @@ async def history(ctx, target = None):
                         exit_flag = True
                         await message.clear_reactions()
                         break
+
+@bot.command(aliases = ["lb", "top", "richest"])
+@commands.check(checkChannel)
+async def leaderboard(ctx):
+    ''' | Usage: +leaderboard | Shows top 10 richest users '''
+    default_color   = config.default_color
+
+    def sortSecond(val):
+        return val[1]
+
+    marketdata = MarketDB.query("SELECT * from userdata")
+    marketdata.sort(key=sortSecond, reverse=True)
+
+    e = discord.Embed(title = f"Top eight {Icons['coins']} ballers", description = f"Leader: <@{marketdata[0][0]}>", color = default_color)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+    for index, account in enumerate(marketdata):
+        if index == 8:
+            break
+        user_id = account[0]
+        coins = account[1]
+        e.add_field(name = f"#{index + 1}  ─  User:", value = f"<@{user_id}>", inline = True)
+        e.add_field(name = f"{coin_name}:", value = f"{Icons['coins']}  ─  `{coins if coins != 0 else 0}`", inline = True)
+        e.add_field(name = "\u200b", value = "\u200b", inline = True)
+    await ctx.send(embed = e)
 
 ### Admin Commands
 @bot.command()

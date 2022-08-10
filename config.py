@@ -4,6 +4,9 @@ import tokens
 discord_token   = tokens.discord_token
 prefix          = "+"
 
+# Names
+coin_name       = "Ryou D-Coins"
+
 # RPG
 level_cap       = 9
 
@@ -36,7 +39,11 @@ channels = {
     "quests": [1005915625912279050],
     "dungeons": [1002074803336908860],
     "chat_earn": [969165756237504575],
-    "exp": [999759477026852955]
+    "exp": [999759477026852955],
+    "history": [1005908816061288539, 1005915625912279050, 969165756489171001],
+    "craft": [1005908816061288539, 1005915625912279050, 969165756489171001],
+    "inv": [1005908816061288539, 1005915625912279050, 969165756489171001],
+    "leaderboard": [1005908816061288539, 1005915625912279050, 969165756489171001]
 }
 
 # UI
@@ -74,10 +81,10 @@ conv_rate   = [1000000, 1] # [Ryou, Tickets]
 # Intervals (seconds)
 quest_wait      = 28800
 dungeon_wait    = 43200
-chat_earn_wait  = 3600
+chat_earn_wait  = 300
 
 # Ranges
-chat_ryou_earn  = [10, 100] # [Min, Max]
+chat_ryou_earn  = [1, 100] # [Min, Max]
 
 # Boosts
 role_boosts = {
