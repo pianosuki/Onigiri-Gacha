@@ -1504,7 +1504,7 @@ async def leaderboard(ctx):
         user_id = account[0]
         ryou = account[1]
         e.add_field(name = f"#{index + 1}  ─  User:", value = f"<@{user_id}>", inline = True)
-        e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']}  ─  `{ryou if ryou != 0 else 0}`", inline = True)
+        e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']}  ─  `{'{:,}'.format(ryou) if ryou != 0 else 0}`", inline = True)
         e.add_field(name = "\u200b", value = "\u200b", inline = True)
     await ctx.send(embed = e)
 
