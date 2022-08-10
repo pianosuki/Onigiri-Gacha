@@ -1859,23 +1859,23 @@ async def backstock(ctx):
                         await message.clear_reactions()
                         break
 
-@bot.command()
-@commands.check(checkAdmin)
-async def leaderboard(ctx):
-    user_id = ctx.author.id
-    msg = []
-    data = GachaDB.query(f"SELECT * FROM userdata")
-    to_sort = {}
-    for entry in data:
-        tickets = entry[1]
-        user = entry[0]
-        to_sort[str(user)] = tickets
-    sorted_dict = sorted(to_sort.items(), key=lambda x: x[1], reverse = True)
-    for counter, entry in enumerate(sorted_dict):
-        if counter > 20:
-            break
-        msg.append(str(entry))
-    await ctx.send(str(msg))
+# @bot.command()
+# @commands.check(checkAdmin)
+# async def leaderboard(ctx):
+#     user_id = ctx.author.id
+#     msg = []
+#     data = GachaDB.query(f"SELECT * FROM userdata")
+#     to_sort = {}
+#     for entry in data:
+#         tickets = entry[1]
+#         user = entry[0]
+#         to_sort[str(user)] = tickets
+#     sorted_dict = sorted(to_sort.items(), key=lambda x: x[1], reverse = True)
+#     for counter, entry in enumerate(sorted_dict):
+#         if counter > 20:
+#             break
+#         msg.append(str(entry))
+#     await ctx.send(str(msg))
 
 @bot.command()
 @commands.check(checkAdmin)
