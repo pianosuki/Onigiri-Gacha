@@ -1496,15 +1496,15 @@ async def leaderboard(ctx):
     marketdata = MarketDB.query("SELECT * from userdata")
     marketdata.sort(key=sortSecond, reverse=True)
 
-    e = discord.Embed(title = f"Top eight {Icons['coins']} ballers", description = f"Leader: <@{marketdata[0][0]}>", color = default_color)
+    e = discord.Embed(title = f"Top eight {Icons['ryou']} ballers", description = f"Leader: <@{marketdata[0][0]}>", color = default_color)
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
     for index, account in enumerate(marketdata):
         if index == 8:
             break
         user_id = account[0]
-        coins = account[1]
+        ryou = account[1]
         e.add_field(name = f"#{index + 1}  ─  User:", value = f"<@{user_id}>", inline = True)
-        e.add_field(name = f"{coin_name}:", value = f"{Icons['coins']}  ─  `{coins if coins != 0 else 0}`", inline = True)
+        e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']}  ─  `{ryou if ryou != 0 else 0}`", inline = True)
         e.add_field(name = "\u200b", value = "\u200b", inline = True)
     await ctx.send(embed = e)
 
