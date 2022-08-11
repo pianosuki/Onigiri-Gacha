@@ -26,7 +26,7 @@ ip              = "137.220.33.63"
 serve_dir       = "u"
 
 # Permissions
-admin_list      = [462763810365898783, 859699653128486912, 629713896747433995, 458993054674583556, 889201372636004432, 343431814347751445, 886841560275234856]
+admin_list      = [462763810365898783, 859699653128486912, 629713896747433995, 458993054674583556, 889201372636004432, 343431814347751445, 886841560275234856, 559568144033906708]
 admin_role      = "Catheon Core"
 wl_role         = "Kamikui (WL)"
 og_role         = "OniOG"
@@ -88,12 +88,12 @@ chat_ryou_earn  = [1, 100] # [Min, Max]
 
 # Boosts
 role_boosts = {
-    "Diamond-Oni": 5,
-    "Gold-Oni": 3,
-    "Silver-Oni": 2,
-    "Oni": 3,
-    "Demi-God": 3,
-    "Exemplar": 2,
-    "OniOG": 2,
-    "Oni-Booster": 2
+    "Diamond-Oni": 100,
+    "Gold-Oni": 60,
+    "Silver-Oni": 40,
+    "Oni": 10,
+    "Demi-God": 10,
+    "Exemplar": 20,
+    "OniOG": 15,
+    "Oni-Booster": 15
 }
