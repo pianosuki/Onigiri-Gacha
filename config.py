@@ -91,9 +91,9 @@ role_boosts = {
     "Diamond-Oni": 100,
     "Gold-Oni": 60,
     "Silver-Oni": 40,
-    "Oni": 10,
-    "Demi-God": 10,
-    "Exemplar": 20,
+    "Oni": 35,
+    "Demi-God": 20,
+    "Exemplar": 10,
     "OniOG": 15,
-    "Oni-Booster": 15
+    "Oni-Booster": 20
 }
