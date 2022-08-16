@@ -2,7 +2,8 @@
     "Banners":
     {
         "Oni-Tavern": ["Graphics/Banners/Oni-Tavern.png", "Oni-Tavern.png", "attachment://oni-tavern.png"],
-        "Oni-Quests": ["Graphics/Banners/Oni-Quests.png", "Oni-Quests.png", "attachment://oni-quests.png"]
+        "Oni-Quests": ["Graphics/Banners/Oni-Quests.png", "Oni-Quests.png", "attachment://oni-quests.png"],
+        "Oni-Dungeons": ["Graphics/Banners/Oni-Dungeons.png", "Oni-Dungeons.png", "attachment://oni-dungeons.png"]
     },
 
     "Capsules":
@@ -46,7 +47,7 @@
             [
                 ["Graphics/Characters/Aotuverse/King/1.png", "king-1.png", "attachment://king-1.png"]
             ],
-            
+
             "Ray":
             [
                 ["Graphics/Characters/Aotuverse/Ray/1.png", "ray-1.png", "attachment://ray-1.png"]

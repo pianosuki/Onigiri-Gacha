@@ -12,7 +12,7 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Den of Karma", 0]}
+            {"Clear": ["Den of Karma", -1]}
         ],
         "Rewards":
         {
@@ -35,7 +35,7 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Daiku Cave", 0]}
+            {"Clear": ["Daiku Cave", -1]}
         ],
         "Rewards":
         {
@@ -126,7 +126,7 @@
         [
             {"Defeat": ["Kijimuna", 3]},
             {"Defeat": ["Ittanmomen", 3]},
-            {"Clear": ["Hoori Shrine", 0]}
+            {"Clear": ["Hoori Shrine", -1]}
         ],
         "Rewards":
         {
@@ -192,7 +192,7 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Hosuseri Shrine", 0]}
+            {"Clear": ["Hosuseri Shrine", -1]}
         ],
         "Rewards":
         {
@@ -214,7 +214,7 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Hoderi Shrine", 0]}
+            {"Clear": ["Hoderi Shrine", -1]}
         ],
         "Rewards":
         {

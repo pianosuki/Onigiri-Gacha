@@ -3,12 +3,12 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.8"
-debug_mode  = False
+bot_version = "1.9"
+debug_mode  = True
 
 import config, dresource
 from database import Database
-import discord, re, time, random, json, math
+import discord, re, time, random, json, math, hashlib
 from discord.ext import commands
 from datetime import datetime
 import numpy as np
@@ -41,18 +41,25 @@ ActivityDB.execute("CREATE TABLE IF NOT EXISTS chat (user_id INTEGER PRIMARY KEY
 QuestsDB = Database("quests.db")
 QuestsDB.execute("CREATE TABLE IF NOT EXISTS quests (user_id INTEGER PRIMARY KEY UNIQUE, quest TEXT)")
 
+# Dungeons
+DungeonsDB = Database("dungeons.db")
+DungeonsDB.execute("CREATE TABLE IF NOT EXISTS clears (clear_id TEXT PRIMARY KEY UNIQUE, user_id INTEGER, date TEXT, dungeon TEXT, difficulty INTEGER, deaths INTEGER)")
+
 # Player Stats
 PlayerDB = Database("playerdata.db")
-PlayerDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, exp INTEGER)")
+PlayerDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, exp INTEGER, energy INTEGER, last_refresh INTEGER)")
+#PlayerDB.execute("ALTER TABLE userdata ADD COLUMN energy INTEGER")
+#PlayerDB.execute("ALTER TABLE userdata ADD COLUMN last_refresh INTEGER")
 
 # Objects
 Prizes      = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
 Products    = json.load(open("products.json")) # Load list of products for shop to sell
 Graphics    = json.load(open("graphics.json")) # Load list of graphical assets to build Resource with
 Quests      = json.load(open("quests.json")) # Load list of quests for the questing system
+Dungeons    = json.load(open("dungeons.json")) # Load list of dungeons for the dungeon system
 Tables      = json.load(open("tables.json")) # Load tables for systems to use constants from
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
-Icons       = config.custom_emojis
+Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis}
 
 # Names
 coin_name = config.coin_name
@@ -157,14 +164,53 @@ def getLastChat(user_id):
     return last_chat
 
 def getPlayerData(user_id):
-    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp) VALUES (%s, '0')" % str(user_id))
+    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp, energy, last_refresh) VALUES (%s, '0', '0', '0')" % str(user_id))
     playerdata = PlayerDB.query(f"SELECT * FROM userdata WHERE user_id = '{user_id}'")
     return playerdata
 
 def getPlayerExp(user_id):
-    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp) VALUES (%s, '0')" % str(user_id))
+    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp, energy, last_refresh) VALUES (%s, '0', '0', '0')" % str(user_id))
     exp = PlayerDB.query(f"SELECT exp FROM userdata WHERE user_id = '{user_id}'")[0][0]
     return exp
+
+def getPlayerEnergy(user_id):
+    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp, energy, last_refresh) VALUES (%s, '0', '0', '0')" % str(user_id))
+    updatePlayerEnergy(user_id)
+    energy = PlayerDB.query(f"SELECT energy FROM userdata WHERE user_id = '{user_id}'")[0][0]
+    return energy
+
+def getPlayerMaxEnergy(user_id):
+    player_level = getPlayerLevel(user_id)
+    max_energy = player_level if player_level > 50 else 50
+    return max_energy
+
+def getPlayerLastRefresh(user_id):
+    PlayerDB.execute("INSERT OR IGNORE INTO userdata (user_id, exp, energy, last_refresh) VALUES (%s, '0', '0', '0')" % str(user_id))
+    last_refresh = PlayerDB.query(f"SELECT last_refresh FROM userdata WHERE user_id = '{user_id}'")[0][0]
+    return last_refresh
+
+def updatePlayerEnergy(user_id):
+    now = int(time.time())
+    max_energy = getPlayerMaxEnergy(user_id)
+    cold_energy = PlayerDB.query(f"SELECT energy FROM userdata WHERE user_id = '{user_id}'")[0][0]
+    last_refresh = PlayerDB.query(f"SELECT last_refresh FROM userdata WHERE user_id = '{user_id}'")[0][0]
+    seconds_passed = now - last_refresh
+    minutes_passed = math.floor(seconds_passed / 60)
+    remainder = seconds_passed - (minutes_passed * 60)
+    energy_refilled = math.floor(minutes_passed / 6)
+    hot_energy = cold_energy + energy_refilled if not cold_energy + energy_refilled > max_energy else max_energy
+    if minutes_passed >= 6:
+        PlayerDB.execute("UPDATE userdata SET energy = ?, last_refresh = ? WHERE user_id = ?", (hot_energy, now - remainder, user_id))
+    return
+
+def addPlayerEnergy(user_id, energy_reward):
+    energy      = getPlayerEnergy(user_id)
+    max_energy  = getPlayerMaxEnergy(user_id)
+    now         = int(time.time())
+    if energy + energy_reward > max_energy:
+        energy_reward -= (energy + energy_reward - max_energy)
+    PlayerDB.execute("UPDATE userdata SET energy = ? WHERE user_id = ?", (energy + energy_reward, user_id))
+    return energy_reward
 
 def addPlayerExp(user_id, exp_reward):
     ExpTable = Tables["ExpTable"]
@@ -200,6 +246,11 @@ def getPlayerQuest(user_id):
     QuestsDB.execute("INSERT OR IGNORE INTO quests (user_id, quest) VALUES (%s, '')" % str(user_id))
     quest = QuestsDB.query(f"SELECT quest FROM quests WHERE user_id = '{user_id}'")[0][0]
     return quest
+
+def getPlayerDungeonClears(user_id):
+    dungeon_clears = DungeonsDB.query(f"SELECT * FROM clears WHERE user_id = '{user_id}'")
+    print(dungeon_clears)
+    return dungeon_clears
 
 def getUserItemQuantity(user_id, product):
     items_inv = getUserItemInv(user_id)
@@ -246,13 +297,477 @@ def generateFileObject(object, path):
     Resource[object][1] = discord.File(path)
     return Resource[object][1]
 
+def getMaxItemWidth(array, min_width = 0):
+    max_width = min_width
+    for item in array:
+        match item:
+            case str() | list() | dict():
+                item_length = len(item)
+            case int():
+                item_length = item
+            case _:
+                item_length = 0
+        max_width = item_length if item_length > max_width else max_width
+    return max_width
+
+def boxifyArray(array, padding = 1, spacer_character = "-"):
+    if type(array) is dict:
+        array = list(array.keys())
+
+    boxified_string = ""
+    border_width = getMaxItemWidth(array)
+
+    # Build the box
+    for index, item in enumerate(array):
+        item_length = len(item)
+        negative_space = border_width - item_length
+        spacer1 = spacer2 = ""
+
+        # Add extra padding if any
+        for _ in range(padding):
+            spacer1 += spacer_character
+            spacer2 += spacer_character
+
+        # Center the item by alternating adding padding on both sides to fill in negative space
+        for i in range(negative_space):
+            if (i + 1) % 2 == 0:
+                spacer1 += spacer_character
+            else:
+                spacer2 += spacer_character
+
+        boxified_string += f"║{spacer1}{item}{spacer2}║\n"
+
+    # Set top and bottom borders
+    border = ""
+    for _ in range(border_width + (padding * 2)):
+        border += "═"
+
+    # Add top and bottom borders
+    boxified_string = "".join((f"```╔{border}╗\n",boxified_string,f"╚{border}╝```"))
+
+    # Return fully-assembled boxified string
+    return boxified_string
+
 ### User Commands
-# @bot.command(aliases = ["dungeon", "dg", "dung", "run", "warding", "wardings"])
-# @commands.check(checkChannel)
-# async def dungeons(ctx):
-#     ''' | Usage: +dungeons '''
-#     user_id         = ctx.author.id
-#     await ctx.send("test")
+@bot.command(aliases = ["dungeon", "dg", "dung", "run", "warding", "wardings"])
+@commands.check(checkChannel)
+async def dungeons(ctx, *input):
+    ''' | Usage: +dungeons '''
+    user_id                 = ctx.author.id
+    default_color           = config.default_color
+    numbers                 = config.numbers
+    mode_mapping            = config.mode_mapping
+    mode_mapping_inverse    = config.mode_mapping_inverse
+    mode_multipliers        = config.mode_multipliers
+    mode_divisors           = config.mode_divisors
+
+    class DungeonInstance:
+        def __init__(self, dungeon, mode, seed = None):
+            # Immutable
+            self.dungeon = dungeon
+            self.mode = mode
+            self.icon = getDungeonModes(type = "array")[mode]
+            self.level = Dungeons[dungeon]["Level_Required"]
+            self.floors = Dungeons[dungeon]["Floors"]
+            self.properties = Dungeons[dungeon]["Difficulties"]
+            self.yokai = Dungeons[dungeon]["Yokai"]
+            self.boss = Dungeons[dungeon]["Boss"]
+            self.rewards = Dungeons[dungeon]["Rewards"]
+            self.energy = getDungeonEnergy(dungeon)[mode]
+            self.boss_stats = formatBossStats(self.boss, mode)
+            self.rewards_list = formatDungeonRewards(self.rewards, mode)
+            self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
+            self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
+            self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
+            self.goldaruma_spawnrate /= 100.
+            print(self.goldaruma_spawnrate)
+
+            # Seed
+            self.seed = hashlib.md5(seed.encode("utf-8")).hexdigest() if not seed is None else hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
+
+            # Mutable
+            self.blueprint = []
+            self.floor = 0
+            self.room = 0
+            self.mobs = 0
+            self.goldarumas = 0
+            self.chests = 0
+            self.mobs_killed = 0
+            self.cleared = False
+
+        def dungeonGenesis(self):
+            for _ in range(self.floors):
+                self.renderFloor()
+
+        def renderFloor(self):
+            self.floor += 1
+            salt = "renderFloor"
+            pepper = str(self.floor)
+            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
+            print("renderFloor", self.floor, f_seed)
+            random.seed(f_seed)
+            if self.floor < self.floors:
+                rooms = random.randint(self.rooms_range[0], self.rooms_range[1])
+                for _ in range(rooms):
+                    self.renderRoom()
+            else:
+                self.renderBoss()
+
+        def renderRoom(self):
+            self.room += 1
+            salt = "renderRoom"
+            pepper = str(self.room)
+            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
+            print("renderRoom", self.room, f_seed)
+            random.seed(f_seed)
+            population = random.randint(self.mob_spawnrate[0], self.mob_spawnrate[1])
+            mobs = self.spawnMobs(population)
+            if mobs:
+                for _ in range(len(mobs)):
+                    pass
+            else:
+                is_chestroom = True
+                self.chests += 1
+            print(mobs)
+
+        def spawnMobs(self, population):
+            salt = "spawnMobs"
+            pepper = str(self.room)
+            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
+            print("spawnMobs", f_seed)
+            random.seed(f_seed)
+            mobs = []
+            if population > 0:
+                for _ in range(population):
+                    self.mobs += 1
+                    if random.random() <= self.goldaruma_spawnrate:
+                        is_goldaruma = True
+                        self.goldarumas += 1
+                    else:
+                        is_goldaruma = False
+                    mobs.append(random.choice(self.yokai) if not is_goldaruma else "Gold Daruma")
+            else:
+                pass
+                print("0 Population")
+            return mobs
+
+    async def menuDungeons(ctx, message):
+        level = getPlayerLevel(user_id)
+        banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
+        e = discord.Embed(title = "⛩️  ─  Dungeon Listing  ─  ⛩️", description = "Which dungeon will you be running today?", color = default_color)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        unlocked_dungeons = []
+        for dungeon in Dungeons:
+            if level >= Dungeons[dungeon]["Level_Required"]:
+                unlocked_dungeons.append(dungeon)
+
+        unlocked_length = len(unlocked_dungeons)
+        # Set offset to 0 (page 1) and begin bidirectional page system
+        offset = 0
+        flag = True
+        while flag:
+            counter = 0
+            # Iterate through dungeons in groups of 10
+            for index, dungeon in enumerate(unlocked_dungeons):
+                if index < offset:
+                    # Skipping to next entry until arriving at the proper page/offset
+                    continue
+                dungeon_emoji = numbers[counter]
+                dungeon_level = Dungeons[dungeon]["Level_Required"]
+                e.add_field(name = f"{dungeon_emoji}  ─  __{dungeon}__", value = f"🔓  **─**  *Level Required:* {Icons['level']}**{dungeon_level}**\n`{config.prefix}dungeon {dungeon}`", inline = False)
+                counter += 1
+                # Once a full page is assembled, print it
+                if counter == 10 or index + 1 == unlocked_length:
+                    message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+                    if index + 1 > 10 and index + 1 < unlocked_length:
+                        # Is a middle page
+                        emojis = ["⏪", "⏩", "❌"]
+                    elif index + 1 < unlocked_length:
+                        # Is the first page
+                        emojis = ["⏩", "❌"]
+                    elif unlocked_length > 10:
+                        # Is the last page
+                        emojis = ["⏪", "❌"]
+                    else:
+                        # Is the only page
+                        emojis = ["❌"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        break
+                    match str(reaction.emoji):
+                        case "⏩":
+                            # Tell upcomming re-iteration to skip to the next page's offset
+                            offset += 10
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "⏪":
+                            # Tell upcomming re-iteration to skip to the previous page's offset
+                            offset -= 10
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "❌":
+                            await message.clear_reactions()
+                            flag = False
+                            break
+
+    async def selectDungeon(ctx, message, dungeon, mode = -1):
+        banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
+        flag = True
+        while flag:
+            if mode == -1:
+                dungeon_level   = Dungeons[dungeon]["Level_Required"]
+                dungeon_floors  = Dungeons[dungeon]["Floors"]
+                dungeon_yokai   = Dungeons[dungeon]["Yokai"]
+                dungeon_energy  = getDungeonEnergy(dungeon)
+                e = discord.Embed(title = f"⛩️  ─  __{dungeon}__  ─  ⛩️", description = f"Which difficulty will you enter this dungeon on?", color = default_color)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.add_field(name = "Level required", value = f"{Icons['level']}**{dungeon_level}**", inline = True)
+                e.add_field(name = "Energy cost", value = f"{Icons['energy']}**{dungeon_energy[0]} - {dungeon_energy[3]}**", inline = True)
+                e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dungeon_floors}**", inline = True)
+                e.add_field(name = "Yokai found here:", value = boxifyArray(dungeon_yokai), inline = True)
+                e.add_field(name = "Difficulty selection:\n────────────", value = getDungeonModes(), inline = True)
+                message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+                emojis = getDungeonModes(type = "array")
+                emojis.append("❌")
+                reaction, user = await waitForReaction(ctx, message, e, emojis)
+                if reaction is None:
+                    break
+                match str(reaction.emoji):
+                    case x if x == Icons["normal"]:
+                        mode = 0
+                        await message.clear_reactions()
+                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
+                    case x if x == Icons['hard']:
+                        mode = 1
+                        await message.clear_reactions()
+                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
+                    case x if x == Icons['hell']:
+                        mode = 2
+                        await message.clear_reactions()
+                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
+                    case x if x == Icons['oni']:
+                        mode = 3
+                        await message.clear_reactions()
+                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
+                    case "❌":
+                        await message.clear_reactions()
+                        break
+            else:
+                message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode, banner)
+        return
+
+    async def confirmDungeon(ctx, message, flag, dungeon, mode, banner = None):
+        try:
+            dg = DungeonInstance(dungeon, mode, seed = None)
+            e = discord.Embed(title = f"{dg.icon}  ─  __{dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = default_color)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            e.add_field(name = "Level required", value = f"{Icons['level']}**{dg.level}**", inline = True)
+            e.add_field(name = "Energy cost", value = f"{Icons['energy']}**{dg.energy}**", inline = True)
+            e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dg.floors}**", inline = True)
+            e.add_field(name = "Boss stats:", value = dg.boss_stats, inline = True)
+            e.add_field(name = "Rewards:", value = dg.rewards_list, inline = True)
+            message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+            emojis = [Icons["door_open"], "↩️"]
+            reaction, user = await waitForReaction(ctx, message, e, emojis)
+            if reaction is None:
+                flag = False
+                return message, flag, mode
+            match str(reaction.emoji):
+                case x if x == Icons["door_open"]:
+                    await message.clear_reactions()
+                    energy = getPlayerEnergy(user_id)
+                    if energy >= dg.energy:
+                        message, flag = await dungeonEntry(ctx, message, flag, dg)
+                        flag = False
+                    else:
+                        await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy}` more.")
+                case "↩️":
+                    await message.clear_reactions()
+                    flag = True
+                    mode = -1
+        except IndexError:
+            await ctx.send(f"⚠️ **Invalid difficulty mode specified:** Dungeon `{dungeon}` has no mode `{mode}`")
+            flag = False
+        return message, flag, mode
+
+    async def dungeonEntry(ctx, message, flag, dg):
+        blueprint = dg.dungeonGenesis()
+        return message, flag
+
+    async def fightDungeonBoss(ctx, message, flag, dg):
+        return message, flag
+
+    def getDungeonEnergy(dungeon):
+        dungeon_metric = Dungeons[dungeon]["Energy_Metric"]
+        dungeon_energy = []
+        for mode in Dungeons[dungeon]["Difficulties"]:
+            match mode:
+                case "Normal":
+                    energy_divisor = mode_divisors[0]
+                case "Hard":
+                    energy_divisor = mode_divisors[1]
+                case "Hell":
+                    energy_divisor = mode_divisors[2]
+                case "Oni":
+                    energy_divisor = mode_divisors[3]
+            dungeon_energy.append(math.floor(dungeon_metric / energy_divisor))
+        return dungeon_energy
+
+    def getDungeonModes(type = "string"):
+        default_string = f"{Icons['normal']}\n{Icons['hard']}\n{Icons['hell']}\n{Icons['oni']}"
+        default_array = [Icons["normal"], Icons["hard"], Icons["hell"], Icons["oni"]]
+        default_dict = {"Normal": Icons["normal"], "Hard": Icons["hard"], "Hell": Icons["hell"], "Oni": Icons["oni"]}
+        match type:
+            case "string":
+                formatted_string = ""
+                for key, value in default_dict.items():
+                    formatted_string += f"\n{value} ─ __{key}__ ─ {value}\n"
+                return formatted_string
+            case "array":
+                return default_array
+            case "dict":
+                return default_dict
+
+    def formatBossStats(stats, mode):
+        multiplier          = mode_multipliers[mode]
+        boss_name           = stats["Name"]
+        boss_hp             = stats["HP"] * multiplier
+        boss_resistances    = stats["Resistances"]
+        boss_weaknesses     = stats["Weaknesses"]
+        resistance_emojis   = getElementEmojis(boss_resistances)
+        weakness_emojis     = getElementEmojis(boss_weaknesses)
+
+        formatted_string = ""
+        formatted_string += f"─────────────\n"
+        formatted_string += f"👹 ─ Boss: **__{boss_name}__**\n"
+        formatted_string += f"─────────────\n"
+        formatted_string += f"🩸 ─ HP: `{'{:,}'.format(boss_hp)}`\n"
+        formatted_string += f"─────────────\n"
+        formatted_string += f"🛡️ ─ Resistances\n"
+        formatted_string += f" ╰──  {resistance_emojis}\n"
+        formatted_string += f"─────────────\n"
+        formatted_string += f"⚔️ ─ Weaknesses\n"
+        formatted_string += f" ╰──  {weakness_emojis}\n"
+
+        ### <TO-DO>
+        ### Use text rendering modules to determine width of content
+        ### Wrap content in a pretty box to display to the end-user
+        # from matplotlib import rcParams
+        # import os.path
+        # string = "Hello there"
+        # spacer_character    = " "
+        # border_character    = "─"
+        # border_character    = "-"
+
+        # fields = [len(str(boss_name)), len(str('{:,}'.format(boss_hp))), len(boss_resistances), len(boss_weaknesses)]
+        # max_width = getMaxItemWidth(fields, min_width = 0)
+        # print(max_width)
+
+        # border_width = max_width + 18
+        # border = ""
+        # for _ in range(border_width):
+        #     border += border_character
+        # formatting_array = []
+        # formatting_array.append(f"╓{border}╖\n")
+        # formatting_array.append(f"║👹 ─ Boss: **__{boss_name}__**\n")
+        # formatting_array.append(f"╟{border}╢\n")
+        # formatting_array.append(f"║🩸 ─ HP: `{'{:,}'.format(boss_hp)}`\n")
+        # formatting_array.append(f"╟{border}╢\n")
+        # formatting_array.append(f"║🛡️ ─ Resistances\n")
+        # formatting_array.append(f"║ ╰──  {resistance_emojis}\n")
+        # formatting_array.append(f"╟{border}╢\n")
+        # formatting_array.append(f"║⚔️ ─ Weaknesses\n")
+        # formatting_array.append(f"║ ╰──  {weakness_emojis}\n")
+        # formatting_array.append(f"╙{border}╜\n")
+        ### </TO-DO>
+
+        return formatted_string
+
+    def formatDungeonRewards(dungeon_rewards, mode):
+        multiplier = mode_multipliers[mode]
+        formatted_string = ""
+        index = 0
+        for key, value in dungeon_rewards.items():
+            match key:
+                case "Ryou":
+                    icon = Icons["ryou"]
+                case "EXP":
+                    icon = Icons["exp"]
+                case _:
+                    icon = Icons["material_common"]
+            formatted_string += "─────────────\n"
+            formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value['range'][0] * multiplier)} - {'{:,}'.format(value['range'][1] * multiplier)}`\n"
+            formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
+            index += 1
+        return formatted_string
+
+    def getElementEmojis(array):
+        emoji_string = ""
+        for element in array:
+            emoji_string += Icons[element]
+        return emoji_string if not emoji_string == "" else "None"
+
+    # main()
+    message = None
+    mode = None
+    if input:
+        # User provided arguments
+        try:
+            # Assume both dungeon name string and mode were provided
+            dg_query = list(input)
+            dg_query.pop()
+            dg_string = ' '.join(dg_query)
+            mode_test = input[len(input) - 1]
+            modes = ["Normal", "Hard", "Hell", "Oni"]
+            if len(mode_test) == 1:
+                # Try to get mode as integer
+                mode = int(input[len(input) - 1])
+                if not -1 > mode > 3 and not checkAdmin(ctx):
+                    # User tried to access a protected or non-existant dungeon mode
+                    await ctx.send(f"⚠️ **Invalid Mode ID:** `{mode}`")
+                    return
+            else:
+                # Try to get mode as string
+                modes = ["Normal", "Hard", "Hell", "Oni"]
+                for mode_name in modes:
+                    if mode_test.casefold() == mode_name.casefold():
+                        mode = mode_mapping_inverse[mode_name]
+                        break
+                if mode == None:
+                    # There was no matching string found
+                    raise ValueError
+        except ValueError:
+            # Conlude that mode wasn't provided
+            dg_query = list(input)
+            dg_string = ' '.join(dg_query)
+            mode = -1
+        for dungeon in Dungeons:
+            # Check if the provided dungeon argument is an existing dungeon
+            if dg_string.casefold() == dungeon.casefold():
+                # A match was found! Proceed to load the dungeon
+                if mode == -1:
+                    # Mode wasn't provided so let the user select it by hand
+                    await selectDungeon(ctx, message, dungeon)
+                else:
+                    # Mode was provided so shortcut straight to the entry screen
+                    await selectDungeon(ctx, message, dungeon, mode)
+                # User finished the dungeon, exit now
+                return
+            else:
+                continue
+        # Checks failed; therefore, user must have mistyped the dungeon name
+        await ctx.send(f"⚠️ **There doesn't exist any dungeons with the name:** `{dg_string}`")
+        return
+    else:
+        # Conclude that neither dungeon name nor mode was provided
+        # Show the user a list of dungeons they have unlocked
+        await menuDungeons(ctx, message)
 
 @bot.command(aliases = ["quest", "questing", "subquest", "subquests", "sidequest", "sidequests", "mission", "missions"])
 @commands.check(checkChannel)
@@ -263,6 +778,7 @@ async def quests(ctx, arg: str = None):
     last_quest      = getLastQuest(user_id)
     wait            = 0 if checkAdmin(ctx) and debug_mode else config.quest_wait
     now             = int(time.time())
+
     def chooseRandomQuest():
         while True:
             choice = random.choice(list(Quests))
@@ -358,15 +874,15 @@ async def quests(ctx, arg: str = None):
                         conditions += f"**{key}**" + ": " + str(f"*{value[1]}*") + " " + f"__{value[0]}__" + "\n"
                     case "Clear":
                         match value[1]:
-                            case 0:
+                            case -1:
                                 difficulty = "Any"
-                            case 1:
+                            case 0:
                                 difficulty = "Normal"
-                            case 2:
+                            case 1:
                                 difficulty = "Hard"
-                            case 3:
+                            case 2:
                                 difficulty = "Hell"
-                            case 4:
+                            case 3:
                                 difficulty = "Oni"
                         conditions += f"**{key}**" + ": " + f"__{value[0]}__" + " - " + f"*{difficulty}*" + "\n"
         return conditions
@@ -1300,7 +1816,7 @@ async def inv(ctx, target = None):
         ryou        = inv_market.ryou
         exp         = getPlayerExp(user_id)
         level       = getPlayerLevel(user_id)
-        Icons       = config.custom_emojis
+        energy      = getPlayerEnergy(user_id)
         e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
@@ -1310,6 +1826,9 @@ async def inv(ctx, target = None):
         e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
         e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
         e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
+        e.add_field(name = "Energy:", value = f"{Icons['energy']} `{'{:,}'.format(energy)}`", inline = True)
+        e.add_field(name = "Quests completed:", value = f"placeholder", inline = True)
+        e.add_field(name = "Dungeons cleared:", value = f"placeholder", inline = True)
         for slot, item in enumerate(inv_items):
             border = ""
             for _ in item[0]:
@@ -1528,7 +2047,6 @@ async def reward(ctx, target: str, item: str, quantity):
             fragments   = inv_gacha.gacha_fragments
             total_rolls = inv_gacha.total_rolls
             ryou        = inv_market.ryou
-            exp         = getPlayerExp(user_id)
             # Add the respective reward on top of what the user already has
             match item:
                 case "ticket" | "tickets":
@@ -1541,8 +2059,13 @@ async def reward(ctx, target: str, item: str, quantity):
                     MarketDB.userdata[user_id] = {"ryou": ryou + quantity}
                     await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
                 case "exp" | "xp":
-                    PlayerDB.userdata[user_id] = {"exp": exp + quantity}
-                    await ctx.send(f"Rewarded {target} with {Icons['exp']} `{quantity}` **Experience Points**! User now has a total of `{exp + quantity}`.")
+                    exp = getPlayerExp(user_id)
+                    exp_reward = addPlayerEnergy(user_id, quantity)
+                    await ctx.send(f"Rewarded {target} with {Icons['exp']} `{exp_reward}` **Experience Points**! User now has a total of `{exp + exp_reward}`.")
+                case "energy":
+                    energy = getPlayerEnergy(user_id)
+                    energy_reward = addPlayerEnergy(user_id, quantity)
+                    await ctx.send(f"Rewarded {target} with {Icons['energy']} `{energy_reward}` **Energy**! User now has a total of `{energy + energy_reward}`.")
                 case x if x in Products:
                     item_quantity = getUserItemQuantity(user_id, x)
                     if item_quantity == None:

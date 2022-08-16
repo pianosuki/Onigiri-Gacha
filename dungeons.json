@@ -1,0 +1,266 @@
+{
+    "Onigashima Training Grounds":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Gaikotsu",
+            "Gloom Daruma"
+        ],
+        "Boss":
+        {
+            "Name": "Kyoukotsu",
+            "HP": 200,
+            "Resistances": ["Dark"],
+            "Weaknesses": ["Fire"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 200], "rate": 100},
+            "EXP": {"range": [10, 200], "rate": 100}
+        }
+    },
+
+    "Abou Forest":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Kijimuna",
+            "Pain Daruma",
+            "Grass Sticky",
+            "Momijina"
+        ],
+        "Boss":
+        {
+            "Name": "Kikuzou",
+            "HP": 80,
+            "Resistances": ["Holy", "Mountain"],
+            "Weaknesses": []
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 100], "rate": 100},
+            "EXP": {"range": [10, 100], "rate": 100}
+        }
+    },
+
+    "Den of Karma":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Luck Daruma",
+            "Gaikotsu",
+            "Rock Sticky"
+        ],
+        "Boss":
+        {
+            "Name": "Toudaiki",
+            "HP": 150,
+            "Resistances": ["Fire"],
+            "Weaknesses": ["Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 170], "rate": 100},
+            "EXP": {"range": [10, 170], "rate": 100}
+        }
+    },
+
+    "Cave of Screams":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Sunset Sticky",
+            "Gloom Daruma",
+            "Gaikotsu",
+            "Gloom Daruma",
+            "Rock Sticky"
+        ],
+        "Boss":
+        {
+            "Name": "Shunoban",
+            "HP": 90,
+            "Resistances": ["Mountain"],
+            "Weaknesses": []
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 110], "rate": 100},
+            "EXP": {"range": [10, 110], "rate": 100}
+        }
+    },
+
+    "Kokujou Forest":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Pain Daruma",
+            "Luck Daruma",
+            "Kappa",
+            "Ittanmomen"
+        ],
+        "Boss":
+        {
+            "Name": "Kani-bouzu",
+            "HP": 100,
+            "Resistances": ["Rain"],
+            "Weaknesses": ["Ice", "Mountain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 130], "rate": 100},
+            "EXP": {"range": [10, 130], "rate": 100}
+        }
+    },
+
+    "Daiku Cave":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Swamp Sticky",
+            "Grass Sticky",
+            "Kappa",
+            "Amagaeru"
+        ],
+        "Boss":
+        {
+            "Name": "Punk Kappa",
+            "HP": 80,
+            "Resistances": ["Mountain"],
+            "Weaknesses": ["Lightning", "Holy"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 100], "rate": 100},
+            "EXP": {"range": [10, 100], "rate": 100}
+        }
+    },
+
+    "Cave of Dreams":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {}
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Gaikotsu",
+            "Rock Sticky",
+            "Hangon Musha",
+            "Amagaeru",
+            "Lantern Ghost"
+        ],
+        "Boss":
+        {
+            "Name": "Nurikabe",
+            "HP": 250,
+            "Resistances": ["Mountain"],
+            "Weaknesses": ["Ice", "Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10, 250], "rate": 100},
+            "EXP": {"range": [10, 250], "rate": 100}
+        }
+    },
+
+    "Kishinden":
+    {
+        "Level_Required": 1,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni": {"rooms_range": [5, 10]}
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Gloom Daruma",
+            "Pain Daruma",
+            "Life Daruma",
+            "Luck Daruma",
+            "Gankubi",
+            "Hangon Musha"
+        ],
+        "Boss":
+        {
+            "Name": "Chief Daruma",
+            "HP": 1000,
+            "Resistances": ["Fire"],
+            "Weaknesses": ["Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [100, 1000], "rate": 100},
+            "EXP": {"range": [100, 1000], "rate": 100}
+        }
+    }
+}

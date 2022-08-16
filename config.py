@@ -8,7 +8,14 @@ prefix          = "+"
 coin_name       = "Ryou D-Coins"
 
 # RPG
-level_cap       = 9
+level_cap               = 9
+mode_mapping            = {-1: "Any", 0: "Normal", 1: "Hard", 2: "Hell", 3: "Oni"}
+mode_mapping_inverse    = {"Any": -1, "Normal": 0, "Hard": 1, "Hell": 2, "Oni": 3}
+mode_multipliers        = {-1: 0, 0: 1, 1: 2, 2: 3, 3: 5}
+mode_divisors           = {-1: 1, 0: 4, 1: 3, 2: 2, 3: 1}
+default_rooms_range     = [2, 5]
+default_mob_spawnrate   = [0, 3]
+goldaruma_spawnrate     = 1
 
 # RNG
 weights         = {"tier_1": [25, 20, 15, 10, 10, 20], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
@@ -71,9 +78,38 @@ default_color   = 0xfdd835
 colors          = [0xe53935, 0xd81b60, 0x8e24aa, 0x5e35b1, 0x3949ab, 0x1e88e5, 0x039be5, 0x00acc1, 0x00897b, 0x43a047, 0x7cb342, 0xc0ca33, 0xfdd835, 0xffb300, 0xfb8c00, 0xf4511e]
 capsule_colors  = [0x2196f3, 0x4caf50, 0xef5350, 0xeceff1, 0xffeb3b, 0xd1c4e9]
 capsules        = ["blue", "green", "red", "silver", "gold", "platinum"]
-numbers         = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "0️⃣"]
+numbers         = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
 # Testing server: custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "<:exp:1005561171295879308>", "level": "<:level:1005563309124223067>"}
-custom_emojis   = {"ryou": "<:ryouu1:1004945234108629113>", "ticket": "<:gachaticket:1003606286501412895>", "fragment": "<:GachaTicketReg:1004959142458446005>", "exp": "<:exp:1006052726603517954>", "level": "<:level:1006053105420484669>"}
+custom_emojis   = {
+    "ryou": "<:ryouu1:1004945234108629113>",
+    "ticket": "<:gachaticket:1003606286501412895>",
+    "fragment": "<:GachaTicketReg:1004959142458446005>",
+    "exp": "<:exp:1006052726603517954>",
+    "level": "<:level:1006053105420484669>",
+    "energy": "<:energy:1007492998487097365>",
+    "dungeon": "<:dungeon:1007493881174184048>",
+    "door_closed": "<:door_closed:1007714383893368882>",
+    "door_open": "<:door_open:1007714397633921045>",
+    "material_common": "<:material_common:1007728592756691024>",
+    "material_rare": "<:material_rare:1007728607050866758>",
+    "material_special": "<:material_special:1007728619172417670>"
+}
+mode_emojis     = {
+    "normal": "<:normal:1007526343501688862>",
+    "hard": "<:hard:1007526356428537947>",
+    "hell": "<:hell:1007526372090073159>",
+    "oni": "<:oni:1007526385746710609>"
+}
+element_emojis  = {
+    "Fire": "<:fire:1007710358695317545>",
+    "Ice": "<:ice:1007710391872262264>",
+    "Lightning": "<:lightning:1007710798447120544>",
+    "Rain": "<:rain:1007710309051547748>",
+    "Mountain": "<:mountain:1007710371852849226>",
+    "Wind": "<:wind:1007710345961418772>",
+    "Holy": "<:holy:1007710333252665345>",
+    "Dark": "<:dark:1007710321571541052>"
+}
 
 # Conversion rate
 conv_rate   = [1000000, 1] # [Ryou, Tickets]
@@ -88,12 +124,12 @@ chat_ryou_earn  = [1, 100] # [Min, Max]
 
 # Boosts
 role_boosts = {
-    "Diamond-Oni": 100,
-    "Gold-Oni": 60,
-    "Silver-Oni": 40,
-    "Oni": 35,
-    "Demi-God": 20,
-    "Exemplar": 10,
-    "OniOG": 15,
+    "Diamond-Oni": 50,
+    "Gold-Oni": 30,
+    "Silver-Oni": 20,
+    "Oni": 10,
+    "Demi-God": 8,
+    "Exemplar": 5,
+    "OniOG": 7,
     "Oni-Booster": 20
 }
