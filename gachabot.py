@@ -380,13 +380,13 @@ async def dungeons(ctx, *input):
             self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
             self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
             self.goldaruma_spawnrate /= 100.
-            print(self.goldaruma_spawnrate)
+            self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
 
             # Seed
             self.seed = hashlib.md5(seed.encode("utf-8")).hexdigest() if not seed is None else hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
 
             # Mutable
-            self.blueprint = []
+            self.Blueprint = []
             self.floor = 0
             self.room = 0
             self.mobs = 0
@@ -428,7 +428,12 @@ async def dungeons(ctx, *input):
             else:
                 is_chestroom = True
                 self.chests += 1
+                loot = self.spawnChest()
             print(mobs)
+            return
+
+        def renderBoss(self):
+            pass
 
         def spawnMobs(self, population):
             salt = "spawnMobs"
@@ -450,6 +455,25 @@ async def dungeons(ctx, *input):
                 pass
                 print("0 Population")
             return mobs
+
+        def spawnChest(self):
+            salt = "spawnChest"
+            pepper = str(self.room)
+            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
+            print("spawnMobs", f_seed)
+            random.seed(f_seed)
+            loot_pools = []
+            for pool in self.chest_loot:
+                items = pool["pool"]
+                for range in items:
+                    loot_drawn = random.choice(range[0], range[1])
+            loot_weights = []
+            for pool in self.chest_loot:
+                weight = pool["rate"]
+                print(weight)
+                loot_weights.append(weight)
+            print(loot_weights)
+            # return loot
 
     async def menuDungeons(ctx, message):
         level = getPlayerLevel(user_id)
@@ -597,7 +621,7 @@ async def dungeons(ctx, *input):
         return message, flag, mode
 
     async def dungeonEntry(ctx, message, flag, dg):
-        blueprint = dg.dungeonGenesis()
+        Blueprint = dg.dungeonGenesis()
         return message, flag
 
     async def fightDungeonBoss(ctx, message, flag, dg):
