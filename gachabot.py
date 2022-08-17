@@ -13,6 +13,7 @@ from discord.ext import commands
 from datetime import datetime
 import numpy as np
 from collections import Counter
+from os.path import exists as file_exists
 
 intents                 = discord.Intents.default()
 intents.message_content = True
@@ -275,6 +276,7 @@ def randomWeighted(list, weights):
             return list[i]
 
 def rebalanceWeights(cold_weights):
+    print(cold_weights)
     total = 0
     relevant_length = 0
     for i in cold_weights:
@@ -282,12 +284,24 @@ def rebalanceWeights(cold_weights):
         if i > 0:
             relevant_length += 1
     if total < 100:
+        # Calculate how much is missing to make weights sum to 100 then distribute that amount evenly to add into each weight
         refill = (100 - total) / relevant_length
         index = 0
         hot_weights = cold_weights
         for i in hot_weights:
             if i > 0:
                 hot_weights[index] = i + refill
+            index +=1
+        return hot_weights
+    elif total > 100:
+        # Calculate the proportional weights and downscale to them with that ratio so everything sums to 100
+        index = 0
+        hot_weights = cold_weights
+        for i in hot_weights:
+            if i > 0:
+                cross = i * 100
+                proportion = cross / total
+                hot_weights[index] = proportion
             index +=1
         return hot_weights
     else:
@@ -362,20 +376,21 @@ async def dungeons(ctx, *input):
     mode_divisors           = config.mode_divisors
 
     class DungeonInstance:
-        def __init__(self, dungeon, mode, seed = None):
+        def __init__(self, dungeon, mode, seed):
             # Immutable
             self.dungeon = dungeon
             self.mode = mode
-            self.icon = getDungeonModes(type = "array")[mode]
+            self.mode_name = mode_mapping[self.mode]
+            self.properties = Dungeons[dungeon]["Difficulties"][self.mode_name]
+            self.icon = getDungeonModes(type = "array")[self.mode]
             self.level = Dungeons[dungeon]["Level_Required"]
             self.floors = Dungeons[dungeon]["Floors"]
-            self.properties = Dungeons[dungeon]["Difficulties"]
             self.yokai = Dungeons[dungeon]["Yokai"]
             self.boss = Dungeons[dungeon]["Boss"]
             self.rewards = Dungeons[dungeon]["Rewards"]
-            self.energy = getDungeonEnergy(dungeon)[mode]
-            self.boss_stats = formatBossStats(self.boss, mode)
-            self.rewards_list = formatDungeonRewards(self.rewards, mode)
+            self.energy = getDungeonEnergy(dungeon)[self.mode]
+            self.boss_stats = formatBossStats(self.boss, self.mode)
+            self.rewards_list = formatDungeonRewards(self.rewards, self.mode)
             self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
             self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
             self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
@@ -383,10 +398,14 @@ async def dungeons(ctx, *input):
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
 
             # Seed
-            self.seed = hashlib.md5(seed.encode("utf-8")).hexdigest() if not seed is None else hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
+            salt = self.dungeon
+            pepper = self.mode_name
+            if not seed is None:
+                self.seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+            else:
+                self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
 
             # Mutable
-            self.Blueprint = []
             self.floor = 0
             self.room = 0
             self.mobs = 0
@@ -395,11 +414,19 @@ async def dungeons(ctx, *input):
             self.mobs_killed = 0
             self.cleared = False
 
+            # Dungeon Blueprint
+            self.Blueprint = {}
+
         def dungeonGenesis(self):
+            now = datetime.utcnow()
+            self.Blueprint.update({"header": {"Dungeon": self.dungeon, "Difficulty": self.mode_name, "Seed": self.seed}, "blueprint": {"floors": []}, "footer": {"Founder": user_id, "Discovered": f"{now} (UTC)"}})
             for _ in range(self.floors):
-                self.renderFloor()
+                floor_schematic = self.renderFloor()
+                self.Blueprint["blueprint"]["floors"].append(floor_schematic)
+            return self.Blueprint
 
         def renderFloor(self):
+            floor_schematic = {}
             self.floor += 1
             salt = "renderFloor"
             pepper = str(self.floor)
@@ -407,13 +434,19 @@ async def dungeons(ctx, *input):
             print("renderFloor", self.floor, f_seed)
             random.seed(f_seed)
             if self.floor < self.floors:
+                floor_schematic.update({"type": "Floor", "rooms": []})
                 rooms = random.randint(self.rooms_range[0], self.rooms_range[1])
                 for _ in range(rooms):
-                    self.renderRoom()
+                    room_schematic = self.renderRoom()
+                    floor_schematic["rooms"].append(room_schematic)
             else:
-                self.renderBoss()
+                floor_schematic.update({"type": "Boss", "boss": {}})
+                boss_schematic = self.renderBoss()
+                floor_schematic["boss"].update(boss_schematic)
+            return floor_schematic
 
         def renderRoom(self):
+            room_schematic = {}
             self.room += 1
             salt = "renderRoom"
             pepper = str(self.room)
@@ -423,17 +456,19 @@ async def dungeons(ctx, *input):
             population = random.randint(self.mob_spawnrate[0], self.mob_spawnrate[1])
             mobs = self.spawnMobs(population)
             if mobs:
-                for _ in range(len(mobs)):
-                    pass
+                room_schematic.update({"type": "Normal", "yokai": []})
+                room_schematic["yokai"] = mobs
             else:
-                is_chestroom = True
                 self.chests += 1
-                loot = self.spawnChest()
+                chest = self.spawnChest()
+                room_schematic.update({"type": "Chest", "loot": []})
+                room_schematic["loot"] = chest
             print(mobs)
-            return
+            return room_schematic
 
         def renderBoss(self):
-            pass
+            boss_schematic = self.boss
+            return boss_schematic
 
         def spawnMobs(self, population):
             salt = "spawnMobs"
@@ -460,20 +495,31 @@ async def dungeons(ctx, *input):
             salt = "spawnChest"
             pepper = str(self.room)
             f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
-            print("spawnMobs", f_seed)
+            print("spawnChest", f_seed)
             random.seed(f_seed)
             loot_pools = []
-            for pool in self.chest_loot:
-                items = pool["pool"]
-                for range in items:
-                    loot_drawn = random.choice(range[0], range[1])
             loot_weights = []
-            for pool in self.chest_loot:
-                weight = pool["rate"]
-                print(weight)
+            for table in self.chest_loot:
+                pool = table["pool"]
+                weight = table["rate"]
+                loot_pools.append(pool)
                 loot_weights.append(weight)
-            print(loot_weights)
-            # return loot
+            print(loot_pools, loot_weights)
+            if sum(loot_weights) < 100 or sum(loot_weights) > 100:
+                loot_weights = rebalanceWeights(loot_weights)
+                print("Rebalanced:", loot_weights)
+            random_pool = randomWeighted(loot_pools, loot_weights)
+            print(random_pool)
+            chest = {}
+            for key, value in random_pool.items():
+                loot_name = key
+                range = value
+                amount_pulled = random.randint(range[0], range[1])
+                if not loot_name in chest:
+                    chest.update({loot_name: amount_pulled})
+                else:
+                    chest.update({loot_name: chest[loot_name] + amount_pulled})
+            return chest
 
     async def menuDungeons(ctx, message):
         level = getPlayerLevel(user_id)
@@ -538,7 +584,7 @@ async def dungeons(ctx, *input):
                             flag = False
                             break
 
-    async def selectDungeon(ctx, message, dungeon, mode = -1):
+    async def selectDungeon(ctx, message, dungeon, mode, seed):
         banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
         flag = True
         while flag:
@@ -555,6 +601,7 @@ async def dungeons(ctx, *input):
                 e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dungeon_floors}**", inline = True)
                 e.add_field(name = "Yokai found here:", value = boxifyArray(dungeon_yokai), inline = True)
                 e.add_field(name = "Difficulty selection:\n────────────", value = getDungeonModes(), inline = True)
+                e.add_field(name = "Seed initializer:", value = (f"`{seed}`" if not seed is None else "*Randomized*"), inline = False)
                 message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
                 emojis = getDungeonModes(type = "array")
                 emojis.append("❌")
@@ -564,30 +611,22 @@ async def dungeons(ctx, *input):
                 match str(reaction.emoji):
                     case x if x == Icons["normal"]:
                         mode = 0
-                        await message.clear_reactions()
-                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
                     case x if x == Icons['hard']:
                         mode = 1
-                        await message.clear_reactions()
-                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
                     case x if x == Icons['hell']:
                         mode = 2
-                        await message.clear_reactions()
-                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
                     case x if x == Icons['oni']:
                         mode = 3
-                        await message.clear_reactions()
-                        message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode)
                     case "❌":
                         await message.clear_reactions()
                         break
-            else:
-                message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode, banner)
+                await message.clear_reactions()
+            message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode, seed, banner)
         return
 
-    async def confirmDungeon(ctx, message, flag, dungeon, mode, banner = None):
+    async def confirmDungeon(ctx, message, flag, dungeon, mode, seed, banner):
         try:
-            dg = DungeonInstance(dungeon, mode, seed = None)
+            dg = DungeonInstance(dungeon, mode, seed)
             e = discord.Embed(title = f"{dg.icon}  ─  __{dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
@@ -596,6 +635,7 @@ async def dungeons(ctx, *input):
             e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dg.floors}**", inline = True)
             e.add_field(name = "Boss stats:", value = dg.boss_stats, inline = True)
             e.add_field(name = "Rewards:", value = dg.rewards_list, inline = True)
+            e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
             message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
             emojis = [Icons["door_open"], "↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -622,9 +662,20 @@ async def dungeons(ctx, *input):
 
     async def dungeonEntry(ctx, message, flag, dg):
         Blueprint = dg.dungeonGenesis()
+        # Exit
+        json_blueprint = json.dumps(Blueprint, indent=4)
+        json_filename = f"Blueprints/{Blueprint['header']['Seed']}.json"
+        if not file_exists(json_filename):
+            with open(json_filename, "w") as outfile:
+                outfile.write(json_blueprint)
+        file = discord.File(json_filename)
+        await ctx.send(file = file)
         return message, flag
 
-    async def fightDungeonBoss(ctx, message, flag, dg):
+    async def fightMob(ctx, message, flag, dg):
+        return message, flag
+
+    async def fightBoss(ctx, message, flag, dg):
         return message, flag
 
     def getDungeonEnergy(dungeon):
@@ -740,18 +791,24 @@ async def dungeons(ctx, *input):
     # main()
     message = None
     mode = None
+    seed = None
     if input:
         # User provided arguments
         try:
             # Assume both dungeon name string and mode were provided
             dg_query = list(input)
-            dg_query.pop()
+            for index, arg in enumerate(dg_query):
+                # Check if user provided the -seed argument
+                if arg == "-seed" or arg == "-s" and checkAdmin(ctx):
+                    seed = dg_query.pop(index + 1)
+                    dg_query.pop(index)
+                    break
+            mode_test = dg_query.pop()
             dg_string = ' '.join(dg_query)
-            mode_test = input[len(input) - 1]
             modes = ["Normal", "Hard", "Hell", "Oni"]
             if len(mode_test) == 1:
                 # Try to get mode as integer
-                mode = int(input[len(input) - 1])
+                mode = int(mode_test)
                 if not -1 > mode > 3 and not checkAdmin(ctx):
                     # User tried to access a protected or non-existant dungeon mode
                     await ctx.send(f"⚠️ **Invalid Mode ID:** `{mode}`")
@@ -769,6 +826,12 @@ async def dungeons(ctx, *input):
         except ValueError:
             # Conlude that mode wasn't provided
             dg_query = list(input)
+            for index, arg in enumerate(dg_query):
+                # Check if user provided the -seed argument
+                if arg == "-seed" or arg == "-s" and checkAdmin(ctx):
+                    seed = dg_query.pop(index + 1)
+                    dg_query.pop(index)
+                    break
             dg_string = ' '.join(dg_query)
             mode = -1
         for dungeon in Dungeons:
@@ -777,10 +840,10 @@ async def dungeons(ctx, *input):
                 # A match was found! Proceed to load the dungeon
                 if mode == -1:
                     # Mode wasn't provided so let the user select it by hand
-                    await selectDungeon(ctx, message, dungeon)
+                    await selectDungeon(ctx, message, dungeon, mode, seed)
                 else:
                     # Mode was provided so shortcut straight to the entry screen
-                    await selectDungeon(ctx, message, dungeon, mode)
+                    await selectDungeon(ctx, message, dungeon, mode, seed)
                 # User finished the dungeon, exit now
                 return
             else:
@@ -2427,7 +2490,8 @@ async def backstock(ctx):
 @bot.command()
 @commands.check(checkAdmin)
 async def test(ctx):
-    pass
+    print(1)
+    rebalanceWeights([50, 70])
 
 @bot.command()
 @commands.is_owner()

@@ -16,7 +16,7 @@ mode_divisors           = {-1: 1, 0: 4, 1: 3, 2: 2, 3: 1}
 default_rooms_range     = [2, 5]
 default_mob_spawnrate   = [0, 3]
 goldaruma_spawnrate     = 1
-default_chest_loot      = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"Ryou": [100, 200]}, "rate": 50}]
+default_chest_loot      = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"EXP": [100, 200]}, "rate": 50}]
 
 # RNG
 weights         = {"tier_1": [25, 20, 15, 10, 10, 20], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
