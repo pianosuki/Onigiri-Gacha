@@ -14,6 +14,7 @@ from datetime import datetime
 import numpy as np
 from collections import Counter
 from os.path import exists as file_exists
+from os import makedirs
 
 intents                 = discord.Intents.default()
 intents.message_content = True
@@ -376,6 +377,18 @@ async def dungeons(ctx, *input):
     mode_divisors           = config.mode_divisors
 
     class DungeonInstance:
+
+        # Mutable Cache
+        class DungeonCache:
+            def __init__(self):
+                self.floor = 0
+                self.room = 0
+                self.mobs = 0
+                self.goldarumas = 0
+                self.chests = 0
+                self.mobs_killed = 0
+                self.cleared = False
+
         def __init__(self, dungeon, mode, seed):
             # Immutable
             self.dungeon = dungeon
@@ -398,24 +411,23 @@ async def dungeons(ctx, *input):
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
 
             # Seed
-            salt = self.dungeon
-            pepper = self.mode_name
-            if not seed is None:
-                self.seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+            if re.match("^[a-f0-9]{32}$", seed):
+                self.seed = seed
+            elif not seed is None:
+                self.seed = hashlib.md5(seed.encode("utf-8")).hexdigest()
             else:
-                self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+                self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
+            self.salt = self.dungeon
+            self.pepper = self.mode_name
 
-            # Mutable
-            self.floor = 0
-            self.room = 0
-            self.mobs = 0
-            self.goldarumas = 0
-            self.chests = 0
-            self.mobs_killed = 0
-            self.cleared = False
+            # Initialize Cache
+            self.Cache = self.DungeonCache()
 
-            # Dungeon Blueprint
+            # Initialize Dungeon Blueprint
             self.Blueprint = {}
+
+        def clearCache(self):
+            self.Cache = self.DungeonCache()
 
         def dungeonGenesis(self):
             now = datetime.utcnow()
@@ -427,13 +439,14 @@ async def dungeons(ctx, *input):
 
         def renderFloor(self):
             floor_schematic = {}
-            self.floor += 1
+            self.Cache.floor += 1
+            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
             salt = "renderFloor"
-            pepper = str(self.floor)
-            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
-            print("renderFloor", self.floor, f_seed)
+            pepper = str(self.Cache.floor)
+            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+            print("renderFloor", self.Cache.floor, f_seed)
             random.seed(f_seed)
-            if self.floor < self.floors:
+            if self.Cache.floor < self.floors:
                 floor_schematic.update({"type": "Floor", "rooms": []})
                 rooms = random.randint(self.rooms_range[0], self.rooms_range[1])
                 for _ in range(rooms):
@@ -447,11 +460,12 @@ async def dungeons(ctx, *input):
 
         def renderRoom(self):
             room_schematic = {}
-            self.room += 1
+            self.Cache.room += 1
+            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
             salt = "renderRoom"
-            pepper = str(self.room)
-            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
-            print("renderRoom", self.room, f_seed)
+            pepper = str(self.Cache.room)
+            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+            print("renderRoom", self.Cache.room, f_seed)
             random.seed(f_seed)
             population = random.randint(self.mob_spawnrate[0], self.mob_spawnrate[1])
             mobs = self.spawnMobs(population)
@@ -459,7 +473,7 @@ async def dungeons(ctx, *input):
                 room_schematic.update({"type": "Normal", "yokai": []})
                 room_schematic["yokai"] = mobs
             else:
-                self.chests += 1
+                self.Cache.chests += 1
                 chest = self.spawnChest()
                 room_schematic.update({"type": "Chest", "loot": []})
                 room_schematic["loot"] = chest
@@ -471,18 +485,19 @@ async def dungeons(ctx, *input):
             return boss_schematic
 
         def spawnMobs(self, population):
+            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
             salt = "spawnMobs"
-            pepper = str(self.room)
-            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
+            pepper = str(self.Cache.room)
+            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
             print("spawnMobs", f_seed)
             random.seed(f_seed)
             mobs = []
             if population > 0:
                 for _ in range(population):
-                    self.mobs += 1
+                    self.Cache.mobs += 1
                     if random.random() <= self.goldaruma_spawnrate:
                         is_goldaruma = True
-                        self.goldarumas += 1
+                        self.Cache.goldarumas += 1
                     else:
                         is_goldaruma = False
                     mobs.append(random.choice(self.yokai) if not is_goldaruma else "Gold Daruma")
@@ -492,9 +507,10 @@ async def dungeons(ctx, *input):
             return mobs
 
         def spawnChest(self):
+            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
             salt = "spawnChest"
-            pepper = str(self.room)
-            f_seed = hashlib.md5(self.seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest() if not self.seed is None else None
+            pepper = str(self.Cache.room)
+            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
             print("spawnChest", f_seed)
             random.seed(f_seed)
             loot_pools = []
@@ -662,14 +678,16 @@ async def dungeons(ctx, *input):
 
     async def dungeonEntry(ctx, message, flag, dg):
         Blueprint = dg.dungeonGenesis()
+        for floor in Blueprint["blueprint"]["floors"]:
+            if floor["type"] == "Floor":
+                pass
+            else:
+                pass
         # Exit
-        json_blueprint = json.dumps(Blueprint, indent=4)
-        json_filename = f"Blueprints/{Blueprint['header']['Seed']}.json"
-        if not file_exists(json_filename):
-            with open(json_filename, "w") as outfile:
-                outfile.write(json_blueprint)
-        file = discord.File(json_filename)
-        await ctx.send(file = file)
+        await ctx.send(file = writeBlueprint(Blueprint, dg))
+        return message, flag
+
+    async def openChest(ctx, message, flag, dg):
         return message, flag
 
     async def fightMob(ctx, message, flag, dg):
@@ -677,6 +695,17 @@ async def dungeons(ctx, *input):
 
     async def fightBoss(ctx, message, flag, dg):
         return message, flag
+
+    def writeBlueprint(Blueprint, dg):
+        json_blueprint = json.dumps(Blueprint, indent=4)
+        path = f"Blueprints/{dg.dungeon}/{dg.mode_name}"
+        makedirs(path)
+        json_filename = f"{path}/{Blueprint['header']['Seed']}.json"
+        if not file_exists(json_filename):
+            with open(json_filename, "w") as outfile:
+                outfile.write(json_blueprint)
+        file = discord.File(json_filename)
+        return file
 
     def getDungeonEnergy(dungeon):
         dungeon_metric = Dungeons[dungeon]["Energy_Metric"]
