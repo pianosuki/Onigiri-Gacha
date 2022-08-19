@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Onigiri"
 bot_version = "1.9"
-debug_mode  = False
+debug_mode  = True
 
 import config, dresource
 from database import Database
@@ -1575,8 +1575,16 @@ async def quests(ctx, arg: str = None):
             return message, flag
         match str(reaction.emoji):
             case "✅":
-                await message.clear_reactions()
-                message, flag = await startQuest(ctx, message, flag, quest, e)
+                now = int(time.time())
+                last_quest = getLastQuest(user_id)
+                if now >= last_quest + wait or checkAdmin(ctx):
+                    await message.clear_reactions()
+                    message, flag = await startQuest(ctx, message, flag, quest, e)
+                else:
+                    hours = math.floor((last_quest + wait - now) / 60 / 60)
+                    minutes = math.floor((last_quest + wait - now) / 60 - (hours * 60))
+                    seconds = (last_quest + wait - now) % 60
+                    await ctx.send(f"There are currently no quests, please check back in ⌛ **{hours} hours**, **{minutes} minutes**, and **{seconds} seconds**.")
                 return message, flag
             case "❌":
                 await message.clear_reactions()
@@ -1674,7 +1682,7 @@ async def quests(ctx, arg: str = None):
         quest = getPlayerQuest(user_id)
         await completeQuest(ctx, message, flag, quest)
         return
-    if now >= last_quest + wait:
+    if now >= last_quest + wait or checkAdmin(ctx):
         quest = chooseRandomQuest()
         message, flag = await promptQuest(ctx, message, flag, quest)
     else:
