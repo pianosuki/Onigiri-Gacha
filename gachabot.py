@@ -207,13 +207,11 @@ def updatePlayerEnergy(user_id):
     cold_energy = cold_energy if not cold_energy is None else 0
     last_refresh = PlayerDB.query(f"SELECT last_refresh FROM userdata WHERE user_id = '{user_id}'")[0][0]
     last_refresh = last_refresh if not last_refresh is None else 0
-    print(cold_energy, last_refresh)
     seconds_passed = now - last_refresh
     minutes_passed = math.floor(seconds_passed / 60)
     remainder = seconds_passed - (minutes_passed * 60)
     energy_refilled = math.floor(minutes_passed / 6)
     hot_energy = cold_energy + energy_refilled if not cold_energy + energy_refilled > max_energy else max_energy
-    print(hot_energy)
     if minutes_passed >= 6:
         PlayerDB.execute("UPDATE userdata SET energy = ?, last_refresh = ? WHERE user_id = ?", (hot_energy, now - remainder, user_id))
     return
@@ -340,6 +338,27 @@ def getUserItemQuantity(user_id, product):
         else:
             item_quantity = None
     return item_quantity
+
+def getPlayerDungeonRecord(user_id, dungeon, mode):
+    clears = getPlayerDungeonClears(user_id)
+    clear_times = []
+    for clear in clears:
+        if clear[3] == dungeon and clear[4] == mode:
+            clear_times.append(datetime.strptime(clear[5], "%H:%M:%S.%f"))
+    clear_times.sort()
+    if clear_times:
+        best_time = clear_times[0].strftime("%H:%M:%S.%f")
+    else:
+        best_time = "None"
+    return best_time
+
+def getPlayerExpToNextLevel(user_id):
+    ExpTable = Tables["ExpTable"]
+    exp = getPlayerExp(user_id)
+    level = getPlayerLevel(user_id)
+    next_level = ExpTable[level][1]
+    exp_to_next = next_level - exp
+    return exp_to_next
 
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
@@ -587,7 +606,8 @@ async def dungeons(ctx, *input):
             return room_schematic
 
         def renderBoss(self):
-            boss_schematic = self.boss
+            boss_schematic = {}
+            boss_schematic = Dungeons[self.dungeon]["Boss"]
             boss_schematic["HP"] *= self.multiplier
             return boss_schematic
 
@@ -747,9 +767,12 @@ async def dungeons(ctx, *input):
             e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = 0x9575cd)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-            e.add_field(name = "Level required", value = f"{Icons['level']}**{dg.level}**", inline = True)
-            e.add_field(name = "Energy cost", value = f"{Icons['energy']}**{dg.energy}**", inline = True)
-            e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dg.floors}**", inline = True)
+            e.add_field(name = "Level required", value = f"{Icons['level']} **{dg.level}**", inline = True)
+            e.add_field(name = "Energy cost", value = f"{Icons['energy']} **{dg.energy}**", inline = True)
+            e.add_field(name = "Floors", value = f"{Icons['dungeon']} **{dg.floors}**", inline = True)
+            e.add_field(name = "Your level", value = f"{Icons['level']} **{getPlayerLevel(user_id)}**", inline = True)
+            e.add_field(name = "Your energy", value = f"{Icons['energy']} **{getPlayerEnergy(user_id)}**", inline = True)
+            e.add_field(name = "Best time", value = f"⏱️ __{getPlayerDungeonRecord(user_id, dungeon, mode)}__", inline = True)
             e.add_field(name = "Boss stats:", value = dg.boss_stats, inline = True)
             e.add_field(name = "Rewards:", value = dg.rewards_list, inline = True)
             e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
@@ -2554,17 +2577,35 @@ async def roll(ctx, skip=None):
 @bot.command(aliases = ["use", "item", "energy", "refill", "recharge"])
 @commands.check(checkChannel)
 async def restore(ctx):
+    ''' | Usage: +restore '''
     user_id = ctx.author.id
-    level = getPlayerLevel(user_id)
+    energy = getPlayerEnergy(user_id)
+    max_energy = getPlayerMaxEnergy(user_id)
     product = "Energy Restore"
     item_quantity = getUserItemQuantity(user_id, product)
-    if item_quantity > 0:
-        ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
-        if item_quantity - 1 == 0:
-            ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
-        addPlayerEnergy(user_id, level)
-        await ctx.send(f"{target} used 1 **{product}** to fully restore their energy!")
-        return
+    if not item_quantity is None and item_quantity > 0:
+        e = discord.Embed(title = "Energy Restoration", description = "Will you use 1 Energy Restore to recover your energy?")
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.add_field(name = "Current Energy", value = f"{Icons['energy']} **{energy}**")
+        e.add_field(name = "Energy after restoring", value = f"{Icons['energy']} **{max_energy}**")
+        message = await ctx.send(embed = e)
+        emojis = ["✅", "❌"]
+        reaction, user = await waitForReaction(ctx, message, e, emojis)
+        if reaction is None:
+            return
+        match str(reaction.emoji):
+            case "✅":
+                await message.clear_reactions()
+                ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+                if item_quantity - 1 == 0:
+                    ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+                addPlayerEnergy(user_id, max_energy)
+                await ctx.send(f"{ctx.author.mention} used 1 **{product}** to fully restore their energy!")
+                return
+            case "❌":
+                await message.clear_reactions()
+                return
     else:
         await ctx.send(f"You do not have any **{product}s** to use!")
         return
@@ -2578,7 +2619,7 @@ async def stats(ctx, target = None):
         HP = getPlayerHP(user_id)
         ATK = getPlayerATK(user_id)
         DEF = getPlayerDEF(user_id)
-        player_stats = ["", f"Total HP: {HP}", f"Total ATK: {ATK}", f"Total DEF: {DEF}", ""]
+        player_stats = ["", f"{user.name}", f"Total HP: {HP}", f"Total ATK: {ATK}", f"Total DEF: {DEF}", ""]
         return player_stats
 
     def formatPlayerPoints(user_id):
@@ -2594,7 +2635,11 @@ async def stats(ctx, target = None):
         message = None
         while flag:
             user_id         = convertMentionToId(target)
+            user            = await bot.fetch_user(user_id)
             default_color   = config.default_color
+            exp             = getPlayerExp(user_id)
+            level           = getPlayerLevel(user_id)
+            exp_to_next     = getPlayerExpToNextLevel(user_id)
             player_stats    = formatPlayerStats(user_id)
             player_points   = formatPlayerPoints(user_id)
             stat_points     = getPlayerStatPoints(user_id)
@@ -2602,13 +2647,16 @@ async def stats(ctx, target = None):
             e = discord.Embed(title = "Viewing stats of user:", description = target, color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            e.add_field(name = "Current Level", value = f"{Icons['level']} **{level}**", inline = True)
+            e.add_field(name = "Current EXP", value = f"{Icons['exp']} **{'{:,}'.format(exp)}**", inline = True)
+            e.add_field(name = "EXP to next level", value = f"{Icons['exp']} **{'{:,}'.format(exp_to_next)}**", inline = True)
             e.add_field(name = "📊 Player Stats:", value = boxifyArray(player_stats, padding = 2), inline = True)
             e.add_field(name = "🧮 Allocated Stat Points:", value = boxifyArray(player_points, padding = 2), inline = True)
-            e.add_field(name = "\u200b", value = "\u200b", inline = True)
+            e.add_field(name = "\u200b", value = "────────────────────────────────", inline = False)
             message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
             if target == ctx.author.mention and points > 0:
                 e.add_field(name = f"You have `{points}` unallocated stat points!", value = "Choose a Stat to increment:", inline = True)
-                e.add_field(name = "Stat options:", value = "🩸 ─ **HP**\n⚔️ ─ **ATK**\n🛡️ ─ **DEF**", inline = True)
+                e.add_field(name = "│ Stat options:", value = "**│** 🩸 ─ **HP**\n**│** ⚔️ ─ **ATK**\n**│** 🛡️ ─ **DEF**", inline = True)
                 await message.edit(embed = e)
                 emojis = ["🩸", "⚔️", "🛡️", "❌"]
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -3238,10 +3286,10 @@ async def backstock(ctx):
 #         msg.append(str(entry))
 #     await ctx.send(str(msg))
 
-# @bot.command()
-# @commands.check(checkAdmin)
-# async def test(ctx):
-#     print(getPlayerData(ctx.author.id))
+@bot.command()
+@commands.check(checkAdmin)
+async def test(ctx):
+    getPlayerDungeonRecord(ctx.author.id, "Kishinden", 0)
 
 @bot.command()
 @commands.is_owner()

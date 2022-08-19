@@ -113,6 +113,13 @@
         [
             ["Graphics/Yokai/Toudaiki/1.png", "toudaiki-1.png", "attachment://toudaiki-1.png"],
             ["Graphics/Yokai/Toudaiki/2.png", "toudaiki-2.png", "attachment://toudaiki-2.png"]
+        ],
+        "Gama": [["Graphics/Yokai/Gama/1.png", "gama-1.png", "attachment://gama-1.png"]],
+        "Nuppepou": [["Graphics/Yokai/Nuppepou/1.png", "nuppepou-1.png", "attachment://nuppepou-1.png"]],
+        "Oogama":
+        [
+            ["Graphics/Yokai/Oogama/1.png", "oogama-1.png", "attachment://oogama-1.png"],
+            ["Graphics/Yokai/Oogama/2.png", "oogama-2.png", "attachment://oogama-2.png"]
         ]
     },
 

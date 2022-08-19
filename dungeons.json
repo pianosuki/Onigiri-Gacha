@@ -319,5 +319,46 @@
             "Ryou": {"range": [500, 1000], "rate": 100},
             "EXP": {"range": [500, 1000], "rate": 100}
         }
+    },
+
+    "Hoderi Shrine":
+    {
+        "Level_Required": 10,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal": {},
+            "Hard": {},
+            "Hell": {},
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [1000, 2000], "EXP": [200, 300]}, "rate": 50},
+                    {"pool": {"EXP": [200, 300], "Ryou": [500, 1000]}, "rate": 50}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Swamp Sticky",
+            "Kappa",
+            "Amagaeru",
+            "Gama",
+            "Nuppepou"
+        ],
+        "Boss":
+        {
+            "Name": "Oogama",
+            "HP": 2000,
+            "Resistances": ["Fire", "Mountain"],
+            "Weaknesses": ["Ice", "Dark"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [1000, 5000], "rate": 100},
+            "EXP": {"range": [400, 800], "rate": 100}
+        }
     }
 }
