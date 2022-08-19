@@ -125,6 +125,11 @@
         [
             ["Graphics/Yokai/Oogama/1.png", "oogama-1.png", "attachment://oogama-1.png"],
             ["Graphics/Yokai/Oogama/2.png", "oogama-2.png", "attachment://oogama-2.png"]
+        ],
+        "Oni-basami":
+        [
+            ["Graphics/Yokai/Oni-basami/1.png", "onibasami-1.png", "attachment://onibasami-1.png"],
+            ["Graphics/Yokai/Oni-basami/2.png", "onibasami-2.png", "attachment://onibasami-2.png"]
         ]
     },
 
