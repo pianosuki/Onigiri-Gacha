@@ -530,6 +530,8 @@ async def dungeons(ctx, *input):
             self.goldaruma_spawnrate /= 100.
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
 
+            self.floors = 1
+
             # Seed
             if seed is None:
                 self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
@@ -605,8 +607,8 @@ async def dungeons(ctx, *input):
 
         def renderBoss(self):
             boss_schematic = {}
-            boss_schematic = Dungeons[self.dungeon]["Boss"]
-            # boss_schematic["HP"] *= self.multiplier
+            boss_schematic.update(Dungeons[self.dungeon]["Boss"])
+            boss_schematic.update({"HP": Dungeons[self.dungeon]["Boss"]["HP"] * self.multiplier})
             return boss_schematic
 
         def spawnMobs(self, population):
