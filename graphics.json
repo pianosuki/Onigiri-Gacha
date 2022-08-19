@@ -108,6 +108,11 @@
         [
             ["Graphics/Yokai/Punk Kappa/1.png", "punkkappa-1.png", "attachment://punkkappa-1.png"],
             ["Graphics/Yokai/Punk Kappa/2.png", "punkkappa-2.png", "attachment://punkkappa-2.png"]
+        ],
+        "Toudaiki":
+        [
+            ["Graphics/Yokai/Toudaiki/1.png", "toudaiki-1.png", "attachment://toudaiki-1.png"],
+            ["Graphics/Yokai/Toudaiki/2.png", "toudaiki-2.png", "attachment://toudaiki-2.png"]
         ]
     },
 
