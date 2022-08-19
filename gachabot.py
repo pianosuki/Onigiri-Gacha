@@ -1300,8 +1300,8 @@ async def dungeons(ctx, *input):
                         dg.Boss.phase = 2
                     if phase == 1 and dg.Boss.phase == 2:
                         message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 2!")
-                        dg.Boss.ATK *= random.uniform(1, 1.5)
-                        dg.Boss.DEF *= random.uniform(1, 1.5)
+                        dg.Boss.ATK = math.floor(dg.Boss.ATK * random.uniform(1, 1.5))
+                        dg.Boss.DEF = math.floor(dg.Boss.DEF * random.uniform(1, 1.5))
                         message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
                         message = await printToConsole(message, e, console, "")
                         phase = 2
