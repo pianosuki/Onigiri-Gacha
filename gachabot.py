@@ -271,19 +271,19 @@ def getPlayerStatPoints(user_id, stats_query: str = None):
 def getPlayerHP(user_id):
     level = getPlayerLevel(user_id)
     hp_stat = getPlayerStatPoints(user_id, "hp")
-    HP = (level * 100) + (math.floor((hp_stat ** 3) * (level / 4)))
+    HP = (level * 100) + (math.floor((hp_stat ** 3)))
     return HP
 
 def getPlayerATK(user_id):
     level = getPlayerLevel(user_id)
     atk_stat = getPlayerStatPoints(user_id, "atk")
-    ATK = (level * 10) + (math.floor((atk_stat ** 2) * (level / 4)))
+    ATK = (level * 10) + (math.floor((atk_stat ** 2)))
     return ATK
 
 def getPlayerDEF(user_id):
     level = getPlayerLevel(user_id)
     def_stat = getPlayerStatPoints(user_id, "def")
-    DEF = level * 10 + (math.floor((def_stat ** 2) * (level / 4)))
+    DEF = level * 10 + (math.floor((def_stat ** 2)))
     return DEF
 
 def addPlayerStatPoints(user_id, stats_query, amount):
@@ -524,8 +524,6 @@ async def dungeons(ctx, *input):
             self.boss = Dungeons[dungeon]["Boss"]
             self.rewards = Dungeons[dungeon]["Rewards"]
             self.energy = getDungeonEnergy(dungeon)[self.mode]
-            self.boss_stats = formatBossStats(self.boss, self.mode)
-            self.rewards_list = formatDungeonRewards(self.rewards, self.mode)
             self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
             self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
             self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
@@ -608,7 +606,7 @@ async def dungeons(ctx, *input):
         def renderBoss(self):
             boss_schematic = {}
             boss_schematic = Dungeons[self.dungeon]["Boss"]
-            boss_schematic["HP"] *= self.multiplier
+            # boss_schematic["HP"] *= self.multiplier
             return boss_schematic
 
         def spawnMobs(self, population):
@@ -773,8 +771,8 @@ async def dungeons(ctx, *input):
             e.add_field(name = "Your level", value = f"{Icons['level']} **{getPlayerLevel(user_id)}**", inline = True)
             e.add_field(name = "Your energy", value = f"{Icons['energy']} **{getPlayerEnergy(user_id)}**", inline = True)
             e.add_field(name = "Best time", value = f"⏱️ __{getPlayerDungeonRecord(user_id, dungeon, mode)}__", inline = True)
-            e.add_field(name = "Boss stats:", value = dg.boss_stats, inline = True)
-            e.add_field(name = "Rewards:", value = dg.rewards_list, inline = True)
+            e.add_field(name = "Boss stats:", value = formatBossStats(dg.boss, dg.mode), inline = True)
+            e.add_field(name = "Rewards:", value = formatDungeonRewards(dg.rewards, dg.mode), inline = True)
             e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
             message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
             emojis = [Icons["door_open"], "↩️"]
@@ -881,7 +879,7 @@ async def dungeons(ctx, *input):
             return yokai_state, player_state
 
         async def printToConsole(message, e, console, input):
-            time.sleep(0.5)
+            time.sleep(0.2)
             console.append(str(input))
             yokai_state, player_state = updateAgents()
             await updateEmbed(e, yokai_state, player_state, console)
@@ -893,23 +891,23 @@ async def dungeons(ctx, *input):
             e.set_image(url = Resource[f"{mob}-1"][0].replace(" ", "%20"))
             e.description = "🔄 **Loading Combat Engine** 🔄"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.remove_field(3)
             e.description = None
             e.set_image(url = None)
             return message
 
         async def playerAttack(message, e, console):
-            time.sleep(0.5)
+            # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Yokai)
             dg.Yokai.HP = dg.Yokai.HP - damage if not dg.Yokai.HP - damage < 0 else 0
             message = await printToConsole(message, e, console, f"Dealt {damage} damage to {mob}!")
@@ -919,26 +917,29 @@ async def dungeons(ctx, *input):
             return message
 
         async def playerDefend(message, e, console):
-            time.sleep(0.5)
+            # time.sleep(0.5)
             dg.Player.DEF *= 3
             message = await printToConsole(message, e, console, f"You fortified your defences!")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def yokaiAttack(message, e, console, is_charging):
+        async def yokaiAttack(message, e, console, is_charging, is_defending):
             damage, is_critical = damageCalculator(dg.Yokai, dg.Player)
-            if is_charging:
+            if is_charging and not is_defending:
                 damage *= 2
-            time.sleep(0.5)
+            # time.sleep(0.5)
             dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
-            message = await printToConsole(message, e, console, f"Took {damage} damage from {mob}!")
+            if not is_charging:
+                message = await printToConsole(message, e, console, f"Took {damage} damage from {dg.Yokai.name}!")
+            else:
+                message = await printToConsole(message, e, console, f"Took {damage} heavy damage from {dg.Yokai.name}!")
             if is_critical:
                 message = await printToConsole(message, e, console, "(2x Critical!)")
             # message = await printToConsole(message, e, console, "")
             return message
 
         async def yokaiDefend(message, e, console):
-            time.sleep(0.5)
+            # time.sleep(0.5)
             dg.Yokai.DEF *= 2
             message = await printToConsole(message, e, console, f"{mob} fortified its defences!")
             # message = await printToConsole(message, e, console, "")
@@ -955,9 +956,12 @@ async def dungeons(ctx, *input):
         yokai_action = ""
         player_action = ""
         dg.Yokai.name = mob
-        dg.Yokai.HP = dg.level * dg.multiplier * random.randint(5, 15)
-        dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15)
-        dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15)
+        # dg.Yokai.HP = dg.level * dg.multiplier * random.randint(10, 50) + (math.floor((dg.level ** 3) / 4))
+        # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
+        # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
+        dg.Yokai.HP = (dg.level * random.randint(20, 50)) * dg.multiplier
+        dg.Yokai.ATK = (dg.level * random.randint(5, 10)) * dg.multiplier
+        dg.Yokai.DEF = (dg.level * random.randint(5, 10)) * dg.multiplier
         if getPlayerLevel(user_id) > dg.Player.level:
             dg.Player.HP = getPlayerHP(user_id)
             dg.Player.ATK = getPlayerATK(user_id)
@@ -1016,7 +1020,7 @@ async def dungeons(ctx, *input):
                             await message.clear_reactions()
                             player_action = "Defend"
                             message = await playerDefend(message, e, console)
-                            message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
+                            message = await yokaiAttack(message, e, console, is_charging, is_defending = True) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
                             if yokai_action == "Attack":
                                 message = await printToConsole(message, e, console, "(Suppressed)")
                             message = await printToConsole(message, e, console, "")
@@ -1087,16 +1091,16 @@ async def dungeons(ctx, *input):
         async def loadNextRoom(message, e):
             e.description = "🔄 **Loading Next Room** 🔄"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Next Room** 🔄 ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Next Room** 🔄 ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Next Room** 🔄 ▫️ ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.remove_field(4)
             e.remove_field(3)
             e.description = None
@@ -1132,8 +1136,8 @@ async def dungeons(ctx, *input):
     async def fightBoss(ctx, message, flag, dg, boss, e):
         dg.Boss.name = boss["Name"]
         dg.Boss.HP = boss["HP"]
-        dg.Boss.ATK = dg.level * dg.multiplier * random.randint(10, 20)
-        dg.Boss.DEF = dg.level * dg.multiplier * random.randint(10, 20)
+        dg.Boss.ATK = (dg.level * random.randint(7, 13)) * dg.multiplier
+        dg.Boss.DEF = (dg.level * random.randint(7, 13)) * dg.multiplier
         if getPlayerLevel(user_id) > dg.Player.level:
             dg.Player.HP = getPlayerHP(user_id)
             dg.Player.ATK = getPlayerATK(user_id)
@@ -1152,7 +1156,7 @@ async def dungeons(ctx, *input):
             return boss_state, player_state
 
         async def printToConsole(message, e, console, input):
-            time.sleep(0.5)
+            time.sleep(0.2)
             console.append(str(input))
             boss_state, player_state = updateAgents()
             await updateEmbed(e, boss_state, player_state, console)
@@ -1164,23 +1168,23 @@ async def dungeons(ctx, *input):
             e.set_image(url = Resource[f"{name}-2"][0].replace(" ", "%20"))
             e.description = "🔄 **Loading Combat Engine** 🔄"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(1)
+            time.sleep(0.5)
             e.remove_field(3)
             e.description = None
             e.set_image(url = None)
             return message
 
         async def playerAttack(message, e, console):
-            time.sleep(0.5)
+            # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Boss)
             dg.Boss.HP = dg.Boss.HP - damage if not dg.Boss.HP - damage < 0 else 0
             message = await printToConsole(message, e, console, f"Dealt {damage} damage to {dg.Boss.name}!")
@@ -1190,17 +1194,17 @@ async def dungeons(ctx, *input):
             return message
 
         async def playerDefend(message, e, console):
-            time.sleep(0.5)
+            # time.sleep(0.5)
             dg.Player.DEF *= 3
             message = await printToConsole(message, e, console, f"You fortified your defences!")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def bossAttack(message, e, console, is_charging):
+        async def bossAttack(message, e, console, is_charging, is_defending = False):
             damage, is_critical = damageCalculator(dg.Boss, dg.Player)
-            if is_charging:
+            if is_charging and not is_defending:
                 damage *= 2
-            time.sleep(0.5)
+            # time.sleep(0.5)
             dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
             if not is_charging:
                 message = await printToConsole(message, e, console, f"Took {damage} damage from {dg.Boss.name}!")
@@ -1212,7 +1216,7 @@ async def dungeons(ctx, *input):
             return message
 
         async def bossDefend(message, e, console):
-            time.sleep(0.5)
+            # time.sleep(0.5)
             dg.Boss.DEF *= 2
             message = await printToConsole(message, e, console, f"{dg.Boss.name} fortified its defences!")
             # message = await printToConsole(message, e, console, "")
@@ -1282,7 +1286,7 @@ async def dungeons(ctx, *input):
                             await message.clear_reactions()
                             player_action = "Defend"
                             message = await playerDefend(message, e, console)
-                            message = await bossAttack(message, e, console, is_charging) if boss_action == "Attack" else await bossDefend(message, e, console)
+                            message = await bossAttack(message, e, console, is_charging, is_defending = True) if boss_action == "Attack" else await bossDefend(message, e, console)
                             if boss_action == "Attack":
                                 message = await printToConsole(message, e, console, "(Suppressed)")
                             message = await printToConsole(message, e, console, "")
@@ -1296,8 +1300,8 @@ async def dungeons(ctx, *input):
                         dg.Boss.phase = 2
                     if phase == 1 and dg.Boss.phase == 2:
                         message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 2!")
-                        dg.Boss.ATK *= 2
-                        dg.Boss.DEF *= 2
+                        dg.Boss.ATK *= random.uniform(1, 1.5)
+                        dg.Boss.DEF *= random.uniform(1, 1.5)
                         message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
                         message = await printToConsole(message, e, console, "")
                         phase = 2
@@ -3267,6 +3271,15 @@ async def backstock(ctx):
                         exit_flag = True
                         await message.clear_reactions()
                         break
+
+@bot.command()
+@commands.check(checkAdmin)
+async def resetstats(ctx, target = ""):
+    if re.match(r"<(@|@&)[0-9]{18,19}>", target):
+        user_id = convertMentionToId(target)
+        StatsDB.execute(f"DELETE FROM userdata WHERE user_id = {user_id}")
+    else:
+        await ctx.send("Please **@ mention** a valid user to reset their stats.")
 
 # @bot.command()
 # @commands.check(checkAdmin)

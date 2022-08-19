@@ -72,14 +72,14 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10, 100], "rate": 100},
-            "EXP": {"range": [10, 100], "rate": 100}
+            "Ryou": {"range": [50, 100], "rate": 100},
+            "EXP": {"range": [50, 100], "rate": 100}
         }
     },
 
     "Den of Karma":
     {
-        "Level_Required": 1,
+        "Level_Required": 2,
         "Energy_Metric": 50,
         "Difficulties":
         {
@@ -111,14 +111,14 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10, 170], "rate": 100},
-            "EXP": {"range": [10, 170], "rate": 100}
+            "Ryou": {"range": [150, 250], "rate": 100},
+            "EXP": {"range": [150, 250], "rate": 100}
         }
     },
 
     "Cave of Screams":
     {
-        "Level_Required": 1,
+        "Level_Required": 2,
         "Energy_Metric": 50,
         "Difficulties":
         {
@@ -152,14 +152,14 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10, 110], "rate": 100},
-            "EXP": {"range": [10, 110], "rate": 100}
+            "Ryou": {"range": [150, 200], "rate": 100},
+            "EXP": {"range": [150, 200], "rate": 100}
         }
     },
 
     "Kokujou Forest":
     {
-        "Level_Required": 1,
+        "Level_Required": 3,
         "Energy_Metric": 50,
         "Difficulties":
         {
@@ -192,14 +192,14 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10, 130], "rate": 100},
-            "EXP": {"range": [10, 130], "rate": 100}
+            "Ryou": {"range": [200, 400], "rate": 100},
+            "EXP": {"range": [200, 400], "rate": 100}
         }
     },
 
     "Daiku Cave":
     {
-        "Level_Required": 1,
+        "Level_Required": 3,
         "Energy_Metric": 50,
         "Difficulties":
         {
@@ -232,14 +232,14 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10, 100], "rate": 100},
-            "EXP": {"range": [10, 100], "rate": 100}
+            "Ryou": {"range": [200, 400], "rate": 100},
+            "EXP": {"range": [200, 400], "rate": 100}
         }
     },
 
     "Cave of Dreams":
     {
-        "Level_Required": 1,
+        "Level_Required": 4,
         "Energy_Metric": 50,
         "Difficulties":
         {
@@ -273,14 +273,14 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10, 250], "rate": 100},
-            "EXP": {"range": [10, 250], "rate": 100}
+            "Ryou": {"range": [300, 500], "rate": 100},
+            "EXP": {"range": [300, 500], "rate": 100}
         }
     },
 
     "Kishinden":
     {
-        "Level_Required": 1,
+        "Level_Required": 5,
         "Energy_Metric": 50,
         "Difficulties":
         {
@@ -357,8 +357,8 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [1000, 5000], "rate": 100},
-            "EXP": {"range": [400, 800], "rate": 100}
+            "Ryou": {"range": [2000, 5000], "rate": 100},
+            "EXP": {"range": [1000, 2000], "rate": 100}
         }
     }
 }
