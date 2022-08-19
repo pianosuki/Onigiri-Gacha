@@ -103,6 +103,11 @@
         [
             ["Graphics/Yokai/Kikuzou/1.png", "kikuzou-1.png", "attachment://kikuzou-1.png"],
             ["Graphics/Yokai/Kikuzou/2.png", "kikuzou-2.png", "attachment://kikuzou-2.png"]
+        ],
+        "Punk Kappa":
+        [
+            ["Graphics/Yokai/Punk Kappa/1.png", "punkkappa-1.png", "attachment://punkkappa-1.png"],
+            ["Graphics/Yokai/Punk Kappa/2.png", "punkkappa-2.png", "attachment://punkkappa-2.png"]
         ]
     },
 
