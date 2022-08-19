@@ -1481,7 +1481,7 @@ async def dungeons(ctx, *input):
             if len(mode_test) == 1:
                 # Try to get mode as integer
                 mode = int(mode_test)
-                if not -1 > mode > 3 and not checkAdmin(ctx):
+                if mode > 3 or mode < 0:
                     # User tried to access a protected or non-existant dungeon mode
                     await ctx.send(f"⚠️ **Invalid Mode ID:** `{mode}`")
                     return
