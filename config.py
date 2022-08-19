@@ -8,7 +8,7 @@ prefix          = "+"
 coin_name       = "Ryou D-Coins"
 
 # RPG
-level_cap               = 9
+level_cap               = 19
 mode_mapping            = {-1: "Any", 0: "Normal", 1: "Hard", 2: "Hell", 3: "Oni"}
 mode_mapping_inverse    = {"Any": -1, "Normal": 0, "Hard": 1, "Hell": 2, "Oni": 3}
 mode_multipliers        = {-1: 0, 0: 1, 1: 2, 2: 3, 3: 5}
@@ -19,11 +19,11 @@ goldaruma_spawnrate     = 1
 default_chest_loot      = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"EXP": [100, 200]}, "rate": 50}]
 
 # RNG
-weights         = {"tier_1": [25, 20, 15, 10, 10, 20], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
-                   "tier_2": [25, 20, 20, 15, 15, 5],
-                   "tier_3": [25, 20, 19, 18, 3, 15],
-                   "tier_4": [20, 20, 20, 19, 20, 1]}
-weight_mods     = [0, 0.1, 0.9, 1] # Applied respectively according to how many times prize has been rolled. 0 rolled = weight_mods[0], 1 rolled = weight_mods[1], etc.
+weights         = {"tier_1": [25, 25, 20, 15, 10, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
+                   "tier_2": [25, 25, 20, 15, 10, 5],
+                   "tier_3": [25, 25, 20, 15, 10, 5],
+                   "tier_4": [29, 25, 20, 15, 10, 1]}
+weight_mods     = [1] # Applied respectively according to how many times prize has been rolled. 0 rolled = weight_mods[0], 1 rolled = weight_mods[1], etc.
 encouragement   = {"tier_1": [32, 25, 18, 12, 8, 5],
                    "tier_2": [32, 25, 18, 12, 8, 5],
                    "tier_3": [32, 25, 18, 12, 8, 5],
@@ -45,13 +45,15 @@ channels = {
     "roll": [969165756489171001, 1002074803336908860],
     "tavern": [1005908816061288539],
     "quests": [1005915625912279050],
-    "dungeons": [1002074803336908860],
+    "dungeons": [1010013028000989284],
     "chat_earn": [969165756237504575, 969165757839728641, 969165757839728640, 969165757613228051, 969165757613228048, 969165757613228049, 969165757613228050, 969165757839728642, 969165757839728643, 969165757839728645, 969165757839728644, 969165757839728646, 969165757839728647, 969165757839728648, 969165757839728649, 981464673184538634, 982197991731515402],
     "exp": [999759477026852955],
     "history": [1005908816061288539, 1005915625912279050, 969165756489171001],
     "craft": [1005908816061288539, 1005915625912279050, 969165756489171001],
     "inv": [1005908816061288539, 1005915625912279050, 969165756489171001],
-    "leaderboard": [1005908816061288539, 1005915625912279050, 969165756489171001]
+    "stats": [1005908816061288539, 1005915625912279050, 969165756489171001],
+    "leaderboard": [1005908816061288539, 1005915625912279050, 969165756489171001],
+    "restore": [1005908816061288539, 1010013028000989284, 1005915625912279050, 969165756489171001]
 }
 
 # UI
@@ -93,7 +95,12 @@ custom_emojis   = {
     "door_open": "<:door_open:1007714397633921045>",
     "material_common": "<:material_common:1007728592756691024>",
     "material_rare": "<:material_rare:1007728607050866758>",
-    "material_special": "<:material_special:1007728619172417670>"
+    "material_special": "<:material_special:1007728619172417670>",
+    "yokai": "<:yokai:1009485551440765048>",
+    "chest": "<:chest:1009486809916518563>",
+    "attack": "<:attack:1009540591182430208>",
+    "defend": "<:defend:1009540603920523374>",
+    "exit": "<:exit:1009544808479604856>"
 }
 mode_emojis     = {
     "normal": "<:normal:1007526343501688862>",

@@ -8,7 +8,14 @@
             "Normal": {},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 2,
         "Yokai":
@@ -36,10 +43,17 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {},
+            "Normal": {"rooms_range": [1, 1]},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 2,
         "Yokai":
@@ -72,7 +86,14 @@
             "Normal": {},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 3,
         "Yokai":
@@ -104,7 +125,14 @@
             "Normal": {},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 3,
         "Yokai":
@@ -138,7 +166,14 @@
             "Normal": {},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 2,
         "Yokai":
@@ -171,7 +206,14 @@
             "Normal": {},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 2,
         "Yokai":
@@ -204,14 +246,21 @@
             "Normal": {},
             "Hard": {},
             "Hell": {},
-            "Oni": {}
+            "Oni":
+            {
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [400, 500], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [100, 200], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 3,
         "Yokai":
         [
             "Gaikotsu",
             "Rock Sticky",
-            "Hangon Musha",
+            "Handamashii Musha",
             "Amagaeru",
             "Lantern Ghost"
         ],
@@ -235,10 +284,18 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {},
-            "Hard": {},
-            "Hell": {},
-            "Oni": {"rooms_range": [5, 10]}
+            "Normal": {"rooms_range": [2, 7]},
+            "Hard": {"rooms_range": [3, 8]},
+            "Hell": {"rooms_range": [4, 9]},
+            "Oni":
+            {
+                "rooms_range": [5, 10],
+                "chest_loot":
+                [
+                    {"pool": {"Ryou": [500, 1000], "EXP": [100, 200]}, "rate": 50},
+                    {"pool": {"EXP": [200, 300], "Ryou": [100, 500]}, "rate": 50}
+                ]
+            }
         },
         "Floors": 2,
         "Yokai":
@@ -248,7 +305,7 @@
             "Life Daruma",
             "Luck Daruma",
             "Gankubi",
-            "Hangon Musha"
+            "Handamashii Musha"
         ],
         "Boss":
         {
@@ -259,8 +316,8 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [100, 1000], "rate": 100},
-            "EXP": {"range": [100, 1000], "rate": 100}
+            "Ryou": {"range": [500, 1000], "rate": 100},
+            "EXP": {"range": [500, 1000], "rate": 100}
         }
     }
 }
