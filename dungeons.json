@@ -43,7 +43,7 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 1]},
+            "Normal": {},
             "Hard": {},
             "Hell": {},
             "Oni":
