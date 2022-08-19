@@ -530,8 +530,6 @@ async def dungeons(ctx, *input):
             self.goldaruma_spawnrate /= 100.
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
 
-            self.floors = 1
-
             # Seed
             if seed is None:
                 self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
