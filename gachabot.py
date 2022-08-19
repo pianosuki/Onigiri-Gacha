@@ -923,7 +923,7 @@ async def dungeons(ctx, *input):
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def yokaiAttack(message, e, console, is_charging, is_defending):
+        async def yokaiAttack(message, e, console, is_charging, is_defending = False):
             damage, is_critical = damageCalculator(dg.Yokai, dg.Player)
             if is_charging and not is_defending:
                 damage *= 2
