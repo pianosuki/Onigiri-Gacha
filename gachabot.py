@@ -785,6 +785,7 @@ async def dungeons(ctx, *input):
         dg.Cache.start_time = datetime.utcnow()
         ###################
         e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", color = 0x9575cd)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.add_field(name = "Floor", value = "Placeholder", inline = True) # Field 0
         e.add_field(name = "Room", value = "Placeholder", inline = True) # Field 1
         e.add_field(name = "Contents", value = "Placeholder", inline = True) # Field 2
