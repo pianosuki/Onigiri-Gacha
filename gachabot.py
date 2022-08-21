@@ -976,7 +976,7 @@ async def dungeons(ctx, *input):
         base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
         base_yokai_atk = math.floor((dg.level * random.randint(5, 10)) + (dg.level * dg.multiplier))
         base_yokai_def = math.floor((dg.level * random.randint(5, 10)) + (dg.level * dg.multiplier))
-        dg.Yokai.HP = base_yokai_def
+        dg.Yokai.HP = base_yokai_hp
         dg.Yokai.ATK = base_yokai_atk
         dg.Yokai.DEF = base_yokai_def
         base_player_hp = getPlayerHP(user_id)
