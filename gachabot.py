@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Onigiri"
 bot_version = "1.9"
-debug_mode  = False
+debug_mode  = True
 
 import config, dresource
 from database import Database
@@ -283,7 +283,7 @@ def getPlayerATK(user_id):
 def getPlayerDEF(user_id):
     level = getPlayerLevel(user_id)
     def_stat = getPlayerStatPoints(user_id, "def")
-    DEF = level * 10 + (math.floor((def_stat * 5)))
+    DEF = (level * 10) + (math.floor((def_stat * 5)))
     return DEF
 
 def addPlayerStatPoints(user_id, stats_query, amount):
@@ -1115,6 +1115,9 @@ async def dungeons(ctx, *input):
                         addPlayerRyou(user_id, value)
                     case "EXP":
                         addPlayerExp(user_id, value)
+                    case "Gacha Fragment" | "Gacha Fragments":
+                        fragments = GachaDB.query("SELECT gacha_fragments FROM userdata WHERE user_id = {}".format(user_id))[0][0]
+                        GachaDB.execute("UPDATE userdata SET gacha_fragments = ? WHERE user_id = ?", (fragments + value, user_id))
 
         async def loadNextRoom(message, e):
             e.description = "🔄 **Loading Next Room** 🔄"
@@ -3386,10 +3389,10 @@ async def resetstats(ctx, target = ""):
 #         msg.append(str(entry))
 #     await ctx.send(str(msg))
 
-@bot.command()
-@commands.check(checkAdmin)
-async def test(ctx):
-    getPlayerDungeonRecord(ctx.author.id, "Kishinden", 0)
+# @bot.command()
+# @commands.check(checkAdmin)
+# async def test(ctx):
+#     pass
 
 @bot.command()
 @commands.is_owner()

@@ -5,15 +5,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [7, 17], "Ryou": [70, 170]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [8, 18], "Ryou": [80, 180]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [9, 19], "Ryou": [90, 190]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [10, 20], "Ryou": [100, 200]}, "rate": 100}
+                    {"pool": {"EXP": [10, 20], "Ryou": [100, 200]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -43,15 +68,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [17, 27], "Ryou": [170, 270]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [18, 28], "Ryou": [180, 280]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [19, 29], "Ryou": [190, 290]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [20, 30], "Ryou": [200, 300]}, "rate": 100}
+                    {"pool": {"EXP": [20, 30], "Ryou": [200, 300]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -83,15 +133,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [27, 37], "Ryou": [270, 370]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [28, 38], "Ryou": [280, 380]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [29, 39], "Ryou": [290, 390]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [30, 40], "Ryou": [300, 400]}, "rate": 100}
+                    {"pool": {"EXP": [30, 40], "Ryou": [300, 400]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -122,15 +197,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [37, 47], "Ryou": [370, 470]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [38, 48], "Ryou": [380, 480]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [39, 49], "Ryou": [390, 490]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [40, 50], "Ryou": [400, 500]}, "rate": 100}
+                    {"pool": {"EXP": [40, 50], "Ryou": [400, 500]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -163,15 +263,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [47, 97], "Ryou": [470, 570]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [48, 98], "Ryou": [480, 580]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [49, 99], "Ryou": [490, 590]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [50, 100], "Ryou": [500, 600]}, "rate": 100}
+                    {"pool": {"EXP": [50, 100], "Ryou": [500, 600]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -203,15 +328,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [70, 170], "Ryou": [570, 670]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [80, 180], "Ryou": [580, 680]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [90, 190], "Ryou": [590, 690]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [100, 200], "Ryou": [600, 700]}, "rate": 100}
+                    {"pool": {"EXP": [100, 200], "Ryou": [600, 700]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -243,15 +393,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [1, 3]},
-            "Hard": {"rooms_range": [2, 3]},
-            "Hell": {"rooms_range": [2, 4]},
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [170, 270], "Ryou": [670, 770]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [180, 280], "Ryou": [680, 780]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [190, 290], "Ryou": [690, 790]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [200, 300], "Ryou": [700, 800]}, "rate": 100}
+                    {"pool": {"EXP": [200, 300], "Ryou": [700, 800]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -284,15 +459,40 @@
         "Energy_Metric": 50,
         "Difficulties":
         {
-            "Normal": {"rooms_range": [2, 7]},
-            "Hard": {"rooms_range": [3, 8]},
-            "Hell": {"rooms_range": [4, 9]},
+            "Normal":
+            {
+                "rooms_range": [2, 7],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [270, 370], "Ryou": [770, 870]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [3, 8],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [280, 380], "Ryou": [780, 880]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [4, 9],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [290, 390], "Ryou": [790, 890]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
+                ]
+            },
             "Oni":
             {
                 "rooms_range": [5, 10],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [300, 400], "Ryou": [800, 900]}, "rate": 100}
+                    {"pool": {"EXP": [300, 400], "Ryou": [800, 900]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -331,7 +531,8 @@
                 "rooms_range": [1, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [200, 300], "Ryou": [700, 1200]}, "rate": 100}
+                    {"pool": {"EXP": [200, 300], "Ryou": [700, 1200]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
                 ]
             },
             "Hard":
@@ -339,7 +540,8 @@
                 "rooms_range": [2, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [300, 400], "Ryou": [800, 1300]}, "rate": 100}
+                    {"pool": {"EXP": [300, 400], "Ryou": [800, 1300]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
                 ]
             },
             "Hell":
@@ -347,7 +549,8 @@
                 "rooms_range": [2, 4],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [400, 500], "Ryou": [900, 1400]}, "rate": 100}
+                    {"pool": {"EXP": [400, 500], "Ryou": [900, 1400]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
                 ]
             },
             "Oni":
@@ -355,7 +558,8 @@
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [500, 600], "Ryou": [1000, 1500]}, "rate": 100}
+                    {"pool": {"EXP": [500, 600], "Ryou": [1000, 1500]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -393,7 +597,8 @@
                 "rooms_range": [1, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [300, 400], "Ryou": [1200, 1700]}, "rate": 100}
+                    {"pool": {"EXP": [300, 400], "Ryou": [1200, 1700]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
                 ]
             },
             "Hard":
@@ -401,7 +606,8 @@
                 "rooms_range": [2, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [400, 500], "Ryou": [1300, 1800]}, "rate": 100}
+                    {"pool": {"EXP": [400, 500], "Ryou": [1300, 1800]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
                 ]
             },
             "Hell":
@@ -409,7 +615,8 @@
                 "rooms_range": [2, 4],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [500, 600], "Ryou": [1400, 1900]}, "rate": 100}
+                    {"pool": {"EXP": [500, 600], "Ryou": [1400, 1900]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
                 ]
             },
             "Oni":
@@ -417,7 +624,8 @@
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [600, 700], "Ryou": [1500, 2000]}, "rate": 100}
+                    {"pool": {"EXP": [600, 700], "Ryou": [1500, 2000]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -454,7 +662,8 @@
                 "rooms_range": [1, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [400, 500], "Ryou": [1700, 2200]}, "rate": 100}
+                    {"pool": {"EXP": [400, 500], "Ryou": [1700, 2200]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
                 ]
             },
             "Hard":
@@ -462,7 +671,8 @@
                 "rooms_range": [2, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [500, 800], "Ryou": [1800, 2300]}, "rate": 100}
+                    {"pool": {"EXP": [500, 800], "Ryou": [1800, 2300]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
                 ]
             },
             "Hell":
@@ -470,7 +680,8 @@
                 "rooms_range": [2, 4],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [600, 700], "Ryou": [1900, 2400]}, "rate": 100}
+                    {"pool": {"EXP": [600, 700], "Ryou": [1900, 2400]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
                 ]
             },
             "Oni":
@@ -478,7 +689,8 @@
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [700, 800], "Ryou": [2000, 2500]}, "rate": 100}
+                    {"pool": {"EXP": [700, 800], "Ryou": [2000, 2500]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -515,7 +727,8 @@
                 "rooms_range": [1, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [500, 600], "Ryou": [2200, 2700]}, "rate": 100}
+                    {"pool": {"EXP": [500, 600], "Ryou": [2200, 2700]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
                 ]
             },
             "Hard":
@@ -523,7 +736,8 @@
                 "rooms_range": [2, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [600, 700], "Ryou": [2300, 2800]}, "rate": 100}
+                    {"pool": {"EXP": [600, 700], "Ryou": [2300, 2800]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
                 ]
             },
             "Hell":
@@ -531,7 +745,8 @@
                 "rooms_range": [2, 4],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [700, 800], "Ryou": [2400, 2900]}, "rate": 100}
+                    {"pool": {"EXP": [700, 800], "Ryou": [2400, 2900]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
                 ]
             },
             "Oni":
@@ -539,7 +754,8 @@
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [800, 900], "Ryou": [2500, 3000]}, "rate": 100}
+                    {"pool": {"EXP": [800, 900], "Ryou": [2500, 3000]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
@@ -577,7 +793,8 @@
                 "rooms_range": [1, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [600, 700], "Ryou": [2700, 3200]}, "rate": 100}
+                    {"pool": {"EXP": [600, 700], "Ryou": [2700, 3200]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1}
                 ]
             },
             "Hard":
@@ -585,7 +802,8 @@
                 "rooms_range": [2, 3],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [700, 800], "Ryou": [2800, 3300]}, "rate": 100}
+                    {"pool": {"EXP": [700, 800], "Ryou": [2800, 3300]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1}
                 ]
             },
             "Hell":
@@ -593,7 +811,8 @@
                 "rooms_range": [2, 4],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [800, 900], "Ryou": [2900, 3400]}, "rate": 100}
+                    {"pool": {"EXP": [800, 900], "Ryou": [2900, 3400]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1}
                 ]
             },
             "Oni":
@@ -601,7 +820,8 @@
                 "rooms_range": [2, 5],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [900, 1000], "Ryou": [3000, 3500]}, "rate": 100}
+                    {"pool": {"EXP": [900, 1000], "Ryou": [3000, 3500]}, "rate": 99},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1}
                 ]
             }
         },
