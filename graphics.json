@@ -151,6 +151,11 @@
         [
             ["Graphics/Yokai/Tiamat/1.png", "tiamat-1.png", "attachment://tiamat-1.png"],
             ["Graphics/Yokai/Tiamat/2.png", "tiamat-2.png", "attachment://tiamat-2.png"]
+        ],
+        "Crazed Momotarou":
+        [
+            ["Graphics/Yokai/Crazed Momotarou/1.png", "crazedmomotarou-1.png", "attachment://crazedmomotarou-1.png"],
+            ["Graphics/Yokai/Crazed Momotarou/2.png", "crazedmomotarou-2.png", "attachment://crazedmomotarou-2.png"]
         ]
     },
 
