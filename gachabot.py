@@ -863,7 +863,7 @@ async def dungeons(ctx, *input):
             congrats = ""
             congrats += f"🎊 {ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
             if clear_rewards:
-                congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])}** EXP!\n"
+                congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
