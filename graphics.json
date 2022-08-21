@@ -145,6 +145,12 @@
         [
             ["Graphics/Yokai/3-eyed Sumashi/1.png", "3eyedsumashi-1.png", "attachment://3eyedsumashi-1.png"],
             ["Graphics/Yokai/3-eyed Sumashi/2.png", "3eyedsumashi-2.png", "attachment://3eyedsumashi-2.png"]
+        ],
+        "Giant Mukade": [["Graphics/Yokai/Giant Mukade/1.png", "giantmukade-1.png", "attachment://giantmukade-1.png"]],
+        "Tiamat":
+        [
+            ["Graphics/Yokai/Tiamat/1.png", "tiamat-1.png", "attachment://tiamat-1.png"],
+            ["Graphics/Yokai/Tiamat/2.png", "tiamat-2.png", "attachment://tiamat-2.png"]
         ]
     },
 
