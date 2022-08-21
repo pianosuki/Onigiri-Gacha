@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Onigiri"
 bot_version = "1.9"
-debug_mode  = False
+debug_mode  = True
 
 import config, dresource
 from database import Database
@@ -271,19 +271,19 @@ def getPlayerStatPoints(user_id, stats_query: str = None):
 def getPlayerHP(user_id):
     level = getPlayerLevel(user_id)
     hp_stat = getPlayerStatPoints(user_id, "hp")
-    HP = (level * 100) + (math.floor((hp_stat ** 3)))
+    HP = ((level * 100) + (level ** 2)) + (math.floor(((hp_stat * 5) ** 2)))
     return HP
 
 def getPlayerATK(user_id):
     level = getPlayerLevel(user_id)
     atk_stat = getPlayerStatPoints(user_id, "atk")
-    ATK = (level * 10) + (math.floor((atk_stat ** 2)))
+    ATK = (level * 10) + (math.floor((atk_stat * 5)))
     return ATK
 
 def getPlayerDEF(user_id):
     level = getPlayerLevel(user_id)
     def_stat = getPlayerStatPoints(user_id, "def")
-    DEF = level * 10 + (math.floor((def_stat ** 2)))
+    DEF = level * 10 + (math.floor((def_stat * 5)))
     return DEF
 
 def addPlayerStatPoints(user_id, stats_query, amount):
@@ -649,7 +649,7 @@ async def dungeons(ctx, *input):
             for key, value in random_pool.items():
                 loot_name = key
                 range = value
-                amount_pulled = random.randint(range[0], range[1]) * self.level * self.multiplier
+                amount_pulled = random.randint(range[0], range[1])
                 if not loot_name in chest:
                     chest.update({loot_name: amount_pulled})
                 else:
@@ -657,41 +657,49 @@ async def dungeons(ctx, *input):
             return chest
 
     async def menuDungeons(ctx, message):
+        dungeons_length = len(Dungeons)
         level = getPlayerLevel(user_id)
         banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
-        e = discord.Embed(title = "⛩️  ─  Dungeon Listing  ─  ⛩️", description = "Which dungeon will you be running today?", color = 0x9575cd)
+        e = discord.Embed(title = "⛩️  ─  Dungeon Listing  ─  ⛩️", description = f"Which dungeon will you be running today?\n**Your level:** {Icons['level']}**{level}**", color = 0x9575cd)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
-        unlocked_dungeons = []
-        for dungeon in Dungeons:
-            if level >= Dungeons[dungeon]["Level_Required"]:
-                unlocked_dungeons.append(dungeon)
 
-        unlocked_length = len(unlocked_dungeons)
+        # unlocked_dungeons = []
+        # for dungeon in Dungeons:
+        #     if level >= dungeon_level:
+        #         unlocked_dungeons.append(dungeon)
+        #
+        # unlocked_length = len(unlocked_dungeons)
+
         # Set offset to 0 (page 1) and begin bidirectional page system
         offset = 0
         flag = True
         while flag:
             counter = 0
             # Iterate through dungeons in groups of 10
-            for index, dungeon in enumerate(unlocked_dungeons):
+            for index, dungeon in enumerate(Dungeons):
                 if index < offset:
                     # Skipping to next entry until arriving at the proper page/offset
                     continue
-                dungeon_emoji = numbers[counter]
                 dungeon_level = Dungeons[dungeon]["Level_Required"]
-                e.add_field(name = f"{dungeon_emoji}  ─  __{dungeon}__", value = f"🔓  **─**  *Level Required:* {Icons['level']}**{dungeon_level}**\n`{config.prefix}dungeon {dungeon}`", inline = False)
+                dungeon_emoji = numbers[counter]
+                unlocked_emoji = "🔓" if level >= dungeon_level else "🔒"
+                crossout = "~~" if not level >= dungeon_level else ""
+                bold_or_italics = "**" if not level >= dungeon_level else "*"
+                e.add_field(name = f"{dungeon_emoji}  ─  __{crossout}{dungeon}{crossout}__", value = f"{unlocked_emoji}  **─**  {bold_or_italics}Level Required:{bold_or_italics} {Icons['level']}**{dungeon_level}**\n`{config.prefix}dungeon {dungeon}`", inline = True)
+                if not counter % 2 == 0:
+                    e.add_field(name = "\u200b", value = "\u200b", inline = True)
                 counter += 1
                 # Once a full page is assembled, print it
-                if counter == 10 or index + 1 == unlocked_length:
+                if counter == 10 or index + 1 == dungeons_length:
                     message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-                    if index + 1 > 10 and index + 1 < unlocked_length:
+                    if index + 1 > 10 and index + 1 < dungeons_length:
                         # Is a middle page
                         emojis = ["⏪", "⏩", "❌"]
-                    elif index + 1 < unlocked_length:
+                    elif index + 1 < dungeons_length:
                         # Is the first page
                         emojis = ["⏩", "❌"]
-                    elif unlocked_length > 10:
+                    elif dungeons_length > 10:
                         # Is the last page
                         emojis = ["⏪", "❌"]
                     else:
@@ -783,13 +791,17 @@ async def dungeons(ctx, *input):
             match str(reaction.emoji):
                 case x if x == Icons["door_open"]:
                     await message.clear_reactions()
-                    energy = getPlayerEnergy(user_id)
-                    if energy >= dg.energy:
-                        addPlayerEnergy(user_id, -dg.energy)
-                        message, flag = await dungeonEntry(ctx, message, flag, dg, seed)
-                        flag = False
+                    if dg.Player.level >= dg.level:
+                        energy = getPlayerEnergy(user_id)
+                        if energy >= dg.energy:
+                            addPlayerEnergy(user_id, -dg.energy)
+                            message, flag = await dungeonEntry(ctx, message, flag, dg, seed)
+                            flag = False
+                        else:
+                            await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy}` more.")
                     else:
-                        await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy}` more.")
+                        await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player.level}` more levels!")
+                        flag = False
                 case "↩️":
                     await message.clear_reactions()
                     mode = -1
@@ -835,7 +847,7 @@ async def dungeons(ctx, *input):
                 e.set_field_at(1, name = "Current Room", value = f"👹 ***Boss Room***")
                 e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(floor['boss']['HP'])} / {'{:,}'.format(floor['boss']['HP'])}**")
                 boss = floor["boss"]
-                message, flag = await fightBoss(ctx, message, flag, dg, boss, e)
+                message, flag, clear_rewards = await fightBoss(ctx, message, flag, dg, boss, e)
                 if not flag:
                     return message, flag
         # Exit
@@ -849,14 +861,16 @@ async def dungeons(ctx, *input):
             context = await bot.get_context(message)
             file, founder = writeBlueprint(dg.Blueprint, dg.dungeon, dg.mode_name)
             congrats = ""
-            congrats += f"{ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
-            congrats += f"Your clear time was: `{dg.Cache.clear_time}`\n\n"
+            congrats += f"🎊 {ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
+            if clear_rewards:
+                congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])}** EXP!\n"
+            congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if founder:
-                congrats += f"You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
+                congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
                 congrats += "Here is a blueprint of the unique dungeon properties you discovered with that seed:"
             else:
-                congrats += f"You weren't the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode.\n"
-                congrats += f"So here is the blueprint the original founder generated instead:"
+                congrats += f"The seed `{seed if not seed is None else dg.seed}` was already discovered for this mode.\n"
+                congrats += f"So here is the blueprint the original founder generated:"
             await context.reply(file = file, content = congrats)
         return message, flag
 
@@ -959,14 +973,20 @@ async def dungeons(ctx, *input):
         # dg.Yokai.HP = dg.level * dg.multiplier * random.randint(10, 50) + (math.floor((dg.level ** 3) / 4))
         # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
         # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
-        dg.Yokai.HP = (dg.level * random.randint(20, 50)) * dg.multiplier
-        dg.Yokai.ATK = (dg.level * random.randint(5, 10)) * dg.multiplier
-        dg.Yokai.DEF = (dg.level * random.randint(5, 10)) * dg.multiplier
+        base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
+        base_yokai_atk = math.floor((dg.level * random.randint(5, 10)) + (dg.level * dg.multiplier))
+        base_yokai_def = math.floor((dg.level * random.randint(5, 10)) + (dg.level * dg.multiplier))
+        dg.Yokai.HP = base_yokai_def
+        dg.Yokai.ATK = base_yokai_atk
+        dg.Yokai.DEF = base_yokai_def
+        base_player_hp = getPlayerHP(user_id)
+        base_player_atk = getPlayerATK(user_id)
+        base_player_def = getPlayerDEF(user_id)
         if getPlayerLevel(user_id) > dg.Player.level:
-            dg.Player.HP = getPlayerHP(user_id)
-            dg.Player.ATK = getPlayerATK(user_id)
-            dg.Player.DEF = getPlayerDEF(user_id)
             dg.Player.level = getPlayerLevel(user_id)
+        #     dg.Player.HP = getPlayerHP(user_id)
+        #     dg.Player.ATK = getPlayerATK(user_id)
+        #     dg.Player.DEF = getPlayerDEF(user_id)
         turn = 0
         while flag:
             yokai_state, player_state = updateAgents()
@@ -976,12 +996,16 @@ async def dungeons(ctx, *input):
                 turn += 1
                 e.description = f"Turn: **#{turn}**"
                 message = await printToConsole(message, e, console, f"Turn: #{turn}")
-                if yokai_action == "Defend":
+                # if yokai_action == "Defend":
                     # message = await printToConsole(message, e, console, "(Resetting Yokai buffs/debuffs)")
-                    dg.Yokai.DEF = math.trunc(dg.Yokai.DEF / 2)
-                if player_action == "Defend":
-                    # message = await printToConsole(message, e, console, "(Resetting Player buffs/debuffs)")
-                    dg.Player.DEF = math.trunc(dg.Player.DEF / 3)
+                    # dg.Yokai.DEF = math.trunc(dg.Yokai.DEF / 2)
+                # if player_action == "Defend":
+                     # message = await printToConsole(message, e, console, "(Resetting Player buffs/debuffs)")
+                     # dg.Player.DEF = math.trunc(dg.Player.DEF / 3)
+                dg.Yokai.ATK = base_yokai_atk
+                dg.Yokai.DEF = base_yokai_def
+                dg.Player.ATK = base_player_atk
+                dg.Player.DEF = base_player_def
                 is_charging = True if random.random() < 0.1 else False
                 if is_charging:
                     message = await printToConsole(message, e, console, f"({mob} is charging a heavy attack!)")
@@ -1031,13 +1055,17 @@ async def dungeons(ctx, *input):
                             message = await printToConsole(message, e, console, "")
                             flag = False
             elif yokai_killed:
+                ExpTable = Tables["ExpTable"]
                 message = await printToConsole(message, e, console, f"You have defeated {mob}!")
                 if mob == "Gold Daruma":
-                    ryou_amount = random.randint(10000, 100000) * dg.level * dg.multiplier
+                    random_amount = random.randint(10000, 100000)
+                    ryou_amount = math.floor(((random_amount / 2) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
                     message = await printToConsole(message, e, console, f"({mob} dropped {ryou_amount} Ryou!")
                     await reward(ctx, ctx.author.mention, "ryou", ryou_amount)
-                exp_amount = addPlayerExp(user_id, random.randint(10, 100) * dg.level)
-                message = await printToConsole(message, e, console, f"(Gained {exp_amount} EXP!)")
+                exp_row = ExpTable[dg.level - 1][1]
+                exp_amount = round((random.randint(10, 50) * dg.level * dg.multiplier) + ((exp_row / 200) * dg.multiplier))
+                exp_reward = addPlayerExp(user_id, exp_amount)
+                message = await printToConsole(message, e, console, f"(Gained {exp_reward} EXP!)")
                 message = await printToConsole(message, e, console, "")
                 message = await printToConsole(message, e, console, "Choose an action to perform")
                 message = await printToConsole(message, e, console, "(Proceed | Leave Dungeon)")
@@ -1084,9 +1112,9 @@ async def dungeons(ctx, *input):
             for key, value in chest.items():
                 match key:
                     case "Ryou":
-                        await reward(ctx, ctx.author.mention, "ryou", int(value))
+                        addPlayerRyou(user_id, value)
                     case "EXP":
-                        await reward(ctx, ctx.author.mention, "exp", int(value))
+                        addPlayerExp(user_id, value)
 
         async def loadNextRoom(message, e):
             e.description = "🔄 **Loading Next Room** 🔄"
@@ -1134,15 +1162,22 @@ async def dungeons(ctx, *input):
         return message, flag
 
     async def fightBoss(ctx, message, flag, dg, boss, e):
+        clear_rewards = {}
         dg.Boss.name = boss["Name"]
-        dg.Boss.HP = boss["HP"]
-        dg.Boss.ATK = (dg.level * random.randint(7, 13)) * dg.multiplier
-        dg.Boss.DEF = (dg.level * random.randint(7, 13)) * dg.multiplier
+        base_boss_hp = boss["HP"]
+        base_boss_atk = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
+        base_boss_def = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
+        dg.Boss.HP = base_boss_hp
+        dg.Boss.ATK = base_boss_atk
+        dg.Boss.DEF = base_boss_def
+        base_player_hp = getPlayerHP(user_id)
+        base_player_atk = getPlayerATK(user_id)
+        base_player_def = getPlayerDEF(user_id)
         if getPlayerLevel(user_id) > dg.Player.level:
-            dg.Player.HP = getPlayerHP(user_id)
-            dg.Player.ATK = getPlayerATK(user_id)
-            dg.Player.DEF = getPlayerDEF(user_id)
             dg.Player.level = getPlayerLevel(user_id)
+        #     dg.Player.HP = getPlayerHP(user_id)
+        #     dg.Player.ATK = getPlayerATK(user_id)
+        #     dg.Player.DEF = getPlayerDEF(user_id)
 
         async def updateEmbed(e, boss_state, player_state, console):
             e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(dg.Boss.HP)} / {'{:,}'.format(boss['HP'])}**")
@@ -1152,7 +1187,7 @@ async def dungeons(ctx, *input):
 
         def updateAgents():
             boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {dg.Boss.HP}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
             return boss_state, player_state
 
         async def printToConsole(message, e, console, input):
@@ -1242,12 +1277,16 @@ async def dungeons(ctx, *input):
                 turn += 1
                 e.description = f"Turn: **#{turn}**"
                 message = await printToConsole(message, e, console, f"Turn: #{turn}")
-                if boss_action == "Defend":
+                # if boss_action == "Defend":
                     # message = await printToConsole(message, e, console, "(Resetting Boss fortifications)")
-                    dg.Boss.DEF = math.trunc(dg.Boss.DEF / 2)
-                if player_action == "Defend":
+                    # dg.Boss.DEF = math.trunc(dg.Boss.DEF / 2)
+                # if player_action == "Defend":
                     # message = await printToConsole(message, e, console, "(Resetting Player fortifications)")
-                    dg.Player.DEF = math.trunc(dg.Player.DEF / 3)
+                    # dg.Player.DEF = math.trunc(dg.Player.DEF / 3)
+                dg.Boss.ATK = base_boss_atk
+                dg.Boss.DEF = base_boss_def
+                dg.Player.ATK = base_player_atk
+                dg.Player.DEF = base_player_def
                 is_charging = True if random.random() < 0.25 else False
                 if is_charging:
                     message = await printToConsole(message, e, console, f"({dg.Boss.name} is charging a heavy attack!)")
@@ -1300,16 +1339,21 @@ async def dungeons(ctx, *input):
                         dg.Boss.phase = 2
                     if phase == 1 and dg.Boss.phase == 2:
                         message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 2!")
-                        dg.Boss.ATK = math.floor(dg.Boss.ATK * random.uniform(1, 1.5))
-                        dg.Boss.DEF = math.floor(dg.Boss.DEF * random.uniform(1, 1.5))
+                        base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
+                        base_boss_def = math.floor(base_boss_def * random.uniform(1.1, 1.2))
                         message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
                         message = await printToConsole(message, e, console, "")
                         phase = 2
             elif boss_killed:
-                ryou_range = [dg.rewards["Ryou"]["range"][0] * dg.multiplier, dg.rewards["Ryou"]["range"][1] * dg.multiplier]
-                exp_range = [dg.rewards["EXP"]["range"][0] * dg.multiplier, dg.rewards["EXP"]["range"][1] * dg.multiplier]
+                ryou0 = math.floor(dg.rewards["Ryou"]['range'][0] + (dg.rewards["Ryou"]['range'][0] / 4) * dg.multiplier)
+                ryou1 = math.floor(dg.rewards["Ryou"]['range'][1] + (dg.rewards["Ryou"]['range'][1] / 4) * dg.multiplier)
+                exp0 = math.floor(dg.rewards["EXP"]['range'][0] + (dg.rewards["EXP"]['range'][0] / 4) * dg.multiplier)
+                exp1 = math.floor(dg.rewards["EXP"]['range'][1] + (dg.rewards["EXP"]['range'][1] / 4) * dg.multiplier)
+                ryou_range = [ryou0, ryou1]
+                exp_range = [exp0, exp1]
                 ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
                 exp_amount = addPlayerExp(user_id, random.randint(exp_range[0], exp_range[1]))
+                clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 message = await printToConsole(message, e, console, f"You have defeated {dg.Boss.name}!")
                 message = await printToConsole(message, e, console, f"(Gained {ryou_amount} Ryou!)")
                 message = await printToConsole(message, e, console, f"(Gained {exp_amount} EXP!)")
@@ -1323,7 +1367,7 @@ async def dungeons(ctx, *input):
                 time.sleep(1)
                 message = await deathScreen(message, e, dg.Boss.name)
                 flag = False
-        return message, flag
+        return message, flag, clear_rewards
 
     def writeBlueprint(Blueprint, dungeon, difficulty):
         json_blueprint = json.dumps(Blueprint, indent=4)
@@ -1449,7 +1493,9 @@ async def dungeons(ctx, *input):
                 case _:
                     icon = Icons["material_common"]
             formatted_string += "───────────────\n"
-            formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value['range'][0] * multiplier)} - {'{:,}'.format(value['range'][1] * multiplier)}`\n"
+            value0 = math.floor(value['range'][0] + (value['range'][0] / 4) * multiplier)
+            value1 = math.floor(value['range'][1] + (value['range'][1] / 4) * multiplier)
+            formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
             formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
             index += 1
         return formatted_string
@@ -2670,7 +2716,7 @@ async def stats(ctx, target = None):
                 e.add_field(name = f"You have `{points}` unallocated stat points!", value = "Choose a Stat to increment:", inline = True)
                 e.add_field(name = "│ Stat options:", value = "**│** 🩸 ─ **HP**\n**│** ⚔️ ─ **ATK**\n**│** 🛡️ ─ **DEF**", inline = True)
                 await message.edit(embed = e)
-                emojis = ["🩸", "⚔️", "🛡️", "❌"]
+                emojis = ["🩸", "⚔️", "🛡️", Icons["statsreset"], "❌"]
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 if reaction is None:
                     return
@@ -2687,6 +2733,39 @@ async def stats(ctx, target = None):
                         await message.clear_reactions()
                         addPlayerStatPoints(user_id, "def", 1)
                         addPlayerStatPoints(user_id, "points", -1)
+                    case x if x == Icons["statsreset"]:
+                        await message.clear_reactions()
+                        product = "Stats Reset"
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        e.description = "Will you reset your stats?"
+                        e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                        e.add_field(name = f"{Icons['statsreset']} Confirmation: Will you reset your stat points?", value = f"(You have `{item_quantity if not item_quantity is None else 0}` Stats Reset uses.)", inline = False) # Field 8
+                        await message.edit(embed = e)
+                        emojis = ["✅", "❌"]
+                        reaction, user = await waitForReaction(ctx, message, e, emojis)
+                        if reaction is None:
+                            return
+                        match str(reaction.emoji):
+                            case "✅":
+                                await message.clear_reactions()
+                                if not item_quantity is None and item_quantity > 0:
+                                    StatsDB.execute(f"DELETE FROM userdata WHERE user_id = {user_id}")
+                                    ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+                                    if item_quantity - 1 == 0:
+                                        ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+                                    e.add_field(name = "✅ Success!", value = "Your points have been successfuly reset.", inline = False) # Field 9
+                                    await message.edit(embed = e)
+                                    time.sleep(4)
+                                    e.remove_field(9)
+                                    e.remove_field(8)
+                                else:
+                                    e.add_field(name = "❌ Failure!", value = "You don't have any Stats Reset uses, you can buy one from the Market.", inline = False) # Field 9
+                                    await message.edit(embed = e)
+                                    time.sleep(4)
+                                    e.remove_field(8)
+                            case "❌":
+                                await message.clear_reactions()
+                                e.remove_field(8)
                     case "❌":
                         await message.clear_reactions()
                         return

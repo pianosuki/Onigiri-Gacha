@@ -100,7 +100,8 @@ custom_emojis   = {
     "chest": "<:chest:1009486809916518563>",
     "attack": "<:attack:1009540591182430208>",
     "defend": "<:defend:1009540603920523374>",
-    "exit": "<:exit:1009544808479604856>"
+    "exit": "<:exit:1009544808479604856>",
+    "statsreset": "<:statsreset:1010726645885308928>"
 }
 mode_emojis     = {
     "normal": "<:normal:1007526343501688862>",

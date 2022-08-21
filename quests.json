@@ -17,13 +17,13 @@
         "Rewards":
         {
             "Ryou": [10, 100],
-            "EXP": [100, 1000]
+            "EXP": [10, 100]
         }
     },
 
     "Challenging the Daiku Cave":
     {
-        "Level_Required": 1,
+        "Level_Required": 2,
         "NPC": "Tetsumaru the Mighty",
         "Dialogue":
         [
@@ -39,14 +39,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [10, 100],
-            "EXP": [100, 1000]
+            "Ryou": [50, 150],
+            "EXP": [50, 150]
         }
     },
 
     "For Dango's Sake":
     {
-        "Level_Required": 1,
+        "Level_Required": 3,
         "NPC": "Manjyuu Store O-Aya",
         "Dialogue":
         [
@@ -60,14 +60,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [10, 100],
-            "EXP": [100, 1000]
+            "Ryou": [100, 200],
+            "EXP": [100, 200]
         }
     },
 
     "Sushi Store Troubles":
     {
-        "Level_Required": 1,
+        "Level_Required": 4,
         "NPC": "Sushi Worker",
         "Dialogue":
         [
@@ -82,14 +82,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [10, 100],
-            "EXP": [100, 1000]
+            "Ryou": [150, 250],
+            "EXP": [150, 250]
         }
     },
 
     "Sightseeing and Daruma Destruction":
     {
-        "Level_Required": 1,
+        "Level_Required": 5,
         "NPC": "Dept. Store Worker",
         "Dialogue":
         [
@@ -104,8 +104,8 @@
         ],
         "Rewards":
         {
-            "Ryou": [10, 100],
-            "EXP": [100, 1000]
+            "Ryou": [200, 300],
+            "EXP": [200, 300]
         }
     },
 
@@ -130,14 +130,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [100, 1000],
-            "EXP": [1000, 10000]
+            "Ryou": [1000, 1500],
+            "EXP": [1000, 1500]
         }
     },
 
     "I'm bad with those things...":
     {
-        "Level_Required": 10,
+        "Level_Required": 11,
         "NPC": "Isuzu the Warrior",
         "Dialogue":
         [
@@ -154,14 +154,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [100, 1000],
-            "EXP": [1000, 10000]
+            "Ryou": [1500, 2000],
+            "EXP": [1500, 2000]
         }
     },
 
     "1 Step Back, 2 Steps Forward":
     {
-        "Level_Required": 10,
+        "Level_Required": 12,
         "NPC": "Darumaru the Diminutive",
         "Dialogue":
         [
@@ -175,14 +175,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [100, 1000],
-            "EXP": [1000, 10000]
+            "Ryou": [2000, 2500],
+            "EXP": [2000, 2500]
         }
     },
 
     "Brotherly Bonds":
     {
-        "Level_Required": 10,
+        "Level_Required": 13,
         "NPC": "Matashige the Eldest son",
         "Dialogue":
         [
@@ -196,14 +196,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [100, 1000],
-            "EXP": [1000, 10000]
+            "Ryou": [2500, 3000],
+            "EXP": [2500, 3000]
         }
     },
 
     "Defeat the Oogama":
     {
-        "Level_Required": 10,
+        "Level_Required": 14,
         "NPC": "Tadayoshi the Farmer",
         "Dialogue":
         [
@@ -218,8 +218,8 @@
         ],
         "Rewards":
         {
-            "Ryou": [100, 1000],
-            "EXP": [1000, 10000]
+            "Ryou": [3000, 3500],
+            "EXP": [3000, 3500]
         }
     }
 }

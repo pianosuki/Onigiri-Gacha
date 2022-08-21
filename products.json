@@ -22,7 +22,7 @@
         "Stackable": false,
         "Attributes":
         [
-            "+5% Exp & Ryou boost",
+            "+50% Exp & Ryou boost",
             "Required for: '1 Onigiri NFT'",
             "Requires: 'Gold-Oni'"
         ],
@@ -39,7 +39,7 @@
         "Stackable": false,
         "Attributes":
         [
-            "+3% Exp & Ryou boost",
+            "+30% Exp & Ryou boost",
             "Required for: 'Diamond-Oni'",
             "Requires: 'Silver-Oni'"
         ],
@@ -56,7 +56,7 @@
         "Stackable": false,
         "Attributes":
         [
-            "+2% Exp & Ryou boost",
+            "+20% Exp & Ryou boost",
             "Required for: 'Gold-Oni'"
         ],
         "Requirements":
@@ -71,7 +71,21 @@
         "Stackable": true,
         "Attributes":
         [
-            "Bypass a quest's wait timer (WIP)"
+            "Fully restore your energy"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Stats Reset":
+    {
+        "Price": 2000000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Reset your stats' point allocation"
         ],
         "Requirements":
         {

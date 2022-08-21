@@ -72,11 +72,19 @@
         "Sunset Sticky": [["Graphics/Yokai/Sunset Sticky/1.png", "sunsetsticky-1.png", "attachment://sunsetsticky-1.png"]],
         "Peach Sticky": [["Graphics/Yokai/Peach Sticky/1.png", "peachsticky-1.png", "attachment://peachsticky-1.png"]],
         "Fukuwarai": [["Graphics/Yokai/Fukuwarai/1.png", "fukuwarai-1.png", "attachment://fukuwarai-1.png"]],
-        "Handamashii Musha": [["Graphics/Yokai/Handamashii Musha/1.png", "handamashiimusha-1.png", "attachment://handamashiimusha-1.png"]],
+        "Handamashii Musha":
+        [
+            ["Graphics/Yokai/Handamashii Musha/1.png", "handamashiimusha-1.png", "attachment://handamashiimusha-1.png"],
+            ["Graphics/Yokai/Handamashii Musha/2.png", "handamashiimusha-2.png", "attachment://handamashiimusha-2.png"]
+        ],
         "Gankubi": [["Graphics/Yokai/Gankubi/1.png", "gankubi-1.png", "attachment://gankubi-1.png"]],
         "Gaikotsu": [["Graphics/Yokai/Gaikotsu/1.png", "gaikotsu-1.png", "attachment://gaikotsu-1.png"]],
         "Amagaeru": [["Graphics/Yokai/Amagaeru/1.png", "amagaeru-1.png", "attachment://amagaeru-1.png"]],
-        "Lantern Ghost": [["Graphics/Yokai/Lantern Ghost/1.png", "lanternghost-1.png", "attachment://lanternghost-1.png"]],
+        "Lantern Ghost":
+        [
+            ["Graphics/Yokai/Lantern Ghost/1.png", "lanternghost-1.png", "attachment://lanternghost-1.png"],
+            ["Graphics/Yokai/Lantern Ghost/2.png", "lanternghost-2.png", "attachment://lanternghost-2.png"]
+        ],
         "Kappa": [["Graphics/Yokai/Kappa/1.png", "kappa-1.png", "attachment://kappa-1.png"]],
         "Ittanmomen": [["Graphics/Yokai/Ittanmomen/1.png", "ittanmomen-1.png", "attachment://ittanmomen-1.png"]],
         "Kyoukotsu":
@@ -130,6 +138,13 @@
         [
             ["Graphics/Yokai/Oni-basami/1.png", "onibasami-1.png", "attachment://onibasami-1.png"],
             ["Graphics/Yokai/Oni-basami/2.png", "onibasami-2.png", "attachment://onibasami-2.png"]
+        ],
+        "Aburasumashi": [["Graphics/Yokai/Child Mukade/1.png", "childmukade-1.png", "attachment://childmukade-1.png"]],
+        "Child Mukade": [["Graphics/Yokai/Child Mukade/1.png", "childmukade-1.png", "attachment://childmukade-1.png"]],
+        "3-eyed Sumashi":
+        [
+            ["Graphics/Yokai/3-eyed Sumashi/1.png", "3eyedsumashi-1.png", "attachment://3eyedsumashi-1.png"],
+            ["Graphics/Yokai/3-eyed Sumashi/2.png", "3eyedsumashi-2.png", "attachment://3eyedsumashi-2.png"]
         ]
     },
 
