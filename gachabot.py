@@ -1348,10 +1348,10 @@ async def dungeons(ctx, *input):
                         message = await printToConsole(message, e, console, "")
                         phase = 2
             elif boss_killed:
-                ryou0 = math.floor(dg.rewards["Ryou"]['range'][0] + (dg.rewards["Ryou"]['range'][0] / 4) * dg.multiplier)
-                ryou1 = math.floor(dg.rewards["Ryou"]['range'][1] + (dg.rewards["Ryou"]['range'][1] / 4) * dg.multiplier)
-                exp0 = math.floor(dg.rewards["EXP"]['range'][0] + (dg.rewards["EXP"]['range'][0] / 4) * dg.multiplier)
-                exp1 = math.floor(dg.rewards["EXP"]['range'][1] + (dg.rewards["EXP"]['range'][1] / 4) * dg.multiplier)
+                ryou0 = math.floor((dg.rewards["Ryou"]['range'][0] * 0.75) + (dg.rewards["Ryou"]['range'][0] / 4) * dg.multiplier)
+                ryou1 = math.floor((dg.rewards["Ryou"]['range'][1] * 0.75) + (dg.rewards["Ryou"]['range'][1] / 4) * dg.multiplier)
+                exp0 = math.floor((dg.rewards["EXP"]['range'][0] * 0.75) + (dg.rewards["EXP"]['range'][0] / 4) * dg.multiplier)
+                exp1 = math.floor((dg.rewards["EXP"]['range'][1] * 0.75) + (dg.rewards["EXP"]['range'][1] / 4) * dg.multiplier)
                 ryou_range = [ryou0, ryou1]
                 exp_range = [exp0, exp1]
                 ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
@@ -1496,8 +1496,8 @@ async def dungeons(ctx, *input):
                 case _:
                     icon = Icons["material_common"]
             formatted_string += "───────────────\n"
-            value0 = math.floor(value['range'][0] + (value['range'][0] / 4) * multiplier)
-            value1 = math.floor(value['range'][1] + (value['range'][1] / 4) * multiplier)
+            value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
+            value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
             formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
             formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
             index += 1
