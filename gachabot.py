@@ -1061,8 +1061,8 @@ async def dungeons(ctx, *input):
         # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
         # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
         base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
-        base_yokai_atk = math.floor((dg.level * random.randint(5, 9)) + (dg.level * dg.multiplier))
-        base_yokai_def = math.floor((dg.level * random.randint(5, 9)) + (dg.level * dg.multiplier))
+        base_yokai_atk = math.floor((dg.level * random.uniform(5, 8.5)) + (dg.level * dg.multiplier))
+        base_yokai_def = math.floor((dg.level * random.uniform(5.5, 9)) + (dg.level * dg.multiplier))
         dg.Yokai.HP = base_yokai_hp
         dg.Yokai.ATK = base_yokai_atk
         dg.Yokai.DEF = base_yokai_def
