@@ -1119,14 +1119,14 @@ async def dungeons(ctx, *input):
                                     message = await playerAttack(message, e, console)
                                     if not dg.Yokai.HP > 0:
                                         message = await printToConsole(message, e, console, "")
-                                        continue
+                                        break
                                     if yokai_action == "Attack":
                                         message = await yokaiAttack(message, e, console, is_charging)
                                 else:
                                     message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
                                     if not dg.Player.HP > 0:
                                         message = await printToConsole(message, e, console, "")
-                                        continue
+                                        break
                                     message = await playerAttack(message, e, console)
                                 message = await printToConsole(message, e, console, "")
                             case x if x == Icons["defend"]:
