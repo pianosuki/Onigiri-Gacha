@@ -65,7 +65,7 @@ Quests      = json.load(open("quests.json")) # Load list of quests for the quest
 Dungeons    = json.load(open("dungeons.json")) # Load list of dungeons for the dungeon system
 Tables      = json.load(open("tables.json")) # Load tables for systems to use constants from
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
-Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis}
+Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis}
 
 # Names
 coin_name = config.coin_name
@@ -606,7 +606,9 @@ async def dungeons(ctx, *input):
         def renderBoss(self):
             boss_schematic = {}
             boss_schematic.update(Dungeons[self.dungeon]["Boss"])
-            boss_schematic.update({"HP": Dungeons[self.dungeon]["Boss"]["HP"] * self.multiplier})
+            base_hp = Dungeons[self.dungeon]["Boss"]["HP"]
+            scaled_hp = math.floor((base_hp * 0.75) + (base_hp / 4 * self.multiplier))
+            boss_schematic.update({"HP": scaled_hp})
             return boss_schematic
 
         def spawnMobs(self, population):
@@ -880,6 +882,91 @@ async def dungeons(ctx, *input):
         message = await message.edit(embed = e)
         return message
 
+    async def consumeNigiri(message, flag, e, console, dg, printToConsole):
+        result = False
+
+        def formatConsumables(consumables, user_items):
+            avail_consumables = ""
+            for key, value in consumables.items():
+                if key in user_items:
+                    avail_consumables += f"{Icons[key.lower().replace(' ', '_')]} **{key}**: +{value}HP\n"
+            return avail_consumables if not avail_consumables == "" else "None"
+
+        consumables = config.consumables
+        user_items = []
+        inventory = getUserItemInv(user_id)
+        for item in inventory:
+            user_items.append(item[0])
+        avail_consumables = []
+        for key in list(consumables.keys()):
+            if key in user_items:
+                avail_consumables.append(Icons[key.lower().replace(' ', '_')])
+        e.add_field(name = "Consumables Menu:", value = formatConsumables(consumables, user_items), inline = False) # Field 6
+        await message.edit(embed = e)
+        emojis = []
+        for nigiri_emoji in avail_consumables:
+            emojis.append(nigiri_emoji)
+        emojis.append("↩️")
+        reaction, user = await waitForReaction(ctx, message, e, emojis)
+        if reaction is None:
+            flag = False
+        else:
+            product = ""
+            match str(reaction.emoji):
+                case x if x == Icons["tuna_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Tuna Nigiri"
+                case x if x == Icons["salmon_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Salmon Nigiri"
+                case x if x == Icons["anago_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Anago Nigiri"
+                case x if x == Icons["squid_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Squid Nigiri"
+                case x if x == Icons["octopus_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Octopus Nigiri"
+                case x if x == Icons["ootoro_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Ootoro Nigiri"
+                case x if x == Icons["kinmedai_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Kinmedai Nigiri"
+                case x if x == Icons["crab_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Crab Nigiri"
+                case x if x == Icons["lobster_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Lobster Nigiri"
+                case x if x == Icons["shachihoko_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Shachihoko Nigiri"
+                case x if x == Icons["shenlong_nigiri"]:
+                    await message.clear_reactions()
+                    product = "Shenlong Nigiri"
+                case "↩️":
+                    await message.clear_reactions()
+                    e.remove_field(6)
+                    await message.edit(embed = e)
+                    return message, flag, result
+            if product in user_items:
+                heal = consumables[product]
+                item_quantity = getUserItemQuantity(user_id, product)
+                ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+                if item_quantity - 1 == 0:
+                    ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+                base_player_hp = getPlayerHP(user_id)
+                heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
+                dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
+                message = await printToConsole(message, e, console, f"You ate some tasty {product}!")
+                message = await printToConsole(message, e, console, f"(healed for {'{:,}'.format(heal_amount)})")
+                result = True
+        e.remove_field(6)
+        await message.edit(embed = e)
+        return message, flag, result
+
     async def fightMob(ctx, message, flag, dg, mob, e):
 
         async def updateEmbed(e, yokai_state, player_state, console):
@@ -984,7 +1071,7 @@ async def dungeons(ctx, *input):
         base_player_def = getPlayerDEF(user_id)
         if getPlayerLevel(user_id) > dg.Player.level:
             dg.Player.level = getPlayerLevel(user_id)
-        #     dg.Player.HP = getPlayerHP(user_id)
+            dg.Player.HP = getPlayerHP(user_id)
         #     dg.Player.ATK = getPlayerATK(user_id)
         #     dg.Player.DEF = getPlayerDEF(user_id)
         turn = 0
@@ -1013,47 +1100,59 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, "Choose an action to perform")
                 message = await printToConsole(message, e, console, "(Attack | Defend | Leave Dungeon)")
                 message = await printToConsole(message, e, console, "")
-                emojis = [Icons["attack"], Icons["defend"], Icons["exit"]]
-                reaction, user = await waitForReaction(ctx, message, e, emojis)
-                if reaction is None:
-                    flag = False
-                else:
-                    is_player_turn = bool(random.getrandbits(1))
-                    yokai_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
-                    player_action = ""
-                    match str(reaction.emoji):
-                        case x if x == Icons["attack"]:
-                            await message.clear_reactions()
-                            if is_player_turn:
-                                if yokai_action == "Defend":
-                                    message = await yokaiDefend(message, e, console)
-                                message = await playerAttack(message, e, console)
-                                if not dg.Yokai.HP > 0:
-                                    message = await printToConsole(message, e, console, "")
-                                    continue
+
+                while True:
+                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"], Icons["exit"]]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                    else:
+                        is_player_turn = bool(random.getrandbits(1))
+                        yokai_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
+                        player_action = ""
+                        match str(reaction.emoji):
+                            case x if x == Icons["attack"]:
+                                await message.clear_reactions()
+                                if is_player_turn:
+                                    if yokai_action == "Defend":
+                                        message = await yokaiDefend(message, e, console)
+                                    message = await playerAttack(message, e, console)
+                                    if not dg.Yokai.HP > 0:
+                                        message = await printToConsole(message, e, console, "")
+                                        continue
+                                    if yokai_action == "Attack":
+                                        message = await yokaiAttack(message, e, console, is_charging)
+                                else:
+                                    message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
+                                    if not dg.Player.HP > 0:
+                                        message = await printToConsole(message, e, console, "")
+                                        continue
+                                    message = await playerAttack(message, e, console)
+                                message = await printToConsole(message, e, console, "")
+                            case x if x == Icons["defend"]:
+                                await message.clear_reactions()
+                                player_action = "Defend"
+                                message = await playerDefend(message, e, console)
+                                message = await yokaiAttack(message, e, console, is_charging, is_defending = True) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
                                 if yokai_action == "Attack":
-                                    message = await yokaiAttack(message, e, console, is_charging)
-                            else:
-                                message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
-                                if not dg.Player.HP > 0:
-                                    message = await printToConsole(message, e, console, "")
+                                    message = await printToConsole(message, e, console, "(Suppressed)")
+                                message = await printToConsole(message, e, console, "")
+                            case x if x == Icons["riceball"]:
+                                await message.clear_reactions()
+                                message, flag, result = await consumeNigiri(message, flag, e, console, dg, printToConsole)
+                                if result:
+                                    message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
+                                else:
                                     continue
-                                message = await playerAttack(message, e, console)
-                            message = await printToConsole(message, e, console, "")
-                        case x if x == Icons["defend"]:
-                            await message.clear_reactions()
-                            player_action = "Defend"
-                            message = await playerDefend(message, e, console)
-                            message = await yokaiAttack(message, e, console, is_charging, is_defending = True) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
-                            if yokai_action == "Attack":
-                                message = await printToConsole(message, e, console, "(Suppressed)")
-                            message = await printToConsole(message, e, console, "")
-                        case x if x == Icons["exit"]:
-                            await message.clear_reactions()
-                            e.description = "Player aborted the dungeon!"
-                            message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                            message = await printToConsole(message, e, console, "")
-                            flag = False
+                                message = await printToConsole(message, e, console, "")
+                            case x if x == Icons["exit"]:
+                                await message.clear_reactions()
+                                e.description = "Player aborted the dungeon!"
+                                message = await printToConsole(message, e, console, f"(Aborting dungeon)")
+                                message = await printToConsole(message, e, console, "")
+                                flag = False
+                    break
+
             elif yokai_killed:
                 ExpTable = Tables["ExpTable"]
                 message = await printToConsole(message, e, console, f"You have defeated {mob}!")
@@ -1118,6 +1217,12 @@ async def dungeons(ctx, *input):
                     case "Gacha Fragment" | "Gacha Fragments":
                         fragments = GachaDB.query("SELECT gacha_fragments FROM userdata WHERE user_id = {}".format(user_id))[0][0]
                         GachaDB.execute("UPDATE userdata SET gacha_fragments = ? WHERE user_id = ?", (fragments + value, user_id))
+                    case product if product in Products:
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        if item_quantity == None:
+                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, value))
+                        else:
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + value, product))
 
         async def loadNextRoom(message, e):
             e.description = "🔄 **Loading Next Room** 🔄"
@@ -1178,7 +1283,7 @@ async def dungeons(ctx, *input):
         base_player_def = getPlayerDEF(user_id)
         if getPlayerLevel(user_id) > dg.Player.level:
             dg.Player.level = getPlayerLevel(user_id)
-        #     dg.Player.HP = getPlayerHP(user_id)
+            dg.Player.HP = getPlayerHP(user_id)
         #     dg.Player.ATK = getPlayerATK(user_id)
         #     dg.Player.DEF = getPlayerDEF(user_id)
 
@@ -1297,56 +1402,68 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, "Choose an action to perform")
                 message = await printToConsole(message, e, console, "(Attack | Defend | Leave Dungeon)")
                 message = await printToConsole(message, e, console, "")
-                emojis = [Icons["attack"], Icons["defend"], Icons["exit"]]
-                reaction, user = await waitForReaction(ctx, message, e, emojis)
-                if reaction is None:
-                    flag = False
-                else:
-                    is_player_turn = bool(random.getrandbits(1))
-                    boss_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
-                    player_action = ""
-                    match str(reaction.emoji):
-                        case x if x == Icons["attack"]:
-                            await message.clear_reactions()
-                            if is_player_turn:
-                                if boss_action == "Defend":
-                                    message = await bossDefend(message, e, console)
-                                message = await playerAttack(message, e, console)
-                                if not dg.Boss.HP > 0:
-                                    message = await printToConsole(message, e, console, "")
-                                    continue
+
+                while True:
+                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"], Icons["exit"]]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                    else:
+                        is_player_turn = bool(random.getrandbits(1))
+                        boss_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
+                        player_action = ""
+                        match str(reaction.emoji):
+                            case x if x == Icons["attack"]:
+                                await message.clear_reactions()
+                                if is_player_turn:
+                                    if boss_action == "Defend":
+                                        message = await bossDefend(message, e, console)
+                                    message = await playerAttack(message, e, console)
+                                    if not dg.Boss.HP > 0:
+                                        message = await printToConsole(message, e, console, "")
+                                        break
+                                    if boss_action == "Attack":
+                                        message = await bossAttack(message, e, console, is_charging)
+                                else:
+                                    message = await bossAttack(message, e, console, is_charging) if boss_action == "Attack" else await bossDefend(message, e, console)
+                                    if not dg.Player.HP > 0:
+                                        message = await printToConsole(message, e, console, "")
+                                        break
+                                    message = await playerAttack(message, e, console)
+                                message = await printToConsole(message, e, console, "")
+                            case x if x == Icons["defend"]:
+                                await message.clear_reactions()
+                                player_action = "Defend"
+                                message = await playerDefend(message, e, console)
+                                message = await bossAttack(message, e, console, is_charging, is_defending = True) if boss_action == "Attack" else await bossDefend(message, e, console)
                                 if boss_action == "Attack":
-                                    message = await bossAttack(message, e, console, is_charging)
-                            else:
-                                message = await bossAttack(message, e, console, is_charging) if boss_action == "Attack" else await bossDefend(message, e, console)
-                                if not dg.Player.HP > 0:
-                                    message = await printToConsole(message, e, console, "")
+                                    message = await printToConsole(message, e, console, "(Suppressed)")
+                                message = await printToConsole(message, e, console, "")
+                            case x if x == Icons["riceball"]:
+                                await message.clear_reactions()
+                                message, flag, result = await consumeNigiri(message, flag, e, console, dg, printToConsole)
+                                if result:
+                                    message = await bossAttack(message, e, console, is_charging) if boss_action == "Attack" else await bossDefend(message, e, console)
+                                else:
                                     continue
-                                message = await playerAttack(message, e, console)
+                                message = await printToConsole(message, e, console, "")
+                            case x if x == Icons["exit"]:
+                                await message.clear_reactions()
+                                e.description = "Player aborted the dungeon!"
+                                message = await printToConsole(message, e, console, f"(Aborting dungeon)")
+                                message = await printToConsole(message, e, console, "")
+                                flag = False
+                        if phase == 1 and dg.Boss.HP <= math.trunc(boss["HP"] / 2) and dg.Boss.HP > 0:
+                            dg.Boss.phase = 2
+                        if phase == 1 and dg.Boss.phase == 2:
+                            message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 2!")
+                            base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
+                            base_boss_def = math.floor(base_boss_def * random.uniform(1.1, 1.2))
+                            message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
                             message = await printToConsole(message, e, console, "")
-                        case x if x == Icons["defend"]:
-                            await message.clear_reactions()
-                            player_action = "Defend"
-                            message = await playerDefend(message, e, console)
-                            message = await bossAttack(message, e, console, is_charging, is_defending = True) if boss_action == "Attack" else await bossDefend(message, e, console)
-                            if boss_action == "Attack":
-                                message = await printToConsole(message, e, console, "(Suppressed)")
-                            message = await printToConsole(message, e, console, "")
-                        case x if x == Icons["exit"]:
-                            await message.clear_reactions()
-                            e.description = "Player aborted the dungeon!"
-                            message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                            message = await printToConsole(message, e, console, "")
-                            flag = False
-                    if phase == 1 and dg.Boss.HP <= math.trunc(boss["HP"] / 2) and dg.Boss.HP > 0:
-                        dg.Boss.phase = 2
-                    if phase == 1 and dg.Boss.phase == 2:
-                        message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 2!")
-                        base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
-                        base_boss_def = math.floor(base_boss_def * random.uniform(1.1, 1.2))
-                        message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
-                        message = await printToConsole(message, e, console, "")
-                        phase = 2
+                            phase = 2
+                    break
+
             elif boss_killed:
                 ryou0 = math.floor((dg.rewards["Ryou"]['range'][0] * 0.75) + (dg.rewards["Ryou"]['range'][0] / 4) * dg.multiplier)
                 ryou1 = math.floor((dg.rewards["Ryou"]['range'][1] * 0.75) + (dg.rewards["Ryou"]['range'][1] / 4) * dg.multiplier)
@@ -1429,7 +1546,8 @@ async def dungeons(ctx, *input):
     def formatBossStats(stats, mode):
         multiplier          = mode_multipliers[mode]
         boss_name           = stats["Name"]
-        boss_hp             = stats["HP"] * multiplier
+        base_hp             = stats["HP"]
+        scaled_hp           = math.floor((base_hp * 0.75) + (base_hp / 4 * multiplier))
         boss_resistances    = stats["Resistances"]
         boss_weaknesses     = stats["Weaknesses"]
         resistance_emojis   = getElementEmojis(boss_resistances)
@@ -1439,7 +1557,7 @@ async def dungeons(ctx, *input):
         formatted_string += f"───────────────\n"
         formatted_string += f"👹 ─ Boss: **__{boss_name}__**\n"
         formatted_string += f"───────────────\n"
-        formatted_string += f"🩸 ─ HP: `{'{:,}'.format(boss_hp)}`\n"
+        formatted_string += f"🩸 ─ HP: `{'{:,}'.format(scaled_hp)}`\n"
         formatted_string += f"───────────────\n"
         formatted_string += f"🛡️ ─ Resistances\n"
         formatted_string += f" ╰──  {resistance_emojis}\n"
@@ -1961,37 +2079,76 @@ async def tavern(ctx):
             return message, flag
 
     async def shopEntry(ctx, message, flag):
+        products_length = len(Products)
+        e = discord.Embed(title = f"Welcome to the {branch_name} Shop!", description = "Select a product to purchase:", color = default_color)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+        # Set offset to 0 (page 1) and begin bidirectional page system
+        offset = 0
         while flag:
-            e = discord.Embed(title = f"Welcome to the {branch_name} Shop!", description = "Select a product to purchase:", color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            counter = 0
             emojis = []
+            # Iterate through products in groups of 5
             for index, product in enumerate(Products):
-                e.add_field(name = f"{numbers[index]}  -  ***{product}***", value = f"╰ Price: {Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
-                emojis.append(numbers[index])
-            await message.edit(embed = e)
-            emojis.append("↩️")
-            reaction, user = await waitForReaction(ctx, message, e, emojis)
-            if reaction is None:
-                flag = False
-                return message, flag
-            match str(reaction.emoji):
-                case number_emoji if number_emoji in numbers:
-                    await message.clear_reactions()
-                    product_index = getProductIndex(number_emoji)
-                    product = getProduct(product_index)
-                    if product is None:
-                        await ctx.send("The product you chose could not be loaded!")
-                        flag = False
+                if index < offset:
+                    # Skipping to next entry until arriving at the proper page/offset
+                    continue
+                e.add_field(name = f"{numbers[counter]}  -  ***{product}***", value = f"╰ Price: {Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
+                emojis.append(numbers[counter])
+                counter +=1
+                # Once a full page is assembled, print it
+                if counter == 6 or index + 1 == products_length:
+                    await message.edit(embed = e)
+                    if index + 1 > 6 and index + 1 < products_length:
+                        # Is a middle page
+                        emojis[:0] = ["⏪", "⏩", "❌"]
+                    elif index + 1 < products_length:
+                        # Is the first page
+                        emojis[:0] = ["⏩", "❌"]
+                    elif products_length > 6:
+                        # Is the last page
+                        emojis[:0] = ["⏪", "❌"]
                     else:
-                        message, flag = await selectProduct(ctx, message, flag, product)
-                case "↩️":
-                    await message.clear_reactions()
-                    return message, flag
-            if flag:
-                continue
-            else:
-                return message, flag
+                        # Is the only page
+                        emojis[:0] = ["❌"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        return message, flag
+                    match str(reaction.emoji):
+                        case "⏩":
+                            # Tell upcomming re-iteration to skip to the next page's offset
+                            offset += 6
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "⏪":
+                            # Tell upcomming re-iteration to skip to the previous page's offset
+                            offset -= 6
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "❌":
+                            await message.clear_reactions()
+                            return message, flag
+                        case number_emoji if number_emoji in numbers:
+                            await message.clear_reactions()
+                            product_index = getProductIndex(number_emoji, offset)
+                            product = getProduct(product_index)
+                            if product is None:
+                                await ctx.send("The product you chose could not be loaded!")
+                                flag = False
+                            else:
+                                e.clear_fields()
+                                message, flag = await selectProduct(ctx, message, flag, product)
+                                if flag:
+                                    break
+                                else:
+                                    return message, flag
+                    if flag:
+                        continue
+                    else:
+                        return message, flag
 
     async def selectProduct(ctx, message, flag, product):
         stock = getProductStock(product)
@@ -2089,10 +2246,10 @@ async def tavern(ctx):
             await ctx.send(embed = e)
         return message, flag
 
-    def getProductIndex(number_emoji):
+    def getProductIndex(number_emoji, offset = 0):
         for n, emoji in enumerate(numbers):
             if number_emoji == emoji:
-                product_index = n
+                product_index = n + offset
         return product_index
 
     def getProduct(product_index):
@@ -3389,10 +3546,13 @@ async def resetstats(ctx, target = ""):
 #         msg.append(str(entry))
 #     await ctx.send(str(msg))
 
-# @bot.command()
-# @commands.check(checkAdmin)
-# async def test(ctx):
-#     pass
+@bot.command()
+@commands.check(checkAdmin)
+async def test(ctx):
+    # user_id = ctx.author.id
+    # inv = getUserItemInv(user_id)
+    # print(inv)
+    pass
 
 @bot.command()
 @commands.is_owner()

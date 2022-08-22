@@ -90,5 +90,159 @@
         "Requirements":
         {
         }
+    },
+
+    "Shenlong Nigiri":
+    {
+        "Price": 10000000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +10000 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Shachihoko Nigiri":
+    {
+        "Price": 5000000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +5000 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Lobster Nigiri":
+    {
+        "Price": 3000000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +2500 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Crab Nigiri":
+    {
+        "Price": 2000000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +1500 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Kinmedai Nigiri":
+    {
+        "Price": 1000000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +1000 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Ootoro Nigiri":
+    {
+        "Price": 500000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +650 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Octopus Nigiri":
+    {
+        "Price": 250000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +450 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Squid Nigiri":
+    {
+        "Price": 100000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +300 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Anago Nigiri":
+    {
+        "Price": 50000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +200 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Salmon Nigiri":
+    {
+        "Price": 10000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +100 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
+    },
+
+    "Tuna Nigiri":
+    {
+        "Price": 1000,
+        "Type": "Consumable",
+        "Stackable": true,
+        "Attributes":
+        [
+            "Heals +50 HP in combat"
+        ],
+        "Requirements":
+        {
+        }
     }
 }

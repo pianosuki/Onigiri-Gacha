@@ -17,6 +17,19 @@ default_rooms_range     = [2, 5]
 default_mob_spawnrate   = [0, 3]
 goldaruma_spawnrate     = 1
 default_chest_loot      = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"EXP": [100, 200]}, "rate": 50}]
+consumables             = {
+    "Tuna Nigiri": 50,
+    "Salmon Nigiri": 100,
+    "Anago Nigiri": 200,
+    "Squid Nigiri": 300,
+    "Octopus Nigiri": 450,
+    "Ootoro Nigiri": 650,
+    "Kinmedai Nigiri": 1000,
+    "Crab Nigiri": 1500,
+    "Lobster Nigiri": 2500,
+    "Shachihoko Nigiri": 5000,
+    "Shenlong Nigiri": 10000
+}
 
 # RNG
 weights         = {"tier_1": [25, 25, 20, 15, 10, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
@@ -118,6 +131,20 @@ element_emojis  = {
     "Wind": "<:wind:1007710345961418772>",
     "Holy": "<:holy:1007710333252665345>",
     "Dark": "<:dark:1007710321571541052>"
+}
+nigiri_emojis   = {
+    "riceball": "<:riceball:1010803854838861856>",
+    "tuna_nigiri": "<:tuna_nigiri:1010803682826264617>",
+    "salmon_nigiri": "<:salmon_nigiri:1010803695920877629>",
+    "anago_nigiri": "<:anago_nigiri:1010803708755443742>",
+    "squid_nigiri": "<:squid_nigiri:1010803725591400458>",
+    "octopus_nigiri": "<:octopus_nigiri:1010803745833107456>",
+    "ootoro_nigiri": "<:ootori_nigiri:1010803758676066335>",
+    "kinmedai_nigiri": "<:kinmedai_nigiri:1010803779056173158>",
+    "crab_nigiri": "<:crab_nigiri:1010803797750198313>",
+    "lobster_nigiri": "<:lobster_nigiri:1010803813181050920>",
+    "shachihoko_nigiri": "<:shachihoko_nigiri:1010803825424203806>",
+    "shenlong_nigiri": "<:shenlong_nigiri:1010803837898072064>"
 }
 
 # Conversion rate
