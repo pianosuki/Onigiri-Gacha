@@ -172,6 +172,11 @@
             ["Graphics/Yokai/Bakeneko/1.png", "bakeneko-1.png", "attachment://bakeneko-1.png"],
             ["Graphics/Yokai/Bakeneko/2.png", "bakeneko-2.png", "attachment://bakeneko-2.png"]
         ],
+        "Hiderigami":
+        [
+            ["Graphics/Yokai/Hiderigami/1.png", "hiderigami-1.png", "attachment://hiderigami-1.png"],
+            ["Graphics/Yokai/Hiderigami/2.png", "hiderigami-2.png", "attachment://hiderigami-2.png"]
+        ]
         "Yagyou-san":
         [
             ["Graphics/Yokai/Yagyou-san/1.png", "yagyousan-1.png", "attachment://yagyousan-1.png"],
