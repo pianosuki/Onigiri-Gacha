@@ -1462,6 +1462,14 @@ async def dungeons(ctx, *input):
                             message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
                             message = await printToConsole(message, e, console, "")
                             phase = 2
+                        if phase == 2 and dg.Boss.HP <= math.trunc(boss["HP"] / 4) and dg.Boss.HP > 0:
+                            dg.Boss.phase = 3
+                        if phase == 2 and dg.Boss.phase == 3:
+                            message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 3!")
+                            base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.3))
+                            message = await printToConsole(message, e, console, "(ATK buffed)")
+                            message = await printToConsole(message, e, console, "")
+                            phase = 3
                     break
 
             elif boss_killed:
