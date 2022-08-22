@@ -1162,7 +1162,7 @@ async def dungeons(ctx, *input):
                     message = await printToConsole(message, e, console, f"({mob} dropped {ryou_amount} Ryou!")
                     await reward(ctx, ctx.author.mention, "ryou", ryou_amount)
                 exp_row = ExpTable[dg.level - 1][1]
-                exp_amount = round((random.randint(10, 50) * dg.level * dg.multiplier) + ((exp_row / 200) * dg.multiplier))
+                exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
                 exp_reward = addPlayerExp(user_id, exp_amount)
                 message = await printToConsole(message, e, console, f"(Gained {exp_reward} EXP!)")
                 message = await printToConsole(message, e, console, "")
