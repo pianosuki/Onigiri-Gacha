@@ -94,7 +94,7 @@
 
     "Shenlong Nigiri":
     {
-        "Price": 10000000,
+        "Price": 1000000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -108,7 +108,7 @@
 
     "Shachihoko Nigiri":
     {
-        "Price": 5000000,
+        "Price": 600000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -122,7 +122,7 @@
 
     "Lobster Nigiri":
     {
-        "Price": 3000000,
+        "Price": 300000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -136,7 +136,7 @@
 
     "Crab Nigiri":
     {
-        "Price": 2000000,
+        "Price": 100000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -150,7 +150,7 @@
 
     "Kinmedai Nigiri":
     {
-        "Price": 1000000,
+        "Price": 60000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -164,7 +164,7 @@
 
     "Ootoro Nigiri":
     {
-        "Price": 500000,
+        "Price": 30000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -178,7 +178,7 @@
 
     "Octopus Nigiri":
     {
-        "Price": 250000,
+        "Price": 10000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -192,7 +192,7 @@
 
     "Squid Nigiri":
     {
-        "Price": 100000,
+        "Price": 6000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -206,7 +206,7 @@
 
     "Anago Nigiri":
     {
-        "Price": 50000,
+        "Price": 3000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -220,7 +220,7 @@
 
     "Salmon Nigiri":
     {
-        "Price": 10000,
+        "Price": 1000,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
@@ -234,7 +234,7 @@
 
     "Tuna Nigiri":
     {
-        "Price": 1000,
+        "Price": 500,
         "Type": "Consumable",
         "Stackable": true,
         "Attributes":
