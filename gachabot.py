@@ -1061,8 +1061,8 @@ async def dungeons(ctx, *input):
         # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
         # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
         base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
-        base_yokai_atk = math.floor((dg.level * random.randint(5, 10)) + (dg.level * dg.multiplier))
-        base_yokai_def = math.floor((dg.level * random.randint(5, 10)) + (dg.level * dg.multiplier))
+        base_yokai_atk = math.floor((dg.level * random.randint(5, 9)) + (dg.level * dg.multiplier))
+        base_yokai_def = math.floor((dg.level * random.randint(5, 9)) + (dg.level * dg.multiplier))
         dg.Yokai.HP = base_yokai_hp
         dg.Yokai.ATK = base_yokai_atk
         dg.Yokai.DEF = base_yokai_def
@@ -1466,7 +1466,7 @@ async def dungeons(ctx, *input):
                             dg.Boss.phase = 3
                         if phase == 2 and dg.Boss.phase == 3:
                             message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 3!")
-                            base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.3))
+                            base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
                             message = await printToConsole(message, e, console, "(ATK buffed)")
                             message = await printToConsole(message, e, console, "")
                             phase = 3
