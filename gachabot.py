@@ -3547,12 +3547,25 @@ async def resetstats(ctx, target = ""):
 #     await ctx.send(str(msg))
 
 @bot.command()
-@commands.check(checkAdmin)
-async def test(ctx):
-    # user_id = ctx.author.id
-    # inv = getUserItemInv(user_id)
-    # print(inv)
-    pass
+@commands.is_owner()
+async def compensate(ctx):
+    data = DungeonsDB.query("SELECT * FROM clears")
+    users = []
+    for entry in data:
+        user_id = entry[1]
+        if not user_id in users:
+            users.append(user_id)
+
+    for user_id in users:
+        # user = await bot.fetch_user(user_id)
+        product = "Octopus Nigiri"
+        amount = 5
+        item_quantity = getUserItemQuantity(user_id, product)
+        if item_quantity == None:
+            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, amount))
+        else:
+            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
+        await ctx.send(f"Rewarded <@{user_id}> with **{amount} __{product}__**!")
 
 @bot.command()
 @commands.is_owner()

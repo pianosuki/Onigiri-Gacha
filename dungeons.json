@@ -1069,5 +1069,424 @@
             "Ryou": {"range": [3000, 3500], "rate": 100},
             "EXP": {"range": [3000, 3500], "rate": 100}
         }
+    },
+
+    "Chinji Cavern":
+    {
+        "Level_Required": 20,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [800, 900], "Ryou": [3200, 3300]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [900, 1000], "Ryou": [3300, 3400]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1000, 1100], "Ryou": [3400, 3500]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1100, 1200], "Ryou": [3500, 3600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Gaikotsu",
+            "Rock Sticky",
+            "Handamashii Musha",
+            "Child Mukade",
+            "Nuppepou"
+        ],
+        "Boss":
+        {
+            "Name": "Oomusha",
+            "HP": 3200,
+            "Resistances": ["Ice", "Lightning", "Dark", "Rain", "Wind"],
+            "Weaknesses": ["Holy"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [5000, 10000], "rate": 100},
+            "EXP": {"range": [3500, 3600], "rate": 100}
+        }
+    },
+
+    "Seiryuu Grotto":
+    {
+        "Level_Required": 22,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [900, 1000], "Ryou": [3300, 3400]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1000, 1100], "Ryou": [3400, 3500]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1100, 1200], "Ryou": [3500, 3600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1200, 1300], "Ryou": [3600, 3700]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Swamp Sticky",
+            "Kappa",
+            "Punk Kappa",
+            "Amagaeru",
+            "Gama"
+        ],
+        "Boss":
+        {
+            "Name": "Kubire Oni",
+            "HP": 3400,
+            "Resistances": ["Rain"],
+            "Weaknesses": ["Holy"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [10000, 20000], "rate": 100},
+            "EXP": {"range": [3600, 3700], "rate": 100}
+        }
+    },
+
+    "Suzaku Mansion":
+    {
+        "Level_Required": 23,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1000, 1100], "Ryou": [3400, 3500]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1100, 1200], "Ryou": [3500, 3600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1200, 1300], "Ryou": [3600, 3700]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1300, 1400], "Ryou": [3600, 3800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Gloom Daruma",
+            "Peach Sticky",
+            "Aburasumashi",
+            "Nuppepou",
+            "Bakeneko"
+        ],
+        "Boss":
+        {
+            "Name": "Hiderigami",
+            "HP": 3600,
+            "Resistances": ["Fire", "Holy", "Wind", "Mountain"],
+            "Weaknesses": ["Dark", "Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [20000, 40000], "rate": 100},
+            "EXP": {"range": [3700, 3800], "rate": 100}
+        }
+    },
+
+    "Byakkou Cavern":
+    {
+        "Level_Required": 24,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1100, 1200], "Ryou": [3500, 3600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1200, 1300], "Ryou": [3600, 3700]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1300, 1400], "Ryou": [3700, 3800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1400, 1500], "Ryou": [3800, 3900]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Life Daruma",
+            "Gaikotsu",
+            "Lantern Ghost",
+            "Rock Sticky"
+        ],
+        "Boss":
+        {
+            "Name": "Toudaiki",
+            "HP": 3800,
+            "Resistances": ["Fire"],
+            "Weaknesses": ["Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [30000, 60000], "rate": 100},
+            "EXP": {"range": [3800, 3900], "rate": 100}
+        }
+    },
+
+    "Genbu Temple":
+    {
+        "Level_Required": 25,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1100, 1200], "Ryou": [3500, 3600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1300, 1400], "Ryou": [3700, 3800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1400, 1500], "Ryou": [3800, 3900]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1500, 1600], "Ryou": [3900, 4000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Octopus Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Luck Daruma",
+            "Loss Daruma",
+            "Gankubi",
+            "Handamashii Musha",
+            "Nurikabe"
+        ],
+        "Boss":
+        {
+            "Name": "Yagyou-san",
+            "HP": 4000,
+            "Resistances": ["Mountain"],
+            "Weaknesses": ["Ice", "Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [40000, 80000], "rate": 100},
+            "EXP": {"range": [3900, 4000], "rate": 100}
+        }
+    },
+
+    "Room of Rites":
+    {
+        "Level_Required": 28,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [4, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1300, 1400], "Ryou": [3700, 4700]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Ootoro Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [4, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1400, 1500], "Ryou": [3800, 4800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Ootoro Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [4, 7],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1500, 1600], "Ryou": [3900, 4900]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Ootoro Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [4, 8],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [1600, 1700], "Ryou": [4000, 5000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Ootoro Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Loss Daruma",
+            "Dark Sticky",
+            "Gankubi",
+            "Nuppepou",
+            "Ungaikyou"
+        ],
+        "Boss":
+        {
+            "Name": "Ahriman",
+            "HP": 6000,
+            "Resistances": ["Dark", "Lightning"],
+            "Weaknesses": ["Holy", "Mountain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [50000, 100000], "rate": 100},
+            "EXP": {"range": [4000, 5000], "rate": 100}
+        }
     }
 }

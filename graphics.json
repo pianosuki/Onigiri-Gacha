@@ -156,6 +156,36 @@
         [
             ["Graphics/Yokai/Crazed Momotarou/1.png", "crazedmomotarou-1.png", "attachment://crazedmomotarou-1.png"],
             ["Graphics/Yokai/Crazed Momotarou/2.png", "crazedmomotarou-2.png", "attachment://crazedmomotarou-2.png"]
+        ],
+        "Oomusha":
+        [
+            ["Graphics/Yokai/Oomusha/1.png", "oomusha-1.png", "attachment://oomusha-1.png"],
+            ["Graphics/Yokai/Oomusha/2.png", "oomusha-2.png", "attachment://oomusha-2.png"]
+        ],
+        "Kubire Oni":
+        [
+            ["Graphics/Yokai/Kubire Oni/1.png", "kubireoni-1.png", "attachment://kubireoni-1.png"],
+            ["Graphics/Yokai/Kubire Oni/2.png", "kubireoni-2.png", "attachment://kubireoni-2.png"]
+        ],
+        "Bakeneko":
+        [
+            ["Graphics/Yokai/Bakeneko/1.png", "bakeneko-1.png", "attachment://bakeneko-1.png"],
+            ["Graphics/Yokai/Bakeneko/2.png", "bakeneko-2.png", "attachment://bakeneko-2.png"]
+        ],
+        "Yagyou-san":
+        [
+            ["Graphics/Yokai/Yagyou-san/1.png", "yagyousan-1.png", "attachment://yagyousan-1.png"],
+            ["Graphics/Yokai/Yagyou-san/2.png", "yagyousan-2.png", "attachment://yagyousan-2.png"]
+        ],
+        "Ungaikyou":
+        [
+            ["Graphics/Yokai/Ungaikyou/1.png", "ungaikyou-1.png", "attachment://ungaikyou-1.png"],
+            ["Graphics/Yokai/Ungaikyou/2.png", "ungaikyou-2.png", "attachment://ungaikyou-2.png"]
+        ],
+        "Ahriman":
+        [
+            ["Graphics/Yokai/Ahriman/1.png", "ahriman-1.png", "attachment://ahriman-1.png"],
+            ["Graphics/Yokai/Ahriman/2.png", "ahriman-2.png", "attachment://ahriman-2.png"]
         ]
     },
 
