@@ -1530,16 +1530,16 @@ async def dungeons(ctx, *input):
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
                                 atk_gauge = 0
                                 if is_player_turn:
-                                    if yokai_action == "Defend":
+                                    if boss_action == "Defend":
                                         message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
                                     if not dg.Yokai.HP > 0:
                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
-                                    if yokai_action == "Attack":
+                                    if boss_action == "Attack":
                                         message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
                                 else:
-                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                     if not dg.Player.HP > 0:
                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
