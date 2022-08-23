@@ -882,7 +882,7 @@ async def dungeons(ctx, *input):
         message = await message.edit(embed = e)
         return message
 
-    async def consumeNigiri(message, flag, e, console, dg, printToConsole):
+    async def consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole):
         result = False
 
         def formatConsumables(consumables, user_items):
@@ -960,8 +960,8 @@ async def dungeons(ctx, *input):
                 base_player_hp = getPlayerHP(user_id)
                 heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
                 dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
-                message = await printToConsole(message, e, console, f"You ate some tasty {product}!")
-                message = await printToConsole(message, e, console, f"(healed for {'{:,}'.format(heal_amount)})")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You ate some tasty {product}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(healed for {'{:,}'.format(heal_amount)})")
                 result = True
         e.remove_field(6)
         await message.edit(embed = e)
@@ -969,21 +969,25 @@ async def dungeons(ctx, *input):
 
     async def fightMob(ctx, message, flag, dg, mob, e):
 
-        async def updateEmbed(e, yokai_state, player_state, console):
-            e.set_field_at(3, name = "Yokai stats:", value = boxifyArray(yokai_state, padding = 2))
-            e.set_field_at(4, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
-            e.set_field_at(5, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
+        async def updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge):
+            f"Turn: **#{turn}**"
+            e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
+            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['ougi']} **{atk_gauge} / 5**")
+            e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
+            e.set_field_at(6, name = "Yokai stats:", value = boxifyArray(yokai_state, padding = 2))
+            e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
+            e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
 
         def updateAgents():
             yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {dg.Yokai.HP}", f"Yokai ATK: {dg.Yokai.ATK}", f"Yokai DEF: {dg.Yokai.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
             return yokai_state, player_state
 
-        async def printToConsole(message, e, console, input):
+        async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
             time.sleep(0.2)
             console.append(str(input))
             yokai_state, player_state = updateAgents()
-            await updateEmbed(e, yokai_state, player_state, console)
+            await updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge)
             await message.edit(embed = e)
             return message
 
@@ -1007,42 +1011,55 @@ async def dungeons(ctx, *input):
             e.set_image(url = None)
             return message
 
-        async def playerAttack(message, e, console):
+        async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
             # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Yokai)
+            if is_supercharging:
+                damage *= 2
             dg.Yokai.HP = dg.Yokai.HP - damage if not dg.Yokai.HP - damage < 0 else 0
-            message = await printToConsole(message, e, console, f"Dealt {damage} damage to {mob}!")
+            if not is_supercharging:
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {mob}!")
+            else:
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {mob}!")
             if is_critical:
-                message = await printToConsole(message, e, console, "(2x Critical!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def playerDefend(message, e, console):
+        async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
             # time.sleep(0.5)
             dg.Player.DEF *= 3
-            message = await printToConsole(message, e, console, f"You fortified your defences!")
+            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def yokaiAttack(message, e, console, is_charging, is_defending = False):
+        async def yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
             damage, is_critical = damageCalculator(dg.Yokai, dg.Player)
             if is_charging and not is_defending:
                 damage *= 2
             # time.sleep(0.5)
-            dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
-            if not is_charging:
-                message = await printToConsole(message, e, console, f"Took {damage} damage from {dg.Yokai.name}!")
+            if not is_evading:
+                dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+                if not is_charging:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Yokai.name}!")
+                else:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Yokai.name}!")
+                if is_critical:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             else:
-                message = await printToConsole(message, e, console, f"Took {damage} heavy damage from {dg.Yokai.name}!")
-            if is_critical:
-                message = await printToConsole(message, e, console, "(2x Critical!)")
+                if not is_charging:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Yokai.name}!")
+                else:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Yokai.name}!")
+                if is_critical:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def yokaiDefend(message, e, console):
+        async def yokaiDefend(message, e, console, turn, atk_gauge, def_gauge):
             # time.sleep(0.5)
             dg.Yokai.DEF *= 2
-            message = await printToConsole(message, e, console, f"{mob} fortified its defences!")
+            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} fortified its defences!")
             # message = await printToConsole(message, e, console, "")
             return message
 
@@ -1050,9 +1067,12 @@ async def dungeons(ctx, *input):
         message = await loadYokaiEncounter(message, e, mob)
 
         # Begin Combat Engine
-        e.add_field(name = "Yokai", value = "Placeholder", inline = True) # Field 3
-        e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 4
-        e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 5
+        e.add_field(name = "Turn", value = "Placeholder", inline = True) # Field 3
+        e.add_field(name = "ATK Ougi", value = "Placeholder", inline = True) # Field 4
+        e.add_field(name = "DEF Ougi", value = "Placeholder", inline = False) # Field 5
+        e.add_field(name = "Yokai", value = "Placeholder", inline = True) # Field 6
+        e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 7
+        e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 8
         console = [""]
         yokai_action = ""
         player_action = ""
@@ -1074,6 +1094,8 @@ async def dungeons(ctx, *input):
             dg.Player.HP = getPlayerHP(user_id)
         #     dg.Player.ATK = getPlayerATK(user_id)
         #     dg.Player.DEF = getPlayerDEF(user_id)
+        atk_gauge = 0
+        def_gauge = 0
         turn = 0
         while flag:
             yokai_state, player_state = updateAgents()
@@ -1081,28 +1103,28 @@ async def dungeons(ctx, *input):
             player_killed = False if dg.Player.HP > 0 else True
             if not yokai_killed and not player_killed:
                 turn += 1
-                e.description = f"Turn: **#{turn}**"
-                message = await printToConsole(message, e, console, f"Turn: #{turn}")
-                # if yokai_action == "Defend":
-                    # message = await printToConsole(message, e, console, "(Resetting Yokai buffs/debuffs)")
-                    # dg.Yokai.DEF = math.trunc(dg.Yokai.DEF / 2)
-                # if player_action == "Defend":
-                     # message = await printToConsole(message, e, console, "(Resetting Player buffs/debuffs)")
-                     # dg.Player.DEF = math.trunc(dg.Player.DEF / 3)
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
                 dg.Yokai.ATK = base_yokai_atk
                 dg.Yokai.DEF = base_yokai_def
                 dg.Player.ATK = base_player_atk
                 dg.Player.DEF = base_player_def
                 is_charging = True if random.random() < 0.1 else False
                 if is_charging:
-                    message = await printToConsole(message, e, console, f"({mob} is charging a heavy attack!)")
-                message = await printToConsole(message, e, console, "")
-                message = await printToConsole(message, e, console, "Choose an action to perform")
-                message = await printToConsole(message, e, console, "(Attack | Defend | Leave Dungeon)")
-                message = await printToConsole(message, e, console, "")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} is charging a heavy attack!)")
+                is_defending = False
+                is_evading = False
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Attack | Defend | Leave Dungeon)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
 
                 while True:
-                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"], Icons["exit"]]
+                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
+                    if atk_gauge == 5:
+                        emojis.append(Icons["supercharge"])
+                    if def_gauge == 5:
+                        emojis.append(Icons["evade"])
+                    emojis.append(Icons["exit"])
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
                     if reaction is None:
                         flag = False
@@ -1115,47 +1137,76 @@ async def dungeons(ctx, *input):
                                 await message.clear_reactions()
                                 if is_player_turn:
                                     if yokai_action == "Defend":
-                                        message = await yokaiDefend(message, e, console)
-                                    message = await playerAttack(message, e, console)
+                                        message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
                                     if not dg.Yokai.HP > 0:
-                                        message = await printToConsole(message, e, console, "")
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
                                     if yokai_action == "Attack":
-                                        message = await yokaiAttack(message, e, console, is_charging)
+                                        message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
                                 else:
-                                    message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
+                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
                                     if not dg.Player.HP > 0:
-                                        message = await printToConsole(message, e, console, "")
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
-                                    message = await playerAttack(message, e, console)
-                                message = await printToConsole(message, e, console, "")
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
+                                atk_gauge = atk_gauge + 1 if atk_gauge + 1 <= 5 else 5
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case x if x == Icons["defend"]:
                                 await message.clear_reactions()
                                 player_action = "Defend"
-                                message = await playerDefend(message, e, console)
-                                message = await yokaiAttack(message, e, console, is_charging, is_defending = True) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
+                                message = await playerDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                is_defending = True
+                                message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
                                 if yokai_action == "Attack":
-                                    message = await printToConsole(message, e, console, "(Suppressed)")
-                                message = await printToConsole(message, e, console, "")
+                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Suppressed)")
+                                def_gauge = def_gauge + 1 if def_gauge + 1 <= 5 else 5
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case x if x == Icons["riceball"]:
                                 await message.clear_reactions()
-                                message, flag, result = await consumeNigiri(message, flag, e, console, dg, printToConsole)
+                                message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
                                 if result:
-                                    message = await yokaiAttack(message, e, console, is_charging) if yokai_action == "Attack" else await yokaiDefend(message, e, console)
+                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
                                 else:
                                     continue
-                                message = await printToConsole(message, e, console, "")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                            case x if x == Icons["supercharge"] and atk_gauge == 5:
+                                await message.clear_reactions()
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
+                                atk_gauge = 0
+                                if is_player_turn:
+                                    if yokai_action == "Defend":
+                                        message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+                                    if not dg.Yokai.HP > 0:
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                        break
+                                    if yokai_action == "Attack":
+                                        message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+                                else:
+                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    if not dg.Player.HP > 0:
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                        break
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                            case x if x == Icons["evade"] and def_gauge == 5:
+                                await message.clear_reactions()
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Perfect Dodge)")
+                                is_evading = True
+                                def_gauge = 0
+                                continue
                             case x if x == Icons["exit"]:
                                 await message.clear_reactions()
                                 e.description = "Player aborted the dungeon!"
-                                message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                                message = await printToConsole(message, e, console, "")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                 flag = False
                     break
 
             elif yokai_killed:
                 ExpTable = Tables["ExpTable"]
-                message = await printToConsole(message, e, console, f"You have defeated {mob}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {mob}!")
                 if mob == "Gold Daruma":
                     random_amount = random.randint(10000, 100000)
                     ryou_amount = math.floor(((random_amount / 5) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
@@ -1164,11 +1215,11 @@ async def dungeons(ctx, *input):
                 exp_row = ExpTable[dg.level - 1][1]
                 exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
                 exp_reward = addPlayerExp(user_id, exp_amount)
-                message = await printToConsole(message, e, console, f"(Gained {exp_reward} EXP!)")
-                message = await printToConsole(message, e, console, "")
-                message = await printToConsole(message, e, console, "Choose an action to perform")
-                message = await printToConsole(message, e, console, "(Proceed | Leave Dungeon)")
-                message = await printToConsole(message, e, console, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_reward} EXP!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 emojis = ["⏭️", Icons["exit"]]
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 if reaction is None:
@@ -1177,6 +1228,9 @@ async def dungeons(ctx, *input):
                     match str(reaction.emoji):
                         case "⏭️":
                             await message.clear_reactions()
+                            e.remove_field(8)
+                            e.remove_field(7)
+                            e.remove_field(6)
                             e.remove_field(5)
                             e.remove_field(4)
                             e.remove_field(3)
@@ -1185,13 +1239,13 @@ async def dungeons(ctx, *input):
                         case x if x == Icons["exit"]:
                             await message.clear_reactions()
                             e.description = "Player aborted the dungeon!"
-                            message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                            message = await printToConsole(message, e, console, "")
+                            message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
+                            message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
                             flag = False
             elif player_killed:
-                message = await printToConsole(message, e, console, f"{mob} has killed you!")
-                message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                message = await printToConsole(message, e, console, "")
+                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"{mob} has killed you!")
+                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
+                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
                 time.sleep(1)
                 message = await deathScreen(message, e, mob)
                 flag = False
@@ -1287,22 +1341,25 @@ async def dungeons(ctx, *input):
         #     dg.Player.ATK = getPlayerATK(user_id)
         #     dg.Player.DEF = getPlayerDEF(user_id)
 
-        async def updateEmbed(e, boss_state, player_state, console):
+        async def updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge):
             e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(dg.Boss.HP)} / {'{:,}'.format(boss['HP'])}**")
-            e.set_field_at(3, name = "Boss stats:", value = boxifyArray(boss_state, padding = 2))
-            e.set_field_at(4, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
-            e.set_field_at(5, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
+            e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
+            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['ougi']} **{atk_gauge} / 5**")
+            e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
+            e.set_field_at(6, name = "Boss stats:", value = boxifyArray(boss_state, padding = 2))
+            e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
+            e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
 
         def updateAgents():
             boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {dg.Boss.HP}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
             player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
             return boss_state, player_state
 
-        async def printToConsole(message, e, console, input):
+        async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
             time.sleep(0.2)
             console.append(str(input))
             boss_state, player_state = updateAgents()
-            await updateEmbed(e, boss_state, player_state, console)
+            await updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge)
             await message.edit(embed = e)
             return message
 
@@ -1326,42 +1383,55 @@ async def dungeons(ctx, *input):
             e.set_image(url = None)
             return message
 
-        async def playerAttack(message, e, console):
+        async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
             # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Boss)
+            if is_supercharging:
+                damage *= 2
             dg.Boss.HP = dg.Boss.HP - damage if not dg.Boss.HP - damage < 0 else 0
-            message = await printToConsole(message, e, console, f"Dealt {damage} damage to {dg.Boss.name}!")
+            if not is_supercharging:
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {dg.Boss.name}!")
+            else:
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {dg.Boss.name}!")
             if is_critical:
-                message = await printToConsole(message, e, console, "(2x Critical!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def playerDefend(message, e, console):
+        async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
             # time.sleep(0.5)
             dg.Player.DEF *= 3
-            message = await printToConsole(message, e, console, f"You fortified your defences!")
+            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def bossAttack(message, e, console, is_charging, is_defending = False):
+        async def bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
             damage, is_critical = damageCalculator(dg.Boss, dg.Player)
             if is_charging and not is_defending:
                 damage *= 2
             # time.sleep(0.5)
-            dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
-            if not is_charging:
-                message = await printToConsole(message, e, console, f"Took {damage} damage from {dg.Boss.name}!")
+            if not is_evading:
+                dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+                if not is_charging:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Boss.name}!")
+                else:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Boss.name}!")
+                if is_critical:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             else:
-                message = await printToConsole(message, e, console, f"Took {damage} heavy damage from {dg.Boss.name}!")
-            if is_critical:
-                message = await printToConsole(message, e, console, "(2x Critical!)")
+                if not is_charging:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Boss.name}!")
+                else:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Boss.name}!")
+                if is_critical:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
             # message = await printToConsole(message, e, console, "")
             return message
 
-        async def bossDefend(message, e, console):
+        async def bossDefend(message, e, console, turn, atk_gauge, def_gauge):
             # time.sleep(0.5)
             dg.Boss.DEF *= 2
-            message = await printToConsole(message, e, console, f"{dg.Boss.name} fortified its defences!")
+            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} fortified its defences!")
             # message = await printToConsole(message, e, console, "")
             return message
 
@@ -1369,12 +1439,17 @@ async def dungeons(ctx, *input):
         message = await loadBossEncounter(message, e, dg.Boss.name)
 
         # Begin Combat Engine
-        e.add_field(name = "Boss", value = "Placeholder", inline = True) # Field 3
-        e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 4
-        e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 5
+        e.add_field(name = "Turn", value = "Placeholder", inline = True) # Field 3
+        e.add_field(name = "ATK Ougi", value = "Placeholder", inline = True) # Field 4
+        e.add_field(name = "DEF Ougi", value = "Placeholder", inline = False) # Field 5
+        e.add_field(name = "Boss", value = "Placeholder", inline = True) # Field 6
+        e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 7
+        e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 8
         console = [""]
         boss_action = ""
         player_action = ""
+        atk_gauge = 0
+        def_gauge = 0
         turn = 0
         phase = 1
         while flag:
@@ -1383,28 +1458,28 @@ async def dungeons(ctx, *input):
             player_killed = False if dg.Player.HP > 0 else True
             if not boss_killed and not player_killed:
                 turn += 1
-                e.description = f"Turn: **#{turn}**"
-                message = await printToConsole(message, e, console, f"Turn: #{turn}")
-                # if boss_action == "Defend":
-                    # message = await printToConsole(message, e, console, "(Resetting Boss fortifications)")
-                    # dg.Boss.DEF = math.trunc(dg.Boss.DEF / 2)
-                # if player_action == "Defend":
-                    # message = await printToConsole(message, e, console, "(Resetting Player fortifications)")
-                    # dg.Player.DEF = math.trunc(dg.Player.DEF / 3)
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
                 dg.Boss.ATK = base_boss_atk
                 dg.Boss.DEF = base_boss_def
                 dg.Player.ATK = base_player_atk
                 dg.Player.DEF = base_player_def
                 is_charging = True if random.random() < 0.25 else False
                 if is_charging:
-                    message = await printToConsole(message, e, console, f"({dg.Boss.name} is charging a heavy attack!)")
-                message = await printToConsole(message, e, console, "")
-                message = await printToConsole(message, e, console, "Choose an action to perform")
-                message = await printToConsole(message, e, console, "(Attack | Defend | Leave Dungeon)")
-                message = await printToConsole(message, e, console, "")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({dg.Boss.name} is charging a heavy attack!)")
+                is_defending = False
+                is_evading = False
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Attack | Defend | Leave Dungeon)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
 
                 while True:
-                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"], Icons["exit"]]
+                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
+                    if atk_gauge == 5:
+                        emojis.append(Icons["supercharge"])
+                    if def_gauge == 5:
+                        emojis.append(Icons["evade"])
+                    emojis.append(Icons["exit"])
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
                     if reaction is None:
                         flag = False
@@ -1417,58 +1492,87 @@ async def dungeons(ctx, *input):
                                 await message.clear_reactions()
                                 if is_player_turn:
                                     if boss_action == "Defend":
-                                        message = await bossDefend(message, e, console)
-                                    message = await playerAttack(message, e, console)
+                                        message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
                                     if not dg.Boss.HP > 0:
-                                        message = await printToConsole(message, e, console, "")
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
                                     if boss_action == "Attack":
-                                        message = await bossAttack(message, e, console, is_charging)
+                                        message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
                                 else:
-                                    message = await bossAttack(message, e, console, is_charging) if boss_action == "Attack" else await bossDefend(message, e, console)
+                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                     if not dg.Player.HP > 0:
-                                        message = await printToConsole(message, e, console, "")
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
-                                    message = await playerAttack(message, e, console)
-                                message = await printToConsole(message, e, console, "")
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
+                                atk_gauge = atk_gauge + 1 if atk_gauge + 1 <= 5 else 5
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case x if x == Icons["defend"]:
                                 await message.clear_reactions()
                                 player_action = "Defend"
-                                message = await playerDefend(message, e, console)
-                                message = await bossAttack(message, e, console, is_charging, is_defending = True) if boss_action == "Attack" else await bossDefend(message, e, console)
+                                message = await playerDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                is_defending = True
+                                message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                 if boss_action == "Attack":
-                                    message = await printToConsole(message, e, console, "(Suppressed)")
-                                message = await printToConsole(message, e, console, "")
+                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Suppressed)")
+                                def_gauge = def_gauge + 1 if def_gauge + 1 <= 5 else 5
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case x if x == Icons["riceball"]:
                                 await message.clear_reactions()
-                                message, flag, result = await consumeNigiri(message, flag, e, console, dg, printToConsole)
+                                message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
                                 if result:
-                                    message = await bossAttack(message, e, console, is_charging) if boss_action == "Attack" else await bossDefend(message, e, console)
+                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                 else:
                                     continue
-                                message = await printToConsole(message, e, console, "")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                            case x if x == Icons["supercharge"] and atk_gauge == 5:
+                                await message.clear_reactions()
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
+                                atk_gauge = 0
+                                if is_player_turn:
+                                    if yokai_action == "Defend":
+                                        message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+                                    if not dg.Yokai.HP > 0:
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                        break
+                                    if yokai_action == "Attack":
+                                        message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+                                else:
+                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    if not dg.Player.HP > 0:
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                        break
+                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                            case x if x == Icons["evade"] and def_gauge == 5:
+                                await message.clear_reactions()
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Perfect Dodge)")
+                                is_evading = True
+                                def_gauge = 0
+                                continue
                             case x if x == Icons["exit"]:
                                 await message.clear_reactions()
                                 e.description = "Player aborted the dungeon!"
-                                message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                                message = await printToConsole(message, e, console, "")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                 flag = False
                         if phase == 1 and dg.Boss.HP <= math.trunc(boss["HP"] / 2) and dg.Boss.HP > 0:
                             dg.Boss.phase = 2
                         if phase == 1 and dg.Boss.phase == 2:
-                            message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 2!")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has augmented to Phase 2!")
                             base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
                             base_boss_def = math.floor(base_boss_def * random.uniform(1.1, 1.2))
-                            message = await printToConsole(message, e, console, "(ATK and DEF buffed)")
-                            message = await printToConsole(message, e, console, "")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ATK and DEF buffed)")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             phase = 2
                         if phase == 2 and dg.Boss.HP <= math.trunc(boss["HP"] / 4) and dg.Boss.HP > 0:
                             dg.Boss.phase = 3
                         if phase == 2 and dg.Boss.phase == 3:
-                            message = await printToConsole(message, e, console, f"{dg.Boss.name} has augmented to Phase 3!")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has augmented to Phase 3!")
                             base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
-                            message = await printToConsole(message, e, console, "(ATK buffed)")
-                            message = await printToConsole(message, e, console, "")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ATK buffed)")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             phase = 3
                     break
 
@@ -1482,16 +1586,16 @@ async def dungeons(ctx, *input):
                 ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
                 exp_amount = addPlayerExp(user_id, random.randint(exp_range[0], exp_range[1]))
                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
-                message = await printToConsole(message, e, console, f"You have defeated {dg.Boss.name}!")
-                message = await printToConsole(message, e, console, f"(Gained {ryou_amount} Ryou!)")
-                message = await printToConsole(message, e, console, f"(Gained {exp_amount} EXP!)")
-                message = await printToConsole(message, e, console, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {ryou_amount} Ryou!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_amount} EXP!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
                 break
             elif player_killed:
-                message = await printToConsole(message, e, console, f"{dg.Boss.name} has killed you!")
-                message = await printToConsole(message, e, console, f"(Aborting dungeon)")
-                message = await printToConsole(message, e, console, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has killed you!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 time.sleep(1)
                 message = await deathScreen(message, e, dg.Boss.name)
                 flag = False

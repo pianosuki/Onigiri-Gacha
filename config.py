@@ -114,7 +114,9 @@ custom_emojis   = {
     "attack": "<:attack:1009540591182430208>",
     "defend": "<:defend:1009540603920523374>",
     "exit": "<:exit:1009544808479604856>",
-    "statsreset": "<:statsreset:1010726645885308928>"
+    "statsreset": "<:statsreset:1010726645885308928>",
+    "supercharge": "<:supercharge:1011404535505371146>",
+    "evade": "<:evade:1011404551565365308>"
 }
 mode_emojis     = {
     "normal": "<:normal:1007526343501688862>",
