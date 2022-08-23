@@ -1533,7 +1533,7 @@ async def dungeons(ctx, *input):
                                     if boss_action == "Defend":
                                         message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
-                                    if not dg.Yokai.HP > 0:
+                                    if not dg.Boss.HP > 0:
                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                                         break
                                     if boss_action == "Attack":
