@@ -972,7 +972,7 @@ async def dungeons(ctx, *input):
         async def updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge):
             f"Turn: **#{turn}**"
             e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
-            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['ougi']} **{atk_gauge} / 5**")
+            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
             e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
             e.set_field_at(6, name = "Yokai stats:", value = boxifyArray(yokai_state, padding = 2))
             e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
