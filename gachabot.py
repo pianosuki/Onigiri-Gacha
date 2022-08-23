@@ -1210,7 +1210,7 @@ async def dungeons(ctx, *input):
                 if mob == "Gold Daruma":
                     random_amount = random.randint(10000, 100000)
                     ryou_amount = math.floor(((random_amount / 5) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
-                    message = await printToConsole(message, e, console, f"({mob} dropped {ryou_amount} Ryou!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {ryou_amount} Ryou!")
                     await reward(ctx, ctx.author.mention, "ryou", ryou_amount)
                 exp_row = ExpTable[dg.level - 1][1]
                 exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
