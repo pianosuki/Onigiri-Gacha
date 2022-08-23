@@ -1344,7 +1344,7 @@ async def dungeons(ctx, *input):
         async def updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge):
             e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(dg.Boss.HP)} / {'{:,}'.format(boss['HP'])}**")
             e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
-            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['ougi']} **{atk_gauge} / 5**")
+            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
             e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
             e.set_field_at(6, name = "Boss stats:", value = boxifyArray(boss_state, padding = 2))
             e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
