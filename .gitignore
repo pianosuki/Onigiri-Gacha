@@ -11,6 +11,3 @@ __pycache__/
 
 # Database files
 *.db
-
-# Generated Dungeon Blueprints
-Blueprints/

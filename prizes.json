@@ -3,16 +3,16 @@
   {
     "name": "Tier 1",
     "symbol": "🥉",
-    "tickets_required": 1,
+    "tickets_required": 3,
     "regulated": false,
     "prizes":
     {
-      "blue": ["100 EXP"],
-      "green": ["200 EXP", "1 Gacha Fragment"],
-      "red": ["300 EXP", "2 Gacha Fragments"],
-      "silver": ["100000 Ryou", "3 Gacha Fragments"],
-      "gold": ["WL", "1 Gacha Ticket"],
-      "platinum": ["1 Energy Restores"]
+      "blue": ["1 Gacha Fragments"],
+      "green": ["2 Gacha Fragments"],
+      "red": ["4 Gacha Fragments"],
+      "silver": ["7 Gacha Fragments"],
+      "gold": ["WL"],
+      "platinum": ["Catheon OG"]
     }
   },
 
@@ -20,16 +20,16 @@
   {
     "name": "Tier 2",
     "symbol": "🥈",
-    "tickets_required": 3,
+    "tickets_required": 5,
     "regulated": false,
     "prizes":
     {
-      "blue": ["200 EXP"],
-      "green": ["300 EXP", "2 Gacha Fragments"],
-      "red": ["500 EXP", "3 Gacha Fragments"],
-      "silver": ["200000 Ryou", "1 Gacha Tickets"],
-      "gold": ["WL", "2 Gacha Tickets"],
-      "platinum": ["2 Energy Restores"]
+      "blue": ["2 Gacha Fragments"],
+      "green": ["4 Gacha Fragments"],
+      "red": ["6 Gacha Fragments"],
+      "silver": ["10 Gacha Fragments"],
+      "gold": ["OG"],
+      "platinum": ["Emerald"]
     }
   },
 
@@ -37,16 +37,16 @@
   {
     "name": "Tier 3",
     "symbol": "🥇",
-    "tickets_required": 5,
-    "regulated": false,
+    "tickets_required": 10,
+    "regulated": true,
     "prizes":
     {
-      "blue": ["500 EXP"],
-      "green": ["750 EXP", "1 Gacha Tickets"],
-      "red": ["1000 EXP", "2 Gacha Tickets"],
-      "silver": ["300000 Ryou", "3 Gacha Tickets"],
-      "gold": ["OG", "4 Gacha Tickets"],
-      "platinum": ["3 Energy Restores"]
+      "blue": ["5 Gacha Fragments", "1 VIP Chips"],
+      "green": ["8 Gacha Fragments", "3 VIP Chips"],
+      "red": ["13 Gacha Fragments", "5 VIP Chips"],
+      "silver": ["Catheon OG", "10 VIP Chips"],
+      "gold": ["1 Month Nitro", "20 VIP Chips"],
+      "platinum": ["Sapphire", "30 VIP Chips"]
     }
   },
 
@@ -54,16 +54,16 @@
   {
     "name": "Tier 4",
     "symbol": "🏅",
-    "tickets_required": 10,
+    "tickets_required": 15,
     "regulated": true,
     "prizes":
     {
-      "blue": ["1000 EXP"],
-      "green": ["1500 EXP", "2 Gacha Tickets"],
-      "red": ["2000 EXP", "4 Gacha Tickets"],
-      "silver": ["500000 Ryou", "6 Gacha Tickets"],
-      "gold": ["OG", "8 Gacha Tickets"],
-      "platinum": ["1 Onigiri NFT"]
+      "blue": ["10 Gacha Fragments", "5 VIP Chips"],
+      "green": ["13 Gacha Fragments", "10 VIP Chips"],
+      "red": ["18 Gacha Fragments", "15 VIP Chips"],
+      "silver": ["Gift Card", "20 VIP Chips"],
+      "gold": ["1 Year Nitro", "50 VIP Chips"],
+      "platinum": ["1 VIP NFT"]
     }
   }
 }

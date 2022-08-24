@@ -12,18 +12,18 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Den of Karma", -1]}
+            {"Clear": ["Den of Karma", 0]}
         ],
         "Rewards":
         {
             "Ryou": [10, 100],
-            "EXP": [10, 100]
+            "EXP": [100, 1000]
         }
     },
 
     "Challenging the Daiku Cave":
     {
-        "Level_Required": 2,
+        "Level_Required": 1,
         "NPC": "Tetsumaru the Mighty",
         "Dialogue":
         [
@@ -35,18 +35,18 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Daiku Cave", -1]}
+            {"Clear": ["Daiku Cave", 0]}
         ],
         "Rewards":
         {
-            "Ryou": [50, 150],
-            "EXP": [50, 150]
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
         }
     },
 
     "For Dango's Sake":
     {
-        "Level_Required": 3,
+        "Level_Required": 1,
         "NPC": "Manjyuu Store O-Aya",
         "Dialogue":
         [
@@ -60,14 +60,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [100, 200],
-            "EXP": [100, 200]
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
         }
     },
 
     "Sushi Store Troubles":
     {
-        "Level_Required": 4,
+        "Level_Required": 1,
         "NPC": "Sushi Worker",
         "Dialogue":
         [
@@ -82,14 +82,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [150, 250],
-            "EXP": [150, 250]
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
         }
     },
 
     "Sightseeing and Daruma Destruction":
     {
-        "Level_Required": 5,
+        "Level_Required": 1,
         "NPC": "Dept. Store Worker",
         "Dialogue":
         [
@@ -104,8 +104,8 @@
         ],
         "Rewards":
         {
-            "Ryou": [200, 300],
-            "EXP": [200, 300]
+            "Ryou": [10, 100],
+            "EXP": [100, 1000]
         }
     },
 
@@ -126,18 +126,18 @@
         [
             {"Defeat": ["Kijimuna", 3]},
             {"Defeat": ["Ittanmomen", 3]},
-            {"Clear": ["Hoori Shrine", -1]}
+            {"Clear": ["Hoori Shrine", 0]}
         ],
         "Rewards":
         {
-            "Ryou": [1000, 1500],
-            "EXP": [1000, 1500]
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
         }
     },
 
     "I'm bad with those things...":
     {
-        "Level_Required": 11,
+        "Level_Required": 10,
         "NPC": "Isuzu the Warrior",
         "Dialogue":
         [
@@ -154,14 +154,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [1500, 2000],
-            "EXP": [1500, 2000]
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
         }
     },
 
     "1 Step Back, 2 Steps Forward":
     {
-        "Level_Required": 12,
+        "Level_Required": 10,
         "NPC": "Darumaru the Diminutive",
         "Dialogue":
         [
@@ -175,14 +175,14 @@
         ],
         "Rewards":
         {
-            "Ryou": [2000, 2500],
-            "EXP": [2000, 2500]
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
         }
     },
 
     "Brotherly Bonds":
     {
-        "Level_Required": 13,
+        "Level_Required": 10,
         "NPC": "Matashige the Eldest son",
         "Dialogue":
         [
@@ -192,18 +192,18 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Hosuseri Shrine", -1]}
+            {"Clear": ["Hosuseri Shrine", 0]}
         ],
         "Rewards":
         {
-            "Ryou": [2500, 3000],
-            "EXP": [2500, 3000]
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
         }
     },
 
     "Defeat the Oogama":
     {
-        "Level_Required": 14,
+        "Level_Required": 10,
         "NPC": "Tadayoshi the Farmer",
         "Dialogue":
         [
@@ -214,12 +214,12 @@
         ],
         "Conditions":
         [
-            {"Clear": ["Hoderi Shrine", -1]}
+            {"Clear": ["Hoderi Shrine", 0]}
         ],
         "Rewards":
         {
-            "Ryou": [3000, 3500],
-            "EXP": [3000, 3500]
+            "Ryou": [100, 1000],
+            "EXP": [1000, 10000]
         }
     }
 }
