@@ -7,12 +7,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["100 EXP"],
-      "green": ["200 EXP", "1 Gacha Fragment"],
-      "red": ["300 EXP", "2 Gacha Fragments"],
-      "silver": ["100000 Ryou", "3 Gacha Fragments"],
-      "gold": ["WL", "1 Gacha Ticket"],
-      "platinum": ["1 Energy Restores"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": ["VIP WL PASS"]
     }
   },
 
@@ -24,12 +24,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["200 EXP"],
-      "green": ["300 EXP", "2 Gacha Fragments"],
-      "red": ["500 EXP", "3 Gacha Fragments"],
-      "silver": ["200000 Ryou", "1 Gacha Tickets"],
-      "gold": ["WL", "2 Gacha Tickets"],
-      "platinum": ["2 Energy Restores"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": ["VIP WL PASS"]
     }
   },
 
@@ -41,12 +41,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["500 EXP"],
-      "green": ["750 EXP", "1 Gacha Tickets"],
-      "red": ["1000 EXP", "2 Gacha Tickets"],
-      "silver": ["300000 Ryou", "3 Gacha Tickets"],
-      "gold": ["OG", "4 Gacha Tickets"],
-      "platinum": ["3 Energy Restores"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": ["OG"]
     }
   },
 
@@ -58,12 +58,12 @@
     "regulated": true,
     "prizes":
     {
-      "blue": ["1000 EXP"],
-      "green": ["1500 EXP", "2 Gacha Tickets"],
-      "red": ["2000 EXP", "4 Gacha Tickets"],
-      "silver": ["500000 Ryou", "6 Gacha Tickets"],
-      "gold": ["OG", "8 Gacha Tickets"],
-      "platinum": ["1 Onigiri NFT"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": ["GOLD PASS"]
     }
   }
 }

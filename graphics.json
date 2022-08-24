@@ -1,9 +1,7 @@
 {
     "Banners":
     {
-        "Oni-Tavern": ["Graphics/Banners/Oni-Tavern.png", "Oni-Tavern.png", "attachment://oni-tavern.png"],
-        "Oni-Quests": ["Graphics/Banners/Oni-Quests.png", "Oni-Quests.png", "attachment://oni-quests.png"],
-        "Oni-Dungeons": ["Graphics/Banners/Oni-Dungeons.png", "Oni-Dungeons.png", "attachment://oni-dungeons.png"]
+        "GAMA-Market": ["Graphics/Banners/GAMA-Market.png", "GAMA-Market.png", "attachment://gama-market.png"]
     },
 
     "Capsules":
@@ -18,184 +16,24 @@
 
     "Characters":
     {
-        "Onigiri":
+        "WarOfGama":
         {
-            "Kinka_Mei":
+            "Portraits":
             [
-                ["Graphics/Characters/Onigiri/Kinka_Mei/1.png", "kinkamei-1.png", "attachment://kinkamei-1.png"],
-                ["Graphics/Characters/Onigiri/Kinka_Mei/2.png", "kinkamei-2.png", "attachment://kinkamei-2.png"],
-                ["Graphics/Characters/Onigiri/Kinka_Mei/3.png", "kinkamei-3.png", "attachment://kinkamei-3.png"],
-                ["Graphics/Characters/Onigiri/Kinka_Mei/4.png", "kinkamei-4.png", "attachment://kinkamei-4.png"],
-                ["Graphics/Characters/Onigiri/Kinka_Mei/5.png", "kinkamei-5.png", "attachment://kinkamei-5.png"],
-                ["Graphics/Characters/Onigiri/Kinka_Mei/6.png", "kinkamei-6.png", "attachment://kinkamei-6.png"]
-            ]
-        },
-
-        "Aotuverse":
-        {
-            "Camil":
-            [
-                ["Graphics/Characters/Aotuverse/Camil/1.png", "camil-1.png", "attachment://camil-1.png"]
-            ],
-
-            "Kallie":
-            [
-                ["Graphics/Characters/Aotuverse/Kallie/1.png", "kallie-1.png", "attachment://kallie-1.png"]
-            ],
-
-            "King":
-            [
-                ["Graphics/Characters/Aotuverse/King/1.png", "king-1.png", "attachment://king-1.png"]
-            ],
-
-            "Ray":
-            [
-                ["Graphics/Characters/Aotuverse/Ray/1.png", "ray-1.png", "attachment://ray-1.png"]
+                ["Graphics/Characters/WarOfGama/Portraits/1.png", "gama-1.png", "attachment://gama-1.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/2.png", "gama-2.png", "attachment://gama-2.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/3.png", "gama-3.png", "attachment://gama-3.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/4.png", "gama-4.png", "attachment://gama-4.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/5.png", "gama-5.png", "attachment://gama-5.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/6.png", "gama-6.png", "attachment://gama-6.png"],
+                ["Graphics/Characters/WarOfGama/Portraits/7.png", "gama-7.png", "attachment://gama-7.png"]
             ]
         }
     },
 
-    "Yokai":
+    "Misc":
     {
-        "Gloom Daruma": [["Graphics/Yokai/Gloom Daruma/1.png", "gloomdaruma-1.png", "attachment://gloomdaruma-1.png"]],
-        "Pain Daruma": [["Graphics/Yokai/Pain Daruma/1.png", "paindaruma-1.png", "attachment://paindaruma-1.png"]],
-        "Life Daruma": [["Graphics/Yokai/Life Daruma/1.png", "lifedaruma-1.png", "attachment://lifedaruma-1.png"]],
-        "Luck Daruma": [["Graphics/Yokai/Luck Daruma/1.png", "luckdaruma-1.png", "attachment://luckdaruma-1.png"]],
-        "Loss Daruma": [["Graphics/Yokai/Loss Daruma/1.png", "lossdaruma-1.png", "attachment://lossdaruma-1.png"]],
-        "Gold Daruma": [["Graphics/Yokai/Gold Daruma/1.png", "golddaruma-1.png", "attachment://golddaruma-1.png"]],
-        "Kijimuna": [["Graphics/Yokai/Kijimuna/1.png", "kijimuna-1.png", "attachment://kijimuna-1.png"]],
-        "Momijina": [["Graphics/Yokai/Momijina/1.png", "momijina-1.png", "attachment://momijina-1.png"]],
-        "Dark Sticky": [["Graphics/Yokai/Dark Sticky/1.png", "darksticky-1.png", "attachment://darksticky-1.png"]],
-        "Swamp Sticky": [["Graphics/Yokai/Swamp Sticky/1.png", "swampsticky-1.png", "attachment://swampsticky-1.png"]],
-        "Rock Sticky": [["Graphics/Yokai/Rock Sticky/1.png", "rocksticky-1.png", "attachment://rocksticky-1.png"]],
-        "Grass Sticky": [["Graphics/Yokai/Grass Sticky/1.png", "grasssticky-1.png", "attachment://grasssticky-1.png"]],
-        "Sunset Sticky": [["Graphics/Yokai/Sunset Sticky/1.png", "sunsetsticky-1.png", "attachment://sunsetsticky-1.png"]],
-        "Peach Sticky": [["Graphics/Yokai/Peach Sticky/1.png", "peachsticky-1.png", "attachment://peachsticky-1.png"]],
-        "Fukuwarai": [["Graphics/Yokai/Fukuwarai/1.png", "fukuwarai-1.png", "attachment://fukuwarai-1.png"]],
-        "Handamashii Musha":
-        [
-            ["Graphics/Yokai/Handamashii Musha/1.png", "handamashiimusha-1.png", "attachment://handamashiimusha-1.png"],
-            ["Graphics/Yokai/Handamashii Musha/2.png", "handamashiimusha-2.png", "attachment://handamashiimusha-2.png"]
-        ],
-        "Gankubi": [["Graphics/Yokai/Gankubi/1.png", "gankubi-1.png", "attachment://gankubi-1.png"]],
-        "Gaikotsu": [["Graphics/Yokai/Gaikotsu/1.png", "gaikotsu-1.png", "attachment://gaikotsu-1.png"]],
-        "Amagaeru": [["Graphics/Yokai/Amagaeru/1.png", "amagaeru-1.png", "attachment://amagaeru-1.png"]],
-        "Lantern Ghost":
-        [
-            ["Graphics/Yokai/Lantern Ghost/1.png", "lanternghost-1.png", "attachment://lanternghost-1.png"],
-            ["Graphics/Yokai/Lantern Ghost/2.png", "lanternghost-2.png", "attachment://lanternghost-2.png"]
-        ],
-        "Kappa": [["Graphics/Yokai/Kappa/1.png", "kappa-1.png", "attachment://kappa-1.png"]],
-        "Ittanmomen": [["Graphics/Yokai/Ittanmomen/1.png", "ittanmomen-1.png", "attachment://ittanmomen-1.png"]],
-        "Kyoukotsu":
-        [
-            ["Graphics/Yokai/Kyoukotsu/1.png", "kyoukotsu-1.png", "attachment://kyoukotsu-1.png"],
-            ["Graphics/Yokai/Kyoukotsu/2.png", "kyoukotsu-2.png", "attachment://kyoukotsu-2.png"]
-        ],
-        "Chief Daruma":
-        [
-            ["Graphics/Yokai/Chief Daruma/1.png", "chiefdaruma-1.png", "attachment://chiefdaruma-1.png"],
-            ["Graphics/Yokai/Chief Daruma/2.png", "chiefdaruma-2.png", "attachment://chiefdaruma-2.png"]
-        ],
-        "Shunoban":
-        [
-            ["Graphics/Yokai/Shunoban/1.png", "shunoban-1.png", "attachment://shunoban-1.png"],
-            ["Graphics/Yokai/Shunoban/2.png", "shunoban-2.png", "attachment://shunoban-2.png"]
-        ],
-        "Nurikabe":
-        [
-            ["Graphics/Yokai/Nurikabe/1.png", "nurikabe-1.png", "attachment://nurikabe-1.png"],
-            ["Graphics/Yokai/Nurikabe/2.png", "nurikabe-2.png", "attachment://nurikabe-2.png"]
-        ],
-        "Kikuzou":
-        [
-            ["Graphics/Yokai/Kikuzou/1.png", "kikuzou-1.png", "attachment://kikuzou-1.png"],
-            ["Graphics/Yokai/Kikuzou/2.png", "kikuzou-2.png", "attachment://kikuzou-2.png"]
-        ],
-        "Punk Kappa":
-        [
-            ["Graphics/Yokai/Punk Kappa/1.png", "punkkappa-1.png", "attachment://punkkappa-1.png"],
-            ["Graphics/Yokai/Punk Kappa/2.png", "punkkappa-2.png", "attachment://punkkappa-2.png"]
-        ],
-        "Toudaiki":
-        [
-            ["Graphics/Yokai/Toudaiki/1.png", "toudaiki-1.png", "attachment://toudaiki-1.png"],
-            ["Graphics/Yokai/Toudaiki/2.png", "toudaiki-2.png", "attachment://toudaiki-2.png"]
-        ],
-        "Kani-bouzu":
-        [
-            ["Graphics/Yokai/Kani-bouzu/1.png", "kanibouzu-1.png", "attachment://kanibouzu-1.png"],
-            ["Graphics/Yokai/Kani-bouzu/2.png", "kanibouzu-2.png", "attachment://kanibouzu-2.png"]
-        ],
-        "Gama": [["Graphics/Yokai/Gama/1.png", "gama-1.png", "attachment://gama-1.png"]],
-        "Nuppepou": [["Graphics/Yokai/Nuppepou/1.png", "nuppepou-1.png", "attachment://nuppepou-1.png"]],
-        "Oogama":
-        [
-            ["Graphics/Yokai/Oogama/1.png", "oogama-1.png", "attachment://oogama-1.png"],
-            ["Graphics/Yokai/Oogama/2.png", "oogama-2.png", "attachment://oogama-2.png"]
-        ],
-        "Oni-basami":
-        [
-            ["Graphics/Yokai/Oni-basami/1.png", "onibasami-1.png", "attachment://onibasami-1.png"],
-            ["Graphics/Yokai/Oni-basami/2.png", "onibasami-2.png", "attachment://onibasami-2.png"]
-        ],
-        "Aburasumashi": [["Graphics/Yokai/Child Mukade/1.png", "childmukade-1.png", "attachment://childmukade-1.png"]],
-        "Child Mukade": [["Graphics/Yokai/Child Mukade/1.png", "childmukade-1.png", "attachment://childmukade-1.png"]],
-        "3-eyed Sumashi":
-        [
-            ["Graphics/Yokai/3-eyed Sumashi/1.png", "3eyedsumashi-1.png", "attachment://3eyedsumashi-1.png"],
-            ["Graphics/Yokai/3-eyed Sumashi/2.png", "3eyedsumashi-2.png", "attachment://3eyedsumashi-2.png"]
-        ],
-        "Giant Mukade": [["Graphics/Yokai/Giant Mukade/1.png", "giantmukade-1.png", "attachment://giantmukade-1.png"]],
-        "Tiamat":
-        [
-            ["Graphics/Yokai/Tiamat/1.png", "tiamat-1.png", "attachment://tiamat-1.png"],
-            ["Graphics/Yokai/Tiamat/2.png", "tiamat-2.png", "attachment://tiamat-2.png"]
-        ],
-        "Crazed Momotarou":
-        [
-            ["Graphics/Yokai/Crazed Momotarou/1.png", "crazedmomotarou-1.png", "attachment://crazedmomotarou-1.png"],
-            ["Graphics/Yokai/Crazed Momotarou/2.png", "crazedmomotarou-2.png", "attachment://crazedmomotarou-2.png"]
-        ],
-        "Oomusha":
-        [
-            ["Graphics/Yokai/Oomusha/1.png", "oomusha-1.png", "attachment://oomusha-1.png"],
-            ["Graphics/Yokai/Oomusha/2.png", "oomusha-2.png", "attachment://oomusha-2.png"]
-        ],
-        "Kubire Oni":
-        [
-            ["Graphics/Yokai/Kubire Oni/1.png", "kubireoni-1.png", "attachment://kubireoni-1.png"],
-            ["Graphics/Yokai/Kubire Oni/2.png", "kubireoni-2.png", "attachment://kubireoni-2.png"]
-        ],
-        "Bakeneko":
-        [
-            ["Graphics/Yokai/Bakeneko/1.png", "bakeneko-1.png", "attachment://bakeneko-1.png"],
-            ["Graphics/Yokai/Bakeneko/2.png", "bakeneko-2.png", "attachment://bakeneko-2.png"]
-        ],
-        "Hiderigami":
-        [
-            ["Graphics/Yokai/Hiderigami/1.png", "hiderigami-1.png", "attachment://hiderigami-1.png"],
-            ["Graphics/Yokai/Hiderigami/2.png", "hiderigami-2.png", "attachment://hiderigami-2.png"]
-        ],
-        "Yagyou-san":
-        [
-            ["Graphics/Yokai/Yagyou-san/1.png", "yagyousan-1.png", "attachment://yagyousan-1.png"],
-            ["Graphics/Yokai/Yagyou-san/2.png", "yagyousan-2.png", "attachment://yagyousan-2.png"]
-        ],
-        "Ungaikyou":
-        [
-            ["Graphics/Yokai/Ungaikyou/1.png", "ungaikyou-1.png", "attachment://ungaikyou-1.png"],
-            ["Graphics/Yokai/Ungaikyou/2.png", "ungaikyou-2.png", "attachment://ungaikyou-2.png"]
-        ],
-        "Ahriman":
-        [
-            ["Graphics/Yokai/Ahriman/1.png", "ahriman-1.png", "attachment://ahriman-1.png"],
-            ["Graphics/Yokai/Ahriman/2.png", "ahriman-2.png", "attachment://ahriman-2.png"]
-        ]
-    },
-
-    "Objects":
-    {
-        "Chest": ["Graphics/Objects/Chest.png", "Chest.png", "attachment://chest.png"]
+        "GAMA-Gacha_TN": ["Graphics/Misc/GAMA-Gacha_TN.png", "GAMA-Gacha_TN.png", "attachment://gama-gacha_tn.png"],
+        "GAMA-Market_TN": ["Graphics/Misc/GAMA-Market_TN.png", "GAMA-Market_TN.png", "attachment://gama-market_tn.png"]
     }
 }

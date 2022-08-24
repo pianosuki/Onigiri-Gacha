@@ -1,8 +1,8 @@
-### Gacha Bot for Onigiri
+### Gacha Bot for War of Gama
 ### Created by pianosuki
 ### https://github.com/pianosuki
 ### For use by Catheon only
-branch_name = "Onigiri"
+branch_name = "War of GAMA"
 bot_version = "1.9"
 debug_mode  = False
 
@@ -457,1538 +457,1539 @@ def boxifyArray(array, padding = 1, min_width = 0, spacer_character = "-"):
     return boxified_string
 
 ### User Commands
-@bot.command(aliases = ["dungeon", "dg", "dung", "run", "warding", "wardings"])
-@commands.check(checkChannel)
-async def dungeons(ctx, *input):
-    ''' | Usage: +dungeons '''
-    user_id                 = ctx.author.id
-    user_name               = ctx.author.name
-    default_color           = config.default_color
-    numbers                 = config.numbers
-    mode_mapping            = config.mode_mapping
-    mode_mapping_inverse    = config.mode_mapping_inverse
-    mode_multipliers        = config.mode_multipliers
-    mode_divisors           = config.mode_divisors
-
-    class DungeonInstance:
-
-        # Mutable Cache
-        class DungeonCache:
-            def __init__(self):
-                self.floor = 0
-                self.room = 0
-                self.mobs = 0
-                self.goldarumas = 0
-                self.chests = 0
-                self.mobs_killed = 0
-                self.cleared = False
-                self.start_time = None
-                self.end_time = None
-                self.clear_time = None
-
-        class PlayerState:
-            def __init__(self):
-                self.name = user_name
-                self.HP = getPlayerHP(user_id)
-                self.ATK = getPlayerATK(user_id)
-                self.DEF = getPlayerDEF(user_id)
-                self.level = getPlayerLevel(user_id)
-
-        class YokaiState:
-            def __init__(self):
-                self.name = ""
-                self.HP = 0
-                self.ATK = 0
-                self.DEF = 0
-
-        class BossState:
-            def __init__(self):
-                self.name = ""
-                self.HP = 0
-                self.ATK = 0
-                self.DEF = 0
-                self.phase = 1
-
-        def __init__(self, dungeon, mode, seed):
-            # Immutable
-            self.dungeon = dungeon
-            self.mode = mode
-            self.mode_name = mode_mapping[self.mode]
-            self.multiplier = mode_multipliers[self.mode]
-            self.properties = Dungeons[dungeon]["Difficulties"][self.mode_name]
-            self.icon = getDungeonModes(type = "array")[self.mode]
-            self.level = Dungeons[dungeon]["Level_Required"]
-            self.floors = Dungeons[dungeon]["Floors"]
-            self.rooms = 0 # Accumulated via Blueprint
-            self.yokai = Dungeons[dungeon]["Yokai"]
-            self.boss = Dungeons[dungeon]["Boss"]
-            self.rewards = Dungeons[dungeon]["Rewards"]
-            self.energy = getDungeonEnergy(dungeon)[self.mode]
-            self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
-            self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
-            self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
-            self.goldaruma_spawnrate /= 100.
-            self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
-
-            # Seed
-            if seed is None:
-                self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
-            elif re.match("^[a-f0-9]{32}$", seed):
-                self.seed = seed
-            else:
-                self.seed = hashlib.md5(seed.encode("utf-8")).hexdigest()
-            self.salt = self.dungeon
-            self.pepper = self.mode_name
-
-            # Initialize Cache
-            self.Cache = self.DungeonCache()
-
-            # Initialize Agents
-            self.Player = self.PlayerState()
-            self.Yokai = self.YokaiState()
-            self.Boss = self.BossState()
-
-            # Initialize Dungeon Blueprint
-            self.Blueprint = {}
-
-        def clearCache(self):
-            self.Cache = self.DungeonCache()
-
-        def dungeonGenesis(self):
-            now = datetime.utcnow()
-            self.Blueprint.update({"header": {"Dungeon": self.dungeon, "Difficulty": self.mode_name, "Seed": self.seed}, "blueprint": {"floors": []}, "footer": {"Founder": user_id, "Discovered": f"{now} (UTC)"}})
-            for _ in range(self.floors):
-                floor_schematic = self.renderFloor()
-                self.Blueprint["blueprint"]["floors"].append(floor_schematic)
-            return self.Blueprint
-
-        def renderFloor(self):
-            floor_schematic = {}
-            self.Cache.floor += 1
-            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
-            salt = "renderFloor"
-            pepper = str(self.Cache.floor)
-            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
-            random.seed(f_seed)
-            if self.Cache.floor < self.floors:
-                floor_schematic.update({"type": "Floor", "rooms": []})
-                rooms = random.randint(self.rooms_range[0], self.rooms_range[1])
-                self.rooms += rooms
-                for _ in range(rooms):
-                    room_schematic = self.renderRoom()
-                    floor_schematic["rooms"].append(room_schematic)
-            else:
-                floor_schematic.update({"type": "Boss", "boss": {}})
-                boss_schematic = self.renderBoss()
-                floor_schematic["boss"].update(boss_schematic)
-            return floor_schematic
-
-        def renderRoom(self):
-            room_schematic = {}
-            self.Cache.room += 1
-            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
-            salt = "renderRoom"
-            pepper = str(self.Cache.room)
-            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
-            random.seed(f_seed)
-            population = random.randint(self.mob_spawnrate[0], self.mob_spawnrate[1])
-            mobs = self.spawnMobs(population)
-            if mobs:
-                room_schematic.update({"type": "Normal", "yokai": []})
-                room_schematic["yokai"] = mobs
-            else:
-                self.Cache.chests += 1
-                chest = self.spawnChest()
-                room_schematic.update({"type": "Chest", "loot": []})
-                room_schematic["loot"] = chest
-            return room_schematic
-
-        def renderBoss(self):
-            boss_schematic = {}
-            boss_schematic.update(Dungeons[self.dungeon]["Boss"])
-            base_hp = Dungeons[self.dungeon]["Boss"]["HP"]
-            scaled_hp = math.floor((base_hp * 0.75) + (base_hp / 4 * self.multiplier))
-            boss_schematic.update({"HP": scaled_hp})
-            return boss_schematic
-
-        def spawnMobs(self, population):
-            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
-            salt = "spawnMobs"
-            pepper = str(self.Cache.room)
-            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
-            random.seed(f_seed)
-            mobs = []
-            if population > 0:
-                for _ in range(population):
-                    self.Cache.mobs += 1
-                    if random.random() <= self.goldaruma_spawnrate:
-                        is_goldaruma = True
-                        self.Cache.goldarumas += 1
-                    else:
-                        is_goldaruma = False
-                    mobs.append(random.choice(self.yokai) if not is_goldaruma else "Gold Daruma")
-            else:
-                pass
-            return mobs
-
-        def spawnChest(self):
-            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
-            salt = "spawnChest"
-            pepper = str(self.Cache.room)
-            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
-            random.seed(f_seed)
-            loot_pools = []
-            loot_weights = []
-            for table in self.chest_loot:
-                pool = table["pool"]
-                weight = table["rate"]
-                loot_pools.append(pool)
-                loot_weights.append(weight)
-            if sum(loot_weights) < 100 or sum(loot_weights) > 100:
-                loot_weights = rebalanceWeights(loot_weights)
-            random_pool = randomWeighted(loot_pools, loot_weights)
-            chest = {}
-            for key, value in random_pool.items():
-                loot_name = key
-                range = value
-                amount_pulled = random.randint(range[0], range[1])
-                if not loot_name in chest:
-                    chest.update({loot_name: amount_pulled})
-                else:
-                    chest.update({loot_name: chest[loot_name] + amount_pulled})
-            return chest
-
-    async def menuDungeons(ctx, message):
-        dungeons_length = len(Dungeons)
-        level = getPlayerLevel(user_id)
-        banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
-        e = discord.Embed(title = "⛩️  ─  Dungeon Listing  ─  ⛩️", description = f"Which dungeon will you be running today?\n**Your level:** {Icons['level']}**{level}**", color = 0x9575cd)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
-
-        # unlocked_dungeons = []
-        # for dungeon in Dungeons:
-        #     if level >= dungeon_level:
-        #         unlocked_dungeons.append(dungeon)
-        #
-        # unlocked_length = len(unlocked_dungeons)
-
-        # Set offset to 0 (page 1) and begin bidirectional page system
-        offset = 0
-        flag = True
-        while flag:
-            counter = 0
-            # Iterate through dungeons in groups of 10
-            for index, dungeon in enumerate(Dungeons):
-                if index < offset:
-                    # Skipping to next entry until arriving at the proper page/offset
-                    continue
-                dungeon_level = Dungeons[dungeon]["Level_Required"]
-                dungeon_emoji = numbers[counter]
-                unlocked_emoji = "🔓" if level >= dungeon_level else "🔒"
-                crossout = "~~" if not level >= dungeon_level else ""
-                bold_or_italics = "**" if not level >= dungeon_level else "*"
-                e.add_field(name = f"{dungeon_emoji}  ─  __{crossout}{dungeon}{crossout}__", value = f"{unlocked_emoji}  **─**  {bold_or_italics}Level Required:{bold_or_italics} {Icons['level']}**{dungeon_level}**\n`{config.prefix}dungeon {dungeon}`", inline = True)
-                if not counter % 2 == 0:
-                    e.add_field(name = "\u200b", value = "\u200b", inline = True)
-                counter += 1
-                # Once a full page is assembled, print it
-                if counter == 10 or index + 1 == dungeons_length:
-                    message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-                    if index + 1 > 10 and index + 1 < dungeons_length:
-                        # Is a middle page
-                        emojis = ["⏪", "⏩", "❌"]
-                    elif index + 1 < dungeons_length:
-                        # Is the first page
-                        emojis = ["⏩", "❌"]
-                    elif dungeons_length > 10:
-                        # Is the last page
-                        emojis = ["⏪", "❌"]
-                    else:
-                        # Is the only page
-                        emojis = ["❌"]
-                    reaction, user = await waitForReaction(ctx, message, e, emojis)
-                    if reaction is None:
-                        flag = False
-                        break
-                    match str(reaction.emoji):
-                        case "⏩":
-                            # Tell upcomming re-iteration to skip to the next page's offset
-                            offset += 10
-                            await message.clear_reactions()
-                            e.clear_fields()
-                            break
-                        case "⏪":
-                            # Tell upcomming re-iteration to skip to the previous page's offset
-                            offset -= 10
-                            await message.clear_reactions()
-                            e.clear_fields()
-                            break
-                        case "❌":
-                            await message.clear_reactions()
-                            flag = False
-                            break
-
-    async def selectDungeon(ctx, message, dungeon, mode, seed):
-        banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
-        flag = True
-        while flag:
-            if mode == -1:
-                dungeon_level   = Dungeons[dungeon]["Level_Required"]
-                dungeon_floors  = Dungeons[dungeon]["Floors"]
-                dungeon_yokai   = Dungeons[dungeon]["Yokai"]
-                dungeon_energy  = getDungeonEnergy(dungeon)
-                e = discord.Embed(title = f"⛩️  ─  __{dungeon}__  ─  ⛩️", description = f"Which difficulty will you enter this dungeon on?", color = 0x9575cd)
-                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-                e.add_field(name = "Level required", value = f"{Icons['level']}**{dungeon_level}**", inline = True)
-                e.add_field(name = "Energy cost", value = f"{Icons['energy']}**{dungeon_energy[0]} - {dungeon_energy[3]}**", inline = True)
-                e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dungeon_floors}**", inline = True)
-                e.add_field(name = "Yokai found here:", value = boxifyArray(dungeon_yokai), inline = True)
-                e.add_field(name = "Difficulty selection:\n────────────", value = getDungeonModes(), inline = True)
-                e.add_field(name = "Seed initializer:", value = (f"`{seed}`" if not seed is None else "*Randomized*"), inline = False)
-                message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-                emojis = getDungeonModes(type = "array")
-                emojis.append("❌")
-                reaction, user = await waitForReaction(ctx, message, e, emojis)
-                if reaction is None:
-                    break
-                match str(reaction.emoji):
-                    case x if x == Icons["normal"]:
-                        mode = 0
-                    case x if x == Icons['hard']:
-                        mode = 1
-                    case x if x == Icons['hell']:
-                        mode = 2
-                    case x if x == Icons['oni']:
-                        mode = 3
-                    case "❌":
-                        await message.clear_reactions()
-                        break
-                await message.clear_reactions()
-            message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode, seed, banner)
-        return
-
-    async def confirmDungeon(ctx, message, flag, dungeon, mode, seed, banner):
-        try:
-            dg = DungeonInstance(dungeon, mode, seed)
-            e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = 0x9575cd)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-            e.add_field(name = "Level required", value = f"{Icons['level']} **{dg.level}**", inline = True)
-            e.add_field(name = "Energy cost", value = f"{Icons['energy']} **{dg.energy}**", inline = True)
-            e.add_field(name = "Floors", value = f"{Icons['dungeon']} **{dg.floors}**", inline = True)
-            e.add_field(name = "Your level", value = f"{Icons['level']} **{getPlayerLevel(user_id)}**", inline = True)
-            e.add_field(name = "Your energy", value = f"{Icons['energy']} **{getPlayerEnergy(user_id)}**", inline = True)
-            e.add_field(name = "Best time", value = f"⏱️ __{getPlayerDungeonRecord(user_id, dungeon, mode)}__", inline = True)
-            e.add_field(name = "Boss stats:", value = formatBossStats(dg.boss, dg.mode), inline = True)
-            e.add_field(name = "Rewards:", value = formatDungeonRewards(dg.rewards, dg.mode), inline = True)
-            e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
-            message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-            emojis = [Icons["door_open"], "↩️"]
-            reaction, user = await waitForReaction(ctx, message, e, emojis)
-            if reaction is None:
-                flag = False
-                return message, flag, mode
-            match str(reaction.emoji):
-                case x if x == Icons["door_open"]:
-                    await message.clear_reactions()
-                    if dg.Player.level >= dg.level:
-                        energy = getPlayerEnergy(user_id)
-                        if energy >= dg.energy:
-                            addPlayerEnergy(user_id, -dg.energy)
-                            message, flag = await dungeonEntry(ctx, message, flag, dg, seed)
-                            flag = False
-                        else:
-                            await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy}` more.")
-                    else:
-                        await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player.level}` more levels!")
-                        flag = False
-                case "↩️":
-                    await message.clear_reactions()
-                    mode = -1
-        except IndexError:
-            await ctx.send(f"⚠️ **Invalid difficulty mode specified:** Dungeon `{dungeon}` has no mode `{mode}`")
-            flag = False
-        return message, flag, mode
-
-    async def dungeonEntry(ctx, message, flag, dg, seed):
-        Blueprint = dg.dungeonGenesis()
-        dg.clearCache()
-        random.seed(None)
-        ### START TIMER ###
-        dg.Cache.start_time = datetime.utcnow()
-        ###################
-        e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", color = 0x9575cd)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.add_field(name = "Floor", value = "Placeholder", inline = True) # Field 0
-        e.add_field(name = "Room", value = "Placeholder", inline = True) # Field 1
-        e.add_field(name = "Contents", value = "Placeholder", inline = True) # Field 2
-        for floor in Blueprint["blueprint"]["floors"]:
-            dg.Cache.floor += 1
-            e.set_field_at(0, name = "Current Floor", value = f"{Icons['dungeon']} **{dg.Cache.floor} / {dg.floors}**")
-            if floor["type"] == "Floor":
-                for index, room in enumerate(floor["rooms"]):
-                    dg.Cache.room += 1
-                    e.set_field_at(1, name = "Current Room", value = f"🎬 **{index + 1} / {len(floor['rooms'])}**")
-                    if room["type"] == "Normal":
-                        mobs = room["yokai"]
-                        population = len(mobs)
-                        for index, mob in enumerate(mobs):
-                            e.set_field_at(2, name = "Yokai", value = f"{Icons['yokai']} **{index + 1} / {population}**")
-                            message, flag = await fightMob(ctx, message, flag, dg, mob, e)
-                            if not flag:
-                                return message, flag
-                    elif room["type"] == "Chest":
-                        e.set_field_at(2, name = "Chests", value = f"{Icons['chest']} **1 / 1**")
-                        chest = room["loot"]
-                        message, flag = await openChest(ctx, message, flag, dg, chest, e)
-                        if not flag:
-                            return message, flag
-            elif floor["type"] == "Boss":
-                e.set_field_at(1, name = "Current Room", value = f"👹 ***Boss Room***")
-                e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(floor['boss']['HP'])} / {'{:,}'.format(floor['boss']['HP'])}**")
-                boss = floor["boss"]
-                message, flag, clear_rewards = await fightBoss(ctx, message, flag, dg, boss, e)
-                if not flag:
-                    return message, flag
-        # Exit
-        if dg.Cache.cleared:
-            ### END TIMER ###
-            dg.Cache.end_time = datetime.utcnow()
-            #################
-            dg.Cache.clear_time = str(dg.Cache.end_time - dg.Cache.start_time)
-            dg.Blueprint["footer"].update({"Discovered": f"{dg.Cache.end_time} (UTC)"})
-            addPlayerDungeonClear(user_id, dg)
-            context = await bot.get_context(message)
-            file, founder = writeBlueprint(dg.Blueprint, dg.dungeon, dg.mode_name)
-            congrats = ""
-            congrats += f"🎊 {ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
-            if clear_rewards:
-                congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
-            congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
-            if founder:
-                congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
-                congrats += "Here is a blueprint of the unique dungeon properties you discovered with that seed:"
-            else:
-                congrats += f"The seed `{seed if not seed is None else dg.seed}` was already discovered for this mode.\n"
-                congrats += f"So here is the blueprint the original founder generated:"
-            await context.reply(file = file, content = congrats)
-        return message, flag
-
-    async def deathScreen(message, e, condition):
-        e.add_field(name = "💀  ─  You have died!  ─  💀", value = f"Cause of death: __{condition}__")
-        e.description = "Player failed to clear the dungeon."
-        message = await message.edit(embed = e)
-        return message
-
-    async def consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole):
-        result = False
-
-        def formatConsumables(consumables, user_items):
-            avail_consumables = ""
-            for key, value in consumables.items():
-                if key in user_items:
-                    avail_consumables += f"{Icons[key.lower().replace(' ', '_')]} **{key}**: +{value}HP\n"
-            return avail_consumables if not avail_consumables == "" else "None"
-
-        consumables = config.consumables
-        user_items = []
-        inventory = getUserItemInv(user_id)
-        for item in inventory:
-            user_items.append(item[0])
-        avail_consumables = []
-        for key in list(consumables.keys()):
-            if key in user_items:
-                avail_consumables.append(Icons[key.lower().replace(' ', '_')])
-        e.add_field(name = "Consumables Menu:", value = formatConsumables(consumables, user_items), inline = False) # Field 6
-        await message.edit(embed = e)
-        emojis = []
-        for nigiri_emoji in avail_consumables:
-            emojis.append(nigiri_emoji)
-        emojis.append("↩️")
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            flag = False
-        else:
-            product = ""
-            match str(reaction.emoji):
-                case x if x == Icons["tuna_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Tuna Nigiri"
-                case x if x == Icons["salmon_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Salmon Nigiri"
-                case x if x == Icons["anago_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Anago Nigiri"
-                case x if x == Icons["squid_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Squid Nigiri"
-                case x if x == Icons["octopus_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Octopus Nigiri"
-                case x if x == Icons["ootoro_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Ootoro Nigiri"
-                case x if x == Icons["kinmedai_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Kinmedai Nigiri"
-                case x if x == Icons["crab_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Crab Nigiri"
-                case x if x == Icons["lobster_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Lobster Nigiri"
-                case x if x == Icons["shachihoko_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Shachihoko Nigiri"
-                case x if x == Icons["shenlong_nigiri"]:
-                    await message.clear_reactions()
-                    product = "Shenlong Nigiri"
-                case "↩️":
-                    await message.clear_reactions()
-                    e.remove_field(6)
-                    await message.edit(embed = e)
-                    return message, flag, result
-            if product in user_items:
-                heal = consumables[product]
-                item_quantity = getUserItemQuantity(user_id, product)
-                ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
-                if item_quantity - 1 == 0:
-                    ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
-                base_player_hp = getPlayerHP(user_id)
-                heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
-                dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You ate some tasty {product}!")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(healed for {'{:,}'.format(heal_amount)})")
-                result = True
-        e.remove_field(6)
-        await message.edit(embed = e)
-        return message, flag, result
-
-    async def fightMob(ctx, message, flag, dg, mob, e):
-
-        async def updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge):
-            f"Turn: **#{turn}**"
-            e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
-            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
-            e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
-            e.set_field_at(6, name = "Yokai stats:", value = boxifyArray(yokai_state, padding = 2))
-            e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
-            e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
-
-        def updateAgents():
-            yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {dg.Yokai.HP}", f"Yokai ATK: {dg.Yokai.ATK}", f"Yokai DEF: {dg.Yokai.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
-            return yokai_state, player_state
-
-        async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
-            time.sleep(0.2)
-            console.append(str(input))
-            yokai_state, player_state = updateAgents()
-            await updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge)
-            await message.edit(embed = e)
-            return message
-
-        async def loadYokaiEncounter(message, e, mob):
-            e.add_field(name = "Yokai Encountered!", value = f"Name: __{mob}__", inline = True) # Field 3
-            e.set_image(url = Resource[f"{mob}-1"][0].replace(" ", "%20"))
-            e.description = "🔄 **Loading Combat Engine** 🔄"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.remove_field(3)
-            e.description = None
-            e.set_image(url = None)
-            return message
-
-        async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
-            # time.sleep(0.5)
-            damage, is_critical = damageCalculator(dg.Player, dg.Yokai)
-            if is_supercharging:
-                damage *= 2
-            dg.Yokai.HP = dg.Yokai.HP - damage if not dg.Yokai.HP - damage < 0 else 0
-            if not is_supercharging:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {mob}!")
-            else:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {mob}!")
-            if is_critical:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
-            dg.Player.DEF *= 3
-            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        async def yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
-            damage, is_critical = damageCalculator(dg.Yokai, dg.Player)
-            if is_charging and not is_defending:
-                damage *= 2
-            # time.sleep(0.5)
-            if not is_evading:
-                dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
-                if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Yokai.name}!")
-                else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Yokai.name}!")
-                if is_critical:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
-            else:
-                if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Yokai.name}!")
-                else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Yokai.name}!")
-                if is_critical:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        async def yokaiDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
-            dg.Yokai.DEF *= 2
-            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} fortified its defences!")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        # Loading screen
-        message = await loadYokaiEncounter(message, e, mob)
-
-        # Begin Combat Engine
-        e.add_field(name = "Turn", value = "Placeholder", inline = True) # Field 3
-        e.add_field(name = "ATK Ougi", value = "Placeholder", inline = True) # Field 4
-        e.add_field(name = "DEF Ougi", value = "Placeholder", inline = False) # Field 5
-        e.add_field(name = "Yokai", value = "Placeholder", inline = True) # Field 6
-        e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 7
-        e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 8
-        console = [""]
-        yokai_action = ""
-        player_action = ""
-        dg.Yokai.name = mob
-        # dg.Yokai.HP = dg.level * dg.multiplier * random.randint(10, 50) + (math.floor((dg.level ** 3) / 4))
-        # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
-        # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
-        base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
-        base_yokai_atk = math.floor((dg.level * random.uniform(5, 8.5)) + (dg.level * dg.multiplier))
-        base_yokai_def = math.floor((dg.level * random.uniform(5.5, 9)) + (dg.level * dg.multiplier))
-        dg.Yokai.HP = base_yokai_hp
-        dg.Yokai.ATK = base_yokai_atk
-        dg.Yokai.DEF = base_yokai_def
-        base_player_hp = getPlayerHP(user_id)
-        base_player_atk = getPlayerATK(user_id)
-        base_player_def = getPlayerDEF(user_id)
-        if getPlayerLevel(user_id) > dg.Player.level:
-            dg.Player.level = getPlayerLevel(user_id)
-            dg.Player.HP = getPlayerHP(user_id)
-        #     dg.Player.ATK = getPlayerATK(user_id)
-        #     dg.Player.DEF = getPlayerDEF(user_id)
-        atk_gauge = 0
-        def_gauge = 0
-        turn = 0
-        while flag:
-            yokai_state, player_state = updateAgents()
-            yokai_killed = False if dg.Yokai.HP > 0 else True
-            player_killed = False if dg.Player.HP > 0 else True
-            if not yokai_killed and not player_killed:
-                turn += 1
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
-                dg.Yokai.ATK = base_yokai_atk
-                dg.Yokai.DEF = base_yokai_def
-                dg.Player.ATK = base_player_atk
-                dg.Player.DEF = base_player_def
-                is_charging = True if random.random() < 0.1 else False
-                if is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} is charging a heavy attack!)")
-                is_defending = False
-                is_evading = False
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Attack | Defend | Leave Dungeon)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-
-                while True:
-                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
-                    if atk_gauge == 5:
-                        emojis.append(Icons["supercharge"])
-                    if def_gauge == 5:
-                        emojis.append(Icons["evade"])
-                    emojis.append(Icons["exit"])
-                    reaction, user = await waitForReaction(ctx, message, e, emojis)
-                    if reaction is None:
-                        flag = False
-                    else:
-                        is_player_turn = bool(random.getrandbits(1))
-                        yokai_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
-                        player_action = ""
-                        match str(reaction.emoji):
-                            case x if x == Icons["attack"]:
-                                await message.clear_reactions()
-                                if is_player_turn:
-                                    if yokai_action == "Defend":
-                                        message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
-                                    if not dg.Yokai.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    if yokai_action == "Attack":
-                                        message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
-                                else:
-                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    if not dg.Player.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
-                                atk_gauge = atk_gauge + 1 if atk_gauge + 1 <= 5 else 5
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["defend"]:
-                                await message.clear_reactions()
-                                player_action = "Defend"
-                                message = await playerDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                is_defending = True
-                                message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                if yokai_action == "Attack":
-                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Suppressed)")
-                                def_gauge = def_gauge + 1 if def_gauge + 1 <= 5 else 5
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["riceball"]:
-                                await message.clear_reactions()
-                                message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
-                                if result:
-                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                else:
-                                    continue
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["supercharge"] and atk_gauge == 5:
-                                await message.clear_reactions()
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
-                                atk_gauge = 0
-                                if is_player_turn:
-                                    if yokai_action == "Defend":
-                                        message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
-                                    if not dg.Yokai.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    if yokai_action == "Attack":
-                                        message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
-                                else:
-                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    if not dg.Player.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["evade"] and def_gauge == 5:
-                                await message.clear_reactions()
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Perfect Dodge)")
-                                is_evading = True
-                                def_gauge = 0
-                                continue
-                            case x if x == Icons["exit"]:
-                                await message.clear_reactions()
-                                e.description = "Player aborted the dungeon!"
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                flag = False
-                    break
-
-            elif yokai_killed:
-                ExpTable = Tables["ExpTable"]
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {mob}!")
-                if mob == "Gold Daruma":
-                    random_amount = random.randint(10000, 100000)
-                    ryou_amount = math.floor(((random_amount / 5) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {ryou_amount} Ryou!")
-                    await reward(ctx, ctx.author.mention, "ryou", ryou_amount)
-                exp_row = ExpTable[dg.level - 1][1]
-                exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
-                exp_reward = addPlayerExp(user_id, exp_amount)
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_reward} EXP!)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                emojis = ["⏭️", Icons["exit"]]
-                reaction, user = await waitForReaction(ctx, message, e, emojis)
-                if reaction is None:
-                    flag = False
-                else:
-                    match str(reaction.emoji):
-                        case "⏭️":
-                            await message.clear_reactions()
-                            e.remove_field(8)
-                            e.remove_field(7)
-                            e.remove_field(6)
-                            e.remove_field(5)
-                            e.remove_field(4)
-                            e.remove_field(3)
-                            message = await message.edit(embed = e)
-                            break
-                        case x if x == Icons["exit"]:
-                            await message.clear_reactions()
-                            e.description = "Player aborted the dungeon!"
-                            message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
-                            message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
-                            flag = False
-            elif player_killed:
-                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"{mob} has killed you!")
-                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
-                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
-                time.sleep(1)
-                message = await deathScreen(message, e, mob)
-                flag = False
-        return message, flag
-
-    async def openChest(ctx, message, flag, dg, chest, e):
-
-        async def formatLoot(chest):
-            loot = []
-            loot.append("")
-            for key, value in chest.items():
-                loot.append(f"{key}: {value}")
-            loot.append("")
-            return loot
-
-        async def rewardLoot(ctx, chest):
-            for key, value in chest.items():
-                match key:
-                    case "Ryou":
-                        addPlayerRyou(user_id, value)
-                    case "EXP":
-                        addPlayerExp(user_id, value)
-                    case "Gacha Fragment" | "Gacha Fragments":
-                        fragments = GachaDB.query("SELECT gacha_fragments FROM userdata WHERE user_id = {}".format(user_id))[0][0]
-                        GachaDB.execute("UPDATE userdata SET gacha_fragments = ? WHERE user_id = ?", (fragments + value, user_id))
-                    case product if product in Products:
-                        item_quantity = getUserItemQuantity(user_id, product)
-                        if item_quantity == None:
-                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, value))
-                        else:
-                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + value, product))
-
-        async def loadNextRoom(message, e):
-            e.description = "🔄 **Loading Next Room** 🔄"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Next Room** 🔄 ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Next Room** 🔄 ▫️ ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Next Room** 🔄 ▫️ ▫️ ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.remove_field(4)
-            e.remove_field(3)
-            e.description = None
-            e.set_image(url = None)
-            await message.edit(embed = e)
-            return message
-
-        e.add_field(name = "Chest Discovered!", value = f"Will you open it?", inline = True) # Field 3
-        e.set_image(url = Resource["Chest"][0])
-        message = await message.edit(embed = e)
-        emojis = [Icons["chest"], "⏭️", Icons["exit"]]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            flag = False
-        else:
-            match str(reaction.emoji):
-                case x if x == Icons["chest"]:
-                    await message.clear_reactions()
-                    loot = await formatLoot(chest)
-                    e.set_field_at(3, name = "Loot obtained:", value = boxifyArray(loot, padding = 2), inline = True) # Field 4
-                    await message.edit(embed = e)
-                    await rewardLoot(ctx, chest)
-                    message = await loadNextRoom(message, e)
-                case "⏭️":
-                    await message.clear_reactions()
-                    message = await loadNextRoom(message, e)
-                case x if x == Icons["exit"]:
-                    await message.clear_reactions()
-                    e.description = "Player aborted the dungeon!"
-                    flag = False
-        return message, flag
-
-    async def fightBoss(ctx, message, flag, dg, boss, e):
-        clear_rewards = {}
-        dg.Boss.name = boss["Name"]
-        base_boss_hp = boss["HP"]
-        base_boss_atk = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
-        base_boss_def = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
-        dg.Boss.HP = base_boss_hp
-        dg.Boss.ATK = base_boss_atk
-        dg.Boss.DEF = base_boss_def
-        base_player_hp = getPlayerHP(user_id)
-        base_player_atk = getPlayerATK(user_id)
-        base_player_def = getPlayerDEF(user_id)
-        if getPlayerLevel(user_id) > dg.Player.level:
-            dg.Player.level = getPlayerLevel(user_id)
-            dg.Player.HP = getPlayerHP(user_id)
-        #     dg.Player.ATK = getPlayerATK(user_id)
-        #     dg.Player.DEF = getPlayerDEF(user_id)
-
-        async def updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge):
-            e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(dg.Boss.HP)} / {'{:,}'.format(boss['HP'])}**")
-            e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
-            e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
-            e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
-            e.set_field_at(6, name = "Boss stats:", value = boxifyArray(boss_state, padding = 2))
-            e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
-            e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
-
-        def updateAgents():
-            boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {dg.Boss.HP}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
-            return boss_state, player_state
-
-        async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
-            time.sleep(0.2)
-            console.append(str(input))
-            boss_state, player_state = updateAgents()
-            await updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge)
-            await message.edit(embed = e)
-            return message
-
-        async def loadBossEncounter(message, e, name):
-            e.add_field(name = "Boss Encountered!", value = f"Name: __{name}__", inline = True) # Field 3
-            e.set_image(url = Resource[f"{name}-2"][0].replace(" ", "%20"))
-            e.description = "🔄 **Loading Combat Engine** 🔄"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
-            await message.edit(embed = e)
-            time.sleep(0.5)
-            e.remove_field(3)
-            e.description = None
-            e.set_image(url = None)
-            return message
-
-        async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
-            # time.sleep(0.5)
-            damage, is_critical = damageCalculator(dg.Player, dg.Boss)
-            if is_supercharging:
-                damage *= 2
-            dg.Boss.HP = dg.Boss.HP - damage if not dg.Boss.HP - damage < 0 else 0
-            if not is_supercharging:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {dg.Boss.name}!")
-            else:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {dg.Boss.name}!")
-            if is_critical:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
-            dg.Player.DEF *= 3
-            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        async def bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
-            damage, is_critical = damageCalculator(dg.Boss, dg.Player)
-            if is_charging and not is_defending:
-                damage *= 2
-            # time.sleep(0.5)
-            if not is_evading:
-                dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
-                if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Boss.name}!")
-                else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Boss.name}!")
-                if is_critical:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
-            else:
-                if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Boss.name}!")
-                else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Boss.name}!")
-                if is_critical:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        async def bossDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
-            dg.Boss.DEF *= 2
-            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} fortified its defences!")
-            # message = await printToConsole(message, e, console, "")
-            return message
-
-        # Loading screen
-        message = await loadBossEncounter(message, e, dg.Boss.name)
-
-        # Begin Combat Engine
-        e.add_field(name = "Turn", value = "Placeholder", inline = True) # Field 3
-        e.add_field(name = "ATK Ougi", value = "Placeholder", inline = True) # Field 4
-        e.add_field(name = "DEF Ougi", value = "Placeholder", inline = False) # Field 5
-        e.add_field(name = "Boss", value = "Placeholder", inline = True) # Field 6
-        e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 7
-        e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 8
-        console = [""]
-        boss_action = ""
-        player_action = ""
-        atk_gauge = 0
-        def_gauge = 0
-        turn = 0
-        phase = 1
-        while flag:
-            boss_state, player_state = updateAgents()
-            boss_killed = False if dg.Boss.HP > 0 else True
-            player_killed = False if dg.Player.HP > 0 else True
-            if not boss_killed and not player_killed:
-                turn += 1
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
-                dg.Boss.ATK = base_boss_atk
-                dg.Boss.DEF = base_boss_def
-                dg.Player.ATK = base_player_atk
-                dg.Player.DEF = base_player_def
-                is_charging = True if random.random() < 0.25 else False
-                if is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({dg.Boss.name} is charging a heavy attack!)")
-                is_defending = False
-                is_evading = False
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Attack | Defend | Leave Dungeon)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-
-                while True:
-                    emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
-                    if atk_gauge == 5:
-                        emojis.append(Icons["supercharge"])
-                    if def_gauge == 5:
-                        emojis.append(Icons["evade"])
-                    emojis.append(Icons["exit"])
-                    reaction, user = await waitForReaction(ctx, message, e, emojis)
-                    if reaction is None:
-                        flag = False
-                    else:
-                        is_player_turn = bool(random.getrandbits(1))
-                        boss_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
-                        player_action = ""
-                        match str(reaction.emoji):
-                            case x if x == Icons["attack"]:
-                                await message.clear_reactions()
-                                if is_player_turn:
-                                    if boss_action == "Defend":
-                                        message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
-                                    if not dg.Boss.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    if boss_action == "Attack":
-                                        message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
-                                else:
-                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    if not dg.Player.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
-                                atk_gauge = atk_gauge + 1 if atk_gauge + 1 <= 5 else 5
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["defend"]:
-                                await message.clear_reactions()
-                                player_action = "Defend"
-                                message = await playerDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                is_defending = True
-                                message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                if boss_action == "Attack":
-                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Suppressed)")
-                                def_gauge = def_gauge + 1 if def_gauge + 1 <= 5 else 5
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["riceball"]:
-                                await message.clear_reactions()
-                                message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
-                                if result:
-                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                else:
-                                    continue
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["supercharge"] and atk_gauge == 5:
-                                await message.clear_reactions()
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
-                                atk_gauge = 0
-                                if is_player_turn:
-                                    if boss_action == "Defend":
-                                        message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
-                                    if not dg.Boss.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    if boss_action == "Attack":
-                                        message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
-                                else:
-                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
-                                    if not dg.Player.HP > 0:
-                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                        break
-                                    message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            case x if x == Icons["evade"] and def_gauge == 5:
-                                await message.clear_reactions()
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Perfect Dodge)")
-                                is_evading = True
-                                def_gauge = 0
-                                continue
-                            case x if x == Icons["exit"]:
-                                await message.clear_reactions()
-                                e.description = "Player aborted the dungeon!"
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                flag = False
-                        if phase == 1 and dg.Boss.HP <= math.trunc(boss["HP"] / 2) and dg.Boss.HP > 0:
-                            dg.Boss.phase = 2
-                        if phase == 1 and dg.Boss.phase == 2:
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has augmented to Phase 2!")
-                            base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
-                            base_boss_def = math.floor(base_boss_def * random.uniform(1.1, 1.2))
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ATK and DEF buffed)")
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            phase = 2
-                        if phase == 2 and dg.Boss.HP <= math.trunc(boss["HP"] / 4) and dg.Boss.HP > 0:
-                            dg.Boss.phase = 3
-                        if phase == 2 and dg.Boss.phase == 3:
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has augmented to Phase 3!")
-                            base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ATK buffed)")
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            phase = 3
-                    break
-
-            elif boss_killed:
-                ryou0 = math.floor((dg.rewards["Ryou"]['range'][0] * 0.75) + (dg.rewards["Ryou"]['range'][0] / 4) * dg.multiplier)
-                ryou1 = math.floor((dg.rewards["Ryou"]['range'][1] * 0.75) + (dg.rewards["Ryou"]['range'][1] / 4) * dg.multiplier)
-                exp0 = math.floor((dg.rewards["EXP"]['range'][0] * 0.75) + (dg.rewards["EXP"]['range'][0] / 4) * dg.multiplier)
-                exp1 = math.floor((dg.rewards["EXP"]['range'][1] * 0.75) + (dg.rewards["EXP"]['range'][1] / 4) * dg.multiplier)
-                ryou_range = [ryou0, ryou1]
-                exp_range = [exp0, exp1]
-                ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
-                exp_amount = addPlayerExp(user_id, random.randint(exp_range[0], exp_range[1]))
-                clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {ryou_amount} Ryou!)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_amount} EXP!)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                dg.Cache.cleared = True
-                break
-            elif player_killed:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has killed you!")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                time.sleep(1)
-                message = await deathScreen(message, e, dg.Boss.name)
-                flag = False
-        return message, flag, clear_rewards
-
-    def writeBlueprint(Blueprint, dungeon, difficulty):
-        json_blueprint = json.dumps(Blueprint, indent=4)
-        path = f"Blueprints/{dungeon}/{difficulty}"
-        makedirs(path, exist_ok = True)
-        json_filename = f"{path}/{Blueprint['header']['Seed']}.json"
-        if not file_exists(json_filename):
-            founder = True
-            with open(json_filename, "w") as outfile:
-                outfile.write(json_blueprint)
-        else:
-            founder = False
-        file = discord.File(json_filename)
-        return file, founder
-
-    def damageCalculator(attacker, defender):
-        is_critical = True if random.random() < 0.1 else False
-        damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
-        variance = round(damage / 10)
-        var_roll = random.randint(-variance, variance)
-        damage += var_roll
-        damage *= 2 if is_critical else 1
-        return damage, is_critical
-
-    def getDungeonEnergy(dungeon):
-        dungeon_metric = Dungeons[dungeon]["Energy_Metric"]
-        dungeon_energy = []
-        for mode in Dungeons[dungeon]["Difficulties"]:
-            match mode:
-                case "Normal":
-                    energy_divisor = mode_divisors[0]
-                case "Hard":
-                    energy_divisor = mode_divisors[1]
-                case "Hell":
-                    energy_divisor = mode_divisors[2]
-                case "Oni":
-                    energy_divisor = mode_divisors[3]
-            dungeon_energy.append(math.floor(dungeon_metric / energy_divisor))
-        return dungeon_energy
-
-    def getDungeonModes(type = "string"):
-        default_string = f"{Icons['normal']}\n{Icons['hard']}\n{Icons['hell']}\n{Icons['oni']}"
-        default_array = [Icons["normal"], Icons["hard"], Icons["hell"], Icons["oni"]]
-        default_dict = {"Normal": Icons["normal"], "Hard": Icons["hard"], "Hell": Icons["hell"], "Oni": Icons["oni"]}
-        match type:
-            case "string":
-                formatted_string = ""
-                for key, value in default_dict.items():
-                    formatted_string += f"\n{value} ─ __{key}__ ─ {value}\n"
-                return formatted_string
-            case "array":
-                return default_array
-            case "dict":
-                return default_dict
-
-    def formatBossStats(stats, mode):
-        multiplier          = mode_multipliers[mode]
-        boss_name           = stats["Name"]
-        base_hp             = stats["HP"]
-        scaled_hp           = math.floor((base_hp * 0.75) + (base_hp / 4 * multiplier))
-        boss_resistances    = stats["Resistances"]
-        boss_weaknesses     = stats["Weaknesses"]
-        resistance_emojis   = getElementEmojis(boss_resistances)
-        weakness_emojis     = getElementEmojis(boss_weaknesses)
-
-        formatted_string = ""
-        formatted_string += f"───────────────\n"
-        formatted_string += f"👹 ─ Boss: **__{boss_name}__**\n"
-        formatted_string += f"───────────────\n"
-        formatted_string += f"🩸 ─ HP: `{'{:,}'.format(scaled_hp)}`\n"
-        formatted_string += f"───────────────\n"
-        formatted_string += f"🛡️ ─ Resistances\n"
-        formatted_string += f" ╰──  {resistance_emojis}\n"
-        formatted_string += f"───────────────\n"
-        formatted_string += f"⚔️ ─ Weaknesses\n"
-        formatted_string += f" ╰──  {weakness_emojis}\n"
-
-        ### <TO-DO>
-        ### Use text rendering modules to determine width of content
-        ### Wrap content in a pretty box to display to the end-user
-
-        # from matplotlib import rcParams
-        # import os.path
-        # string = "Hello there"
-        # spacer_character    = " "
-        # border_character    = "─"
-        # border_character    = "-"
-
-        # fields = [len(str(boss_name)), len(str('{:,}'.format(boss_hp))), len(boss_resistances), len(boss_weaknesses)]
-        # max_width = getMaxItemWidth(fields, min_width = 0)
-        # print(max_width)
-
-        # border_width = max_width + 18
-        # border = ""
-        # for _ in range(border_width):
-        #     border += border_character
-        # formatting_array = []
-        # formatting_array.append(f"╓{border}╖\n")
-        # formatting_array.append(f"║👹 ─ Boss: **__{boss_name}__**\n")
-        # formatting_array.append(f"╟{border}╢\n")
-        # formatting_array.append(f"║🩸 ─ HP: `{'{:,}'.format(boss_hp)}`\n")
-        # formatting_array.append(f"╟{border}╢\n")
-        # formatting_array.append(f"║🛡️ ─ Resistances\n")
-        # formatting_array.append(f"║ ╰──  {resistance_emojis}\n")
-        # formatting_array.append(f"╟{border}╢\n")
-        # formatting_array.append(f"║⚔️ ─ Weaknesses\n")
-        # formatting_array.append(f"║ ╰──  {weakness_emojis}\n")
-        # formatting_array.append(f"╙{border}╜\n")
-
-        ### </TO-DO>
-
-        return formatted_string
-
-    def formatDungeonRewards(dungeon_rewards, mode):
-        multiplier = mode_multipliers[mode]
-        formatted_string = ""
-        index = 0
-        for key, value in dungeon_rewards.items():
-            match key:
-                case "Ryou":
-                    icon = Icons["ryou"]
-                case "EXP":
-                    icon = Icons["exp"]
-                case _:
-                    icon = Icons["material_common"]
-            formatted_string += "───────────────\n"
-            value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
-            value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
-            formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
-            formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
-            index += 1
-        return formatted_string
-
-    def getElementEmojis(array):
-        emoji_string = ""
-        for element in array:
-            emoji_string += Icons[element]
-        return emoji_string if not emoji_string == "" else "None"
-
-    # main()
-    message = None
-    mode = None
-    seed = None
-    if input:
-        # User provided arguments
-        try:
-            # Assume both dungeon name string and mode were provided
-            dg_query = list(input)
-            for index, arg in enumerate(dg_query):
-                # Check if user provided the -seed argument
-                if arg == "-seed" or arg == "-s":
-                    seed = dg_query.pop(index + 1)
-                    dg_query.pop(index)
-                    break
-            mode_test = dg_query.pop()
-            dg_string = ' '.join(dg_query)
-            modes = ["Normal", "Hard", "Hell", "Oni"]
-            if len(mode_test) == 1:
-                # Try to get mode as integer
-                mode = int(mode_test)
-                if mode > 3 or mode < 0:
-                    # User tried to access a protected or non-existant dungeon mode
-                    await ctx.send(f"⚠️ **Invalid Mode ID:** `{mode}`")
-                    return
-            else:
-                # Try to get mode as string
-                modes = ["Normal", "Hard", "Hell", "Oni"]
-                for mode_name in modes:
-                    if mode_test.casefold() == mode_name.casefold():
-                        mode = mode_mapping_inverse[mode_name]
-                        break
-                if mode == None:
-                    # There was no matching string found
-                    raise ValueError
-        except ValueError:
-            # Conlude that mode wasn't provided
-            dg_query = list(input)
-            for index, arg in enumerate(dg_query):
-                # Check if user provided the -seed argument
-                if arg == "-seed" or arg == "-s":
-                    seed = dg_query.pop(index + 1)
-                    dg_query.pop(index)
-                    break
-            dg_string = ' '.join(dg_query)
-            mode = -1
-        for dungeon in Dungeons:
-            # Check if the provided dungeon argument is an existing dungeon
-            if dg_string.casefold() == dungeon.casefold():
-                # A match was found! Proceed to load the dungeon
-                if mode == -1:
-                    # Mode wasn't provided so let the user select it by hand
-                    await selectDungeon(ctx, message, dungeon, mode, seed)
-                else:
-                    # Mode was provided so shortcut straight to the entry screen
-                    await selectDungeon(ctx, message, dungeon, mode, seed)
-                # User finished the dungeon, exit now
-                return
-            else:
-                continue
-        # Checks failed; therefore, user must have mistyped the dungeon name
-        await ctx.send(f"⚠️ **There doesn't exist any dungeons with the name:** `{dg_string}`")
-        return
-    else:
-        # Conclude that neither dungeon name nor mode was provided
-        # Show the user a list of dungeons they have unlocked
-        await menuDungeons(ctx, message)
-
-@bot.command(aliases = ["quest", "questing", "subquest", "subquests", "sidequest", "sidequests", "mission", "missions"])
-@commands.check(checkChannel)
-async def quests(ctx, arg: str = None):
-    ''' | Usage: +quests [collect]'''
-    user_id         = ctx.author.id
-    default_color   = config.default_color
-    last_quest      = getLastQuest(user_id)
-    wait            = 0 if checkAdmin(ctx) and debug_mode else config.quest_wait
-    now             = int(time.time())
-
-    def chooseRandomQuest():
-        while True:
-            choice = random.choice(list(Quests))
-            level = getPlayerLevel(user_id)
-            if Quests[choice]["Level_Required"] > level:
-                continue
-            else:
-                break
-        return choice
-
-    async def promptQuest(ctx, message, flag, quest):
-        banner = generateFileObject("Oni-Quests", Graphics["Banners"]["Oni-Quests"][0])
-        npc = Quests[quest]["NPC"]
-        lvl = Quests[quest]["Level_Required"]
-        conditions = getConditions(quest)
-        rewards = getRewards(quest)
-        boost = getUserBoost(ctx)
-        dialogue = getDialogue(quest)
-        e = discord.Embed(title = "🗺️ Quest found!", description = "Will you accept this quest?", color = default_color)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
-        e.add_field(name = "📜 Title", value = f"`{quest}`", inline = True)
-        e.add_field(name = "🧍 NPC", value = f"`{npc}`", inline = True)
-        e.add_field(name = "⚙️ Level Required", value = f"`{lvl}`", inline = True)
-        e.add_field(name = "📌 Clearing Conditions:", value = conditions, inline = True)
-        e.add_field(name = f"🎁 Rewards:{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = rewards, inline = True)
-        e.add_field(name = "💬 Dialogue:", value = "```" + dialogue + "```", inline = False)
-        message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-        emojis = ["✅", "❌"]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            flag = False
-            return message, flag
-        match str(reaction.emoji):
-            case "✅":
-                now = int(time.time())
-                last_quest = getLastQuest(user_id)
-                if now >= last_quest + wait or checkAdmin(ctx):
-                    await message.clear_reactions()
-                    message, flag = await startQuest(ctx, message, flag, quest, e)
-                else:
-                    hours = math.floor((last_quest + wait - now) / 60 / 60)
-                    minutes = math.floor((last_quest + wait - now) / 60 - (hours * 60))
-                    seconds = (last_quest + wait - now) % 60
-                    await ctx.send(f"There are currently no quests, please check back in ⌛ **{hours} hours**, **{minutes} minutes**, and **{seconds} seconds**.")
-                return message, flag
-            case "❌":
-                await message.clear_reactions()
-                flag = False
-                return message, flag
-        return message, flag
-
-    async def startQuest(ctx, message, flag, quest, e):
-        current_quest = getPlayerQuest(user_id)
-        if current_quest == "":
-            QuestsDB.execute("UPDATE quests SET quest = ? WHERE user_id = ?", (quest, user_id))
-            e = discord.Embed(title = "🧭 Quest accepted!", description = f"*You set off to complete the conditions.*\n**Type **`{config.prefix}quest collect` **to collect the rewards.**", color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-            await ctx.send(embed = e)
-        else:
-            e = discord.Embed(title = "❌ Failed to accept quest!", description = "You already have a quest in progress.", color = 0xef5350)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-            e.add_field(name = f"Current Quest: `{current_quest}`", value = f"Type `{config.prefix}quest collect` to complete this quest first.")
-            await ctx.send(embed = e)
-        return message, flag
-
-    async def completeQuest(ctx, message, flag, quest):
-        marketdata = getUserMarketInv(user_id)
-        ryou = marketdata.ryou
-        exp = getPlayerExp(user_id)
-        boost = getUserBoost(ctx)
-        now = int(time.time())
-        rewards_list = Quests[quest]["Rewards"]
-        ryou_range = rewards_list["Ryou"] if "Ryou" in rewards_list else [0, 0]
-        exp_range = rewards_list["EXP"] if "EXP" in rewards_list else [0, 0]
-        ryou_random = random.randint(ryou_range[0], ryou_range[1])
-        ryou_reward = ryou_random + math.floor(ryou_random * (boost / 100.))
-        exp_random = random.randint(exp_range[0], exp_range[1])
-        exp_reward = exp_random + math.floor(exp_random * (boost / 100.))
-        MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_reward, user_id))
-        exp_reward = addPlayerExp(user_id, exp_reward)
-        ActivityDB.execute("UPDATE quests SET last_activity = ? WHERE user_id = ?", (now, user_id))
-        QuestsDB.execute("UPDATE quests SET quest = ? WHERE user_id = ?", ("", user_id))
-        e = discord.Embed(title = f"🎊 Quest Completed  ─  `{quest}`", description = "Recieved the following rewards:", color = 0x4caf50)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
-        e.add_field(name = f"Ryou{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_reward)}`", inline = True)
-        e.add_field(name = f"EXP{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = f"{Icons['exp']} x {'`{:,}`'.format(exp_reward) if exp_reward != 0 else '`0` *(Level cap reached)*'}", inline = True)
-        message = await ctx.send(embed = e)
-        return message, flag
-
-    def getConditions(quest):
-        conditions_list = Quests[quest]["Conditions"]
-        conditions = ""
-        for condition in conditions_list:
-            for key, value in condition.items():
-                match key:
-                    case "Defeat":
-                        conditions += f"**{key}**" + ": " + str(f"*{value[1]}*") + " " + f"__{value[0]}__" + "\n"
-                    case "Clear":
-                        match value[1]:
-                            case -1:
-                                difficulty = "Any"
-                            case 0:
-                                difficulty = "Normal"
-                            case 1:
-                                difficulty = "Hard"
-                            case 2:
-                                difficulty = "Hell"
-                            case 3:
-                                difficulty = "Oni"
-                        conditions += f"**{key}**" + ": " + f"__{value[0]}__" + " - " + f"*{difficulty}*" + "\n"
-        return conditions
-
-    def getRewards(quest):
-        rewards_list = Quests[quest]["Rewards"]
-        rewards = ""
-        for key, value in rewards_list.items():
-            match key:
-                case "Ryou":
-                    rewards += "**Ryou range**" + ": " + Icons["ryou"] + " __" + '{:,}'.format(value[0]) + " - " + '{:,}'.format(value[1]) + "__\n"
-                case "EXP":
-                    rewards += "**EXP range**" + ": " + Icons["exp"] + " __" + '{:,}'.format(value[0]) + " - " + '{:,}'.format(value[1]) + "__\n"
-        rewards = "None" if rewards == "" else rewards
-        return rewards
-
-    def getDialogue(quest):
-        dialogue = ""
-        for line in Quests[quest]["Dialogue"]:
-            dialogue += line + " "
-        return dialogue
-
-    # main()
-    current_quest = getPlayerQuest(user_id)
-    message = None
-    flag = True
-    if arg == "collect" and current_quest != "":
-        quest = getPlayerQuest(user_id)
-        await completeQuest(ctx, message, flag, quest)
-        return
-    if now >= last_quest + wait or checkAdmin(ctx):
-        quest = chooseRandomQuest()
-        message, flag = await promptQuest(ctx, message, flag, quest)
-    else:
-        hours = math.floor((last_quest + wait - now) / 60 / 60)
-        minutes = math.floor((last_quest + wait - now) / 60 - (hours * 60))
-        seconds = (last_quest + wait - now) % 60
-        await ctx.send(f"There are currently no quests, please check back in ⌛ **{hours} hours**, **{minutes} minutes**, and **{seconds} seconds**.")
+# @bot.command(aliases = ["dungeon", "dg", "dung", "run", "warding", "wardings"])
+# @commands.check(checkChannel)
+# async def dungeons(ctx, *input):
+#     ''' | Usage: +dungeons '''
+#     user_id                 = ctx.author.id
+#     user_name               = ctx.author.name
+#     default_color           = config.default_color
+#     numbers                 = config.numbers
+#     mode_mapping            = config.mode_mapping
+#     mode_mapping_inverse    = config.mode_mapping_inverse
+#     mode_multipliers        = config.mode_multipliers
+#     mode_divisors           = config.mode_divisors
+#
+#     class DungeonInstance:
+#
+#         # Mutable Cache
+#         class DungeonCache:
+#             def __init__(self):
+#                 self.floor = 0
+#                 self.room = 0
+#                 self.mobs = 0
+#                 self.goldarumas = 0
+#                 self.chests = 0
+#                 self.mobs_killed = 0
+#                 self.cleared = False
+#                 self.start_time = None
+#                 self.end_time = None
+#                 self.clear_time = None
+#
+#         class PlayerState:
+#             def __init__(self):
+#                 self.name = user_name
+#                 self.HP = getPlayerHP(user_id)
+#                 self.ATK = getPlayerATK(user_id)
+#                 self.DEF = getPlayerDEF(user_id)
+#                 self.level = getPlayerLevel(user_id)
+#
+#         class YokaiState:
+#             def __init__(self):
+#                 self.name = ""
+#                 self.HP = 0
+#                 self.ATK = 0
+#                 self.DEF = 0
+#
+#         class BossState:
+#             def __init__(self):
+#                 self.name = ""
+#                 self.HP = 0
+#                 self.ATK = 0
+#                 self.DEF = 0
+#                 self.phase = 1
+#
+#         def __init__(self, dungeon, mode, seed):
+#             # Immutable
+#             self.dungeon = dungeon
+#             self.mode = mode
+#             self.mode_name = mode_mapping[self.mode]
+#             self.multiplier = mode_multipliers[self.mode]
+#             self.properties = Dungeons[dungeon]["Difficulties"][self.mode_name]
+#             self.icon = getDungeonModes(type = "array")[self.mode]
+#             self.level = Dungeons[dungeon]["Level_Required"]
+#             self.floors = Dungeons[dungeon]["Floors"]
+#             self.rooms = 0 # Accumulated via Blueprint
+#             self.yokai = Dungeons[dungeon]["Yokai"]
+#             self.boss = Dungeons[dungeon]["Boss"]
+#             self.rewards = Dungeons[dungeon]["Rewards"]
+#             self.energy = getDungeonEnergy(dungeon)[self.mode]
+#             self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
+#             self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
+#             self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
+#             self.goldaruma_spawnrate /= 100.
+#             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
+#
+#             # Seed
+#             if seed is None:
+#                 self.seed = hashlib.md5(str(random.getrandbits(128)).encode("utf-8")).hexdigest()
+#             elif re.match("^[a-f0-9]{32}$", seed):
+#                 self.seed = seed
+#             else:
+#                 self.seed = hashlib.md5(seed.encode("utf-8")).hexdigest()
+#             self.salt = self.dungeon
+#             self.pepper = self.mode_name
+#
+#             # Initialize Cache
+#             self.Cache = self.DungeonCache()
+#
+#             # Initialize Agents
+#             self.Player = self.PlayerState()
+#             self.Yokai = self.YokaiState()
+#             self.Boss = self.BossState()
+#
+#             # Initialize Dungeon Blueprint
+#             self.Blueprint = {}
+#
+#         def clearCache(self):
+#             self.Cache = self.DungeonCache()
+#
+#         def dungeonGenesis(self):
+#             now = datetime.utcnow()
+#             self.Blueprint.update({"header": {"Dungeon": self.dungeon, "Difficulty": self.mode_name, "Seed": self.seed}, "blueprint": {"floors": []}, "footer": {"Founder": user_id, "Discovered": f"{now} (UTC)"}})
+#             for _ in range(self.floors):
+#                 floor_schematic = self.renderFloor()
+#                 self.Blueprint["blueprint"]["floors"].append(floor_schematic)
+#             return self.Blueprint
+#
+#         def renderFloor(self):
+#             floor_schematic = {}
+#             self.Cache.floor += 1
+#             seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
+#             salt = "renderFloor"
+#             pepper = str(self.Cache.floor)
+#             f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+#             random.seed(f_seed)
+#             if self.Cache.floor < self.floors:
+#                 floor_schematic.update({"type": "Floor", "rooms": []})
+#                 rooms = random.randint(self.rooms_range[0], self.rooms_range[1])
+#                 self.rooms += rooms
+#                 for _ in range(rooms):
+#                     room_schematic = self.renderRoom()
+#                     floor_schematic["rooms"].append(room_schematic)
+#             else:
+#                 floor_schematic.update({"type": "Boss", "boss": {}})
+#                 boss_schematic = self.renderBoss()
+#                 floor_schematic["boss"].update(boss_schematic)
+#             return floor_schematic
+#
+#         def renderRoom(self):
+#             room_schematic = {}
+#             self.Cache.room += 1
+#             seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
+#             salt = "renderRoom"
+#             pepper = str(self.Cache.room)
+#             f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+#             random.seed(f_seed)
+#             population = random.randint(self.mob_spawnrate[0], self.mob_spawnrate[1])
+#             mobs = self.spawnMobs(population)
+#             if mobs:
+#                 room_schematic.update({"type": "Normal", "yokai": []})
+#                 room_schematic["yokai"] = mobs
+#             else:
+#                 self.Cache.chests += 1
+#                 chest = self.spawnChest()
+#                 room_schematic.update({"type": "Chest", "loot": []})
+#                 room_schematic["loot"] = chest
+#             return room_schematic
+#
+#         def renderBoss(self):
+#             boss_schematic = {}
+#             boss_schematic.update(Dungeons[self.dungeon]["Boss"])
+#             base_hp = Dungeons[self.dungeon]["Boss"]["HP"]
+#             scaled_hp = math.floor((base_hp * 0.75) + (base_hp / 4 * self.multiplier))
+#             boss_schematic.update({"HP": scaled_hp})
+#             return boss_schematic
+#
+#         def spawnMobs(self, population):
+#             seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
+#             salt = "spawnMobs"
+#             pepper = str(self.Cache.room)
+#             f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+#             random.seed(f_seed)
+#             mobs = []
+#             if population > 0:
+#                 for _ in range(population):
+#                     self.Cache.mobs += 1
+#                     if random.random() <= self.goldaruma_spawnrate:
+#                         is_goldaruma = True
+#                         self.Cache.goldarumas += 1
+#                     else:
+#                         is_goldaruma = False
+#                     mobs.append(random.choice(self.yokai) if not is_goldaruma else "Gold Daruma")
+#             else:
+#                 pass
+#             return mobs
+#
+#         def spawnChest(self):
+#             seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
+#             salt = "spawnChest"
+#             pepper = str(self.Cache.room)
+#             f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
+#             random.seed(f_seed)
+#             loot_pools = []
+#             loot_weights = []
+#             for table in self.chest_loot:
+#                 pool = table["pool"]
+#                 weight = table["rate"]
+#                 loot_pools.append(pool)
+#                 loot_weights.append(weight)
+#             if sum(loot_weights) < 100 or sum(loot_weights) > 100:
+#                 loot_weights = rebalanceWeights(loot_weights)
+#             random_pool = randomWeighted(loot_pools, loot_weights)
+#             chest = {}
+#             for key, value in random_pool.items():
+#                 loot_name = key
+#                 range = value
+#                 amount_pulled = random.randint(range[0], range[1])
+#                 if not loot_name in chest:
+#                     chest.update({loot_name: amount_pulled})
+#                 else:
+#                     chest.update({loot_name: chest[loot_name] + amount_pulled})
+#             return chest
+#
+#     async def menuDungeons(ctx, message):
+#         dungeons_length = len(Dungeons)
+#         level = getPlayerLevel(user_id)
+#         banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
+#         e = discord.Embed(title = "⛩️  ─  Dungeon Listing  ─  ⛩️", description = f"Which dungeon will you be running today?\n**Your level:** {Icons['level']}**{level}**", color = 0x9575cd)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+#
+#         # unlocked_dungeons = []
+#         # for dungeon in Dungeons:
+#         #     if level >= dungeon_level:
+#         #         unlocked_dungeons.append(dungeon)
+#         #
+#         # unlocked_length = len(unlocked_dungeons)
+#
+#         # Set offset to 0 (page 1) and begin bidirectional page system
+#         offset = 0
+#         flag = True
+#         while flag:
+#             counter = 0
+#             # Iterate through dungeons in groups of 10
+#             for index, dungeon in enumerate(Dungeons):
+#                 if index < offset:
+#                     # Skipping to next entry until arriving at the proper page/offset
+#                     continue
+#                 dungeon_level = Dungeons[dungeon]["Level_Required"]
+#                 dungeon_emoji = numbers[counter]
+#                 unlocked_emoji = "🔓" if level >= dungeon_level else "🔒"
+#                 crossout = "~~" if not level >= dungeon_level else ""
+#                 bold_or_italics = "**" if not level >= dungeon_level else "*"
+#                 e.add_field(name = f"{dungeon_emoji}  ─  __{crossout}{dungeon}{crossout}__", value = f"{unlocked_emoji}  **─**  {bold_or_italics}Level Required:{bold_or_italics} {Icons['level']}**{dungeon_level}**\n`{config.prefix}dungeon {dungeon}`", inline = True)
+#                 if not counter % 2 == 0:
+#                     e.add_field(name = "\u200b", value = "\u200b", inline = True)
+#                 counter += 1
+#                 # Once a full page is assembled, print it
+#                 if counter == 10 or index + 1 == dungeons_length:
+#                     message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+#                     if index + 1 > 10 and index + 1 < dungeons_length:
+#                         # Is a middle page
+#                         emojis = ["⏪", "⏩", "❌"]
+#                     elif index + 1 < dungeons_length:
+#                         # Is the first page
+#                         emojis = ["⏩", "❌"]
+#                     elif dungeons_length > 10:
+#                         # Is the last page
+#                         emojis = ["⏪", "❌"]
+#                     else:
+#                         # Is the only page
+#                         emojis = ["❌"]
+#                     reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                     if reaction is None:
+#                         flag = False
+#                         break
+#                     match str(reaction.emoji):
+#                         case "⏩":
+#                             # Tell upcomming re-iteration to skip to the next page's offset
+#                             offset += 10
+#                             await message.clear_reactions()
+#                             e.clear_fields()
+#                             break
+#                         case "⏪":
+#                             # Tell upcomming re-iteration to skip to the previous page's offset
+#                             offset -= 10
+#                             await message.clear_reactions()
+#                             e.clear_fields()
+#                             break
+#                         case "❌":
+#                             await message.clear_reactions()
+#                             flag = False
+#                             break
+#
+#     async def selectDungeon(ctx, message, dungeon, mode, seed):
+#         banner = generateFileObject("Oni-Dungeons", Graphics["Banners"]["Oni-Dungeons"][0])
+#         flag = True
+#         while flag:
+#             if mode == -1:
+#                 dungeon_level   = Dungeons[dungeon]["Level_Required"]
+#                 dungeon_floors  = Dungeons[dungeon]["Floors"]
+#                 dungeon_yokai   = Dungeons[dungeon]["Yokai"]
+#                 dungeon_energy  = getDungeonEnergy(dungeon)
+#                 e = discord.Embed(title = f"⛩️  ─  __{dungeon}__  ─  ⛩️", description = f"Which difficulty will you enter this dungeon on?", color = 0x9575cd)
+#                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                 e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+#                 e.add_field(name = "Level required", value = f"{Icons['level']}**{dungeon_level}**", inline = True)
+#                 e.add_field(name = "Energy cost", value = f"{Icons['energy']}**{dungeon_energy[0]} - {dungeon_energy[3]}**", inline = True)
+#                 e.add_field(name = "Floors", value = f"{Icons['dungeon']}**{dungeon_floors}**", inline = True)
+#                 e.add_field(name = "Yokai found here:", value = boxifyArray(dungeon_yokai), inline = True)
+#                 e.add_field(name = "Difficulty selection:\n────────────", value = getDungeonModes(), inline = True)
+#                 e.add_field(name = "Seed initializer:", value = (f"`{seed}`" if not seed is None else "*Randomized*"), inline = False)
+#                 message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+#                 emojis = getDungeonModes(type = "array")
+#                 emojis.append("❌")
+#                 reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                 if reaction is None:
+#                     break
+#                 match str(reaction.emoji):
+#                     case x if x == Icons["normal"]:
+#                         mode = 0
+#                     case x if x == Icons['hard']:
+#                         mode = 1
+#                     case x if x == Icons['hell']:
+#                         mode = 2
+#                     case x if x == Icons['oni']:
+#                         mode = 3
+#                     case "❌":
+#                         await message.clear_reactions()
+#                         break
+#                 await message.clear_reactions()
+#             message, flag, mode = await confirmDungeon(ctx, message, flag, dungeon, mode, seed, banner)
+#         return
+#
+#     async def confirmDungeon(ctx, message, flag, dungeon, mode, seed, banner):
+#         try:
+#             dg = DungeonInstance(dungeon, mode, seed)
+#             e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = 0x9575cd)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+#             e.add_field(name = "Level required", value = f"{Icons['level']} **{dg.level}**", inline = True)
+#             e.add_field(name = "Energy cost", value = f"{Icons['energy']} **{dg.energy}**", inline = True)
+#             e.add_field(name = "Floors", value = f"{Icons['dungeon']} **{dg.floors}**", inline = True)
+#             e.add_field(name = "Your level", value = f"{Icons['level']} **{getPlayerLevel(user_id)}**", inline = True)
+#             e.add_field(name = "Your energy", value = f"{Icons['energy']} **{getPlayerEnergy(user_id)}**", inline = True)
+#             e.add_field(name = "Best time", value = f"⏱️ __{getPlayerDungeonRecord(user_id, dungeon, mode)}__", inline = True)
+#             e.add_field(name = "Boss stats:", value = formatBossStats(dg.boss, dg.mode), inline = True)
+#             e.add_field(name = "Rewards:", value = formatDungeonRewards(dg.rewards, dg.mode), inline = True)
+#             e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
+#             message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+#             emojis = [Icons["door_open"], "↩️"]
+#             reaction, user = await waitForReaction(ctx, message, e, emojis)
+#             if reaction is None:
+#                 flag = False
+#                 return message, flag, mode
+#             match str(reaction.emoji):
+#                 case x if x == Icons["door_open"]:
+#                     await message.clear_reactions()
+#                     if dg.Player.level >= dg.level:
+#                         energy = getPlayerEnergy(user_id)
+#                         if energy >= dg.energy:
+#                             addPlayerEnergy(user_id, -dg.energy)
+#                             message, flag = await dungeonEntry(ctx, message, flag, dg, seed)
+#                             flag = False
+#                         else:
+#                             await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy}` more.")
+#                     else:
+#                         await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player.level}` more levels!")
+#                         flag = False
+#                 case "↩️":
+#                     await message.clear_reactions()
+#                     mode = -1
+#         except IndexError:
+#             await ctx.send(f"⚠️ **Invalid difficulty mode specified:** Dungeon `{dungeon}` has no mode `{mode}`")
+#             flag = False
+#         return message, flag, mode
+#
+#     async def dungeonEntry(ctx, message, flag, dg, seed):
+#         Blueprint = dg.dungeonGenesis()
+#         dg.clearCache()
+#         random.seed(None)
+#         ### START TIMER ###
+#         dg.Cache.start_time = datetime.utcnow()
+#         ###################
+#         e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", color = 0x9575cd)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.add_field(name = "Floor", value = "Placeholder", inline = True) # Field 0
+#         e.add_field(name = "Room", value = "Placeholder", inline = True) # Field 1
+#         e.add_field(name = "Contents", value = "Placeholder", inline = True) # Field 2
+#         for floor in Blueprint["blueprint"]["floors"]:
+#             dg.Cache.floor += 1
+#             e.set_field_at(0, name = "Current Floor", value = f"{Icons['dungeon']} **{dg.Cache.floor} / {dg.floors}**")
+#             if floor["type"] == "Floor":
+#                 for index, room in enumerate(floor["rooms"]):
+#                     dg.Cache.room += 1
+#                     e.set_field_at(1, name = "Current Room", value = f"🎬 **{index + 1} / {len(floor['rooms'])}**")
+#                     if room["type"] == "Normal":
+#                         mobs = room["yokai"]
+#                         population = len(mobs)
+#                         for index, mob in enumerate(mobs):
+#                             e.set_field_at(2, name = "Yokai", value = f"{Icons['yokai']} **{index + 1} / {population}**")
+#                             message, flag = await fightMob(ctx, message, flag, dg, mob, e)
+#                             if not flag:
+#                                 return message, flag
+#                     elif room["type"] == "Chest":
+#                         e.set_field_at(2, name = "Chests", value = f"{Icons['chest']} **1 / 1**")
+#                         chest = room["loot"]
+#                         message, flag = await openChest(ctx, message, flag, dg, chest, e)
+#                         if not flag:
+#                             return message, flag
+#             elif floor["type"] == "Boss":
+#                 e.set_field_at(1, name = "Current Room", value = f"👹 ***Boss Room***")
+#                 e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(floor['boss']['HP'])} / {'{:,}'.format(floor['boss']['HP'])}**")
+#                 boss = floor["boss"]
+#                 message, flag, clear_rewards = await fightBoss(ctx, message, flag, dg, boss, e)
+#                 if not flag:
+#                     return message, flag
+#         # Exit
+#         if dg.Cache.cleared:
+#             ### END TIMER ###
+#             dg.Cache.end_time = datetime.utcnow()
+#             #################
+#             dg.Cache.clear_time = str(dg.Cache.end_time - dg.Cache.start_time)
+#             dg.Blueprint["footer"].update({"Discovered": f"{dg.Cache.end_time} (UTC)"})
+#             addPlayerDungeonClear(user_id, dg)
+#             context = await bot.get_context(message)
+#             file, founder = writeBlueprint(dg.Blueprint, dg.dungeon, dg.mode_name)
+#             congrats = ""
+#             congrats += f"🎊 {ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
+#             if clear_rewards:
+#                 congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
+#             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
+#             if founder:
+#                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
+#                 congrats += "Here is a blueprint of the unique dungeon properties you discovered with that seed:"
+#             else:
+#                 congrats += f"The seed `{seed if not seed is None else dg.seed}` was already discovered for this mode.\n"
+#                 congrats += f"So here is the blueprint the original founder generated:"
+#             await context.reply(file = file, content = congrats)
+#         return message, flag
+#
+#     async def deathScreen(message, e, condition):
+#         e.add_field(name = "💀  ─  You have died!  ─  💀", value = f"Cause of death: __{condition}__")
+#         e.description = "Player failed to clear the dungeon."
+#         message = await message.edit(embed = e)
+#         return message
+#
+#     async def consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole):
+#         result = False
+#
+#         def formatConsumables(consumables, user_items):
+#             avail_consumables = ""
+#             for key, value in consumables.items():
+#                 if key in user_items:
+#                     avail_consumables += f"{Icons[key.lower().replace(' ', '_')]} **{key}**: +{value}HP\n"
+#             return avail_consumables if not avail_consumables == "" else "None"
+#
+#         consumables = config.consumables
+#         user_items = []
+#         inventory = getUserItemInv(user_id)
+#         for item in inventory:
+#             user_items.append(item[0])
+#         avail_consumables = []
+#         for key in list(consumables.keys()):
+#             if key in user_items:
+#                 avail_consumables.append(Icons[key.lower().replace(' ', '_')])
+#         e.add_field(name = "Consumables Menu:", value = formatConsumables(consumables, user_items), inline = False) # Field 6
+#         await message.edit(embed = e)
+#         emojis = []
+#         for nigiri_emoji in avail_consumables:
+#             emojis.append(nigiri_emoji)
+#         emojis.append("↩️")
+#         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#         if reaction is None:
+#             flag = False
+#         else:
+#             product = ""
+#             match str(reaction.emoji):
+#                 case x if x == Icons["tuna_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Tuna Nigiri"
+#                 case x if x == Icons["salmon_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Salmon Nigiri"
+#                 case x if x == Icons["anago_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Anago Nigiri"
+#                 case x if x == Icons["squid_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Squid Nigiri"
+#                 case x if x == Icons["octopus_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Octopus Nigiri"
+#                 case x if x == Icons["ootoro_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Ootoro Nigiri"
+#                 case x if x == Icons["kinmedai_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Kinmedai Nigiri"
+#                 case x if x == Icons["crab_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Crab Nigiri"
+#                 case x if x == Icons["lobster_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Lobster Nigiri"
+#                 case x if x == Icons["shachihoko_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Shachihoko Nigiri"
+#                 case x if x == Icons["shenlong_nigiri"]:
+#                     await message.clear_reactions()
+#                     product = "Shenlong Nigiri"
+#                 case "↩️":
+#                     await message.clear_reactions()
+#                     e.remove_field(6)
+#                     await message.edit(embed = e)
+#                     return message, flag, result
+#             if product in user_items:
+#                 heal = consumables[product]
+#                 item_quantity = getUserItemQuantity(user_id, product)
+#                 ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+#                 if item_quantity - 1 == 0:
+#                     ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+#                 base_player_hp = getPlayerHP(user_id)
+#                 heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
+#                 dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You ate some tasty {product}!")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(healed for {'{:,}'.format(heal_amount)})")
+#                 result = True
+#         e.remove_field(6)
+#         await message.edit(embed = e)
+#         return message, flag, result
+#
+#     async def fightMob(ctx, message, flag, dg, mob, e):
+#
+#         async def updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge):
+#             f"Turn: **#{turn}**"
+#             e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
+#             e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
+#             e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
+#             e.set_field_at(6, name = "Yokai stats:", value = boxifyArray(yokai_state, padding = 2))
+#             e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
+#             e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
+#
+#         def updateAgents():
+#             yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {dg.Yokai.HP}", f"Yokai ATK: {dg.Yokai.ATK}", f"Yokai DEF: {dg.Yokai.DEF}", ""]
+#             player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+#             return yokai_state, player_state
+#
+#         async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
+#             time.sleep(0.2)
+#             console.append(str(input))
+#             yokai_state, player_state = updateAgents()
+#             await updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge)
+#             await message.edit(embed = e)
+#             return message
+#
+#         async def loadYokaiEncounter(message, e, mob):
+#             e.add_field(name = "Yokai Encountered!", value = f"Name: __{mob}__", inline = True) # Field 3
+#             e.set_image(url = Resource[f"{mob}-1"][0].replace(" ", "%20"))
+#             e.description = "🔄 **Loading Combat Engine** 🔄"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.remove_field(3)
+#             e.description = None
+#             e.set_image(url = None)
+#             return message
+#
+#         async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
+#             # time.sleep(0.5)
+#             damage, is_critical = damageCalculator(dg.Player, dg.Yokai)
+#             if is_supercharging:
+#                 damage *= 2
+#             dg.Yokai.HP = dg.Yokai.HP - damage if not dg.Yokai.HP - damage < 0 else 0
+#             if not is_supercharging:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {mob}!")
+#             else:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {mob}!")
+#             if is_critical:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
+#             # time.sleep(0.5)
+#             dg.Player.DEF *= 3
+#             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         async def yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
+#             damage, is_critical = damageCalculator(dg.Yokai, dg.Player)
+#             if is_charging and not is_defending:
+#                 damage *= 2
+#             # time.sleep(0.5)
+#             if not is_evading:
+#                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+#                 if not is_charging:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Yokai.name}!")
+#                 else:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Yokai.name}!")
+#                 if is_critical:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+#             else:
+#                 if not is_charging:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Yokai.name}!")
+#                 else:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Yokai.name}!")
+#                 if is_critical:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         async def yokaiDefend(message, e, console, turn, atk_gauge, def_gauge):
+#             # time.sleep(0.5)
+#             dg.Yokai.DEF *= 2
+#             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} fortified its defences!")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         # Loading screen
+#         message = await loadYokaiEncounter(message, e, mob)
+#
+#         # Begin Combat Engine
+#         e.add_field(name = "Turn", value = "Placeholder", inline = True) # Field 3
+#         e.add_field(name = "ATK Ougi", value = "Placeholder", inline = True) # Field 4
+#         e.add_field(name = "DEF Ougi", value = "Placeholder", inline = False) # Field 5
+#         e.add_field(name = "Yokai", value = "Placeholder", inline = True) # Field 6
+#         e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 7
+#         e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 8
+#         console = [""]
+#         yokai_action = ""
+#         player_action = ""
+#         dg.Yokai.name = mob
+#         # dg.Yokai.HP = dg.level * dg.multiplier * random.randint(10, 50) + (math.floor((dg.level ** 3) / 4))
+#         # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
+#         # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
+#         base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
+#         base_yokai_atk = math.floor((dg.level * random.uniform(5, 8.5)) + (dg.level * dg.multiplier))
+#         base_yokai_def = math.floor((dg.level * random.uniform(5.5, 9)) + (dg.level * dg.multiplier))
+#         dg.Yokai.HP = base_yokai_hp
+#         dg.Yokai.ATK = base_yokai_atk
+#         dg.Yokai.DEF = base_yokai_def
+#         base_player_hp = getPlayerHP(user_id)
+#         base_player_atk = getPlayerATK(user_id)
+#         base_player_def = getPlayerDEF(user_id)
+#         if getPlayerLevel(user_id) > dg.Player.level:
+#             dg.Player.level = getPlayerLevel(user_id)
+#             dg.Player.HP = getPlayerHP(user_id)
+#         #     dg.Player.ATK = getPlayerATK(user_id)
+#         #     dg.Player.DEF = getPlayerDEF(user_id)
+#         atk_gauge = 0
+#         def_gauge = 0
+#         turn = 0
+#         while flag:
+#             yokai_state, player_state = updateAgents()
+#             yokai_killed = False if dg.Yokai.HP > 0 else True
+#             player_killed = False if dg.Player.HP > 0 else True
+#             if not yokai_killed and not player_killed:
+#                 turn += 1
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
+#                 dg.Yokai.ATK = base_yokai_atk
+#                 dg.Yokai.DEF = base_yokai_def
+#                 dg.Player.ATK = base_player_atk
+#                 dg.Player.DEF = base_player_def
+#                 is_charging = True if random.random() < 0.1 else False
+#                 if is_charging:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} is charging a heavy attack!)")
+#                 is_defending = False
+#                 is_evading = False
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Attack | Defend | Leave Dungeon)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#
+#                 while True:
+#                     emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
+#                     if atk_gauge == 5:
+#                         emojis.append(Icons["supercharge"])
+#                     if def_gauge == 5:
+#                         emojis.append(Icons["evade"])
+#                     emojis.append(Icons["exit"])
+#                     reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                     if reaction is None:
+#                         flag = False
+#                     else:
+#                         is_player_turn = bool(random.getrandbits(1))
+#                         yokai_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
+#                         player_action = ""
+#                         match str(reaction.emoji):
+#                             case x if x == Icons["attack"]:
+#                                 await message.clear_reactions()
+#                                 if is_player_turn:
+#                                     if yokai_action == "Defend":
+#                                         message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
+#                                     if not dg.Yokai.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     if yokai_action == "Attack":
+#                                         message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+#                                 else:
+#                                     message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     if not dg.Player.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
+#                                 atk_gauge = atk_gauge + 1 if atk_gauge + 1 <= 5 else 5
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["defend"]:
+#                                 await message.clear_reactions()
+#                                 player_action = "Defend"
+#                                 message = await playerDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                 is_defending = True
+#                                 message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                 if yokai_action == "Attack":
+#                                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Suppressed)")
+#                                 def_gauge = def_gauge + 1 if def_gauge + 1 <= 5 else 5
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["riceball"]:
+#                                 await message.clear_reactions()
+#                                 message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
+#                                 if result:
+#                                     message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                 else:
+#                                     continue
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["supercharge"] and atk_gauge == 5:
+#                                 await message.clear_reactions()
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
+#                                 atk_gauge = 0
+#                                 if is_player_turn:
+#                                     if yokai_action == "Defend":
+#                                         message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+#                                     if not dg.Yokai.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     if yokai_action == "Attack":
+#                                         message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+#                                 else:
+#                                     message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     if not dg.Player.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["evade"] and def_gauge == 5:
+#                                 await message.clear_reactions()
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Perfect Dodge)")
+#                                 is_evading = True
+#                                 def_gauge = 0
+#                                 continue
+#                             case x if x == Icons["exit"]:
+#                                 await message.clear_reactions()
+#                                 e.description = "Player aborted the dungeon!"
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                 flag = False
+#                     break
+#
+#             elif yokai_killed:
+#                 ExpTable = Tables["ExpTable"]
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {mob}!")
+#                 if mob == "Gold Daruma":
+#                     random_amount = random.randint(10000, 100000)
+#                     ryou_amount = math.floor(((random_amount / 5) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {ryou_amount} Ryou!")
+#                     await reward(ctx, ctx.author.mention, "ryou", ryou_amount)
+#                 exp_row = ExpTable[dg.level - 1][1]
+#                 exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
+#                 exp_reward = addPlayerExp(user_id, exp_amount)
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_reward} EXP!)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                 emojis = ["⏭️", Icons["exit"]]
+#                 reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                 if reaction is None:
+#                     flag = False
+#                 else:
+#                     match str(reaction.emoji):
+#                         case "⏭️":
+#                             await message.clear_reactions()
+#                             e.remove_field(8)
+#                             e.remove_field(7)
+#                             e.remove_field(6)
+#                             e.remove_field(5)
+#                             e.remove_field(4)
+#                             e.remove_field(3)
+#                             message = await message.edit(embed = e)
+#                             break
+#                         case x if x == Icons["exit"]:
+#                             await message.clear_reactions()
+#                             e.description = "Player aborted the dungeon!"
+#                             message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
+#                             message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
+#                             flag = False
+#             elif player_killed:
+#                 message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"{mob} has killed you!")
+#                 message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
+#                 message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
+#                 time.sleep(1)
+#                 message = await deathScreen(message, e, mob)
+#                 flag = False
+#         return message, flag
+#
+#     async def openChest(ctx, message, flag, dg, chest, e):
+#
+#         async def formatLoot(chest):
+#             loot = []
+#             loot.append("")
+#             for key, value in chest.items():
+#                 loot.append(f"{key}: {value}")
+#             loot.append("")
+#             return loot
+#
+#         async def rewardLoot(ctx, chest):
+#             for key, value in chest.items():
+#                 match key:
+#                     case "Ryou":
+#                         addPlayerRyou(user_id, value)
+#                     case "EXP":
+#                         addPlayerExp(user_id, value)
+#                     case "Gacha Fragment" | "Gacha Fragments":
+#                         fragments = GachaDB.query("SELECT gacha_fragments FROM userdata WHERE user_id = {}".format(user_id))[0][0]
+#                         GachaDB.execute("UPDATE userdata SET gacha_fragments = ? WHERE user_id = ?", (fragments + value, user_id))
+#                     case product if product in Products:
+#                         item_quantity = getUserItemQuantity(user_id, product)
+#                         if item_quantity == None:
+#                             ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, value))
+#                         else:
+#                             ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + value, product))
+#
+#         async def loadNextRoom(message, e):
+#             e.description = "🔄 **Loading Next Room** 🔄"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Next Room** 🔄 ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Next Room** 🔄 ▫️ ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Next Room** 🔄 ▫️ ▫️ ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.remove_field(4)
+#             e.remove_field(3)
+#             e.description = None
+#             e.set_image(url = None)
+#             await message.edit(embed = e)
+#             return message
+#
+#         e.add_field(name = "Chest Discovered!", value = f"Will you open it?", inline = True) # Field 3
+#         e.set_image(url = Resource["Chest"][0])
+#         message = await message.edit(embed = e)
+#         emojis = [Icons["chest"], "⏭️", Icons["exit"]]
+#         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#         if reaction is None:
+#             flag = False
+#         else:
+#             match str(reaction.emoji):
+#                 case x if x == Icons["chest"]:
+#                     await message.clear_reactions()
+#                     loot = await formatLoot(chest)
+#                     e.set_field_at(3, name = "Loot obtained:", value = boxifyArray(loot, padding = 2), inline = True) # Field 4
+#                     await message.edit(embed = e)
+#                     await rewardLoot(ctx, chest)
+#                     message = await loadNextRoom(message, e)
+#                 case "⏭️":
+#                     await message.clear_reactions()
+#                     message = await loadNextRoom(message, e)
+#                 case x if x == Icons["exit"]:
+#                     await message.clear_reactions()
+#                     e.description = "Player aborted the dungeon!"
+#                     flag = False
+#         return message, flag
+#
+#     async def fightBoss(ctx, message, flag, dg, boss, e):
+#         clear_rewards = {}
+#         dg.Boss.name = boss["Name"]
+#         base_boss_hp = boss["HP"]
+#         base_boss_atk = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
+#         base_boss_def = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
+#         dg.Boss.HP = base_boss_hp
+#         dg.Boss.ATK = base_boss_atk
+#         dg.Boss.DEF = base_boss_def
+#         base_player_hp = getPlayerHP(user_id)
+#         base_player_atk = getPlayerATK(user_id)
+#         base_player_def = getPlayerDEF(user_id)
+#         if getPlayerLevel(user_id) > dg.Player.level:
+#             dg.Player.level = getPlayerLevel(user_id)
+#             dg.Player.HP = getPlayerHP(user_id)
+#         #     dg.Player.ATK = getPlayerATK(user_id)
+#         #     dg.Player.DEF = getPlayerDEF(user_id)
+#
+#         async def updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge):
+#             e.set_field_at(2, name = "Boss HP", value = f"🩸 **{'{:,}'.format(dg.Boss.HP)} / {'{:,}'.format(boss['HP'])}**")
+#             e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
+#             e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
+#             e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
+#             e.set_field_at(6, name = "Boss stats:", value = boxifyArray(boss_state, padding = 2))
+#             e.set_field_at(7, name = "Player stats:", value = boxifyArray(player_state, padding = 2))
+#             e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
+#
+#         def updateAgents():
+#             boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {dg.Boss.HP}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
+#             player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+#             return boss_state, player_state
+#
+#         async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
+#             time.sleep(0.2)
+#             console.append(str(input))
+#             boss_state, player_state = updateAgents()
+#             await updateEmbed(e, boss_state, player_state, console, turn, atk_gauge, def_gauge)
+#             await message.edit(embed = e)
+#             return message
+#
+#         async def loadBossEncounter(message, e, name):
+#             e.add_field(name = "Boss Encountered!", value = f"Name: __{name}__", inline = True) # Field 3
+#             e.set_image(url = Resource[f"{name}-2"][0].replace(" ", "%20"))
+#             e.description = "🔄 **Loading Combat Engine** 🔄"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
+#             await message.edit(embed = e)
+#             time.sleep(0.5)
+#             e.remove_field(3)
+#             e.description = None
+#             e.set_image(url = None)
+#             return message
+#
+#         async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
+#             # time.sleep(0.5)
+#             damage, is_critical = damageCalculator(dg.Player, dg.Boss)
+#             if is_supercharging:
+#                 damage *= 2
+#             dg.Boss.HP = dg.Boss.HP - damage if not dg.Boss.HP - damage < 0 else 0
+#             if not is_supercharging:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {dg.Boss.name}!")
+#             else:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {dg.Boss.name}!")
+#             if is_critical:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
+#             # time.sleep(0.5)
+#             dg.Player.DEF *= 3
+#             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         async def bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
+#             damage, is_critical = damageCalculator(dg.Boss, dg.Player)
+#             if is_charging and not is_defending:
+#                 damage *= 2
+#             # time.sleep(0.5)
+#             if not is_evading:
+#                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+#                 if not is_charging:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Boss.name}!")
+#                 else:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Boss.name}!")
+#                 if is_critical:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+#             else:
+#                 if not is_charging:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Boss.name}!")
+#                 else:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Boss.name}!")
+#                 if is_critical:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         async def bossDefend(message, e, console, turn, atk_gauge, def_gauge):
+#             # time.sleep(0.5)
+#             dg.Boss.DEF *= 2
+#             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} fortified its defences!")
+#             # message = await printToConsole(message, e, console, "")
+#             return message
+#
+#         # Loading screen
+#         message = await loadBossEncounter(message, e, dg.Boss.name)
+#
+#         # Begin Combat Engine
+#         e.add_field(name = "Turn", value = "Placeholder", inline = True) # Field 3
+#         e.add_field(name = "ATK Ougi", value = "Placeholder", inline = True) # Field 4
+#         e.add_field(name = "DEF Ougi", value = "Placeholder", inline = False) # Field 5
+#         e.add_field(name = "Boss", value = "Placeholder", inline = True) # Field 6
+#         e.add_field(name = "Player", value = "Placeholder", inline = True) # Field 7
+#         e.add_field(name = "Console", value = "Placeholder", inline = False) # Field 8
+#         console = [""]
+#         boss_action = ""
+#         player_action = ""
+#         atk_gauge = 0
+#         def_gauge = 0
+#         turn = 0
+#         phase = 1
+#         while flag:
+#             boss_state, player_state = updateAgents()
+#             boss_killed = False if dg.Boss.HP > 0 else True
+#             player_killed = False if dg.Player.HP > 0 else True
+#             if not boss_killed and not player_killed:
+#                 turn += 1
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
+#                 dg.Boss.ATK = base_boss_atk
+#                 dg.Boss.DEF = base_boss_def
+#                 dg.Player.ATK = base_player_atk
+#                 dg.Player.DEF = base_player_def
+#                 is_charging = True if random.random() < 0.25 else False
+#                 if is_charging:
+#                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({dg.Boss.name} is charging a heavy attack!)")
+#                 is_defending = False
+#                 is_evading = False
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Attack | Defend | Leave Dungeon)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#
+#                 while True:
+#                     emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
+#                     if atk_gauge == 5:
+#                         emojis.append(Icons["supercharge"])
+#                     if def_gauge == 5:
+#                         emojis.append(Icons["evade"])
+#                     emojis.append(Icons["exit"])
+#                     reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                     if reaction is None:
+#                         flag = False
+#                     else:
+#                         is_player_turn = bool(random.getrandbits(1))
+#                         boss_action = "Attack" if bool(random.getrandbits(1)) or is_charging else "Defend"
+#                         player_action = ""
+#                         match str(reaction.emoji):
+#                             case x if x == Icons["attack"]:
+#                                 await message.clear_reactions()
+#                                 if is_player_turn:
+#                                     if boss_action == "Defend":
+#                                         message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
+#                                     if not dg.Boss.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     if boss_action == "Attack":
+#                                         message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+#                                 else:
+#                                     message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     if not dg.Player.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge)
+#                                 atk_gauge = atk_gauge + 1 if atk_gauge + 1 <= 5 else 5
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["defend"]:
+#                                 await message.clear_reactions()
+#                                 player_action = "Defend"
+#                                 message = await playerDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                 is_defending = True
+#                                 message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                 if boss_action == "Attack":
+#                                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Suppressed)")
+#                                 def_gauge = def_gauge + 1 if def_gauge + 1 <= 5 else 5
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["riceball"]:
+#                                 await message.clear_reactions()
+#                                 message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
+#                                 if result:
+#                                     message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                 else:
+#                                     continue
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["supercharge"] and atk_gauge == 5:
+#                                 await message.clear_reactions()
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Supercharge ATK)")
+#                                 atk_gauge = 0
+#                                 if is_player_turn:
+#                                     if boss_action == "Defend":
+#                                         message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+#                                     if not dg.Boss.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     if boss_action == "Attack":
+#                                         message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+#                                 else:
+#                                     message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+#                                     if not dg.Player.HP > 0:
+#                                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                         break
+#                                     message = await playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = True)
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             case x if x == Icons["evade"] and def_gauge == 5:
+#                                 await message.clear_reactions()
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Activated Ougi skill: Perfect Dodge)")
+#                                 is_evading = True
+#                                 def_gauge = 0
+#                                 continue
+#                             case x if x == Icons["exit"]:
+#                                 await message.clear_reactions()
+#                                 e.description = "Player aborted the dungeon!"
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+#                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                                 flag = False
+#                         if phase == 1 and dg.Boss.HP <= math.trunc(boss["HP"] / 2) and dg.Boss.HP > 0:
+#                             dg.Boss.phase = 2
+#                         if phase == 1 and dg.Boss.phase == 2:
+#                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has augmented to Phase 2!")
+#                             base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
+#                             base_boss_def = math.floor(base_boss_def * random.uniform(1.1, 1.2))
+#                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ATK and DEF buffed)")
+#                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             phase = 2
+#                         if phase == 2 and dg.Boss.HP <= math.trunc(boss["HP"] / 4) and dg.Boss.HP > 0:
+#                             dg.Boss.phase = 3
+#                         if phase == 2 and dg.Boss.phase == 3:
+#                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has augmented to Phase 3!")
+#                             base_boss_atk = math.floor(base_boss_atk * random.uniform(1.1, 1.2))
+#                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ATK buffed)")
+#                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                             phase = 3
+#                     break
+#
+#             elif boss_killed:
+#                 ryou0 = math.floor((dg.rewards["Ryou"]['range'][0] * 0.75) + (dg.rewards["Ryou"]['range'][0] / 4) * dg.multiplier)
+#                 ryou1 = math.floor((dg.rewards["Ryou"]['range'][1] * 0.75) + (dg.rewards["Ryou"]['range'][1] / 4) * dg.multiplier)
+#                 exp0 = math.floor((dg.rewards["EXP"]['range'][0] * 0.75) + (dg.rewards["EXP"]['range'][0] / 4) * dg.multiplier)
+#                 exp1 = math.floor((dg.rewards["EXP"]['range'][1] * 0.75) + (dg.rewards["EXP"]['range'][1] / 4) * dg.multiplier)
+#                 ryou_range = [ryou0, ryou1]
+#                 exp_range = [exp0, exp1]
+#                 ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
+#                 exp_amount = addPlayerExp(user_id, random.randint(exp_range[0], exp_range[1]))
+#                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {ryou_amount} Ryou!)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_amount} EXP!)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                 dg.Cache.cleared = True
+#                 break
+#             elif player_killed:
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has killed you!")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+#                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+#                 time.sleep(1)
+#                 message = await deathScreen(message, e, dg.Boss.name)
+#                 flag = False
+#         return message, flag, clear_rewards
+#
+#     def writeBlueprint(Blueprint, dungeon, difficulty):
+#         json_blueprint = json.dumps(Blueprint, indent=4)
+#         path = f"Blueprints/{dungeon}/{difficulty}"
+#         makedirs(path, exist_ok = True)
+#         json_filename = f"{path}/{Blueprint['header']['Seed']}.json"
+#         if not file_exists(json_filename):
+#             founder = True
+#             with open(json_filename, "w") as outfile:
+#                 outfile.write(json_blueprint)
+#         else:
+#             founder = False
+#         file = discord.File(json_filename)
+#         return file, founder
+#
+#     def damageCalculator(attacker, defender):
+#         is_critical = True if random.random() < 0.1 else False
+#         damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
+#         variance = round(damage / 10)
+#         var_roll = random.randint(-variance, variance)
+#         damage += var_roll
+#         damage *= 2 if is_critical else 1
+#         return damage, is_critical
+#
+#     def getDungeonEnergy(dungeon):
+#         dungeon_metric = Dungeons[dungeon]["Energy_Metric"]
+#         dungeon_energy = []
+#         for mode in Dungeons[dungeon]["Difficulties"]:
+#             match mode:
+#                 case "Normal":
+#                     energy_divisor = mode_divisors[0]
+#                 case "Hard":
+#                     energy_divisor = mode_divisors[1]
+#                 case "Hell":
+#                     energy_divisor = mode_divisors[2]
+#                 case "Oni":
+#                     energy_divisor = mode_divisors[3]
+#             dungeon_energy.append(math.floor(dungeon_metric / energy_divisor))
+#         return dungeon_energy
+#
+#     def getDungeonModes(type = "string"):
+#         default_string = f"{Icons['normal']}\n{Icons['hard']}\n{Icons['hell']}\n{Icons['oni']}"
+#         default_array = [Icons["normal"], Icons["hard"], Icons["hell"], Icons["oni"]]
+#         default_dict = {"Normal": Icons["normal"], "Hard": Icons["hard"], "Hell": Icons["hell"], "Oni": Icons["oni"]}
+#         match type:
+#             case "string":
+#                 formatted_string = ""
+#                 for key, value in default_dict.items():
+#                     formatted_string += f"\n{value} ─ __{key}__ ─ {value}\n"
+#                 return formatted_string
+#             case "array":
+#                 return default_array
+#             case "dict":
+#                 return default_dict
+#
+#     def formatBossStats(stats, mode):
+#         multiplier          = mode_multipliers[mode]
+#         boss_name           = stats["Name"]
+#         base_hp             = stats["HP"]
+#         scaled_hp           = math.floor((base_hp * 0.75) + (base_hp / 4 * multiplier))
+#         boss_resistances    = stats["Resistances"]
+#         boss_weaknesses     = stats["Weaknesses"]
+#         resistance_emojis   = getElementEmojis(boss_resistances)
+#         weakness_emojis     = getElementEmojis(boss_weaknesses)
+#
+#         formatted_string = ""
+#         formatted_string += f"───────────────\n"
+#         formatted_string += f"👹 ─ Boss: **__{boss_name}__**\n"
+#         formatted_string += f"───────────────\n"
+#         formatted_string += f"🩸 ─ HP: `{'{:,}'.format(scaled_hp)}`\n"
+#         formatted_string += f"───────────────\n"
+#         formatted_string += f"🛡️ ─ Resistances\n"
+#         formatted_string += f" ╰──  {resistance_emojis}\n"
+#         formatted_string += f"───────────────\n"
+#         formatted_string += f"⚔️ ─ Weaknesses\n"
+#         formatted_string += f" ╰──  {weakness_emojis}\n"
+#
+#         ### <TO-DO>
+#         ### Use text rendering modules to determine width of content
+#         ### Wrap content in a pretty box to display to the end-user
+#
+#         # from matplotlib import rcParams
+#         # import os.path
+#         # string = "Hello there"
+#         # spacer_character    = " "
+#         # border_character    = "─"
+#         # border_character    = "-"
+#
+#         # fields = [len(str(boss_name)), len(str('{:,}'.format(boss_hp))), len(boss_resistances), len(boss_weaknesses)]
+#         # max_width = getMaxItemWidth(fields, min_width = 0)
+#         # print(max_width)
+#
+#         # border_width = max_width + 18
+#         # border = ""
+#         # for _ in range(border_width):
+#         #     border += border_character
+#         # formatting_array = []
+#         # formatting_array.append(f"╓{border}╖\n")
+#         # formatting_array.append(f"║👹 ─ Boss: **__{boss_name}__**\n")
+#         # formatting_array.append(f"╟{border}╢\n")
+#         # formatting_array.append(f"║🩸 ─ HP: `{'{:,}'.format(boss_hp)}`\n")
+#         # formatting_array.append(f"╟{border}╢\n")
+#         # formatting_array.append(f"║🛡️ ─ Resistances\n")
+#         # formatting_array.append(f"║ ╰──  {resistance_emojis}\n")
+#         # formatting_array.append(f"╟{border}╢\n")
+#         # formatting_array.append(f"║⚔️ ─ Weaknesses\n")
+#         # formatting_array.append(f"║ ╰──  {weakness_emojis}\n")
+#         # formatting_array.append(f"╙{border}╜\n")
+#
+#         ### </TO-DO>
+#
+#         return formatted_string
+#
+#     def formatDungeonRewards(dungeon_rewards, mode):
+#         multiplier = mode_multipliers[mode]
+#         formatted_string = ""
+#         index = 0
+#         for key, value in dungeon_rewards.items():
+#             match key:
+#                 case "Ryou":
+#                     icon = Icons["ryou"]
+#                 case "EXP":
+#                     icon = Icons["exp"]
+#                 case _:
+#                     icon = Icons["material_common"]
+#             formatted_string += "───────────────\n"
+#             value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
+#             value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
+#             formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
+#             formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
+#             index += 1
+#         return formatted_string
+#
+#     def getElementEmojis(array):
+#         emoji_string = ""
+#         for element in array:
+#             emoji_string += Icons[element]
+#         return emoji_string if not emoji_string == "" else "None"
+#
+#     # main()
+#     message = None
+#     mode = None
+#     seed = None
+#     if input:
+#         # User provided arguments
+#         try:
+#             # Assume both dungeon name string and mode were provided
+#             dg_query = list(input)
+#             for index, arg in enumerate(dg_query):
+#                 # Check if user provided the -seed argument
+#                 if arg == "-seed" or arg == "-s":
+#                     seed = dg_query.pop(index + 1)
+#                     dg_query.pop(index)
+#                     break
+#             mode_test = dg_query.pop()
+#             dg_string = ' '.join(dg_query)
+#             modes = ["Normal", "Hard", "Hell", "Oni"]
+#             if len(mode_test) == 1:
+#                 # Try to get mode as integer
+#                 mode = int(mode_test)
+#                 if mode > 3 or mode < 0:
+#                     # User tried to access a protected or non-existant dungeon mode
+#                     await ctx.send(f"⚠️ **Invalid Mode ID:** `{mode}`")
+#                     return
+#             else:
+#                 # Try to get mode as string
+#                 modes = ["Normal", "Hard", "Hell", "Oni"]
+#                 for mode_name in modes:
+#                     if mode_test.casefold() == mode_name.casefold():
+#                         mode = mode_mapping_inverse[mode_name]
+#                         break
+#                 if mode == None:
+#                     # There was no matching string found
+#                     raise ValueError
+#         except ValueError:
+#             # Conlude that mode wasn't provided
+#             dg_query = list(input)
+#             for index, arg in enumerate(dg_query):
+#                 # Check if user provided the -seed argument
+#                 if arg == "-seed" or arg == "-s":
+#                     seed = dg_query.pop(index + 1)
+#                     dg_query.pop(index)
+#                     break
+#             dg_string = ' '.join(dg_query)
+#             mode = -1
+#         for dungeon in Dungeons:
+#             # Check if the provided dungeon argument is an existing dungeon
+#             if dg_string.casefold() == dungeon.casefold():
+#                 # A match was found! Proceed to load the dungeon
+#                 if mode == -1:
+#                     # Mode wasn't provided so let the user select it by hand
+#                     await selectDungeon(ctx, message, dungeon, mode, seed)
+#                 else:
+#                     # Mode was provided so shortcut straight to the entry screen
+#                     await selectDungeon(ctx, message, dungeon, mode, seed)
+#                 # User finished the dungeon, exit now
+#                 return
+#             else:
+#                 continue
+#         # Checks failed; therefore, user must have mistyped the dungeon name
+#         await ctx.send(f"⚠️ **There doesn't exist any dungeons with the name:** `{dg_string}`")
+#         return
+#     else:
+#         # Conclude that neither dungeon name nor mode was provided
+#         # Show the user a list of dungeons they have unlocked
+#         await menuDungeons(ctx, message)
+
+# @bot.command(aliases = ["quest", "questing", "subquest", "subquests", "sidequest", "sidequests", "mission", "missions"])
+# @commands.check(checkChannel)
+# async def quests(ctx, arg: str = None):
+#     ''' | Usage: +quests [collect]'''
+#     user_id         = ctx.author.id
+#     default_color   = config.default_color
+#     last_quest      = getLastQuest(user_id)
+#     wait            = 0 if checkAdmin(ctx) and debug_mode else config.quest_wait
+#     now             = int(time.time())
+#
+#     def chooseRandomQuest():
+#         while True:
+#             choice = random.choice(list(Quests))
+#             level = getPlayerLevel(user_id)
+#             if Quests[choice]["Level_Required"] > level:
+#                 continue
+#             else:
+#                 break
+#         return choice
+#
+#     async def promptQuest(ctx, message, flag, quest):
+#         banner = generateFileObject("Oni-Quests", Graphics["Banners"]["Oni-Quests"][0])
+#         npc = Quests[quest]["NPC"]
+#         lvl = Quests[quest]["Level_Required"]
+#         conditions = getConditions(quest)
+#         rewards = getRewards(quest)
+#         boost = getUserBoost(ctx)
+#         dialogue = getDialogue(quest)
+#         e = discord.Embed(title = "🗺️ Quest found!", description = "Will you accept this quest?", color = default_color)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+#         e.add_field(name = "📜 Title", value = f"`{quest}`", inline = True)
+#         e.add_field(name = "🧍 NPC", value = f"`{npc}`", inline = True)
+#         e.add_field(name = "⚙️ Level Required", value = f"`{lvl}`", inline = True)
+#         e.add_field(name = "📌 Clearing Conditions:", value = conditions, inline = True)
+#         e.add_field(name = f"🎁 Rewards:{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = rewards, inline = True)
+#         e.add_field(name = "💬 Dialogue:", value = "```" + dialogue + "```", inline = False)
+#         message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+#         emojis = ["✅", "❌"]
+#         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#         if reaction is None:
+#             flag = False
+#             return message, flag
+#         match str(reaction.emoji):
+#             case "✅":
+#                 now = int(time.time())
+#                 last_quest = getLastQuest(user_id)
+#                 if now >= last_quest + wait or checkAdmin(ctx):
+#                     await message.clear_reactions()
+#                     message, flag = await startQuest(ctx, message, flag, quest, e)
+#                 else:
+#                     hours = math.floor((last_quest + wait - now) / 60 / 60)
+#                     minutes = math.floor((last_quest + wait - now) / 60 - (hours * 60))
+#                     seconds = (last_quest + wait - now) % 60
+#                     await ctx.send(f"There are currently no quests, please check back in ⌛ **{hours} hours**, **{minutes} minutes**, and **{seconds} seconds**.")
+#                 return message, flag
+#             case "❌":
+#                 await message.clear_reactions()
+#                 flag = False
+#                 return message, flag
+#         return message, flag
+#
+#     async def startQuest(ctx, message, flag, quest, e):
+#         current_quest = getPlayerQuest(user_id)
+#         if current_quest == "":
+#             QuestsDB.execute("UPDATE quests SET quest = ? WHERE user_id = ?", (quest, user_id))
+#             e = discord.Embed(title = "🧭 Quest accepted!", description = f"*You set off to complete the conditions.*\n**Type **`{config.prefix}quest collect` **to collect the rewards.**", color = default_color)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+#             await ctx.send(embed = e)
+#         else:
+#             e = discord.Embed(title = "❌ Failed to accept quest!", description = "You already have a quest in progress.", color = 0xef5350)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+#             e.add_field(name = f"Current Quest: `{current_quest}`", value = f"Type `{config.prefix}quest collect` to complete this quest first.")
+#             await ctx.send(embed = e)
+#         return message, flag
+#
+#     async def completeQuest(ctx, message, flag, quest):
+#         marketdata = getUserMarketInv(user_id)
+#         ryou = marketdata.ryou
+#         exp = getPlayerExp(user_id)
+#         boost = getUserBoost(ctx)
+#         now = int(time.time())
+#         rewards_list = Quests[quest]["Rewards"]
+#         ryou_range = rewards_list["Ryou"] if "Ryou" in rewards_list else [0, 0]
+#         exp_range = rewards_list["EXP"] if "EXP" in rewards_list else [0, 0]
+#         ryou_random = random.randint(ryou_range[0], ryou_range[1])
+#         ryou_reward = ryou_random + math.floor(ryou_random * (boost / 100.))
+#         exp_random = random.randint(exp_range[0], exp_range[1])
+#         exp_reward = exp_random + math.floor(exp_random * (boost / 100.))
+#         MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_reward, user_id))
+#         exp_reward = addPlayerExp(user_id, exp_reward)
+#         ActivityDB.execute("UPDATE quests SET last_activity = ? WHERE user_id = ?", (now, user_id))
+#         QuestsDB.execute("UPDATE quests SET quest = ? WHERE user_id = ?", ("", user_id))
+#         e = discord.Embed(title = f"🎊 Quest Completed  ─  `{quest}`", description = "Recieved the following rewards:", color = 0x4caf50)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+#         e.add_field(name = f"Ryou{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_reward)}`", inline = True)
+#         e.add_field(name = f"EXP{'  ─  (+' + str(boost) + '%)' if boost > 0 else ''}", value = f"{Icons['exp']} x {'`{:,}`'.format(exp_reward) if exp_reward != 0 else '`0` *(Level cap reached)*'}", inline = True)
+#         message = await ctx.send(embed = e)
+#         return message, flag
+#
+#     def getConditions(quest):
+#         conditions_list = Quests[quest]["Conditions"]
+#         conditions = ""
+#         for condition in conditions_list:
+#             for key, value in condition.items():
+#                 match key:
+#                     case "Defeat":
+#                         conditions += f"**{key}**" + ": " + str(f"*{value[1]}*") + " " + f"__{value[0]}__" + "\n"
+#                     case "Clear":
+#                         match value[1]:
+#                             case -1:
+#                                 difficulty = "Any"
+#                             case 0:
+#                                 difficulty = "Normal"
+#                             case 1:
+#                                 difficulty = "Hard"
+#                             case 2:
+#                                 difficulty = "Hell"
+#                             case 3:
+#                                 difficulty = "Oni"
+#                         conditions += f"**{key}**" + ": " + f"__{value[0]}__" + " - " + f"*{difficulty}*" + "\n"
+#         return conditions
+#
+#     def getRewards(quest):
+#         rewards_list = Quests[quest]["Rewards"]
+#         rewards = ""
+#         for key, value in rewards_list.items():
+#             match key:
+#                 case "Ryou":
+#                     rewards += "**Ryou range**" + ": " + Icons["ryou"] + " __" + '{:,}'.format(value[0]) + " - " + '{:,}'.format(value[1]) + "__\n"
+#                 case "EXP":
+#                     rewards += "**EXP range**" + ": " + Icons["exp"] + " __" + '{:,}'.format(value[0]) + " - " + '{:,}'.format(value[1]) + "__\n"
+#         rewards = "None" if rewards == "" else rewards
+#         return rewards
+#
+#     def getDialogue(quest):
+#         dialogue = ""
+#         for line in Quests[quest]["Dialogue"]:
+#             dialogue += line + " "
+#         return dialogue
+#
+#     # main()
+#     current_quest = getPlayerQuest(user_id)
+#     message = None
+#     flag = True
+#     if arg == "collect" and current_quest != "":
+#         quest = getPlayerQuest(user_id)
+#         await completeQuest(ctx, message, flag, quest)
+#         return
+#     if now >= last_quest + wait or checkAdmin(ctx):
+#         quest = chooseRandomQuest()
+#         message, flag = await promptQuest(ctx, message, flag, quest)
+#     else:
+#         hours = math.floor((last_quest + wait - now) / 60 / 60)
+#         minutes = math.floor((last_quest + wait - now) / 60 - (hours * 60))
+#         seconds = (last_quest + wait - now) % 60
+#         await ctx.send(f"There are currently no quests, please check back in ⌛ **{hours} hours**, **{minutes} minutes**, and **{seconds} seconds**.")
 
 @bot.command(aliases = ["market", "buy", "sell", "trade", "shop", "store"])
 @commands.check(checkChannel)
 async def tavern(ctx):
-    ''' | Usage: +tavern | Use reactions to navigate the menus '''
+    ''' | Usage: +market | Use reactions to navigate the menus '''
     user_id         = ctx.author.id
     menu_top        = config.menu_top
     menu_separator  = config.menu_separator
     menu_bottom     = config.menu_bottom
     default_color   = config.default_color
     numbers         = config.numbers
+    coin_name       = config.coin_name
     conv_rate       = config.conv_rate
     conv_rates      = [
-        f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*",
-        f"{Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*  =  {Icons['ryou']} x `{'{:,}'.format(int(conv_rate[0] / 10))}` *Ryou D-Coins*"
+        f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *{coin_name}*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*",
+        f"{Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*  =  {Icons['ryou']} x `{'{:,}'.format(int(conv_rate[0] / 10))}` *{coin_name}*"
     ]
 
     async def menuMain(ctx, message, flag):
-        banner = generateFileObject("Oni-Tavern", Graphics["Banners"]["Oni-Tavern"][0])
+        banner = generateFileObject("GAMA-Market", Graphics["Banners"]["GAMA-Market"][0])
         e = discord.Embed(title = f"Welcome to the {branch_name} Tavern!", description = "What would you like to do today?", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ ⚖️  ──────  Trade  ───────  ⚖️ ◁", value = menu_separator, inline = False)
         e.add_field(name = "▷ 🛒 ─────── Buy ──────── 🛒 ◁", value = menu_separator, inline = False)
@@ -2027,15 +2028,15 @@ async def tavern(ctx):
             fragments   = inv_gacha.gacha_fragments
             total_rolls = inv_gacha.total_rolls
             ryou        = inv_market.ryou
-            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *Ryou D-Coins* and *Gacha Tickets*!", color = default_color)
+            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *{coin_name}* and *Gacha Tickets*!", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
-            e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+            e.add_field(name = f"Your {coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-            e.add_field(name = f"▷ {Icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {Icons['ticket']} ◁", value = menu_separator, inline = False)
-            e.add_field(name = f"▷ {Icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {Icons['ryou']} ◁", value = menu_separator, inline = False)
+            e.add_field(name = f"▷ {Icons['ticket']} ─ {coin_name} ─> Tickets ─  {Icons['ticket']} ◁", value = menu_separator, inline = False)
+            e.add_field(name = f"▷ {Icons['ryou']} ─ Tickets ─> {coin_name} ─  {Icons['ryou']} ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
             await message.edit(embed = e)
             emojis = [Icons['ticket'], Icons['ryou'], "↩️"]
@@ -2045,12 +2046,12 @@ async def tavern(ctx):
                 return message, flag
             match str(reaction.emoji):
                 case x if x == Icons['ticket']:
-                    e.set_field_at(4, name = f"►{Icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {Icons['ticket']} ◄", value = menu_separator, inline = False)
+                    e.set_field_at(4, name = f"►{Icons['ticket']} ─ {coin_name} ─> Tickets ─  {Icons['ticket']} ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     message, flag = await ryouToTickets(ctx, message, flag)
                 case x if x == Icons['ryou']:
-                    e.set_field_at(5, name = f"►{Icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {Icons['ryou']} ◄", value = menu_separator, inline = False)
+                    e.set_field_at(5, name = f"►{Icons['ryou']} ─ Tickets ─> {coin_name} ─  {Icons['ryou']} ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     message, flag = await ticketsToRyou(ctx, message, flag)
@@ -2072,11 +2073,11 @@ async def tavern(ctx):
         total_rolls = inv_gacha.total_rolls
         ryou        = inv_market.ryou
         if ryou >= conv_rate[0]:
-            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Ryou D-Coins* into *Gacha Tickets*", color = default_color)
+            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = f"Trade your *{coin_name}* into *Gacha Tickets*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
-            e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+            e.add_field(name = f"Your {coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
             e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
             e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
@@ -2106,12 +2107,12 @@ async def tavern(ctx):
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     return message, flag
-            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Ryou D-Coins* into *Gacha Tickets*!", color = 0x4caf50)
+            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *{coin_name}* into *Gacha Tickets*!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
-            e.add_field(name = "Traded *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+            e.add_field(name = f"Traded *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
             e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
-            e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
+            e.add_field(name = f"You now have this many *{coin_name}* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
             e.add_field(name = "Your total *Gacha Tickets* are now:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets + tickets_traded)}`", inline = False)
             message = await ctx.send(embed = e)
             MarketDB.userdata[user_id] = {"ryou": ryou - ryou_traded}
@@ -2121,8 +2122,8 @@ async def tavern(ctx):
         else:
             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-            e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+            e.add_field(name = f"You have insufficient *{coin_name}*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
             return message, flag
@@ -2135,12 +2136,12 @@ async def tavern(ctx):
         total_rolls = inv_gacha.total_rolls
         ryou        = inv_market.ryou
         if tickets >= conv_rate[1]:
-            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Gacha Tickets* into *Ryou D-Coins*", color = default_color)
+            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = f"Trade your *Gacha Tickets* into *{coin_name}*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
-            e.add_field(name = "Bulk Ryou D-Coins yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * (conv_rate[0] / 10)))}`", inline = True)
+            e.add_field(name = f"Bulk {coin_name} yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * (conv_rate[0] / 10)))}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
             e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
@@ -2169,13 +2170,13 @@ async def tavern(ctx):
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     return message, flag
-            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Tickets* into *Ryou D-Coins*!", color = 0x4caf50)
+            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Tickets* into *{coin_name}*!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
             e.add_field(name = "Traded *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
-            e.add_field(name = "Obtained *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
+            e.add_field(name = f"Obtained *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
             e.add_field(name = "You now have this many *Gacha Tickets* left:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets - tickets_traded)}`", inline = False)
-            e.add_field(name = "Your total *Ryou D-Coins* are now:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou + ryou_traded)}`", inline = False)
+            e.add_field(name = f"Your total *{coin_name}* are now:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou + ryou_traded)}`", inline = False)
             message = await ctx.send(embed = e)
             GachaDB.userdata[user_id] = {"gacha_tickets": tickets - tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
             MarketDB.userdata[user_id] = {"ryou": ryou + ryou_traded}
@@ -2184,7 +2185,7 @@ async def tavern(ctx):
         else:
             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
             e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {Icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
@@ -2194,7 +2195,7 @@ async def tavern(ctx):
         products_length = len(Products)
         e = discord.Embed(title = f"Welcome to the {branch_name} Shop!", description = "Select a product to purchase:", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
         # Set offset to 0 (page 1) and begin bidirectional page system
         offset = 0
         while flag:
@@ -2267,7 +2268,7 @@ async def tavern(ctx):
         attributes = getProductAttributes(product)
         e = discord.Embed(title = f"Cart Checkout", description = f"Properties of product selected:", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
         e.add_field(name = "Product name", value = f"🏷️ **{product}**", inline = True)
         e.add_field(name = "Price", value = f"{Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
         e.add_field(name = "Current stock", value = f"🏦 `{stock}`", inline = True)
@@ -2325,35 +2326,35 @@ async def tavern(ctx):
                         MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou - price, user_id))
                         e = discord.Embed(title = "Checkout Result", description = f"✅ Purchase was successful!", color = 0x4caf50)
                         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                        e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
-                        e.add_field(name = "Spent *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
+                        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+                        e.add_field(name = f"Spent *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
                         e.add_field(name = "Obtained *Item*:", value = f"🏷️ ***{product}***", inline = True)
-                        e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
+                        e.add_field(name = f"You now have this many *{coin_name}* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
                         await ctx.send(embed = e)
                         if product in config.role_boosts:
                             await addRole(ctx, product)
                     else:
                         e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
                         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                        e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
                         e.add_field(name = "This item is not stackable!", value =  "You already have one of this item.", inline = False)
                         await ctx.send(embed = e)
                 else:
                     e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                    e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-                    e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
+                    e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+                    e.add_field(name = f"You have insufficient *{coin_name}*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
                     await ctx.send(embed = e)
             else:
                 e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
                 e.add_field(name = "You do not meet the product requirements.", value =  f"Check your {config.prefix}inv to compare your items to the requirements above.", inline = False)
                 await ctx.send(embed = e)
         else:
             e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
             e.add_field(name = "This product is out of stock!", value = "Sorry! Please come again~", inline = False)
             await ctx.send(embed = e)
         return message, flag
@@ -2489,12 +2490,20 @@ async def roll(ctx, skip=None):
         grand_prize_string = f"1 {branch_name} NFT"
         for sub_prize in prize_array:
             match sub_prize:
-                case "WL":
+                case "VIP WL PASS":
                     wl_role = discord.utils.get(ctx.guild.roles, name = config.wl_role)
                     if not wl_role in ctx.author.roles:
                         if await updateStock(ctx, sub_prize):
                             await member.add_roles(wl_role)
-                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with whitelist Role: **{config.wl_role}**!")
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with Whitelist Role: **{config.wl_role}**!")
+                        else:
+                            continue
+                case "GOLD PASS":
+                    gold_pass_role = discord.utils.get(ctx.guild.roles, name = config.gold_pass_role)
+                    if not gold_pass_role in ctx.author.roles:
+                        if await updateStock(ctx, sub_prize):
+                            await member.add_roles(gold_pass_role)
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with GOLD PASS Role: **{config.gold_pass_role}**!")
                         else:
                             continue
                 case "OG":
@@ -2518,11 +2527,11 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(exp_reward)} EXP**!")
                     else:
                         continue
-                case x if x.endswith("Ryou"):
-                    ryou = int(x.rstrip(" Ryou"))
+                case x if x.endswith(f"{coin_name}"):
+                    ryou = int(x.rstrip(f" {coin_name}"))
                     if await updateStock(ctx, sub_prize):
                         ryou_reward = addPlayerRyou(user_id, ryou)
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(ryou_reward)} Ryou**!")
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(ryou_reward)} {coin_name}**!")
                     else:
                         continue
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
@@ -2596,7 +2605,7 @@ async def roll(ctx, skip=None):
         cost            = Prizes[tier]["tickets_required"]
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Spin to win!", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+        e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
         e.add_field(name = f"{name} Raffle", value = symbol, inline = True)
         e.add_field(name = "Admission:", value = f"🎟️ x {cost} ticket(s)", inline = True)
         e.add_field(name = "Your current tickets:", value = tickets, inline = False)
@@ -2643,7 +2652,7 @@ async def roll(ctx, skip=None):
         GachaDB.userdata[user_id] = {"gacha_tickets": tickets - cost, "gacha_fragments": fragments, "total_rolls": total_rolls + 1}
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Good luck!", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
         e.add_field(name = f"Spinning the {name} Raffle:", value = menu_top, inline = False)
         e.add_field(name = progressbar[0], value = menu_bottom, inline = False)
         await message.edit(embed = e)
@@ -2689,27 +2698,27 @@ async def roll(ctx, skip=None):
         match capsule:
             case "blue":
                 e.color = capsule_colors[0]
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.set_image(url = Resource["Blue"][0])
             case "green":
                 e.color = capsule_colors[1]
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.set_image(url = Resource["Green"][0])
             case "red":
                 e.color = capsule_colors[2]
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.set_image(url = Resource["Red"][0])
             case "silver":
                 e.color = capsule_colors[3]
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.set_image(url = Resource["Silver"][0])
             case "gold":
                 e.color = capsule_colors[4]
-                e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.set_image(url = Resource["Gold"][0])
             case "platinum":
                 e.color = capsule_colors[5]
-                e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.set_image(url = Resource["Platinum"][0])
         prize = getPrize(tier, capsule)
         e.add_field(name = "Raffle Spun:", value = f"{symbol} {name} {symbol}", inline = True)
@@ -2730,7 +2739,7 @@ async def roll(ctx, skip=None):
         prev_flag = False
         e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Test your luck for amazing prizes!", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ 📜 ─────  Prize  List  ────── 📜 ◁", value = menu_separator, inline = False)
         e.add_field(name = "▷ 🎰 ──── Select  a  Raffle ──── 🎰 ◁", value = menu_separator, inline = False)
@@ -2762,7 +2771,7 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_1']['tickets_required']}", value = formatPrizeList("tier_1"), inline = True)
                 e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_2']['tickets_required']}", value = formatPrizeList("tier_2"), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
@@ -2789,7 +2798,7 @@ async def roll(ctx, skip=None):
                 while not (exit_flag or prev_flag):
                     e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Select a Gacha Unit to spin!", color = default_color)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                    e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                    e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                     e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
                     e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
@@ -2878,11 +2887,11 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Your inventory:", color = default_color)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                 e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
                 e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
                 e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
-                e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+                e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
                 e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
                 e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
@@ -2904,147 +2913,147 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 return
 
-@bot.command(aliases = ["use", "item", "energy", "refill", "recharge"])
-@commands.check(checkChannel)
-async def restore(ctx):
-    ''' | Usage: +restore '''
-    user_id = ctx.author.id
-    energy = getPlayerEnergy(user_id)
-    max_energy = getPlayerMaxEnergy(user_id)
-    product = "Energy Restore"
-    item_quantity = getUserItemQuantity(user_id, product)
-    if not item_quantity is None and item_quantity > 0:
-        e = discord.Embed(title = "Energy Restoration", description = "Will you use 1 Energy Restore to recover your energy?")
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
-        e.add_field(name = "Current Energy", value = f"{Icons['energy']} **{energy}**")
-        e.add_field(name = "Energy after restoring", value = f"{Icons['energy']} **{max_energy}**")
-        message = await ctx.send(embed = e)
-        emojis = ["✅", "❌"]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            return
-        match str(reaction.emoji):
-            case "✅":
-                await message.clear_reactions()
-                ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
-                if item_quantity - 1 == 0:
-                    ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
-                addPlayerEnergy(user_id, max_energy)
-                await ctx.send(f"{ctx.author.mention} used 1 **{product}** to fully restore their energy!")
-                return
-            case "❌":
-                await message.clear_reactions()
-                return
-    else:
-        await ctx.send(f"You do not have any **{product}s** to use!")
-        return
+# @bot.command(aliases = ["use", "item", "energy", "refill", "recharge"])
+# @commands.check(checkChannel)
+# async def restore(ctx):
+#     ''' | Usage: +restore '''
+#     user_id = ctx.author.id
+#     energy = getPlayerEnergy(user_id)
+#     max_energy = getPlayerMaxEnergy(user_id)
+#     product = "Energy Restore"
+#     item_quantity = getUserItemQuantity(user_id, product)
+#     if not item_quantity is None and item_quantity > 0:
+#         e = discord.Embed(title = "Energy Restoration", description = "Will you use 1 Energy Restore to recover your energy?")
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+#         e.add_field(name = "Current Energy", value = f"{Icons['energy']} **{energy}**")
+#         e.add_field(name = "Energy after restoring", value = f"{Icons['energy']} **{max_energy}**")
+#         message = await ctx.send(embed = e)
+#         emojis = ["✅", "❌"]
+#         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#         if reaction is None:
+#             return
+#         match str(reaction.emoji):
+#             case "✅":
+#                 await message.clear_reactions()
+#                 ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+#                 if item_quantity - 1 == 0:
+#                     ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+#                 addPlayerEnergy(user_id, max_energy)
+#                 await ctx.send(f"{ctx.author.mention} used 1 **{product}** to fully restore their energy!")
+#                 return
+#             case "❌":
+#                 await message.clear_reactions()
+#                 return
+#     else:
+#         await ctx.send(f"You do not have any **{product}s** to use!")
+#         return
 
-@bot.command(aliases = ["stat", "level", "levelup", "lvl", "lvlup", "allocate"])
-@commands.check(checkChannel)
-async def stats(ctx, target = None):
-    ''' | Usage: +stats [@user] | Check and allocate stat points '''
-
-    def formatPlayerStats(user_id):
-        HP = getPlayerHP(user_id)
-        ATK = getPlayerATK(user_id)
-        DEF = getPlayerDEF(user_id)
-        player_stats = ["", f"{user.name}", f"Total HP: {HP}", f"Total ATK: {ATK}", f"Total DEF: {DEF}", ""]
-        return player_stats
-
-    def formatPlayerPoints(user_id):
-        stat_points = getPlayerStatPoints(user_id)
-        player_points = ["", f"Points: {stat_points['points']}", f"HP Points: {stat_points['hp']}", f"ATK Points: {stat_points['atk']}", f"DEF Points: {stat_points['def']}", ""]
-        return player_points
-
-    # main()
-    if target is None:
-        target = ctx.author.mention
-    if re.match(r"<(@|@&)[0-9]{18,19}>", target):
-        flag = True
-        message = None
-        while flag:
-            user_id         = convertMentionToId(target)
-            user            = await bot.fetch_user(user_id)
-            default_color   = config.default_color
-            exp             = getPlayerExp(user_id)
-            level           = getPlayerLevel(user_id)
-            exp_to_next     = getPlayerExpToNextLevel(user_id)
-            player_stats    = formatPlayerStats(user_id)
-            player_points   = formatPlayerPoints(user_id)
-            stat_points     = getPlayerStatPoints(user_id)
-            points = stat_points["points"]
-            e = discord.Embed(title = "Viewing stats of user:", description = target, color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-            e.add_field(name = "Current Level", value = f"{Icons['level']} **{level}**", inline = True)
-            e.add_field(name = "Current EXP", value = f"{Icons['exp']} **{'{:,}'.format(exp)}**", inline = True)
-            e.add_field(name = "EXP to next level", value = f"{Icons['exp']} **{'{:,}'.format(exp_to_next)}**", inline = True)
-            e.add_field(name = "📊 Player Stats:", value = boxifyArray(player_stats, padding = 2), inline = True)
-            e.add_field(name = "🧮 Allocated Stat Points:", value = boxifyArray(player_points, padding = 2), inline = True)
-            e.add_field(name = "\u200b", value = "────────────────────────────────", inline = False)
-            message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
-            if target == ctx.author.mention and points > 0:
-                e.add_field(name = f"You have `{points}` unallocated stat points!", value = "Choose a Stat to increment:", inline = True)
-                e.add_field(name = "│ Stat options:", value = "**│** 🩸 ─ **HP**\n**│** ⚔️ ─ **ATK**\n**│** 🛡️ ─ **DEF**", inline = True)
-                await message.edit(embed = e)
-                emojis = ["🩸", "⚔️", "🛡️", Icons["statsreset"], "❌"]
-                reaction, user = await waitForReaction(ctx, message, e, emojis)
-                if reaction is None:
-                    return
-                match str(reaction.emoji):
-                    case "🩸":
-                        await message.clear_reactions()
-                        addPlayerStatPoints(user_id, "hp", 1)
-                        addPlayerStatPoints(user_id, "points", -1)
-                    case "⚔️":
-                        await message.clear_reactions()
-                        addPlayerStatPoints(user_id, "atk", 1)
-                        addPlayerStatPoints(user_id, "points", -1)
-                    case "🛡️":
-                        await message.clear_reactions()
-                        addPlayerStatPoints(user_id, "def", 1)
-                        addPlayerStatPoints(user_id, "points", -1)
-                    case x if x == Icons["statsreset"]:
-                        await message.clear_reactions()
-                        product = "Stats Reset"
-                        item_quantity = getUserItemQuantity(user_id, product)
-                        e.description = "Will you reset your stats?"
-                        e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-                        e.add_field(name = f"{Icons['statsreset']} Confirmation: Will you reset your stat points?", value = f"(You have `{item_quantity if not item_quantity is None else 0}` Stats Reset uses.)", inline = False) # Field 8
-                        await message.edit(embed = e)
-                        emojis = ["✅", "❌"]
-                        reaction, user = await waitForReaction(ctx, message, e, emojis)
-                        if reaction is None:
-                            return
-                        match str(reaction.emoji):
-                            case "✅":
-                                await message.clear_reactions()
-                                if not item_quantity is None and item_quantity > 0:
-                                    StatsDB.execute(f"DELETE FROM userdata WHERE user_id = {user_id}")
-                                    ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
-                                    if item_quantity - 1 == 0:
-                                        ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
-                                    e.add_field(name = "✅ Success!", value = "Your points have been successfuly reset.", inline = False) # Field 9
-                                    await message.edit(embed = e)
-                                    time.sleep(4)
-                                    e.remove_field(9)
-                                    e.remove_field(8)
-                                else:
-                                    e.add_field(name = "❌ Failure!", value = "You don't have any Stats Reset uses, you can buy one from the Market.", inline = False) # Field 9
-                                    await message.edit(embed = e)
-                                    time.sleep(4)
-                                    e.remove_field(8)
-                            case "❌":
-                                await message.clear_reactions()
-                                e.remove_field(8)
-                    case "❌":
-                        await message.clear_reactions()
-                        return
-            else:
-                flag = False
-    else:
-        await ctx.send("Please **@ mention** a valid user to check their stats (+help stats)")
+# @bot.command(aliases = ["stat", "level", "levelup", "lvl", "lvlup", "allocate"])
+# @commands.check(checkChannel)
+# async def stats(ctx, target = None):
+#     ''' | Usage: +stats [@user] | Check and allocate stat points '''
+#
+#     def formatPlayerStats(user_id):
+#         HP = getPlayerHP(user_id)
+#         ATK = getPlayerATK(user_id)
+#         DEF = getPlayerDEF(user_id)
+#         player_stats = ["", f"{user.name}", f"Total HP: {HP}", f"Total ATK: {ATK}", f"Total DEF: {DEF}", ""]
+#         return player_stats
+#
+#     def formatPlayerPoints(user_id):
+#         stat_points = getPlayerStatPoints(user_id)
+#         player_points = ["", f"Points: {stat_points['points']}", f"HP Points: {stat_points['hp']}", f"ATK Points: {stat_points['atk']}", f"DEF Points: {stat_points['def']}", ""]
+#         return player_points
+#
+#     # main()
+#     if target is None:
+#         target = ctx.author.mention
+#     if re.match(r"<(@|@&)[0-9]{18,19}>", target):
+#         flag = True
+#         message = None
+#         while flag:
+#             user_id         = convertMentionToId(target)
+#             user            = await bot.fetch_user(user_id)
+#             default_color   = config.default_color
+#             exp             = getPlayerExp(user_id)
+#             level           = getPlayerLevel(user_id)
+#             exp_to_next     = getPlayerExpToNextLevel(user_id)
+#             player_stats    = formatPlayerStats(user_id)
+#             player_points   = formatPlayerPoints(user_id)
+#             stat_points     = getPlayerStatPoints(user_id)
+#             points = stat_points["points"]
+#             e = discord.Embed(title = "Viewing stats of user:", description = target, color = default_color)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+#             e.add_field(name = "Current Level", value = f"{Icons['level']} **{level}**", inline = True)
+#             e.add_field(name = "Current EXP", value = f"{Icons['exp']} **{'{:,}'.format(exp)}**", inline = True)
+#             e.add_field(name = "EXP to next level", value = f"{Icons['exp']} **{'{:,}'.format(exp_to_next)}**", inline = True)
+#             e.add_field(name = "📊 Player Stats:", value = boxifyArray(player_stats, padding = 2), inline = True)
+#             e.add_field(name = "🧮 Allocated Stat Points:", value = boxifyArray(player_points, padding = 2), inline = True)
+#             e.add_field(name = "\u200b", value = "────────────────────────────────", inline = False)
+#             message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
+#             if target == ctx.author.mention and points > 0:
+#                 e.add_field(name = f"You have `{points}` unallocated stat points!", value = "Choose a Stat to increment:", inline = True)
+#                 e.add_field(name = "│ Stat options:", value = "**│** 🩸 ─ **HP**\n**│** ⚔️ ─ **ATK**\n**│** 🛡️ ─ **DEF**", inline = True)
+#                 await message.edit(embed = e)
+#                 emojis = ["🩸", "⚔️", "🛡️", Icons["statsreset"], "❌"]
+#                 reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                 if reaction is None:
+#                     return
+#                 match str(reaction.emoji):
+#                     case "🩸":
+#                         await message.clear_reactions()
+#                         addPlayerStatPoints(user_id, "hp", 1)
+#                         addPlayerStatPoints(user_id, "points", -1)
+#                     case "⚔️":
+#                         await message.clear_reactions()
+#                         addPlayerStatPoints(user_id, "atk", 1)
+#                         addPlayerStatPoints(user_id, "points", -1)
+#                     case "🛡️":
+#                         await message.clear_reactions()
+#                         addPlayerStatPoints(user_id, "def", 1)
+#                         addPlayerStatPoints(user_id, "points", -1)
+#                     case x if x == Icons["statsreset"]:
+#                         await message.clear_reactions()
+#                         product = "Stats Reset"
+#                         item_quantity = getUserItemQuantity(user_id, product)
+#                         e.description = "Will you reset your stats?"
+#                         e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+#                         e.add_field(name = f"{Icons['statsreset']} Confirmation: Will you reset your stat points?", value = f"(You have `{item_quantity if not item_quantity is None else 0}` Stats Reset uses.)", inline = False) # Field 8
+#                         await message.edit(embed = e)
+#                         emojis = ["✅", "❌"]
+#                         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                         if reaction is None:
+#                             return
+#                         match str(reaction.emoji):
+#                             case "✅":
+#                                 await message.clear_reactions()
+#                                 if not item_quantity is None and item_quantity > 0:
+#                                     StatsDB.execute(f"DELETE FROM userdata WHERE user_id = {user_id}")
+#                                     ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+#                                     if item_quantity - 1 == 0:
+#                                         ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+#                                     e.add_field(name = "✅ Success!", value = "Your points have been successfuly reset.", inline = False) # Field 9
+#                                     await message.edit(embed = e)
+#                                     time.sleep(4)
+#                                     e.remove_field(9)
+#                                     e.remove_field(8)
+#                                 else:
+#                                     e.add_field(name = "❌ Failure!", value = "You don't have any Stats Reset uses, you can buy one from the Market.", inline = False) # Field 9
+#                                     await message.edit(embed = e)
+#                                     time.sleep(4)
+#                                     e.remove_field(8)
+#                             case "❌":
+#                                 await message.clear_reactions()
+#                                 e.remove_field(8)
+#                     case "❌":
+#                         await message.clear_reactions()
+#                         return
+#             else:
+#                 flag = False
+#     else:
+#         await ctx.send("Please **@ mention** a valid user to check their stats (+help stats)")
 
 @bot.command(aliases = ["inventory"])
 @commands.check(checkChannel)
@@ -3069,15 +3078,14 @@ async def inv(ctx, target = None):
         total_clears    = len(getPlayerDungeonClears(user_id))
         e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
         e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
         e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
         e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
-        e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+        e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
         e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
         e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
-        e.add_field(name = "Energy:", value = f"{Icons['energy']} `{'{:,}'.format(energy)}`", inline = True)
-        e.add_field(name = "Dungeons cleared:", value = f"{Icons['dungeon']} `{'{:,}'.format(total_clears)}`", inline = True)
+        # e.add_field(name = "Energy:", value = f"{Icons['energy']} `{'{:,}'.format(energy)}`", inline = True)
+        # e.add_field(name = "Dungeons cleared:", value = f"{Icons['dungeon']} `{'{:,}'.format(total_clears)}`", inline = True)
         for slot, item in enumerate(inv_items):
             border = ""
             for _ in item[0]:
@@ -3118,7 +3126,6 @@ async def craft(ctx, amount:str = "1"):
 
     e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-    e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
     e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
     e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
     e.add_field(name = "Tickets to craft:", value = f"🎟️ x {craft_amount} ticket(s)", inline = True)
@@ -3138,7 +3145,6 @@ async def craft(ctx, amount:str = "1"):
             if fragments >= craft_amount * 4:
                 e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
                 e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
                 e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
                 await ctx.send(embed = e)
@@ -3147,7 +3153,6 @@ async def craft(ctx, amount:str = "1"):
             else:
                 e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
                 e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
                 await ctx.send(embed = e)
         case "❌":
@@ -3173,10 +3178,8 @@ async def history(ctx, target = None):
     history_length = len(history)
     e = discord.Embed(title = "View Prize History", description = f"History of {target}", color = 0xd81b60)
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-    e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
     exit_flag = edit_flag = False
     if history_length == 0:
-        e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
         e.add_field(name = "User has not rolled any prizes yet!", value = f"Try `{config.prefix}roll` to change that", inline = False)
         await ctx.send(embed = e)
         return
@@ -3306,7 +3309,7 @@ async def reward(ctx, target: str, item: str, quantity):
                     await ctx.send(f"Rewarded {target} with {Icons['fragment']} `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
                 case "ryou" | "coins":
                     MarketDB.userdata[user_id] = {"ryou": ryou + quantity}
-                    await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
+                    await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **{coin_name}**! User now has a total of `{ryou + quantity}`.")
                 case "exp" | "xp":
                     exp = getPlayerExp(user_id)
                     exp_reward = addPlayerExp(user_id, quantity)

@@ -1,248 +1,43 @@
 {
-    "1 Onigiri NFT":
+    "Steam Key":
     {
-        "Price": 1000000000,
-        "Type": "Consumable",
-        "Stackable": false,
+        "Product ID": 1,
+        "GDC": 50,
         "Attributes":
-        [
-            "1 Free Onigiri NFT",
-            "Requires: 'Diamond-Oni'"
-        ],
-        "Requirements":
         {
-            "Diamond-Oni": 1
+            "Attribute 1.": "🔸 Redeemable Steam key"
         }
     },
-
-    "Diamond-Oni":
+    "Discord Nitro":
     {
-        "Price": 500000000,
-        "Type": "Passive",
-        "Stackable": false,
+        "Product ID": 2,
+        "GDC": 200,
         "Attributes":
-        [
-            "+50% Exp & Ryou boost",
-            "Required for: '1 Onigiri NFT'",
-            "Requires: 'Gold-Oni'"
-        ],
-        "Requirements":
         {
-            "Gold-Oni": 1
+            "Attribute 1.": "🔸 1 Month of Discord Nitro"
         }
     },
-
-    "Gold-Oni":
+    "Silver VIP Pass":
     {
-        "Price": 100000000,
-        "Type": "Passive",
-        "Stackable": false,
+        "Product ID": 3,
+        "GDC": 100,
         "Attributes":
-        [
-            "+30% Exp & Ryou boost",
-            "Required for: 'Diamond-Oni'",
-            "Requires: 'Silver-Oni'"
-        ],
-        "Requirements":
         {
-            "Silver-Oni": 1
+            "Attribute 1.": "🔸 WL",
+            "Attribute 2.": "🔸 Enjoy our closed beta"
         }
     },
-
-    "Silver-Oni":
+    "Gold VIP Pass":
     {
-        "Price": 50000000,
-        "Type": "Passive",
-        "Stackable": false,
+        "Product ID": 4,
+        "GDC": 500,
         "Attributes":
-        [
-            "+20% Exp & Ryou boost",
-            "Required for: 'Gold-Oni'"
-        ],
-        "Requirements":
         {
-        }
-    },
-
-    "Energy Restore":
-    {
-        "Price": 2000000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Fully restore your energy"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Stats Reset":
-    {
-        "Price": 2000000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Reset your stats' point allocation"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Shenlong Nigiri":
-    {
-        "Price": 1000000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +10000 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Shachihoko Nigiri":
-    {
-        "Price": 600000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +5000 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Lobster Nigiri":
-    {
-        "Price": 300000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +2500 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Crab Nigiri":
-    {
-        "Price": 100000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +1500 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Kinmedai Nigiri":
-    {
-        "Price": 60000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +1000 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Ootoro Nigiri":
-    {
-        "Price": 30000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +650 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Octopus Nigiri":
-    {
-        "Price": 10000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +450 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Squid Nigiri":
-    {
-        "Price": 6000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +300 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Anago Nigiri":
-    {
-        "Price": 3000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +200 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Salmon Nigiri":
-    {
-        "Price": 1000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +100 HP in combat"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
-    "Tuna Nigiri":
-    {
-        "Price": 500,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Heals +50 HP in combat"
-        ],
-        "Requirements":
-        {
+            "Attribute 1.": "🔸 WL",
+            "Attribute 2.": "🔸 Enjoy our closed beta",
+            "Attribute 3.": "🔸 Get random *Blue Morph Cards* in-game",
+            "Attribute 4.": "🔸 Use *Time Stones* twice a day",
+            "Attribute 5.": "🔸 Occasional airdrops"
         }
     }
 }
