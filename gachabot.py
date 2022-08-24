@@ -782,7 +782,7 @@ async def dungeons(ctx, *input):
             e.add_field(name = "Your energy", value = f"{Icons['energy']} **{getPlayerEnergy(user_id)}**", inline = True)
             e.add_field(name = "Best time", value = f"⏱️ __{getPlayerDungeonRecord(user_id, dungeon, mode)}__", inline = True)
             e.add_field(name = "Boss stats:", value = formatBossStats(dg.boss, dg.mode), inline = True)
-            e.add_field(name = "Rewards:", value = formatDungeonRewards(dg.rewards, dg.mode), inline = True)
+            e.add_field(name = "Rewards:", value = formatDungeonRewards(ctx, dg.rewards, dg.mode), inline = True)
             e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
             message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
             emojis = [Icons["door_open"], "↩️"]
@@ -1585,9 +1585,13 @@ async def dungeons(ctx, *input):
                 exp_range = [exp0, exp1]
                 ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
                 exp_amount = addPlayerExp(user_id, random.randint(exp_range[0], exp_range[1]))
+                boost = getUserBoost(ctx)
+                if boost > 0:
+                    ryou_amount = ryou_amount + math.floor(ryou_amount * (boost / 100.))
+                    print(ryou_amount, boost)
                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {ryou_amount} Ryou!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {ryou_amount} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_amount} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
@@ -1713,7 +1717,8 @@ async def dungeons(ctx, *input):
 
         return formatted_string
 
-    def formatDungeonRewards(dungeon_rewards, mode):
+    def formatDungeonRewards(ctx, dungeon_rewards, mode):
+        boost = getUserBoost(ctx)
         multiplier = mode_multipliers[mode]
         formatted_string = ""
         index = 0
@@ -1729,6 +1734,8 @@ async def dungeons(ctx, *input):
             value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
             value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
             formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
+            if boost > 0 and key == "Ryou":
+                formatted_string += f" ╰──  *Boosted:* **+{boost}%**\n"
             formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
             index += 1
         return formatted_string
