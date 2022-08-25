@@ -912,7 +912,7 @@ async def dungeons(ctx, *input):
         for key in list(consumables.keys()):
             if key in user_items:
                 avail_consumables.append(Icons[key.lower().replace(' ', '_')])
-        e.add_field(name = "Consumables Menu:", value = formatConsumables(consumables, user_items), inline = False) # Field 6
+        e.add_field(name = "Consumables Menu:", value = formatConsumables(consumables, user_items), inline = False) # Field 9
         await message.edit(embed = e)
         emojis = []
         for nigiri_emoji in avail_consumables:
@@ -959,7 +959,7 @@ async def dungeons(ctx, *input):
                     product = "Shenlong Nigiri"
                 case "↩️":
                     await message.clear_reactions()
-                    e.remove_field(6)
+                    e.remove_field(9)
                     await message.edit(embed = e)
                     return message, flag, result
             if product in user_items:
@@ -974,7 +974,27 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You ate some tasty {product}!")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(healed for {'{:,}'.format(heal_amount)})")
                 result = True
-        e.remove_field(6)
+        e.remove_field(9)
+        await message.edit(embed = e)
+        return message, flag, result
+
+    async def exitDungeon(message, flag, e, field):
+        result = False
+        e.add_field(name = "Exit Dungeon?", value = "✅  /  ❌", inline = False)
+        await message.edit(embed = e)
+        emojis = ["✅", "❌"]
+        reaction, user = await waitForReaction(ctx, message, e, emojis)
+        if reaction is None:
+            flag = False
+        else:
+            match str(reaction.emoji):
+                case "✅":
+                    await message.clear_reactions()
+                    result = True
+                    flag = False
+                case "❌":
+                    await message.clear_reactions()
+        e.remove_field(field)
         await message.edit(embed = e)
         return message, flag, result
 
@@ -1209,10 +1229,14 @@ async def dungeons(ctx, *input):
                                 continue
                             case x if x == Icons["exit"]:
                                 await message.clear_reactions()
-                                e.description = "Player aborted the dungeon!"
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                flag = False
+                                message, flag, result = await exitDungeon(message, flag, e, field = 9)
+                                if result:
+                                    e.description = "**Player aborted the dungeon!**"
+                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                    flag = False
+                                else:
+                                    continue
                     break
 
             elif yokai_killed:
@@ -1314,26 +1338,34 @@ async def dungeons(ctx, *input):
         e.add_field(name = "Chest Discovered!", value = f"Will you open it?", inline = True) # Field 3
         e.set_image(url = Resource["Chest"][0])
         message = await message.edit(embed = e)
-        emojis = [Icons["chest"], "⏭️", Icons["exit"]]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            flag = False
-        else:
-            match str(reaction.emoji):
-                case x if x == Icons["chest"]:
-                    await message.clear_reactions()
-                    loot = await formatLoot(chest)
-                    e.set_field_at(3, name = "Loot obtained:", value = boxifyArray(loot, padding = 2), inline = True) # Field 4
-                    await message.edit(embed = e)
-                    await rewardLoot(ctx, chest)
-                    message = await loadNextRoom(message, e)
-                case "⏭️":
-                    await message.clear_reactions()
-                    message = await loadNextRoom(message, e)
-                case x if x == Icons["exit"]:
-                    await message.clear_reactions()
-                    e.description = "Player aborted the dungeon!"
-                    flag = False
+        while flag:
+            emojis = [Icons["chest"], "⏭️", Icons["exit"]]
+            reaction, user = await waitForReaction(ctx, message, e, emojis)
+            if reaction is None:
+                flag = False
+            else:
+                match str(reaction.emoji):
+                    case x if x == Icons["chest"]:
+                        await message.clear_reactions()
+                        loot = await formatLoot(chest)
+                        e.set_field_at(3, name = "Loot obtained:", value = boxifyArray(loot, padding = 2), inline = True) # Field 4
+                        await message.edit(embed = e)
+                        await rewardLoot(ctx, chest)
+                        break
+                        message = await loadNextRoom(message, e)
+                    case "⏭️":
+                        await message.clear_reactions()
+                        message = await loadNextRoom(message, e)
+                        break
+                    case x if x == Icons["exit"]:
+                        await message.clear_reactions()
+                        message, flag, result = await exitDungeon(message, flag, e, field = 4)
+                        if result:
+                            e.description = "**Player aborted the dungeon!**"
+                            await message.edit(embed = e)
+                            flag = False
+                        else:
+                            continue
         return message, flag
 
     async def fightBoss(ctx, message, flag, dg, boss, e):
@@ -1566,10 +1598,14 @@ async def dungeons(ctx, *input):
                                 continue
                             case x if x == Icons["exit"]:
                                 await message.clear_reactions()
-                                e.description = "Player aborted the dungeon!"
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
-                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                                flag = False
+                                message, flag, result = await exitDungeon(message, flag, e, field = 9)
+                                if result:
+                                    e.description = "**Player aborted the dungeon!**"
+                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                    flag = False
+                                else:
+                                    continue
                         if phase == 1 and dg.Boss.HP <= math.trunc(boss["HP"] / 2) and dg.Boss.HP > 0:
                             dg.Boss.phase = 2
                         if phase == 1 and dg.Boss.phase == 2:
@@ -1840,13 +1876,13 @@ async def quests(ctx, arg: str = None):
     wait            = 0 if checkAdmin(ctx) and debug_mode else config.quest_wait
     now             = int(time.time())
 
-    def chooseRandomQuest():
-        while True:
-            choice = random.choice(list(Quests))
-            level = getPlayerLevel(user_id)
-            if Quests[choice]["Level_Required"] > level:
+    def chooseQuest():
+        level = getPlayerLevel(user_id)
+        for quest in reversed(Quests):
+            if Quests[quest]["Level_Required"] > level:
                 continue
             else:
+                choice = quest
                 break
         return choice
 
@@ -1983,7 +2019,7 @@ async def quests(ctx, arg: str = None):
         await completeQuest(ctx, message, flag, quest)
         return
     if now >= last_quest + wait or checkAdmin(ctx):
-        quest = chooseRandomQuest()
+        quest = chooseQuest()
         message, flag = await promptQuest(ctx, message, flag, quest)
     else:
         hours = math.floor((last_quest + wait - now) / 60 / 60)
