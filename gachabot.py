@@ -490,6 +490,7 @@ async def dungeons(ctx, *input):
                 self.end_time = None
                 self.clear_time = None
                 self.pool = 0
+                self.tax = 0
 
         class PlayerState:
             def __init__(self):
@@ -555,6 +556,7 @@ async def dungeons(ctx, *input):
 
             # Initialize Dungeon Blueprint
             self.Blueprint = {}
+            self.founder = 0
 
         def clearCache(self):
             self.Cache = self.DungeonCache()
@@ -565,6 +567,13 @@ async def dungeons(ctx, *input):
             for _ in range(self.floors):
                 floor_schematic = self.renderFloor()
                 self.Blueprint["blueprint"]["floors"].append(floor_schematic)
+
+            if file_exists(f"Blueprints/{self.dungeon}/{self.mode_name}/{self.Blueprint['header']['Seed']}.json"):
+                temp_blueprint = json.load(open(f"Blueprints/{self.dungeon}/{self.mode_name}/{self.Blueprint['header']['Seed']}.json"))
+                self.founder = temp_blueprint["footer"]["Founder"]
+            else:
+                self.founder = user_id
+
             return self.Blueprint
 
         def renderFloor(self):
@@ -876,7 +885,11 @@ async def dungeons(ctx, *input):
             if clear_rewards:
                 congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
                 if dg.Cache.pool > 0:
-                    congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
+                    if dg.founder != user_id:
+                        congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
+                        congrats += f"💸 Paid tax (50%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: <@{dg.founder}>\n"
+                    else:
+                        congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
@@ -1642,8 +1655,13 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
-                    pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool)
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
+                    if dg.founder != user_id:
+                        dg.Cache.tax = addPlayerRyou(dg.founder, math.floor(dg.Cache.pool * 0.5))
+                        pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool - dg.Cache.tax)
+                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
+                    else:
+                        pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool)
+                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_amount)} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
