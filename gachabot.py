@@ -1650,7 +1650,6 @@ async def dungeons(ctx, *input):
                 boost = getUserBoost(ctx)
                 if boost > 0:
                     ryou_amount = ryou_amount + math.floor(ryou_amount * (boost / 100.))
-                    print(ryou_amount, boost)
                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
