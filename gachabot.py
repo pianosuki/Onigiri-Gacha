@@ -705,7 +705,7 @@ async def dungeons(ctx, *input):
                         emojis = ["⏪", "⏩", "❌"]
                     elif index + 1 < dungeons_length:
                         # Is the first page
-                        emojis = ["⏩", "❌"]
+                        emojis = ["⏪", "⏩", "❌"]
                     elif dungeons_length > 10:
                         # Is the last page
                         emojis = ["⏪", "❌"]
@@ -725,7 +725,11 @@ async def dungeons(ctx, *input):
                             break
                         case "⏪":
                             # Tell upcomming re-iteration to skip to the previous page's offset
-                            offset -= 10
+                            if offset >= 10:
+                                offset -= 10
+                            else:
+                                # Skip to the last page
+                                offset = dungeons_length - (10 - (math.floor(dungeons_length / 10)))
                             await message.clear_reactions()
                             e.clear_fields()
                             break
