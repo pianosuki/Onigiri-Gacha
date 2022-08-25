@@ -215,7 +215,12 @@
             ["Graphics/Yokai/Yatsukazou/2.png", "yatsukazou-2.png", "attachment://yatsukazou-2.png"]
         ],
         "Kusareppou": [["Graphics/Yokai/Kusareppou/1.png", "kusareppou-1.png", "attachment://kusareppou-1.png"]],
-        "Infernal Mukade": [["Graphics/Yokai/Infernal Mukade/1.png", "infernalmukade-1.png", "attachment://infernalmukade-1.png"]]
+        "Infernal Mukade": [["Graphics/Yokai/Infernal Mukade/1.png", "infernalmukade-1.png", "attachment://infernalmukade-1.png"]],
+        "Beelzebub":
+        [
+            ["Graphics/Yokai/Beelzebub/1.png", "beelzebub-1.png", "attachment://beelzebub-1.png"],
+            ["Graphics/Yokai/Beelzebub/2.png", "beelzebub-2.png", "attachment://beelzebub-2.png"]
+        ]
     },
 
     "Objects":
