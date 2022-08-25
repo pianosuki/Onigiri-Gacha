@@ -191,7 +191,31 @@
         [
             ["Graphics/Yokai/Ahriman/1.png", "ahriman-1.png", "attachment://ahriman-1.png"],
             ["Graphics/Yokai/Ahriman/2.png", "ahriman-2.png", "attachment://ahriman-2.png"]
-        ]
+        ],
+        "Penanggalan": [["Graphics/Yokai/penanggalan/1.png", "penanggalan-1.png", "attachment://penanggalan-1.png"]],
+        "Musca": [["Graphics/Yokai/Musca/1.png", "musca-1.png", "attachment://musca-1.png"]],
+        "Armored Mukade":
+        [
+            ["Graphics/Yokai/Armored Mukade/1.png", "armoredmukade-1.png", "attachment://armoredmukade-1.png"],
+            ["Graphics/Yokai/Armored Mukade/2.png", "armoredmukade-2.png", "attachment://armoredmukade-2.png"]
+        ],
+        "Wanyuudou":
+        [
+            ["Graphics/Yokai/Wanyuudou/1.png", "wanyuudou-1.png", "attachment://wanyuudou-1.png"],
+            ["Graphics/Yokai/Wanyuudou/2.png", "wanyuudou-2.png", "attachment://wanyuudou-2.png"]
+        ],
+        "Nue":
+        [
+            ["Graphics/Yokai/Nue/1.png", "nue-1.png", "attachment://nue-1.png"],
+            ["Graphics/Yokai/Nue/2.png", "nue-2.png", "attachment://nue-2.png"]
+        ],
+        "Yatsukazou":
+        [
+            ["Graphics/Yokai/Yatsukazou/1.png", "yatsukazou-1.png", "attachment://yatsukazou-1.png"],
+            ["Graphics/Yokai/Yatsukazou/2.png", "yatsukazou-2.png", "attachment://yatsukazou-2.png"]
+        ],
+        "Kusareppou": [["Graphics/Yokai/Kusareppou/1.png", "kusareppou-1.png", "attachment://kusareppou-1.png"]],
+        "Infernal Mukade": [["Graphics/Yokai/Infernal Mukade/1.png", "infernalmukade-1.png", "attachment://infernalmukade-1.png"]]
     },
 
     "Objects":

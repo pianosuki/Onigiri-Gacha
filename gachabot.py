@@ -485,6 +485,7 @@ async def dungeons(ctx, *input):
                 self.start_time = None
                 self.end_time = None
                 self.clear_time = None
+                self.pool = 0
 
         class PlayerState:
             def __init__(self):
@@ -866,6 +867,8 @@ async def dungeons(ctx, *input):
             congrats += f"🎊 {ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
             if clear_rewards:
                 congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
+                if dg.Cache.pool > 0:
+                    congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
@@ -979,8 +982,8 @@ async def dungeons(ctx, *input):
             e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
 
         def updateAgents():
-            yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {dg.Yokai.HP}", f"Yokai ATK: {dg.Yokai.ATK}", f"Yokai DEF: {dg.Yokai.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+            yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {'{:,}'.format(dg.Yokai.HP)}", f"Yokai ATK: {dg.Yokai.ATK}", f"Yokai DEF: {dg.Yokai.DEF}", ""]
+            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {'{:,}'.format(dg.Player.HP)}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
             return yokai_state, player_state
 
         async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
@@ -1018,9 +1021,9 @@ async def dungeons(ctx, *input):
                 damage *= 2
             dg.Yokai.HP = dg.Yokai.HP - damage if not dg.Yokai.HP - damage < 0 else 0
             if not is_supercharging:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {mob}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} damage to {mob}!")
             else:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {mob}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} supercharged damage to {mob}!")
             if is_critical:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             # message = await printToConsole(message, e, console, "")
@@ -1041,16 +1044,16 @@ async def dungeons(ctx, *input):
             if not is_evading:
                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
                 if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Yokai.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} damage from {dg.Yokai.name}!")
                 else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Yokai.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} heavy damage from {dg.Yokai.name}!")
                 if is_critical:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             else:
                 if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Yokai.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} damage from {dg.Yokai.name}!")
                 else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Yokai.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Yokai.name}!")
                 if is_critical:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
             # message = await printToConsole(message, e, console, "")
@@ -1210,12 +1213,14 @@ async def dungeons(ctx, *input):
                 if mob == "Gold Daruma":
                     random_amount = random.randint(10000, 100000)
                     ryou_amount = math.floor(((random_amount / 5) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {ryou_amount} Ryou!")
-                    await reward(ctx, ctx.author.mention, "ryou", ryou_amount)
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {'{:,}'.format(math.floor(ryou_amount / 2))} Ryou)")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({'{:,}'.format(math.floor(ryou_amount / 2))} Ryou added to dungeon pool)")
+                    await reward(ctx, ctx.author.mention, "ryou", math.floor(ryou_amount / 2))
+                    dg.Cache.pool += math.floor(ryou_amount / 2)
                 exp_row = ExpTable[dg.level - 1][1]
                 exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
                 exp_reward = addPlayerExp(user_id, exp_amount)
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_reward} EXP!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_reward)} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
@@ -1351,8 +1356,8 @@ async def dungeons(ctx, *input):
             e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
 
         def updateAgents():
-            boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {dg.Boss.HP}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {dg.Player.HP}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+            boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {'{:,}'.format(dg.Boss.HP)}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
+            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {'{:,}'.format(dg.Player.HP)}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
             return boss_state, player_state
 
         async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
@@ -1390,9 +1395,9 @@ async def dungeons(ctx, *input):
                 damage *= 2
             dg.Boss.HP = dg.Boss.HP - damage if not dg.Boss.HP - damage < 0 else 0
             if not is_supercharging:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} damage to {dg.Boss.name}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} damage to {dg.Boss.name}!")
             else:
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {damage} supercharged damage to {dg.Boss.name}!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} supercharged damage to {dg.Boss.name}!")
             if is_critical:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             # message = await printToConsole(message, e, console, "")
@@ -1413,16 +1418,16 @@ async def dungeons(ctx, *input):
             if not is_evading:
                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
                 if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} damage from {dg.Boss.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} damage from {dg.Boss.name}!")
                 else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {damage} heavy damage from {dg.Boss.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} heavy damage from {dg.Boss.name}!")
                 if is_critical:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             else:
                 if not is_charging:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} damage from {dg.Boss.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} damage from {dg.Boss.name}!")
                 else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {damage} heavy damage from {dg.Boss.name}!")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Boss.name}!")
                 if is_critical:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
             # message = await printToConsole(message, e, console, "")
@@ -1591,8 +1596,11 @@ async def dungeons(ctx, *input):
                     print(ryou_amount, boost)
                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {ryou_amount} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
-                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {exp_amount} EXP!)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
+                if dg.Cache.pool > 0:
+                    pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool)
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_amount)} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
                 break
