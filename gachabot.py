@@ -352,6 +352,10 @@ def getPlayerDungeonRecord(user_id, dungeon, mode):
         best_time = "None"
     return best_time
 
+def getDungeonRecords(dungeon):
+    records = DungeonsDB.query(f"SELECT * FROM clears WHERE dungeon = '{dungeon}'")
+    return records
+
 def getPlayerExpToNextLevel(user_id):
     ExpTable = Tables["ExpTable"]
     exp = getPlayerExp(user_id)
@@ -2918,6 +2922,81 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 return
+
+@bot.command(aliases = ["speedrun", "best", "times", "fastest"])
+@commands.check(checkChannel)
+async def records(ctx, *input):
+    ''' | Usage: +records <dungeon name> '''
+    default_color = config.default_color
+
+    def sortRecords(records):
+        records.sort(key = lambda tup: tup[5])
+        _records = [[], [], [], []]
+        _users = [[], [], [], []]
+        for record in records:
+            mode = record[4]
+            user = record[1]
+            if len(_records[mode]) >= 5 or user in _users[mode]:
+                continue
+            _records[mode].append(record)
+            _users[mode].append(user)
+        return _records
+
+    def formatRecordUsers(records):
+        formatted_string = ""
+        for index, record in enumerate(records):
+            match index:
+                case 0:
+                    emoji = "🥇"
+                case 1:
+                    emoji = "🥈"
+                case 2:
+                    emoji = "🥉"
+                case _:
+                    emoji = "🏅"
+            formatted_string += f"{emoji} | <@{record[1]}>\n"
+        return formatted_string if formatted_string != "" else "None"
+
+    def formatRecordDividers(records):
+        formatted_string = ""
+        for _ in records:
+            formatted_string += "─\n"
+        return formatted_string if formatted_string != "" else "\u200b"
+
+    def formatRecordTimes(records):
+        formatted_string = ""
+        for record in records:
+            formatted_string += f"__{record[5]}__\n"
+        return formatted_string if formatted_string != "" else "None"
+
+    if input:
+        dg = ' '.join(list(input))
+        for dungeon in Dungeons:
+            if dg.casefold() == dungeon.casefold():
+                records = sortRecords(getDungeonRecords(dungeon))
+                e = discord.Embed(title = f"⏱️ ─ __{dungeon}__ ─ ⏱️", description = "Top 5 global records for each difficulty:", color = default_color)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+
+                e.add_field(name = "Normal:", value = formatRecordUsers(records[0]), inline = True)
+                e.add_field(name = "\u200b", value = formatRecordDividers(records[0]), inline = True)
+                e.add_field(name = "Times:", value = formatRecordTimes(records[0]), inline = True)
+
+                e.add_field(name = "Hard:", value = formatRecordUsers(records[1]), inline = True)
+                e.add_field(name = "\u200b", value = formatRecordDividers(records[1]), inline = True)
+                e.add_field(name = "Times:", value = formatRecordTimes(records[1]), inline = True)
+
+                e.add_field(name = "Hell:", value = formatRecordUsers(records[2]), inline = True)
+                e.add_field(name = "\u200b", value = formatRecordDividers(records[2]), inline = True)
+                e.add_field(name = "Times:", value = formatRecordTimes(records[2]), inline = True)
+
+                e.add_field(name = "Oni:", value = formatRecordUsers(records[3]), inline = True)
+                e.add_field(name = "\u200b", value = formatRecordDividers(records[3]), inline = True)
+                e.add_field(name = "Times:", value = formatRecordTimes(records[3]), inline = True)
+
+                await ctx.send(embed = e)
+                return
+    await ctx.send(f"Please provide a **valid dungeon name** to see the records of.\nYou can list all the available dungeons with the `{config.prefix}dg` command.")
 
 @bot.command(aliases = ["use", "item", "energy", "refill", "recharge"])
 @commands.check(checkChannel)
