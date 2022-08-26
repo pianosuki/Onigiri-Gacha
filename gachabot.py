@@ -205,6 +205,22 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                     else:
                         continue
+                case "Aotu Elixir":
+                    elixir_role = discord.utils.get(ctx.guild.roles, name = config.elixir_role)
+                    if not elixir_role in ctx.author.roles:
+                        if await updateStock(ctx, sub_prize):
+                            await member.add_roles(elixir_role)
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with Elixir Role: **{config.elixir_role}**!")
+                        else:
+                            continue
+                case "Aotu Megalixir":
+                    megalixir_role = discord.utils.get(ctx.guild.roles, name = config.megalixir_role)
+                    if not megalixir_role in ctx.author.roles:
+                        if await updateStock(ctx, sub_prize):
+                            await member.add_roles(megalixir_role)
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with Megalixir Role: **{config.megalixir_role}**!")
+                        else:
+                            continue
                 case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
                     if await updateStock(ctx, sub_prize):
