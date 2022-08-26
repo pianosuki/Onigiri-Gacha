@@ -192,8 +192,8 @@ async def roll(ctx, skip=None):
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
-                        await ctx.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                        # await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
                     else:
                         continue
                 case x if x.endswith("Ticket") or x.endswith("Tickets"):
@@ -201,8 +201,8 @@ async def roll(ctx, skip=None):
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                        await ctx.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                        # await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                     else:
                         continue
                 case "Aotu Elixir":
@@ -213,6 +213,10 @@ async def roll(ctx, skip=None):
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with Elixir Role: **{config.elixir_role}**!")
                         else:
                             continue
+                    else:
+                        amount = 8
+                        DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
                 case "Aotu Megalixir":
                     megalixir_role = discord.utils.get(ctx.guild.roles, name = config.megalixir_role)
                     if not megalixir_role in ctx.author.roles:
@@ -221,6 +225,10 @@ async def roll(ctx, skip=None):
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with Megalixir Role: **{config.megalixir_role}**!")
                         else:
                             continue
+                    else:
+                        amount = 10
+                        DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
                 case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
                     if await updateStock(ctx, sub_prize):

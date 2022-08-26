@@ -58,11 +58,11 @@
     "regulated": true,
     "prizes":
     {
-      "blue": ["3 Gacha Tickets"],
-      "green": ["8 Gacha Tickets"],
-      "red": ["Aotu Elixir"],
-      "silver": ["Aotu Megalixir"],
-      "gold": ["1 Month Nitro"],
+      "blue": ["10 Gacha Fragments"],
+      "green": ["3 Gacha Tickets"],
+      "red": ["6 Gacha Tickets"],
+      "silver": ["Aotu Elixir"],
+      "gold": ["Aotu Megalixir"],
       "platinum": ["1 Aotuverse NFT"]
     }
   }
