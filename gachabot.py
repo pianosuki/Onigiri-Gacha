@@ -1295,13 +1295,13 @@ async def dungeons(ctx, *input):
                         case x if x == Icons["exit"]:
                             await message.clear_reactions()
                             e.description = "Player aborted the dungeon!"
-                            message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
-                            message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             flag = False
             elif player_killed:
-                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"{mob} has killed you!")
-                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, f"(Aborting dungeon)")
-                message = await printToConsole(message, e, turn, atk_gauge, def_gauge, console, "")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} has killed you!")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 time.sleep(1)
                 message = await deathScreen(message, e, mob)
                 flag = False
