@@ -3018,12 +3018,11 @@ async def whitelist(ctx, target = None, percent = None):
         whitelist = getUserWhitelist(user_id)
         percent = 100 if percent > 100 else percent
         percent = 0 if percent < 0 else percent
+        wl_exists = False
         for wl in whitelist:
             if target_id in wl:
                 wl_exists = True
                 break
-            else:
-                wl_exists = False
         if not wl_exists:
             WhitelistDB.execute("INSERT INTO {} (user_id, percent) VALUES ({}, {})".format(f"user_{user_id}", target_id, percent))
         else:
