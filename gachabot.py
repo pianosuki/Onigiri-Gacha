@@ -1014,7 +1014,6 @@ async def dungeons(ctx, *input):
     async def fightMob(ctx, message, flag, dg, mob, e):
 
         async def updateEmbed(e, yokai_state, player_state, console, turn, atk_gauge, def_gauge):
-            f"Turn: **#{turn}**"
             e.set_field_at(3, name = "Turn:", value = f"#️⃣ **{turn}**")
             e.set_field_at(4, name = "ATK Ougi Gauge:", value = f"{Icons['supercharge']} **{atk_gauge} / 5**")
             e.set_field_at(5, name = "DEF Ougi Gauge:", value = f"{Icons['evade']} **{def_gauge} / 5**")
@@ -1350,7 +1349,7 @@ async def dungeons(ctx, *input):
 
         e.add_field(name = "Chest Discovered!", value = f"Will you open it?", inline = True) # Field 3
         e.set_image(url = Resource["Chest"][0])
-        message = await message.edit(embed = e)
+        await message.edit(embed = e)
         while flag:
             emojis = [Icons["chest"], "⏭️", Icons["exit"]]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -1364,8 +1363,8 @@ async def dungeons(ctx, *input):
                         e.set_field_at(3, name = "Loot obtained:", value = boxifyArray(loot, padding = 2), inline = True) # Field 4
                         await message.edit(embed = e)
                         await rewardLoot(ctx, chest)
-                        break
                         message = await loadNextRoom(message, e)
+                        break
                     case "⏭️":
                         await message.clear_reactions()
                         message = await loadNextRoom(message, e)
