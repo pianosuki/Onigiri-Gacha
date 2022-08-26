@@ -62,7 +62,17 @@
         "Rewards":
         {
             "Ryou": {"range": [10, 100], "rate": 100},
-            "EXP": {"range": [10, 100], "rate": 100}
+            "EXP": {"range": [10, 100], "rate": 100},
+            "Weapons":
+            {
+                "Sukedachi Sword": 10,
+                "Nora Twin Blades": 10,
+                "Bamboo Bow": 10,
+                "Stone Battleaxe": 10,
+                "Cedar Spear": 10,
+                "Pine Staff": 10,
+                "Manjusri Talisman": 10
+            }
         }
     },
 
@@ -131,7 +141,11 @@
         "Rewards":
         {
             "Ryou": {"range": [50, 150], "rate": 100},
-            "EXP": {"range": [50, 150], "rate": 100}
+            "EXP": {"range": [50, 150], "rate": 100},
+            "Weapons":
+            {
+                "Flame Sukedachi": 5
+            }
         }
     },
 
@@ -199,7 +213,11 @@
         "Rewards":
         {
             "Ryou": {"range": [100, 200], "rate": 100},
-            "EXP": {"range": [100, 200], "rate": 100}
+            "EXP": {"range": [100, 200], "rate": 100},
+            "Weapons":
+            {
+                "Manjusri of Flame": 5
+            }
         }
     },
 
@@ -269,7 +287,12 @@
         "Rewards":
         {
             "Ryou": {"range": [150, 250], "rate": 100},
-            "EXP": {"range": [150, 250], "rate": 100}
+            "EXP": {"range": [150, 250], "rate": 100},
+            "Weapons":
+            {
+                "Kikuichimonji": 1,
+                "Heavenly Nora Twin Blades": 5
+            }
         }
     },
 
@@ -338,7 +361,12 @@
         "Rewards":
         {
             "Ryou": {"range": [200, 300], "rate": 100},
-            "EXP": {"range": [200, 300], "rate": 100}
+            "EXP": {"range": [200, 300], "rate": 100},
+            "Weapons":
+            {
+                "Jizou Talisman": 10,
+                "Nodachi": 10
+            }
         }
     },
 
@@ -407,7 +435,12 @@
         "Rewards":
         {
             "Ryou": {"range": [300, 400], "rate": 100},
-            "EXP": {"range": [300, 400], "rate": 100}
+            "EXP": {"range": [300, 400], "rate": 100},
+            "Weapons":
+            {
+                "Fledgling Sparrow Bow": 10,
+                "Iron Battleaxe": 10
+            }
         }
     },
 
@@ -477,7 +510,12 @@
         "Rewards":
         {
             "Ryou": {"range": [400, 500], "rate": 100},
-            "EXP": {"range": [400, 500], "rate": 100}
+            "EXP": {"range": [400, 500], "rate": 100},
+            "Weapons":
+            {
+                "Gingko Spear": 10,
+                "Oak Staff": 10
+            }
         }
     },
 
@@ -548,7 +586,12 @@
         "Rewards":
         {
             "Ryou": {"range": [500, 1500], "rate": 100},
-            "EXP": {"range": [500, 1500], "rate": 100}
+            "EXP": {"range": [500, 1500], "rate": 100},
+            "Weapons":
+            {
+                "Oninodachi": 1,
+                "Nameless Sword": 10
+            }
         }
     },
 
@@ -618,7 +661,12 @@
         "Rewards":
         {
             "Ryou": {"range": [1000, 1200], "rate": 100},
-            "EXP": {"range": [1000, 1200], "rate": 100}
+            "EXP": {"range": [1000, 1200], "rate": 100},
+            "Weapons":
+            {
+                "Kikusenkaku": 1,
+                "Boulder Battleaxe": 5
+            }
         }
     },
 
@@ -687,7 +735,12 @@
         "Rewards":
         {
             "Ryou": {"range": [1200, 1400], "rate": 100},
-            "EXP": {"range": [1200, 1400], "rate": 100}
+            "EXP": {"range": [1200, 1400], "rate": 100},
+            "Weapons":
+            {
+                "Nihongou": 1,
+                "Honebamiyoshimitsu": 3
+            }
         }
     },
 
@@ -756,7 +809,12 @@
         "Rewards":
         {
             "Ryou": {"range": [1400, 1600], "rate": 100},
-            "EXP": {"range": [1400, 1600], "rate": 100}
+            "EXP": {"range": [1400, 1600], "rate": 100},
+            "Weapons":
+            {
+                "Kotetsu": 3,
+                "Kabura Bow": 3
+            }
         }
     },
 
@@ -826,7 +884,12 @@
         "Rewards":
         {
             "Ryou": {"range": [1600, 1800], "rate": 100},
-            "EXP": {"range": [1600, 1800], "rate": 100}
+            "EXP": {"range": [1600, 1800], "rate": 100},
+            "Weapons":
+            {
+                "Thirty Six Poets": 1,
+                "Bardiche": 3
+            }
         }
     },
 
@@ -896,7 +959,12 @@
         "Rewards":
         {
             "Ryou": {"range": [1800, 2000], "rate": 100},
-            "EXP": {"range": [1800, 2000], "rate": 100}
+            "EXP": {"range": [1800, 2000], "rate": 100},
+            "Weapons":
+            {
+                "Onikiri": 1,
+                "Ice Cedar Spear": 5
+            }
         }
     },
 
@@ -923,7 +991,14 @@
         "Rewards":
         {
             "Ryou": {"range": [2000, 2500], "rate": 100},
-            "EXP": {"range": [2000, 2500], "rate": 100}
+            "EXP": {"range": [2000, 2500], "rate": 100},
+            "Weapons":
+            {
+                "Tsuranukimaru": 1,
+                "Kakushinkenfumatsu": 3,
+                "Dainsleif": 3,
+                "Dark Fledgling Sparrow Bow": 5
+            }
         }
     },
 
@@ -995,7 +1070,16 @@
         "Rewards":
         {
             "Ryou": {"range": [2500, 3000], "rate": 100},
-            "EXP": {"range": [2500, 3000], "rate": 100}
+            "EXP": {"range": [2500, 3000], "rate": 100},
+            "Weapons":
+            {
+                "Kanemitsu": 1,
+                "Greatbow": 1,
+                "Gungnir": 3,
+                "Sunlight Talisman": 10,
+                "Ochimusha Sword": 10,
+                "Oshikiri Tachi": 10
+            }
         }
     },
 
@@ -1067,7 +1151,17 @@
         "Rewards":
         {
             "Ryou": {"range": [3000, 3500], "rate": 100},
-            "EXP": {"range": [3000, 3500], "rate": 100}
+            "EXP": {"range": [3000, 3500], "rate": 100},
+            "Weapons":
+            {
+                "Kanshouhouken": 1,
+                "Seikounoken": 1,
+                "Lightning Jizou Talisman": 5,
+                "Heavy Rattan Bow": 10,
+                "Rusted Battleaxe": 10,
+                "Adorned Bamboo Spear": 10,
+                "Plum Staff": 10
+            }
         }
     },
 
@@ -1137,7 +1231,21 @@
         "Rewards":
         {
             "Ryou": {"range": [5000, 10000], "rate": 100},
-            "EXP": {"range": [3500, 3600], "rate": 100}
+            "EXP": {"range": [3500, 3600], "rate": 100},
+            "Weapons":
+            {
+                "Otegine": 1,
+                "Gandiva": 1,
+                "Demon Lord's Mallet": 1,
+                "Longinus": 3,
+                "Arondight": 3,
+                "Koryuukagemitsu": 3,
+                "Iwaotoshi": 3,
+                "Bakuyahouken": 3,
+                "Konotegashiwa": 3,
+                "Earth Ishikiri Sword": 5,
+                "Water Oak Staff": 5
+            }
         }
     },
 
@@ -1207,7 +1315,16 @@
         "Rewards":
         {
             "Ryou": {"range": [10000, 20000], "rate": 100},
-            "EXP": {"range": [3600, 3700], "rate": 100}
+            "EXP": {"range": [3600, 3700], "rate": 100},
+            "Weapons":
+            {
+                "Mage's Senken": 1,
+                "Reckless Tachi": 1,
+                "Double Bladed Axe": 3,
+                "Caduceus": 3,
+                "Red Lacquer Spear": 10,
+                "Moonlight Talisman": 10
+            }
         }
     },
 
@@ -1277,7 +1394,15 @@
         "Rewards":
         {
             "Ryou": {"range": [20000, 40000], "rate": 100},
-            "EXP": {"range": [3700, 3800], "rate": 100}
+            "EXP": {"range": [3700, 3800], "rate": 100},
+            "Weapons":
+            {
+                "Bandit's Dagger": 1,
+                "Super Sushi Rod": 1,
+                "Durandal": 3,
+                "Seidou Battleaxe": 10,
+                "Kashi Staff": 10
+            }
         }
     },
 
@@ -1346,7 +1471,16 @@
         "Rewards":
         {
             "Ryou": {"range": [30000, 60000], "rate": 100},
-            "EXP": {"range": [3800, 3900], "rate": 100}
+            "EXP": {"range": [3800, 3900], "rate": 100},
+            "Weapons":
+            {
+                "Artemis Bow": 1,
+                "Legendary Smith's Mallet": 1,
+                "Vuvuzela": 1,
+                "Balmung": 3,
+                "Ishikiri Sword": 10,
+                "Araburi Tachi": 10
+            }
         }
     },
 
@@ -1416,7 +1550,17 @@
         "Rewards":
         {
             "Ryou": {"range": [40000, 80000], "rate": 100},
-            "EXP": {"range": [3900, 4000], "rate": 100}
+            "EXP": {"range": [3900, 4000], "rate": 100},
+            "Weapons":
+            {
+                "Actualized Spear": 1,
+                "Yousen Kamaitachi": 1,
+                "Bow of Love": 1,
+                "Excalibur": 3,
+                "Wind Tachi": 5,
+                "Arawashi Twin Blades": 10,
+                "Fuedou Bow": 10
+            }
         }
     },
 
@@ -1486,7 +1630,18 @@
         "Rewards":
         {
             "Ryou": {"range": [50000, 100000], "rate": 100},
-            "EXP": {"range": [4000, 5000], "rate": 100}
+            "EXP": {"range": [4000, 5000], "rate": 100},
+            "Weapons":
+            {
+                "Sheryl's Magnifying Glass": 1,
+                "Ningenmukotsu": 1,
+                "Nyoibou": 1,
+                "Shishiou": 1,
+                "Itennoken": 1,
+                "Black Cloud Bow": 3,
+                "Houtenga Halberd": 3,
+                "Flame Hakuda Twin Blades": 5
+            }
         }
     },
 
@@ -1557,7 +1712,15 @@
         "Rewards":
         {
             "Ryou": {"range": [100000, 120000], "rate": 100},
-            "EXP": {"range": [5000, 5100], "rate": 100}
+            "EXP": {"range": [5000, 5100], "rate": 100},
+            "Weapons":
+            {
+                "Mukademaru": 1,
+                "Kris Knife": 3,
+                "Water Rusted Battleaxe": 5,
+                "Ariake Tachi": 10,
+                "Kisshouten Talisman": 10
+            }
         }
     },
 
@@ -1628,7 +1791,15 @@
         "Rewards":
         {
             "Ryou": {"range": [120000, 140000], "rate": 100},
-            "EXP": {"range": [5100, 5200], "rate": 100}
+            "EXP": {"range": [5100, 5200], "rate": 100},
+            "Weapons":
+            {
+                "Kakizome Tachi Kashi": 1,
+                "Goutengou": 3,
+                "Lightning Adorned Bamboo Spear": 5,
+                "Black Pine Bow": 10,
+                "Tatsujin Sword": 10
+            }
         }
     },
 
@@ -1698,7 +1869,15 @@
         "Rewards":
         {
             "Ryou": {"range": [140000, 160000], "rate": 100},
-            "EXP": {"range": [5200, 5300], "rate": 100}
+            "EXP": {"range": [5200, 5300], "rate": 100},
+            "Weapons":
+            {
+                "Kaketsushintou": 1,
+                "Raijyoudou": 1,
+                "Ice Heavy Rattan Bow": 5,
+                "Steel Battleaxe": 10,
+                "Kokuto Twin Blades": 10
+            }
         }
     },
 
@@ -1771,7 +1950,14 @@
         "Rewards":
         {
             "Ryou": {"range": [160000, 180000], "rate": 100},
-            "EXP": {"range": [5300, 5400], "rate": 100}
+            "EXP": {"range": [5300, 5400], "rate": 100},
+            "Weapons":
+            {
+                "Raitei": 1,
+                "Ichimonjimuneoki": 1,
+                "Goshinken": 1,
+                "Maple Spear": 10
+            }
         }
     },
 
@@ -1842,7 +2028,14 @@
         "Rewards":
         {
             "Ryou": {"range": [180000, 200000], "rate": 100},
-            "EXP": {"range": [5400, 5500], "rate": 100}
+            "EXP": {"range": [5400, 5500], "rate": 100},
+            "Weapons":
+            {
+                "Gennou": 1,
+                "Taroutachi": 1,
+                "Ikkokunagayoshi": 1,
+                "Tea Oak Staff": 10
+            }
         }
     },
 
@@ -1913,7 +2106,18 @@
         "Rewards":
         {
             "Ryou": {"range": [200000, 300000], "rate": 100},
-            "EXP": {"range": [5500, 5600], "rate": 100}
+            "EXP": {"range": [5500, 5600], "rate": 100},
+            "Weapons":
+            {
+                "Mikazukimunechika": 1,
+                "Kanasaibou": 1,
+                "Akujiki": 1,
+                "Grim Reaper": 3,
+                "Thunderbolt": 3,
+                "One Chance": 3,
+                "Kogitsunemaru": 3,
+                "Wind Sunlight Talisman": 5
+            }
         }
     }
 }

@@ -121,7 +121,8 @@ custom_emojis   = {
     "exit": "<:exit:1009544808479604856>",
     "statsreset": "<:statsreset:1010726645885308928>",
     "supercharge": "<:supercharge:1011404535505371146>",
-    "evade": "<:evade:1011404551565365308>"
+    "evade": "<:evade:1011404551565365308>",
+    "magatama": "<:magatama:1012803114761465916>"
 }
 mode_emojis     = {
     "normal": "<:normal:1007526343501688862>",
@@ -137,7 +138,8 @@ element_emojis  = {
     "Mountain": "<:mountain:1007710371852849226>",
     "Wind": "<:wind:1007710345961418772>",
     "Holy": "<:holy:1007710333252665345>",
-    "Dark": "<:dark:1007710321571541052>"
+    "Dark": "<:dark:1007710321571541052>",
+    "Poison": "<:poison:1012765124135747645>"
 }
 nigiri_emojis   = {
     "riceball": "<:riceball:1010803854838861856>",
@@ -152,6 +154,22 @@ nigiri_emojis   = {
     "lobster_nigiri": "<:lobster_nigiri:1010803813181050920>",
     "shachihoko_nigiri": "<:shachihoko_nigiri:1010803825424203806>",
     "shenlong_nigiri": "<:shenlong_nigiri:1010803837898072064>"
+}
+weapon_emojis   = {
+    "sword": "<:sword:1012806492136677376>",
+    "twin_swords": "<:twin_swords:1012806506485403752>",
+    "odachi": "<:odachi:1012806522838986803>",
+    "bow": "<:bow:1012806537787486268>",
+    "axe": "<:axe:1012806551058259998>",
+    "spear": "<:spear:1012806566413615104>",
+    "staff": "<:staff:1012806593122938951>",
+    "wand": "<:wand:1012806581123043459>"
+}
+rarity_emojis   = {
+    "rarity_white": "<:rarity_white:1012809065715474472>",
+    "rarity_blue": "<:rarity_blue:1012853447516762122>",
+    "rarity_red": "<:rarity_red:1012809093158817923>",
+    "rarity_gold": "<:rarity_gold:1012809106341498900>"
 }
 
 # Conversion rate

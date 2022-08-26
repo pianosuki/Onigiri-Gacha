@@ -73,7 +73,7 @@ Tables      = json.load(open("tables.json")) # Load tables for systems to use co
 Weapons     = json.load(open("weapons.json")) # Load weapons dictionary
 Magatamas   = json.load(open("magatamas.json")) # Load magatamas dictionary
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
-Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis}
+Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis, **config.weapon_emojis, **config.rarity_emojis}
 
 # Names
 coin_name = config.coin_name
@@ -839,7 +839,7 @@ async def dungeons(ctx, *input):
             dg = DungeonInstance(dungeon, mode, seed)
             e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = 0x9575cd)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
             e.add_field(name = "Level required", value = f"{Icons['level']} **{dg.level}**", inline = True)
             e.add_field(name = "Energy cost", value = f"{Icons['energy']} **{dg.energy}**", inline = True)
             e.add_field(name = "Floors", value = f"{Icons['dungeon']} **{dg.floors}**", inline = True)
@@ -1700,6 +1700,15 @@ async def dungeons(ctx, *input):
                     ryou_amount = ryou_amount + math.floor(ryou_amount * (boost / 100.))
                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
+                if "Weapons" in dg.rewards:
+                    for weapon, rate in dg.rewards["Weapons"].items():
+                        random_number = random.uniform(0, 100)
+                        if random_number <= rate:
+                            weapons_inv = getPlayerWeaponsInv(user_id)
+                            weapons_list = weapons_inv.split(", ")
+                            if not weapon in weapons_list:
+                                givePlayerWeapon(user_id, weapon)
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} dropped '{weapon}'")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
@@ -1809,7 +1818,7 @@ async def dungeons(ctx, *input):
         formatted_string += f"🛡️ ─ Resistances\n"
         formatted_string += f" ╰──  {resistance_emojis}\n"
         formatted_string += f"───────────────\n"
-        formatted_string += f"⚔️ ─ Weaknesses\n"
+        formatted_string += f"🗡️ ─ Weaknesses\n"
         formatted_string += f" ╰──  {weakness_emojis}\n"
 
         ### <TO-DO>
@@ -1857,17 +1866,28 @@ async def dungeons(ctx, *input):
             match key:
                 case "Ryou":
                     icon = Icons["ryou"]
+                    formatted_string += "───────────────\n"
+                    value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
+                    value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
+                    formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
+                    if boost > 0:
+                        formatted_string += f" ╰──  *Boosted:* **+{boost}%**\n"
+                    formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
                 case "EXP":
                     icon = Icons["exp"]
+                    formatted_string += "───────────────\n"
+                    value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
+                    value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
+                    formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
+                    formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
+                case "Weapons":
+                    icon = "⚔️"
+                    formatted_string += "───────────────\n"
+                    formatted_string += f"{icon} ─ {key}\n"
+                    for weapon, rate in value.items():
+                        formatted_string += f" ╰──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate}%**\n"
                 case _:
                     icon = Icons["material_common"]
-            formatted_string += "───────────────\n"
-            value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
-            value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
-            formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
-            if boost > 0 and key == "Ryou":
-                formatted_string += f" ╰──  *Boosted:* **+{boost}%**\n"
-            formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
             index += 1
         return formatted_string
 
@@ -3045,17 +3065,87 @@ async def roll(ctx, skip=None):
 @bot.command(aliases = ["equipment", "weapon", "magatama", "mag", "swap"])
 @commands.check(checkChannel)
 async def equip(ctx, *input):
-    ''' | Usage: +equip [weapon name | magatama name] '''
+    ''' | Usage: +equip [weapon name | magatama name | inv] '''
     user_id = ctx.author.id
-    item = ' '.join(list(input))
+    default_color = config.default_color
+    argument = ' '.join(list(input))
     equipment = getPlayerEquipment(user_id)
-    for weapon in Weapons:
-        if item.casefold() == weapon.casefold():
-            weapons_inv = getPlayerWeaponsInv(user_id)
-            equipWeapon(user_id, weapon)
-            await ctx.send(f"You equipped **{weapon}**!")
+
+    def formatEquippedWeapon(equipment):
+        equipped = equipment["weapon"][0][0]
+        weapon = Weapons[equipped]
+        formatted_string = ""
+        emoji = weapon["Type"].lower().replace(" ", "_")
+        rarity = f"rarity_{weapon['Rarity'].lower()}"
+        elements = ""
+        if not weapon["Elements"] is None:
+            for element in weapon["Elements"]:
+                elements += f"{Icons[element.lower()]}"
+        else:
+            elements = "None"
+        formatted_string += "──────────────────\n"
+        formatted_string += f"🏷️ ─ Name: **__{equipped}__**\n"
+        formatted_string += "──────────────────\n"
+        formatted_string += f"{Icons[emoji]} ─ Type: **{weapon['Type']}**\n"
+        formatted_string += "──────────────────\n"
+        formatted_string += f"{Icons['level']} ─ Level: **{weapon['Level_Required']}**\n"
+        formatted_string += "──────────────────\n"
+        formatted_string += f"{Icons[rarity]} ─ Rarity: **{weapon['Rarity']}**\n"
+        formatted_string += "──────────────────\n"
+        formatted_string += f"{Icons['attack']} ─ Attack: **{'{:,}'.format(weapon['Attack'])}**\n"
+        formatted_string += "──────────────────\n"
+        formatted_string += f"⚛️ ─ Elements: **{elements}**"
+        return formatted_string
+
+    def formatWeaponInventory():
+        weapons_inv = getPlayerWeaponsInv(user_id)
+        weapons_list = weapons_inv.split(", ")
+        formatted_string = "|"
+        for weapon in weapons_list:
+            formatted_string += f" __{weapon}__ "
+            formatted_string += "|"
+        return formatted_string
+
+    if not input:
+        commands = ["Equip a weapon:", "(+equip <weapon name>)", "", "View your inventory:", "(+equip inv)", ""]
+        e = discord.Embed(title = "Equipment Screen", color = default_color)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.add_field(name = "⚔️ ─ Equipped Weapon ─ ⚔️", value = formatEquippedWeapon(equipment), inline = True)
+        # e.add_field(name = f"{Icons["mgatama"]} ─ Equipped Magatamas ─ {Icons["magatama"]}", value = formatEquippedMagatamas(), inline = True)
+        e.add_field(name = "Commands:", value = boxifyArray(commands, padding = 2), inline = False)
+        await ctx.send(embed = e)
+    else:
+        if argument == "inventory" or argument == "inv":
+            e = discord.Embed(title = "Equipment Screen", color = default_color)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            e.add_field(name = "Weapon Inventory:", value = formatWeaponInventory(), inline = False)
+            await ctx.send(embed = e)
             return
-    await ctx.send(f"There were no matches found for `{item}`.")
+        else:
+            weapon_found = False
+            weapon = None
+            for weapon in Weapons:
+                if argument.casefold() == weapon.casefold():
+                    weapon_found = True
+                    break
+            if weapon_found:
+                weapons_inv = getPlayerWeaponsInv(user_id)
+                weapons_list = weapons_inv.split(", ")
+                if weapon in weapons_list:
+                    level = getPlayerLevel(user_id)
+                    if level >= Weapons[weapon]["Level_Required"]:
+                        equipWeapon(user_id, weapon)
+                        await ctx.reply(f"You equipped **{weapon}**!")
+                    else:
+                        await ctx.reply(f"You are not high enough level to wield: {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **__{weapon}__**!" + "\n" + \
+                        f"*Your level:* {Icons['level']}**{level}**" + "\n" + \
+                        f"*Level Required:* {Icons['level']}**{Weapons[weapon]['Level_Required']}**")
+                else:
+                    await ctx.reply(f"You don't own: {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **__{weapon}__**!")
+            else:
+                await ctx.reply(f"There were no matches found for `{argument}`")
 
 @bot.command(aliases = ["wl"])
 @commands.check(checkChannel)
