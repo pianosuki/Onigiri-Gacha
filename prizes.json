@@ -7,12 +7,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["2 Gacha Tickets"],
-      "green": ["3 Gacha Tickets"],
-      "red": ["5 Gacha Tickets"],
-      "silver": ["10 Gacha Tickets"],
-      "gold": ["OG"],
-      "platinum": ["Regular Steam Key"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": []
     }
   },
 
@@ -24,12 +24,12 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["3 Gacha Tickets"],
-      "green": ["5 Gacha Tickets"],
-      "red": ["10 Gacha Tickets"],
-      "silver": ["OG"],
-      "gold": ["Regular Steam Key"],
-      "platinum": ["Premium Steam Key"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": []
     }
   },
 
@@ -41,27 +41,27 @@
     "regulated": false,
     "prizes":
     {
-      "blue": ["5 Gacha Tickets"],
-      "green": ["10 Gacha Tickets"],
-      "red": ["15 Gacha Tickets"],
-      "silver": ["Premium Steam Key"],
-      "gold": ["Legendary Steam Key"],
-      "platinum": ["Ultimate Steam Key"]
+      "blue": [],
+      "green": [],
+      "red": [],
+      "silver": [],
+      "gold": [],
+      "platinum": []
     }
   },
 
   "tier_4":
   {
-    "name": "Tier 4",
+    "name": "Aotu-Gacha Rewards",
     "symbol": "🏅",
-    "tickets_required": 15,
+    "tickets_required": 10,
     "regulated": true,
     "prizes":
     {
-      "blue": ["10 Gacha Ticket"],
-      "green": ["Premium Steam Key"],
-      "red": ["Legendary Steam Key"],
-      "silver": ["Ultimate Steam Key"],
+      "blue": ["5 Gacha Fragments"],
+      "green": ["10 Gacha Fragments"],
+      "red": ["3 Gacha Tickets"],
+      "silver": ["8 Gacha Tickets"],
       "gold": ["1 Month Nitro"],
       "platinum": ["1 Aotuverse NFT"]
     }

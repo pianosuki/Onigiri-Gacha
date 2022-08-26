@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Aotuverse"
-bot_version = "1.7.3"
+bot_version = "1.7.4"
 
 import config, dresource
 from database import Database
@@ -188,21 +188,21 @@ async def roll(ctx, skip=None):
                     else:
                         continue
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
-                    channel = bot.get_channel(config.gachaproof_channel)
+                    # channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + amount, "total_rolls": total_rolls}
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Fragment(s)**!")
-                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
+                        await ctx.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + amount}`.")
                     else:
                         continue
                 case x if x.endswith("Ticket") or x.endswith("Tickets"):
-                    channel = bot.get_channel(config.gachaproof_channel)
+                    # channel = bot.get_channel(config.gachaproof_channel)
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
                         DB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**!")
-                        await channel.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
+                        await ctx.send(f"Rewarded {ctx.author.mention} with `{amount}` **Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                     else:
                         continue
                 case x if x == grand_prize_string:
@@ -417,11 +417,11 @@ async def roll(ctx, skip=None):
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                 e.set_thumbnail(url = Resource["Camil-1"][0])
-                e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_1']['tickets_required']}", value = formatPrizeList("tier_1"), inline = True)
-                e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_2']['tickets_required']}", value = formatPrizeList("tier_2"), inline = True)
-                e.add_field(name = "\u200b", value = "\u200b", inline = True)
-                e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_3']['tickets_required']}", value = formatPrizeList("tier_3"), inline = True)
-                e.add_field(name = f"Tier 4: {Prizes['tier_4']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_4']['tickets_required']}", value = formatPrizeList("tier_4"), inline = True)
+                # e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_1']['tickets_required']}", value = formatPrizeList("tier_1"), inline = True)
+                # e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_2']['tickets_required']}", value = formatPrizeList("tier_2"), inline = True)
+                # e.add_field(name = "\u200b", value = "\u200b", inline = True)
+                # e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_3']['tickets_required']}", value = formatPrizeList("tier_3"), inline = True)
+                e.add_field(name = f"Aotu-Gacha Rewards: {Prizes['tier_4']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_4']['tickets_required']}", value = formatPrizeList("tier_4"), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
@@ -445,51 +445,52 @@ async def roll(ctx, skip=None):
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                     e.set_thumbnail(url = Resource["Kallie-1"][0])
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-                    e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
-                    e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
-                    e.add_field(name = "▷ 🥇 ───── Tier 3 Raffle ───── 🥇 ◁", value = menu_separator, inline = False)
-                    e.add_field(name = "▷ 🏅 ───── Tier 4 Raffle ───── 🏅 ◁", value = menu_separator, inline = False)
+                    # e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
+                    # e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
+                    # e.add_field(name = "▷ 🥇 ───── Tier 3 Raffle ───── 🥇 ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ 🏅 ───── Aotu Raffle ───── 🏅 ◁", value = menu_separator, inline = False)
                     e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
-                    emojis = ["🥉", "🥈", "🥇", "🏅", "↩️"]
+                    # emojis = ["🥉", "🥈", "🥇", "🏅", "↩️"]
+                    emojis = ["🏅", "↩️"]
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
                     if reaction is None:
                         exit_flag = True
                         break
                     match str(reaction.emoji):
-                        case "🥉":
-                            tier = "tier_1"
-                            e.set_field_at(1, name = "►🥉 ───── Tier 1 Raffle ───── 🥉 ◄", value = menu_separator, inline = False)
-                            await message.edit(embed = e)
-                            await message.clear_reactions()
-                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
-                            if status:
-                                rolled_flag = True
-                            else:
-                                rolled_flag = False
-                        case "🥈":
-                            tier = "tier_2"
-                            e.set_field_at(2, name = "►🥈 ───── Tier 2 Raffle ───── 🥈 ◄", value = menu_separator, inline = False)
-                            await message.edit(embed = e)
-                            await message.clear_reactions()
-                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
-                            if status:
-                                rolled_flag = True
-                            else:
-                                rolled_flag = False
-                        case "🥇":
-                            tier = "tier_3"
-                            e.set_field_at(3, name = "►🥇 ───── Tier 3 Raffle ───── 🥇 ◄", value = menu_separator, inline = False)
-                            await message.edit(embed = e)
-                            await message.clear_reactions()
-                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
-                            if status:
-                                rolled_flag = True
-                            else:
-                                rolled_flag = False
+                        # case "🥉":
+                        #     tier = "tier_1"
+                        #     e.set_field_at(1, name = "►🥉 ───── Tier 1 Raffle ───── 🥉 ◄", value = menu_separator, inline = False)
+                        #     await message.edit(embed = e)
+                        #     await message.clear_reactions()
+                        #     message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                        #     if status:
+                        #         rolled_flag = True
+                        #     else:
+                        #         rolled_flag = False
+                        # case "🥈":
+                        #     tier = "tier_2"
+                        #     e.set_field_at(2, name = "►🥈 ───── Tier 2 Raffle ───── 🥈 ◄", value = menu_separator, inline = False)
+                        #     await message.edit(embed = e)
+                        #     await message.clear_reactions()
+                        #     message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                        #     if status:
+                        #         rolled_flag = True
+                        #     else:
+                        #         rolled_flag = False
+                        # case "🥇":
+                        #     tier = "tier_3"
+                        #     e.set_field_at(3, name = "►🥇 ───── Tier 3 Raffle ───── 🥇 ◄", value = menu_separator, inline = False)
+                        #     await message.edit(embed = e)
+                        #     await message.clear_reactions()
+                        #     message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                        #     if status:
+                        #         rolled_flag = True
+                        #     else:
+                        #         rolled_flag = False
                         case "🏅":
                             tier = "tier_4"
-                            e.set_field_at(4, name = "►🏅 ───── Tier 4 Raffle ───── 🏅 ◄", value = menu_separator, inline = False)
+                            e.set_field_at(1, name = "►🏅 ───── Aotu Raffle ───── 🏅 ◄", value = menu_separator, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
                             message, e, status = await raffleEntry(ctx, message, e, tier, skip)
@@ -499,7 +500,7 @@ async def roll(ctx, skip=None):
                                 rolled_flag = False
                         case "↩️":
                             prev_flag = edit_flag = True
-                            e.set_field_at(5, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                            e.set_field_at(2, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
                             break
@@ -1058,6 +1059,24 @@ async def backstock(ctx):
                         exit_flag = True
                         await message.clear_reactions()
                         break
+
+@bot.command()
+@commands.check(checkAdmin)
+async def leaderboard(ctx):
+    user_id = ctx.author.id
+    msg = []
+    data = DB.query(f"SELECT * FROM userdata")
+    to_sort = {}
+    for entry in data:
+        tickets = entry[1]
+        user = entry[0]
+        to_sort[str(user)] = tickets
+    sorted_dict = sorted(to_sort.items(), key=lambda x: x[1], reverse = True)
+    for counter, entry in enumerate(sorted_dict):
+        if counter > 20:
+            break
+        msg.append(str(entry))
+    await ctx.send(str(msg))
 
 @bot.command()
 @commands.check(checkAdmin)
