@@ -1663,13 +1663,12 @@ async def dungeons(ctx, *input):
                     if dg.founder != user_id:
                         whitelist = getUserWhitelist(dg.founder)
                         wl = None
+                        is_whitelisted = False
                         for row in whitelist:
                             if user_id in row:
                                 is_whitelisted = True
                                 wl = row
                                 break
-                            else:
-                                is_whitelisted = False
                         if is_whitelisted:
                             discount = round((wl[1] / 100.) * config.tax, 3)
                         else:
