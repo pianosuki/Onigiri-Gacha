@@ -58,6 +58,11 @@ StatsDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KE
 # User Whitelists
 WhitelistDB = Database("whitelists.db")
 
+# Equipment
+EquipmentDB = Database("equipment.db")
+EquipmentDB.execute("CREATE TABLE IF NOT EXISTS equipment (user_id INTEGER PRIMARY KEY UNIQUE, weapon TEXT, magatama_1 TEXT, magatama_2 TEXT, magatama_3 TEXT, magatama_4 TEXT)")
+EquipmentDB.execute("CREATE TABLE IF NOT EXISTS inventory (user_id INTEGER PRIMARY KEY UNIQUE, weapons TEXT, magatamas TEXT)")
+
 # Objects
 Prizes      = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
 Products    = json.load(open("products.json")) # Load list of products for shop to sell
@@ -65,6 +70,8 @@ Graphics    = json.load(open("graphics.json")) # Load list of graphical assets t
 Quests      = json.load(open("quests.json")) # Load list of quests for the questing system
 Dungeons    = json.load(open("dungeons.json")) # Load list of dungeons for the dungeon system
 Tables      = json.load(open("tables.json")) # Load tables for systems to use constants from
+Weapons     = json.load(open("weapons.json")) # Load weapons dictionary
+Magatamas   = json.load(open("magatamas.json")) # Load magatamas dictionary
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
 Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis}
 
@@ -370,6 +377,37 @@ def getPlayerExpToNextLevel(user_id):
     exp_to_next = next_level - exp
     return exp_to_next
 
+def getPlayerWeaponsInv(user_id):
+    EquipmentDB.execute("INSERT OR IGNORE INTO inventory (user_id, weapons, magatamas) VALUES (%s, 'Oni Dagger', '')" % str(user_id))
+    inventory = EquipmentDB.query(f"SELECT weapons FROM inventory WHERE user_id = '{user_id}'")
+    return inventory[0][0]
+
+def getPlayerMagatamasInv(user_id):
+    EquipmentDB.execute("INSERT OR IGNORE INTO inventory (user_id, weapons, magatamas) VALUES (%s, '', '')" % str(user_id))
+    inventory = EquipmentDB.query(f"SELECT magatamas FROM inventory WHERE user_id = '{user_id}'")
+    return inventory[0][0]
+
+def getPlayerEquipment(user_id):
+    EquipmentDB.execute("INSERT OR IGNORE INTO equipment (user_id, weapon, magatama_1, magatama_2, magatama_3, magatama_4) VALUES (%s, 'Oni Dagger', '', '', '', '')" % str(user_id))
+    weapon = EquipmentDB.query(f"SELECT weapon FROM equipment WHERE user_id = '{user_id}'")
+    magatama_1 = EquipmentDB.query(f"SELECT magatama_1 FROM equipment WHERE user_id = '{user_id}'")
+    magatama_2 = EquipmentDB.query(f"SELECT magatama_2 FROM equipment WHERE user_id = '{user_id}'")
+    magatama_3 = EquipmentDB.query(f"SELECT magatama_3 FROM equipment WHERE user_id = '{user_id}'")
+    magatama_4 = EquipmentDB.query(f"SELECT magatama_4 FROM equipment WHERE user_id = '{user_id}'")
+    equipment = {}
+    equipment.update({"weapon": weapon, "magatama_1": magatama_1, "magatama_2": magatama_2, "magatama_3": magatama_3, "magatama_4": magatama_4})
+    return equipment
+
+def equipWeapon(user_id, weapon):
+    EquipmentDB.execute("UPDATE equipment SET weapon = ? WHERE user_id = ?", (weapon, user_id))
+    return
+
+def givePlayerWeapon(user_id, weapon):
+    weapons = getPlayerWeaponsInv(user_id)
+    weapons = weapons + f", {weapon}" if weapons != "" else weapon
+    EquipmentDB.execute("UPDATE inventory SET weapons = ? WHERE user_id = ?", (weapons, user_id))
+    return
+
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
     weights_sum = weights.sum()
@@ -506,6 +544,8 @@ async def dungeons(ctx, *input):
                 self.ATK = getPlayerATK(user_id)
                 self.DEF = getPlayerDEF(user_id)
                 self.level = getPlayerLevel(user_id)
+                self.weapon = getPlayerEquipment(user_id)["weapon"][0][0]
+                self.weapon_atk = Weapons[self.weapon]["Attack"] if self.weapon != "" else 0
 
         class YokaiState:
             def __init__(self):
@@ -1029,8 +1069,8 @@ async def dungeons(ctx, *input):
             e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
 
         def updateAgents():
-            yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {'{:,}'.format(dg.Yokai.HP)}", f"Yokai ATK: {dg.Yokai.ATK}", f"Yokai DEF: {dg.Yokai.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {'{:,}'.format(dg.Player.HP)}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+            yokai_state = ["", f"{dg.Yokai.name}", "", f"Yokai HP: {'{:,}'.format(dg.Yokai.HP)}", f"Yokai ATK: {'{:,}'.format(dg.Yokai.ATK)}", f"Yokai DEF: {'{:,}'.format(dg.Yokai.DEF)}", ""]
+            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", f"⚔ {dg.Player.weapon} ⚔", "", f"Player HP: {'{:,}'.format(dg.Player.HP)}", f"Player ATK: {'{:,}'.format(dg.Player.ATK)}", f"Player DEF: {'{:,}'.format(dg.Player.DEF)}", ""]
             return yokai_state, player_state
 
         async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
@@ -1137,7 +1177,8 @@ async def dungeons(ctx, *input):
         dg.Yokai.ATK = base_yokai_atk
         dg.Yokai.DEF = base_yokai_def
         base_player_hp = getPlayerHP(user_id)
-        base_player_atk = getPlayerATK(user_id)
+        base_player_atk = getPlayerATK(user_id) + dg.Player.weapon_atk
+        base_player_atk = config.stats_cap if base_player_atk > config.stats_cap else base_player_atk
         base_player_def = getPlayerDEF(user_id)
         if getPlayerLevel(user_id) > dg.Player.level:
             dg.Player.level = getPlayerLevel(user_id)
@@ -1397,7 +1438,8 @@ async def dungeons(ctx, *input):
         dg.Boss.ATK = base_boss_atk
         dg.Boss.DEF = base_boss_def
         base_player_hp = getPlayerHP(user_id)
-        base_player_atk = getPlayerATK(user_id)
+        base_player_atk = getPlayerATK(user_id) + dg.Player.weapon_atk
+        base_player_atk = config.stats_cap if base_player_atk > config.stats_cap else base_player_atk
         base_player_def = getPlayerDEF(user_id)
         if getPlayerLevel(user_id) > dg.Player.level:
             dg.Player.level = getPlayerLevel(user_id)
@@ -1415,8 +1457,8 @@ async def dungeons(ctx, *input):
             e.set_field_at(8, name = "Console:", value = boxifyArray(console[-7:], padding = 2, min_width = 33), inline = False)
 
         def updateAgents():
-            boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {'{:,}'.format(dg.Boss.HP)}", f"Boss ATK: {dg.Boss.ATK}", f"Boss DEF: {dg.Boss.DEF}", ""]
-            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", "", f"Player HP: {'{:,}'.format(dg.Player.HP)}", f"Player ATK: {dg.Player.ATK}", f"Player DEF: {dg.Player.DEF}", ""]
+            boss_state = ["", f"{dg.Boss.name}", f"Phase: {dg.Boss.phase}", "", f"Boss HP: {'{:,}'.format(dg.Boss.HP)}", f"Boss ATK: {'{:,}'.format(dg.Boss.ATK)}", f"Boss DEF: {'{:,}'.format(dg.Boss.DEF)}", ""]
+            player_state = ["", f"{dg.Player.name}", f"Level: {dg.Player.level}", f"⚔ {dg.Player.weapon} ⚔", "", f"Player HP: {'{:,}'.format(dg.Player.HP)}", f"Player ATK: {'{:,}'.format(dg.Player.ATK)}", f"Player DEF: {'{:,}'.format(dg.Player.DEF)}", ""]
             return boss_state, player_state
 
         async def printToConsole(message, e, console, turn, atk_gauge, def_gauge, input):
@@ -3000,6 +3042,21 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 return
 
+@bot.command(aliases = ["equipment", "weapon", "magatama", "mag", "swap"])
+@commands.check(checkChannel)
+async def equip(ctx, *input):
+    ''' | Usage: +equip [weapon name | magatama name] '''
+    user_id = ctx.author.id
+    item = ' '.join(list(input))
+    equipment = getPlayerEquipment(user_id)
+    for weapon in Weapons:
+        if item.casefold() == weapon.casefold():
+            weapons_inv = getPlayerWeaponsInv(user_id)
+            equipWeapon(user_id, weapon)
+            await ctx.send(f"You equipped **{weapon}**!")
+            return
+    await ctx.send(f"There were no matches found for `{item}`.")
+
 @bot.command(aliases = ["wl"])
 @commands.check(checkChannel)
 async def whitelist(ctx, target = None, percent = None):
@@ -3482,8 +3539,26 @@ async def leaderboard(ctx):
 @commands.check(checkAdmin)
 async def reward(ctx, target: str, item: str, quantity):
     ''' | Usage: +reward <@user> <item> <quantity> | Items: "ticket", "fragment", "ryou", "exp", "energy" '''
+
     # Ensure valid discord ID
     if re.match(r"<(@|@&)[0-9]{18,19}>", target):
+
+        if item == "weapon":
+            weapon = quantity
+            for w in Weapons:
+                if weapon.casefold() == w.casefold():
+                    user_id = convertMentionToId(target)
+                    weapons_inv = getPlayerWeaponsInv(user_id)
+                    weapons_list = weapons_inv.split(", ")
+                    if not w in weapons_list:
+                        givePlayerWeapon(user_id, w)
+                        await ctx.send(f"Rewarded {target} with {Icons['attack']} **{w}**!")
+                    else:
+                        await ctx.send(f"User already has **{w}**!")
+                    return
+            await ctx.send("Please enter a **valid weapon name** to reward.")
+            return
+
         # Ensure integer
         try:
             quantity    = int(quantity)

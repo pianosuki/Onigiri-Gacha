@@ -18,7 +18,7 @@
     "Heavenly Nora Twin Blades":
     {
         "Type": "Twin Swords",
-        "Level_Required": 2,
+        "Level_Required": 1,
         "Attack": 1,
         "Elements": ["Holy"]
     },
@@ -61,5 +61,13 @@
         "Level_Required": 1,
         "Attack": 1,
         "Elements": ["Lightning"]
+    },
+
+    "SUKI's SMACKER":
+    {
+        "Type": "Sword",
+        "Level_Required": 1,
+        "Attack": 999999999,
+        "Elements": null
     }
 }

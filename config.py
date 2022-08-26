@@ -31,6 +31,7 @@ consumables             = {
     "Shenlong Nigiri": 10000
 }
 tax = 0.5
+stats_cap = 999999999
 
 # RNG
 weights         = {"tier_1": [25, 25, 20, 15, 10, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
@@ -69,7 +70,8 @@ channels = {
     "leaderboard": [1005908816061288539, 1005915625912279050, 969165756489171001],
     "restore": [1005908816061288539, 1010013028000989284, 1005915625912279050, 969165756489171001],
     "records": [1010013028000989284],
-    "whitelist": [1010013028000989284]
+    "whitelist": [1010013028000989284],
+    "equip": [1010013028000989284]
 }
 
 # UI
