@@ -50,12 +50,13 @@ DungeonsDB.execute("CREATE TABLE IF NOT EXISTS clears (clear_id TEXT PRIMARY KEY
 # Player Data
 PlayerDB = Database("playerdata.db")
 PlayerDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, exp INTEGER, energy INTEGER, last_refresh INTEGER)")
-# PlayerDB.execute("ALTER TABLE userdata ADD COLUMN energy INTEGER")
-# PlayerDB.execute("ALTER TABLE userdata ADD COLUMN last_refresh INTEGER")
 
 # Player Stat Points
 StatsDB = Database("playerstats.db")
 StatsDB.execute("CREATE TABLE IF NOT EXISTS userdata (user_id INTEGER PRIMARY KEY UNIQUE, points INTEGER, hp INTEGER, atk INTEGER, def INTEGER)")
+
+# User Whitelists
+WhitelistDB = Database("whitelists.db")
 
 # Objects
 Prizes      = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
@@ -153,6 +154,11 @@ def getUserItemInv(user_id):
     ItemsDB.execute("CREATE TABLE IF NOT EXISTS user_%s (item TEXT PRIMARY KEY UNIQUE, quantity INTEGER)" % str(user_id))
     inventory = ItemsDB.query("SELECT * FROM user_%s" % str(user_id))
     return inventory
+
+def getUserWhitelist(user_id):
+    WhitelistDB.execute("CREATE TABLE IF NOT EXISTS user_%s (user_id INTEGER PRIMARY KEY UNIQUE, percent INTEGER)" % str(user_id))
+    whitelist = WhitelistDB.query("SELECT * FROM user_%s" % str(user_id))
+    return whitelist
 
 def getLastQuest(user_id):
     ActivityDB.execute("INSERT OR IGNORE INTO quests (user_id, last_activity) VALUES (%s, '0')" % str(user_id))
@@ -490,6 +496,7 @@ async def dungeons(ctx, *input):
                 self.end_time = None
                 self.clear_time = None
                 self.pool = 0
+                self.Cache.tax_rate = 50
                 self.tax = 0
 
         class PlayerState:
@@ -887,7 +894,7 @@ async def dungeons(ctx, *input):
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
                         congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
-                        congrats += f"💸 Paid tax (50%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: <@{dg.founder}>\n"
+                        congrats += f"💸 Paid tax ({dg.Cache.tax_rate}%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: <@{dg.founder}>\n"
                     else:
                         congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
@@ -1654,7 +1661,22 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
-                        dg.Cache.tax = addPlayerRyou(dg.founder, math.floor(dg.Cache.pool * 0.5))
+                        whitelist = getUserWhitelist(dg.founder)
+                        wl = None
+                        for row in whitelist:
+                            if user_id in row:
+                                is_whitelisted = True
+                                wl = row
+                                break
+                            else:
+                                is_whitelisted = False
+                        if is_whitelisted:
+                            discount = round((wl[1] / 100.) * config.tax, 3)
+                        else:
+                            discount = 0
+                        tax = config.tax - discount
+                        dg.Cache.tax_rate = math.floor(tax * 100)
+                        dg.Cache.tax = addPlayerRyou(dg.founder, math.floor(dg.Cache.pool * tax))
                         pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool - dg.Cache.tax)
                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
                     else:
@@ -2979,6 +3001,37 @@ async def roll(ctx, skip=None):
                 await message.clear_reactions()
                 return
 
+@bot.command(aliases = ["wl"])
+@commands.check(checkChannel)
+async def whitelist(ctx, target = None, percent = None):
+    ''' | Usage: +whitelist <@user> [discount%]'''
+    if percent is None:
+        percent = 100
+    try:
+        percent = int(percent)
+    except ValueError:
+        await ctx.send(f"Please input a valid **integer** as the tax discount ({config.prefix}help whitelist)")
+        return
+    user_id = ctx.author.id
+    if not target is None and not target == ctx.author.mention and re.match(r"<(@|@&)[0-9]{18,19}>", target):
+        target_id = convertMentionToId(target)
+        whitelist = getUserWhitelist(user_id)
+        percent = 100 if percent > 100 else percent
+        percent = 0 if percent < 0 else percent
+        for wl in whitelist:
+            if target_id in wl:
+                wl_exists = True
+                break
+            else:
+                wl_exists = False
+        if not wl_exists:
+            WhitelistDB.execute("INSERT INTO {} (user_id, percent) VALUES ({}, {})".format(f"user_{user_id}", target_id, percent))
+        else:
+            WhitelistDB.execute("UPDATE {} SET percent = {} WHERE user_id = {}".format(f"user_{user_id}", percent, target_id))
+        await ctx.send(f"✅ Successfully added <@{target_id}> to your whitelist with a tax discount of **{percent}%**")
+    else:
+        await ctx.send("Please **@ mention** a valid user to check their stats (+help whitelist)")
+
 @bot.command(aliases = ["speedrun", "best", "times", "fastest"])
 @commands.check(checkChannel)
 async def records(ctx, *input):
@@ -3828,6 +3881,13 @@ async def compensate(ctx):
         else:
             ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
         await ctx.send(f"Rewarded <@{user_id}> with **{amount} __{product}__**!")
+
+@bot.command()
+@commands.is_owner()
+async def test(ctx):
+    user_id = ctx.author.id
+    whitelist = getUserWhitelist(user_id)
+    print(whitelist)
 
 @bot.command()
 @commands.is_owner()
