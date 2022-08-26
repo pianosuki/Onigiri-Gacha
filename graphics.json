@@ -192,6 +192,11 @@
             ["Graphics/Yokai/Ahriman/1.png", "ahriman-1.png", "attachment://ahriman-1.png"],
             ["Graphics/Yokai/Ahriman/2.png", "ahriman-2.png", "attachment://ahriman-2.png"]
         ],
+        "Gaki":
+        [
+            ["Graphics/Yokai/Gaki/1.png", "gaki-1.png", "attachment://gaki-1.png"],
+            ["Graphics/Yokai/Gaki/2.png", "gaki-2.png", "attachment://gaki-2.png"]
+        ],
         "Penanggalan": [["Graphics/Yokai/Penanggalan/1.png", "penanggalan-1.png", "attachment://penanggalan-1.png"]],
         "Musca": [["Graphics/Yokai/Musca/1.png", "musca-1.png", "attachment://musca-1.png"]],
         "Armored Mukade":
