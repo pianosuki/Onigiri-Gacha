@@ -496,7 +496,7 @@ async def dungeons(ctx, *input):
                 self.end_time = None
                 self.clear_time = None
                 self.pool = 0
-                self.Cache.tax_rate = 50
+                self.tax_rate = 50
                 self.tax = 0
 
         class PlayerState:
@@ -3880,6 +3880,16 @@ async def compensate(ctx):
         else:
             ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
         await ctx.send(f"Rewarded <@{user_id}> with **{amount} __{product}__**!")
+
+# @bot.command()
+# @commands.is_owner()
+# async def findgolddaruma(ctx):
+#     for f in Blueprint["blueprint"]["floors"]:
+#         if f["type"] == "Floor":
+#             for r in f["rooms"]:
+#                 if r["type"] == "Normal":
+#                     if "Gold Daruma" in r["yokai"]:
+#                         print(dg.seed)
 
 @bot.command()
 @commands.is_owner()
