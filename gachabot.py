@@ -953,14 +953,12 @@ async def dungeons(ctx, *input):
                         congrats += f"💸 Paid tax ({dg.Cache.tax_rate}%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: <@{dg.founder}>\n"
                     else:
                         congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
+            congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if dg.Cache.weapon_rewards:
                 weapons_string = ""
                 for index, weapon in enumerate(dg.Cache.weapon_rewards):
-                    weapons_string += f"__{weapon}__"
-                    if index + 1 < len(dg.Cache.weapon_rewards):
-                        weapons_string += ", "
-                congrats += f"⚔️ Found the following weapon(s): {weapons_string}\n"
-            congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
+                    weapons_string += f" └──  {Icons[Weapons[weapon]['Type'].lower()]} __*{weapon}*__{Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
+                congrats += f"⚔️ Found the following weapon(s):\n{weapons_string}\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
                 congrats += "Here is a blueprint of the unique dungeon properties you discovered with that seed:"
@@ -1761,8 +1759,8 @@ async def dungeons(ctx, *input):
                             weapons_inv = getPlayerWeaponsInv(user_id)
                             weapons_list = weapons_inv.split(", ")
                             if not weapon in weapons_list:
-                                dg.Cache.weapon_rewards.append(weapon)
                                 givePlayerWeapon(user_id, weapon)
+                            dg.Cache.weapon_rewards.append(weapon)
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} dropped '{weapon}'")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
@@ -3164,15 +3162,32 @@ async def equip(ctx, *input):
     def formatWeaponInventory():
         weapons_inv = getPlayerWeaponsInv(user_id)
         weapons_list = weapons_inv.split(", ")
-        formatted_string = "|"
-        for weapon in weapons_list:
-            formatted_string += f" __{weapon}__ "
-            formatted_string += "|"
+        formatted_string = ""
+        for index, weapon in enumerate(weapons_list):
+            lvl = Weapons[weapon]["Level_Required"]
+            elements = "┃ "
+            if not Weapons[weapon]["Elements"] is None:
+                for index, element in enumerate(Weapons[weapon]["Elements"]):
+                    elements += f"*{element}*"
+                    if index + 1 < len(Weapons[weapon]["Elements"]):
+                        elements += ", "
+            else:
+                elements = ""
+            match Weapons[weapon]["Rarity"]:
+                case "White":
+                    circle = "⚪"
+                case "Blue":
+                    circle = "🔵"
+                case "Red":
+                    circle = "🔴"
+                case "Gold":
+                    circle = "🟡"
+            formatted_string += f"{circle} ┃ __{weapon}__ ┃ **Lvl.{lvl}** {elements}\n"
         return formatted_string
 
     if not input:
-        commands = ["Equip a weapon:", "(+equip <weapon name>)", "", "View your inventory:", "(+equip inv)", ""]
-        e = discord.Embed(title = "Equipment Screen", color = default_color)
+        commands = ["", "Equip a weapon:", "(+equip <weapon name>)", "", "View your inventory:", "(+equip inv)", ""]
+        e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing equipment of <@{user_id}>", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = "⚔️ ─ Equipped Weapon ─ ⚔️", value = formatEquippedWeapon(equipment), inline = True)
@@ -3181,9 +3196,9 @@ async def equip(ctx, *input):
         await ctx.send(embed = e)
     else:
         if argument == "inventory" or argument == "inv":
-            e = discord.Embed(title = "Equipment Screen", color = default_color)
+            e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing inventory of <@{user_id}>", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            # e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
             e.add_field(name = "Weapon Inventory:", value = formatWeaponInventory(), inline = False)
             await ctx.send(embed = e)
             return
