@@ -1515,6 +1515,23 @@ async def dungeons(ctx, *input):
         async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
             # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Boss)
+            effectiveness = 0
+            weapon_elements = Weapons[dg.Player.weapon]["Elements"]
+            for resistance in dg.boss["Resistances"]:
+                for element in weapon_elements:
+                    if element == resistance:
+                        effectiveness -= 1
+            for weakness in dg.boss["Weaknesses"]:
+                for element in weapon_elements:
+                    if element == weakness:
+                        effectiveness += 1
+            if effectiveness < 0:
+                if effectiveness < -2:
+                    damage = 0
+                else:
+                    damage = math.floor(damage / (abs(effectiveness) * 2))
+            elif effectiveness > 0:
+                damage = math.floor(damage * ((effectiveness / 2) * 2.5))
             if is_supercharging:
                 damage *= 2
             dg.Boss.HP = dg.Boss.HP - damage if not dg.Boss.HP - damage < 0 else 0
@@ -1524,6 +1541,19 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} supercharged damage to {dg.Boss.name}!")
             if is_critical:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+            match effectiveness:
+                case 1:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Super effective!)")
+                case 2:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(HYPER effective!!)")
+                case x if x > 2:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(ULTRA EFFECTIVE!!!)")
+                case -1:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Not very effective)")
+                case -2:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Astronomically uneffective)")
+                case x if x < -2:
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Missed due to immunity)")
             # message = await printToConsole(message, e, console, "")
             return message
 
@@ -3330,7 +3360,8 @@ async def stats(ctx, target = None):
         HP = getPlayerHP(user_id)
         ATK = getPlayerATK(user_id)
         DEF = getPlayerDEF(user_id)
-        player_stats = ["", f"{user.name}", f"Total HP: {HP}", f"Total ATK: {ATK}", f"Total DEF: {DEF}", ""]
+        weapon_ATK = Weapons[getPlayerEquipment(user_id)["weapon"][0][0]]["Attack"]
+        player_stats = ["", f"{user.name}", f"Total HP: {HP}", f"Total ATK: {ATK} (+{weapon_ATK})", f"Total DEF: {DEF}", ""]
         return player_stats
 
     def formatPlayerPoints(user_id):
