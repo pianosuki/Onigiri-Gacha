@@ -536,6 +536,7 @@ async def dungeons(ctx, *input):
                 self.pool = 0
                 self.tax_rate = 50
                 self.tax = 0
+                self.weapon_rewards = []
 
         class PlayerState:
             def __init__(self):
@@ -952,6 +953,13 @@ async def dungeons(ctx, *input):
                         congrats += f"💸 Paid tax ({dg.Cache.tax_rate}%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: <@{dg.founder}>\n"
                     else:
                         congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
+            if dg.Cache.weapon_rewards:
+                weapons_string = ""
+                for index, weapon in enumerate(dg.Cache.weapon_rewards):
+                    weapons_string += f"__{weapon}__"
+                    if index + 1 < len(dg.Cache.weapon_rewards):
+                        weapons_string += ", "
+                congrats += f"⚔️ Found the following weapon(s): {weapons_string}"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
@@ -1722,6 +1730,7 @@ async def dungeons(ctx, *input):
                             weapons_inv = getPlayerWeaponsInv(user_id)
                             weapons_list = weapons_inv.split(", ")
                             if not weapon in weapons_list:
+                                dg.Cache.weapon_rewards.append(weapon)
                                 givePlayerWeapon(user_id, weapon)
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} dropped '{weapon}'")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
