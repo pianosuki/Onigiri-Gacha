@@ -872,10 +872,10 @@ async def dungeons(ctx, *input):
                         flag = False
                 case "🎁":
                     await message.clear_reactions()
-                    e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list:", color = 0x9575cd)
+                    e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list for mode: __{dg.mode_name}__", color = 0x9575cd)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                     # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-                    e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards), inline = True)
+                    e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards, dg.multiplier), inline = True)
                     await message.edit(embed = e)
                     emojis = ["↩️"]
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -1726,7 +1726,7 @@ async def dungeons(ctx, *input):
                 if "Weapons" in dg.rewards:
                     for weapon, rate in dg.rewards["Weapons"].items():
                         random_number = random.uniform(0, 100)
-                        if random_number <= rate:
+                        if random_number <= rate * dg.multiplier:
                             weapons_inv = getPlayerWeaponsInv(user_id)
                             weapons_list = weapons_inv.split(", ")
                             if not weapon in weapons_list:
@@ -1913,13 +1913,15 @@ async def dungeons(ctx, *input):
                 # case _:
                 #     icon = Icons["material_common"]
             index += 1
+        formatted_string += "───────────────\n"
+        formatted_string += "🎁 = Extended rewards list"
         return formatted_string
 
-    def formatWeaponRewards(dungeon_rewards):
+    def formatWeaponRewards(dungeon_rewards, multiplier):
         formatted_string = ""
         formatted_string += "───────────────\n"
         for weapon, rate in dungeon_rewards["Weapons"].items():
-            formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate}%**\n"
+            formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate * multiplier}%**\n"
         return formatted_string
 
     def getElementEmojis(array):
