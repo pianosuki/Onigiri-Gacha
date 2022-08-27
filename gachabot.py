@@ -959,7 +959,7 @@ async def dungeons(ctx, *input):
                     weapons_string += f"__{weapon}__"
                     if index + 1 < len(dg.Cache.weapon_rewards):
                         weapons_string += ", "
-                congrats += f"⚔️ Found the following weapon(s): {weapons_string}"
+                congrats += f"⚔️ Found the following weapon(s): {weapons_string}\n"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
