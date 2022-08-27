@@ -3113,7 +3113,7 @@ async def equip(ctx, *input):
         elements = ""
         if not weapon["Elements"] is None:
             for element in weapon["Elements"]:
-                elements += f"{Icons[element.lower()]}"
+                elements += f"{Icons[element]}"
         else:
             elements = "None"
         formatted_string += "──────────────────\n"
