@@ -850,7 +850,7 @@ async def dungeons(ctx, *input):
             e.add_field(name = "Rewards:", value = formatDungeonRewards(ctx, dg.rewards, dg.mode), inline = True)
             e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
             message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-            emojis = [Icons["door_open"], "↩️"]
+            emojis = [Icons["door_open"], "🎁", "↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
             if reaction is None:
                 flag = False
@@ -869,6 +869,21 @@ async def dungeons(ctx, *input):
                     else:
                         await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player.level}` more levels!")
                         flag = False
+                case "🎁":
+                    await message.clear_reactions()
+                    e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list:", color = 0x9575cd)
+                    e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                    # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                    e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards), inline = True)
+                    await message.edit(embed = e)
+                    emojis = ["↩️"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        return message, flag, mode
+                    match str(reaction.emoji):
+                        case "↩️":
+                            await message.clear_reactions()
                 case "↩️":
                     await message.clear_reactions()
                     mode = -1
@@ -1880,15 +1895,22 @@ async def dungeons(ctx, *input):
                     value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
                     formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
                     formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
-                case "Weapons":
-                    icon = "⚔️"
-                    formatted_string += "───────────────\n"
-                    formatted_string += f"{icon} ─ {key}\n"
-                    for weapon, rate in value.items():
-                        formatted_string += f" ╰──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate}%**\n"
-                case _:
-                    icon = Icons["material_common"]
+                # case "Weapons":
+                #     icon = "⚔️"
+                #     formatted_string += "───────────────\n"
+                #     formatted_string += f"{icon} ─ {key}\n"
+                #     for weapon, rate in value.items():
+                #         formatted_string += f" ╰──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate}%**\n"
+                # case _:
+                #     icon = Icons["material_common"]
             index += 1
+        return formatted_string
+
+    def formatWeaponRewards(dungeon_rewards):
+        formatted_string = ""
+        formatted_string += "───────────────\n"
+        for weapon, rate in dungeon_rewards["Weapons"].items():
+            formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate}%**\n"
         return formatted_string
 
     def getElementEmojis(array):
