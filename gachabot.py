@@ -1517,14 +1517,15 @@ async def dungeons(ctx, *input):
             damage, is_critical = damageCalculator(dg.Player, dg.Boss)
             effectiveness = 0
             weapon_elements = Weapons[dg.Player.weapon]["Elements"]
-            for resistance in dg.boss["Resistances"]:
-                for element in weapon_elements:
-                    if element == resistance:
-                        effectiveness -= 1
-            for weakness in dg.boss["Weaknesses"]:
-                for element in weapon_elements:
-                    if element == weakness:
-                        effectiveness += 1
+            if weapon_elements:
+                for resistance in dg.boss["Resistances"]:
+                    for element in weapon_elements:
+                        if element == resistance:
+                            effectiveness -= 1
+                for weakness in dg.boss["Weaknesses"]:
+                    for element in weapon_elements:
+                        if element == weakness:
+                            effectiveness += 1
             if effectiveness < 0:
                 if effectiveness < -2:
                     damage = 0
