@@ -3290,6 +3290,7 @@ async def equip(ctx, *input):
                 if argument.casefold() == weapon.casefold():
                     weapon_found = True
                     break
+            weapon_string = f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **{weapon}**{Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}"
             if weapon_found:
                 weapons_inv = getPlayerWeaponsInv(user_id)
                 weapons_list = weapons_inv.split(", ")
@@ -3297,13 +3298,13 @@ async def equip(ctx, *input):
                     level = getPlayerLevel(user_id)
                     if level >= Weapons[weapon]["Level_Required"]:
                         equipWeapon(user_id, weapon)
-                        await ctx.reply(f"You equipped **{weapon}**!")
+                        await ctx.reply(f"You equipped {weapon_string}")
                     else:
-                        await ctx.reply(f"You are not high enough level to wield: {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **__{weapon}__**!" + "\n" + \
+                        await ctx.reply(f"You are not high enough level to wield: {weapon_string}" + "\n" + \
                         f"*Your level:* {Icons['level']}**{level}**" + "\n" + \
                         f"*Level Required:* {Icons['level']}**{Weapons[weapon]['Level_Required']}**")
                 else:
-                    await ctx.reply(f"You don't own: {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **__{weapon}__**!")
+                    await ctx.reply(f"You don't own: {weapon_string}")
             else:
                 await ctx.reply(f"There were no matches found for `{argument}`")
 
