@@ -63,6 +63,10 @@ EquipmentDB = Database("equipment.db")
 EquipmentDB.execute("CREATE TABLE IF NOT EXISTS equipment (user_id INTEGER PRIMARY KEY UNIQUE, weapon TEXT, magatama_1 TEXT, magatama_2 TEXT, magatama_3 TEXT, magatama_4 TEXT)")
 EquipmentDB.execute("CREATE TABLE IF NOT EXISTS inventory (user_id INTEGER PRIMARY KEY UNIQUE, weapons TEXT, magatamas TEXT)")
 
+# Seeds
+SeedsDB = Database("seeds.db")
+SeedsDB.execute("CREATE TABLE IF NOT EXISTS seeds (id INTEGER PRIMARY KEY, seed TEXT, user_id TEXT, dungeon TEXT, mode INTEGER, note TEXT)")
+
 # Objects
 Prizes      = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
 Products    = json.load(open("products.json")) # Load list of products for shop to sell
@@ -340,6 +344,10 @@ def addPlayerDungeonClear(user_id, dg):
     DungeonsDB.execute("INSERT INTO clears (clear_id, user_id, date, dungeon, mode, clear_time, seed) VALUES (?, ?, ?, ?, ?, ?, ?)", (clear_id, user_id, date, dungeon, mode, clear_time, seed))
     return
 
+def getAllDungeonClears():
+    dungeon_clears = DungeonsDB.query(f"SELECT * FROM clears")
+    return dungeon_clears
+
 def getUserItemQuantity(user_id, product):
     items_inv = getUserItemInv(user_id)
     if not items_inv:
@@ -407,6 +415,10 @@ def givePlayerWeapon(user_id, weapon):
     weapons = weapons + f", {weapon}" if weapons != "" else weapon
     EquipmentDB.execute("UPDATE inventory SET weapons = ? WHERE user_id = ?", (weapons, user_id))
     return
+
+# def getPlayerSeeds(user_id):
+#     seeds = SeedsDB.query(f"SELECT * FROM seeds WHERE user_id = {user_id}")
+#     return seeds
 
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
@@ -3123,6 +3135,75 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 return
+
+@bot.command(aliases = ["seed"])
+@commands.check(checkChannel)
+async def seeds(ctx, target = None):
+    """ | Usage: +seeds [@user] """
+    default_color = config.default_color
+
+    if target is None:
+        target = ctx.author.mention
+    if re.match(r"<(@|@&)[0-9]{18,19}>", target):
+        target_id = convertMentionToId(target)
+    else:
+        await ctx.send("Please **@ mention** a valid user to check their stats (+help seeds)")
+        return
+
+    def getTopSeeds(amount):
+        top_seeds = []
+        clears = getAllDungeonClears()
+        seeds = []
+        for clear in clears:
+            seeds.append((clear[6], clear[3], clear[4]))
+        c = Counter(seeds)
+        index = 0
+        for entry, frequency in c.items():
+            top_seeds.append({"seed": entry[0], "dungeon": entry[1], "mode": entry[2], "frequency": frequency})
+            index += 1
+            if index == amount:
+                break
+        return top_seeds
+
+    def formatTopFrequencies(top_seeds):
+        formatted_string = ""
+        for index, entry in enumerate(top_seeds):
+            formatted_string += f"┃ ◂ {config.numbers[index]} ▸\n"
+            formatted_string += f"┃ `({entry['frequency']}x)`\n"
+            if index + 1 == len(top_seeds):
+                formatted_string += "┗━━━━━━\n"
+            else:
+                formatted_string += "┃ \n"
+        return formatted_string
+
+    def formatTopSeeds(top_seeds):
+        formatted_string = ""
+        for index, entry in enumerate(top_seeds):
+            formatted_string += f"┃ 🌱 `{entry['seed']}`\n"
+            formatted_string += f"┃ ⛩️ **__{entry['dungeon']}__**\n"
+            if index + 1 == len(top_seeds):
+                formatted_string += "┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            else:
+                formatted_string += "┃\n"
+        return formatted_string
+
+    def formatTopModes(top_seeds):
+        formatted_string = ""
+        for index, entry in enumerate(top_seeds):
+            formatted_string += f"┃ `-Mode-`\n"
+            formatted_string += f"┃ {Icons[config.mode_mapping[entry['mode']].lower()]} ╱ **{entry['mode']}**\n"
+            if index + 1 == len(top_seeds):
+                formatted_string += "┻━━━━━━\n"
+            else:
+                formatted_string += "┃\n"
+        return formatted_string
+
+    e = discord.Embed(title = "Top ten most popular seeds", description = f"Viewing seeds founded by user: {target}", color = default_color)
+    e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+    e.add_field(name = "┏━━━━━━", value = formatTopFrequencies(getTopSeeds(10)), inline = True)
+    e.add_field(name = "┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━", value = formatTopSeeds(getTopSeeds(10)), inline = True)
+    e.add_field(name = "┳━━━━━━", value = formatTopModes(getTopSeeds(10)), inline = True)
+    await ctx.send(embed = e)
 
 @bot.command(aliases = ["equipment", "weapon", "magatama", "mag", "swap"])
 @commands.check(checkChannel)
