@@ -969,7 +969,7 @@ async def dungeons(ctx, *input):
             if dg.Cache.weapon_rewards:
                 weapons_string = ""
                 for index, weapon in enumerate(dg.Cache.weapon_rewards):
-                    weapons_string += f" └──  {Icons[Weapons[weapon]['Type'].lower()]} __*{weapon}*__{Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
+                    weapons_string += f" └──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} __*{weapon}*__{Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
                 congrats += f"⚔️ Found the following weapon(s):\n{weapons_string}\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
@@ -3315,7 +3315,7 @@ async def equip(ctx, *input):
                 if argument.casefold() == weapon.casefold():
                     weapon_found = True
                     break
-            weapon_string = f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **{weapon}**{Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}"
+            weapon_string = f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **{weapon}** {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}"
             if weapon_found:
                 weapons_inv = getPlayerWeaponsInv(user_id)
                 weapons_list = weapons_inv.split(", ")
