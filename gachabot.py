@@ -1346,8 +1346,8 @@ async def dungeons(ctx, *input):
                 ExpTable = Tables["ExpTable"]
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {mob}!")
                 if mob == "Gold Daruma":
-                    random_amount = random.randint(10000, 100000)
-                    ryou_amount = math.floor(((random_amount / 5) * dg.level) + ((random_amount / 10) * dg.level * dg.multiplier))
+                    random_amount = random.randint(1000, 10000)
+                    ryou_amount = math.floor((random_amount * dg.level) + ((random_amount * dg.level * dg.multiplier) / 2))
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {'{:,}'.format(math.floor(ryou_amount / 2))} Ryou)")
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({'{:,}'.format(math.floor(ryou_amount / 2))} Ryou added to dungeon pool)")
                     await reward(ctx, ctx.author.mention, "ryou", math.floor(ryou_amount / 2))
