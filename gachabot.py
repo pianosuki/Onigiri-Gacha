@@ -3157,10 +3157,23 @@ async def seeds(ctx, target = None):
 
     def getTopSeeds(amount):
         top_seeds = []
-        clears = getAllDungeonClears() if is_global else getPlayerDungeonClears(target_id)
+        clears = getAllDungeonClears()
+
         seeds = []
         for clear in clears:
             seeds.append((clear[6], clear[3], clear[4]))
+
+        if not is_global:
+            founded_seeds = []
+            for entry in seeds:
+                filename = f"Blueprints/{entry[1]}/{config.mode_mapping[entry[2]]}/{entry[0]}.json"
+                if file_exists(filename):
+                    temp_blueprint = json.load(open(filename))
+                    founder = temp_blueprint["footer"]["Founder"]
+                    if target_id == founder:
+                        founded_seeds.append(entry)
+            seeds = founded_seeds
+
         c = Counter(seeds)
 
         def sortByFrequency(tup):
@@ -3171,7 +3184,6 @@ async def seeds(ctx, target = None):
 
         index = 0
         for entry, frequency in sorted_seeds:
-            print(entry, frequency)
             top_seeds.append({"seed": entry[0], "dungeon": entry[1], "mode": entry[2], "frequency": frequency})
             index += 1
             if index == amount:
