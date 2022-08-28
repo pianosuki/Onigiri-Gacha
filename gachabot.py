@@ -3139,26 +3139,39 @@ async def roll(ctx, skip=None):
 @bot.command(aliases = ["seed"])
 @commands.check(checkChannel)
 async def seeds(ctx, target = None):
-    """ | Usage: +seeds [@user] """
+    """ | Usage: +seeds [@user | top] """
     default_color = config.default_color
+    global_keywords = ["global", "top", "all"]
 
-    if target is None:
-        target = ctx.author.mention
-    if re.match(r"<(@|@&)[0-9]{18,19}>", target):
-        target_id = convertMentionToId(target)
+    if target in global_keywords:
+        is_global = True
     else:
-        await ctx.send("Please **@ mention** a valid user to check their stats (+help seeds)")
-        return
+        is_global = False
+        if target is None:
+            target = ctx.author.mention
+        if re.match(r"<(@|@&)[0-9]{18,19}>", target):
+            target_id = convertMentionToId(target)
+        else:
+            await ctx.send("Please **@ mention** a valid user to check their stats (+help seeds)")
+            return
 
     def getTopSeeds(amount):
         top_seeds = []
-        clears = getAllDungeonClears()
+        clears = getAllDungeonClears() if is_global else getPlayerDungeonClears(target_id)
         seeds = []
         for clear in clears:
             seeds.append((clear[6], clear[3], clear[4]))
         c = Counter(seeds)
+
+        def sortByFrequency(tup):
+            return tup[1]
+
+        sorted_seeds = list(c.items())
+        sorted_seeds.sort(key = sortByFrequency, reverse=True)
+
         index = 0
-        for entry, frequency in c.items():
+        for entry, frequency in sorted_seeds:
+            print(entry, frequency)
             top_seeds.append({"seed": entry[0], "dungeon": entry[1], "mode": entry[2], "frequency": frequency})
             index += 1
             if index == amount:
@@ -3198,7 +3211,7 @@ async def seeds(ctx, target = None):
                 formatted_string += "┃\n"
         return formatted_string
 
-    e = discord.Embed(title = "Top ten most popular seeds", description = f"Viewing seeds founded by user: {target}", color = default_color)
+    e = discord.Embed(title = "Top ten most popular seeds", description = f"Viewing seeds founded by user: {target if not is_global else '**GLOBAL**'}", color = default_color)
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
     e.add_field(name = "┏━━━━━━", value = formatTopFrequencies(getTopSeeds(10)), inline = True)
     e.add_field(name = "┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━", value = formatTopSeeds(getTopSeeds(10)), inline = True)
