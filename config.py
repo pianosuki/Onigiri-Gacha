@@ -8,16 +8,20 @@ prefix          = "+"
 coin_name       = "Ryou D-Coins"
 
 # RPG
-level_cap               = 40
-mode_mapping            = {-1: "Any", 0: "Normal", 1: "Hard", 2: "Hell", 3: "Oni"}
-mode_mapping_inverse    = {"Any": -1, "Normal": 0, "Hard": 1, "Hell": 2, "Oni": 3}
-mode_multipliers        = {-1: 0, 0: 1, 1: 2, 2: 3, 3: 5}
-mode_divisors           = {-1: 1, 0: 4, 1: 3, 2: 2, 3: 1}
-default_rooms_range     = [2, 5]
-default_mob_spawnrate   = [0, 3]
-goldaruma_spawnrate     = 1
-default_chest_loot      = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"EXP": [100, 200]}, "rate": 50}]
-consumables             = {
+level_cap                   = 50
+mode_mapping                = {-1: "Any", 0: "Normal", 1: "Hard", 2: "Hell", 3: "Oni"}
+mode_mapping_inverse        = {"Any": -1, "Normal": 0, "Hard": 1, "Hell": 2, "Oni": 3}
+mode_multipliers            = {-1: 0, 0: 1, 1: 2, 2: 3, 3: 5}
+mode_divisors               = {-1: 1, 0: 4, 1: 3, 2: 2, 3: 1}
+default_rooms_range         = [2, 5]
+default_mob_spawnrate       = [0, 3]
+default_max_population      = 3
+default_goldaruma_spawnrate = 1
+default_chest_loot          = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"EXP": [100, 200]}, "rate": 50}]
+default_yokai_modulations   = {"HP": 0, "ATK": 0, "DEF": 0}
+tax                         = 0.5
+stats_cap                   = 999999999
+consumables                 = {
     "Tuna Nigiri": 50,
     "Salmon Nigiri": 100,
     "Anago Nigiri": 200,
@@ -30,8 +34,6 @@ consumables             = {
     "Shachihoko Nigiri": 5000,
     "Shenlong Nigiri": 10000
 }
-tax = 0.5
-stats_cap = 999999999
 
 # RNG
 weights         = {"tier_1": [25, 25, 20, 15, 10, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)

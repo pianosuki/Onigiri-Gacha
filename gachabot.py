@@ -133,7 +133,7 @@ async def waitForReaction(ctx, message, e, emojis, modmsg = True):
 
     # Wait for user to react
     try:
-        reaction, user = await bot.wait_for("reaction_add", check = checkReaction, timeout = 120)
+        reaction, user = await bot.wait_for("reaction_add", check = checkReaction, timeout = 300)
     except Exception as error:
         # Operation timed out
         await message.clear_reactions()
@@ -592,9 +592,12 @@ async def dungeons(ctx, *input):
             self.energy = getDungeonEnergy(dungeon)[self.mode]
             self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
             self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
-            self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.goldaruma_spawnrate
+            self.max_population = self.properties["max_population"] if "max_population" in self.properties else config.default_max_population
+            self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.default_goldaruma_spawnrate
             self.goldaruma_spawnrate /= 100.
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
+            self.yokai_modulations = config.default_yokai_modulations
+            self.yokai_modulations.update(elf.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_yokai_modulations)
 
             # Seed
             if seed is None:
@@ -666,6 +669,7 @@ async def dungeons(ctx, *input):
             f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8") + pepper.encode("utf-8")).hexdigest()
             random.seed(f_seed)
             population = random.randint(self.mob_spawnrate[0], self.mob_spawnrate[1])
+            population = population if population <= self.max_population else self.max_population
             mobs = self.spawnMobs(population)
             if mobs:
                 room_schematic.update({"type": "Normal", "yokai": []})
@@ -679,7 +683,13 @@ async def dungeons(ctx, *input):
 
         def renderBoss(self):
             boss_schematic = {}
+            seed = hashlib.md5(self.seed.encode("utf-8") + self.salt.encode("utf-8") + self.pepper.encode("utf-8")).hexdigest()
+            salt = "renderBoss"
+            f_seed = hashlib.md5(seed.encode("utf-8") + salt.encode("utf-8")).hexdigest()
+            random.seed(f_seed)
             boss_schematic.update(Dungeons[self.dungeon]["Boss"])
+            if type(Dungeons[self.dungeon]["Boss"]["Name"]) is list:
+                boss_schematic.update({"Name": random.choice(Dungeons[self.dungeon]["Boss"]["Name"])})
             base_hp = Dungeons[self.dungeon]["Boss"]["HP"]
             scaled_hp = math.floor((base_hp * 0.75) + (base_hp / 4 * self.multiplier))
             boss_schematic.update({"HP": scaled_hp})
@@ -1203,9 +1213,9 @@ async def dungeons(ctx, *input):
         # dg.Yokai.HP = dg.level * dg.multiplier * random.randint(10, 50) + (math.floor((dg.level ** 3) / 4))
         # dg.Yokai.ATK = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
         # dg.Yokai.DEF = dg.level * dg.multiplier * random.randint(5, 15) + (math.floor((dg.level ** 2) / 4))
-        base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier))
-        base_yokai_atk = math.floor((dg.level * random.uniform(5, 8.5)) + (dg.level * dg.multiplier))
-        base_yokai_def = math.floor((dg.level * random.uniform(5.5, 9)) + (dg.level * dg.multiplier))
+        base_yokai_hp = math.floor((dg.level * random.randint(20, 50)) + (dg.level * dg.multiplier)) + dg.yokai_modulations["HP"]
+        base_yokai_atk = math.floor((dg.level * random.uniform(5, 8.5)) + (dg.level * dg.multiplier)) + dg.yokai_modulations["ATK"]
+        base_yokai_def = math.floor((dg.level * random.uniform(5.5, 9)) + (dg.level * dg.multiplier)) + dg.yokai_modulations["DEF"]
         dg.Yokai.HP = base_yokai_hp
         dg.Yokai.ATK = base_yokai_atk
         dg.Yokai.DEF = base_yokai_def

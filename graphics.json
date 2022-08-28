@@ -225,6 +225,50 @@
         [
             ["Graphics/Yokai/Beelzebub/1.png", "beelzebub-1.png", "attachment://beelzebub-1.png"],
             ["Graphics/Yokai/Beelzebub/2.png", "beelzebub-2.png", "attachment://beelzebub-2.png"]
+        ],
+        "Bengara":
+        [
+            ["Graphics/Yokai/Bengara/1.png", "bengara-1.png", "attachment://bengara-1.png"],
+            ["Graphics/Yokai/Bengara/2.png", "bengara-2.png", "attachment://bengara-2.png"]
+        ],
+        "Hashihime":
+        [
+            ["Graphics/Yokai/Hashihime/1.png", "hashihime-1.png", "attachment://hashihime-1.png"],
+            ["Graphics/Yokai/Hashihime/2.png", "hashihime-2.png", "attachment://hashihime-2.png"]
+        ],
+        "Gedoumaru":
+        [
+            ["Graphics/Yokai/Gedoumaru/1.png", "gedoumaru-1.png", "attachment://gedoumaru-1.png"],
+            ["Graphics/Yokai/Gedoumaru/2.png", "gedoumaru-2.png", "attachment://gedoumaru-2.png"]
+        ],
+        "Bloodstained Nyuudou":
+        [
+            ["Graphics/Yokai/Bloodstained Nyuudou/1.png", "bloodstainednyuudou-1.png", "attachment://bloodstainednyuudou-1.png"],
+            ["Graphics/Yokai/Bloodstained Nyuudou/2.png", "bloodstainednyuudou-2.png", "attachment://bloodstainednyuudou-2.png"]
+        ],
+        "Shikigami Slice":
+        [
+            ["Graphics/Yokai/Shikigami Slice/1.png", "shikigamislice-1.png", "attachment://shikigamislice-1.png"],
+            ["Graphics/Yokai/Shikigami Slice/2.png", "shikigamislice-2.png", "attachment://shikigamislice-2.png"]
+        ],
+        "Shikigami Stab":
+        [
+            ["Graphics/Yokai/Shikigami Stab/1.png", "shikigamistab-1.png", "attachment://shikigamistab-1.png"],
+            ["Graphics/Yokai/Shikigami Stab/2.png", "shikigamistab-2.png", "attachment://shikigamistab-2.png"]
+        ],
+        "Shikigami Curse":
+        [
+            ["Graphics/Yokai/Shikigami Curse/1.png", "shikigamicurse-1.png", "attachment://shikigamicurse-1.png"],
+            ["Graphics/Yokai/Shikigami Curse/2.png", "shikigamicurse-2.png", "attachment://shikigamicurse-2.png"]
+        ],
+        "Shikifuda": [["Graphics/Yokai/Shikifuda/1.png", "shikifuda-1.png", "attachment://shikifuda-1.png"]],
+        "Kokushiki": [["Graphics/Yokai/Kokushiki/1.png", "kokushiki-1.png", "attachment://kokushiki-1.png"]],
+        "Aoshiki": [["Graphics/Yokai/Aoshiki/1.png", "aoshiki-1.png", "attachment://aoshiki-1.png"]],
+        "Akamekabe": [["Graphics/Yokai/Akamekabe/1.png", "akamekabe-1.png", "attachment://akamekabe-1.png"]],
+        "Odin":
+        [
+            ["Graphics/Yokai/Odin/1.png", "odin-1.png", "attachment://odin-1.png"],
+            ["Graphics/Yokai/Odin/2.png", "odin-2.png", "attachment://odin-2.png"]
         ]
     },
 

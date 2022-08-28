@@ -56,7 +56,7 @@
         {
             "Name": "Kyoukotsu",
             "HP": 100,
-            "Resistances": ["Dark"],
+            "Resistances": ["Dark", "Ice", "Lightning", "Rain"],
             "Weaknesses": ["Fire"]
         },
         "Rewards":
@@ -2050,7 +2050,7 @@
                 "rooms_range": [5, 6],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [1900, 2000], "Ryou": [5200, 5300]}, "rate": 89},
+                    {"pool": {"EXP": [1900, 2000], "Ryou": [5200, 5700]}, "rate": 89},
                     {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
                     {"pool": {"Ootoro Nigiri": [1, 1]}, "rate": 10}
                 ]
@@ -2060,7 +2060,7 @@
                 "rooms_range": [5, 7],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [2000, 2100], "Ryou": [5300, 5400]}, "rate": 89},
+                    {"pool": {"EXP": [2000, 2100], "Ryou": [5300, 5800]}, "rate": 89},
                     {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
                     {"pool": {"Ootoro Nigiri": [1, 2]}, "rate": 10}
                 ]
@@ -2070,7 +2070,7 @@
                 "rooms_range": [5, 8],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [2100, 2200], "Ryou": [5400, 5500]}, "rate": 89},
+                    {"pool": {"EXP": [2100, 2200], "Ryou": [5400, 5900]}, "rate": 89},
                     {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
                     {"pool": {"Ootoro Nigiri": [1, 3]}, "rate": 10}
                 ]
@@ -2080,7 +2080,7 @@
                 "rooms_range": [5, 9],
                 "chest_loot":
                 [
-                    {"pool": {"EXP": [2200, 2300], "Ryou": [5500, 5600]}, "rate": 89},
+                    {"pool": {"EXP": [2200, 2300], "Ryou": [5500, 6000]}, "rate": 89},
                     {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
                     {"pool": {"Ootoro Nigiri": [1, 4]}, "rate": 10}
                 ]
@@ -2106,7 +2106,7 @@
         "Rewards":
         {
             "Ryou": {"range": [200000, 300000], "rate": 100},
-            "EXP": {"range": [5500, 5600], "rate": 100},
+            "EXP": {"range": [5500, 6000], "rate": 100},
             "Weapons":
             {
                 "Mikazukimunechika": 1,
@@ -2117,6 +2117,723 @@
                 "One Chance": 3,
                 "Kogitsunemaru": 3,
                 "Wind Sunlight Talisman": 5
+            }
+        }
+    },
+
+    "Ankan Forest":
+    {
+        "Level_Required": 40,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 1],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2000, 2100], "Ryou": [5700, 5800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [1, 1],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2100, 2200], "Ryou": [5800, 5900]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [1, 1],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2200, 2300], "Ryou": [5900, 6000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [1, 1],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2300, 2400], "Ryou": [6000, 6100]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Ittanmomen"
+        ],
+        "Boss":
+        {
+            "Name": "Bengara",
+            "HP": 9000,
+            "Resistances": ["Holy", "Mountain"],
+            "Weaknesses": ["Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 310000], "rate": 100},
+            "EXP": {"range": [6000, 6100], "rate": 100},
+            "Weapons":
+            {
+                "Dahou": 1,
+                "Yatsuka": 3,
+                "Dark Kashi Staff": 5,
+                "Kareyanagi Staff": 10
+            }
+        }
+    },
+
+    "Well of Five Virtues":
+    {
+        "Level_Required": 41,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2100, 2200], "Ryou": [5800, 5900]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2200, 2300], "Ryou": [5900, 6000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2300, 2400], "Ryou": [6000, 6100]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2400, 2500], "Ryou": [6100, 6200]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Kubire Oni",
+            "Ungaikyou",
+            "Child Mukade",
+            "Gama",
+            "Punk Kappa",
+            "Gaikotsu"
+        ],
+        "Boss":
+        {
+            "Name": "Hashihime",
+            "HP": 7200,
+            "Resistances": ["Ice", "Rain"],
+            "Weaknesses": ["Holy"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [310000, 320000], "rate": 100},
+            "EXP": {"range": [6100, 6200], "rate": 100},
+            "Weapons":
+            {
+                "Samehada": 1,
+                "Kamatarizakura": 3,
+                "Aburahinoki Spear": 10,
+                "Ranmagiri Sword": 10
+            }
+        }
+    },
+
+    "Gedoumaru's Hideout":
+    {
+        "Level_Required": 42,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2200, 2300], "Ryou": [5900, 6000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2300, 2400], "Ryou": [6000, 6100]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2400, 2500], "Ryou": [6100, 6200]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2500, 2600], "Ryou": [6200, 6300]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Gloom Daruma",
+            "Luck Daruma",
+            "Loss Daruma"
+        ],
+        "Boss":
+        {
+            "Name": "Gedoumaru",
+            "HP": 7400,
+            "Resistances": ["Mountain", "Ice", "Lightning", "Dark"],
+            "Weaknesses": ["Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [320000, 330000], "rate": 100},
+            "EXP": {"range": [6200, 6300], "rate": 100},
+            "Weapons":
+            {
+                "Samehada": 1,
+                "Heavenly Ranmagiri Sword": 5,
+                "Whitecap Staff": 10,
+                "Tokage Twin Blades": 10
+            }
+        }
+    },
+
+    "Kyoukotsu's Lair":
+    {
+        "Level_Required": 43,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2300, 2400], "Ryou": [6000, 6100]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2400, 2500], "Ryou": [6100, 6200]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2500, 2600], "Ryou": [6200, 6300]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2600, 2700], "Ryou": [6300, 6400]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Gaikotsu",
+            "Rock Sticky",
+            "Dark Sticky",
+            "Handamashii Musha",
+            "Nuppepou",
+            "Gaki",
+            "Kusareppou"
+        ],
+        "Boss":
+        {
+            "Name": "Kyoukotsu",
+            "HP": 7600,
+            "Resistances": ["Dark", "Ice", "Lightning", "Rain"],
+            "Weaknesses": ["Fire"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [330000, 340000], "rate": 100},
+            "EXP": {"range": [6300, 6400], "rate": 100},
+            "Weapons":
+            {
+                "Muramasa": 1,
+                "Seiryuu Scimitar": 3,
+                "Earth Oshikiri Tachi": 5,
+                "Byakue Talisman": 10
+            }
+        }
+    },
+
+    "Nishidera":
+    {
+        "Level_Required": 44,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 2],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2400, 2500], "Ryou": [6100, 6200]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 2],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2500, 2600], "Ryou": [6200, 6300]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2600, 2700], "Ryou": [6300, 6400]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2700, 2800], "Ryou": [6400, 6500]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 4,
+        "Yokai":
+        [
+            "Handamashii Musha",
+            "Child Mukade",
+            "Nuppepou",
+            "Bakeneko",
+            "Penanggalan",
+            "Kubire Oni",
+            "Tsujigami"
+        ],
+        "Boss":
+        {
+            "Name": "Bloodstained Nyuudou",
+            "HP": 7800,
+            "Resistances": ["Dark", "Fire", "Holy"],
+            "Weaknesses": ["Lightning", "Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [340000, 350000], "rate": 100},
+            "EXP": {"range": [6400, 6500], "rate": 100},
+            "Weapons":
+            {
+                "Kinkousen": 1,
+                "Mizukiri Tachi": 3,
+                "Fragarach": 3,
+                "Ikkaku Tachi": 10,
+                "Minamoto Bow": 10
+            }
+        }
+    },
+
+    "Yakumo Temple":
+    {
+        "Level_Required": 45,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 1],
+                "max_population": 1,
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2500, 2600], "Ryou": [6200, 6300]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ],
+                "yokai_modulations": {"HP": 2000}
+            },
+            "Hard":
+            {
+                "rooms_range": [1, 1],
+                "max_population": 1,
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2600, 2700], "Ryou": [6300, 6400]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ],
+                "yokai_modulations": {"HP": 3000}
+            },
+            "Hell":
+            {
+                "rooms_range": [1, 1],
+                "max_population": 1,
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2700, 2800], "Ryou": [6400, 6500]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ],
+                "yokai_modulations": {"HP": 4000}
+            },
+            "Oni":
+            {
+                "rooms_range": [1, 1],
+                "max_population": 1,
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2800, 2900], "Ryou": [6500, 6600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ],
+                "yokai_modulations": {"HP": 5000}
+            }
+        },
+        "Floors": 5,
+        "Yokai":
+        [
+            "Beelzebub",
+            "Ahriman",
+            "Chief Daruma",
+            "Tiamat"
+        ],
+        "Boss":
+        {
+            "Name": "Ungaikyou",
+            "HP": 8000,
+            "Resistances": ["Holy", "Rain"],
+            "Weaknesses": ["Fire", "Mountain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [350000, 360000], "rate": 100},
+            "EXP": {"range": [6500, 6600], "rate": 100},
+            "Weapons":
+            {
+                "Ugenhaou": 1,
+                "Kinben": 3,
+                "Brionac": 3,
+                "Tiger Claw Twin Blades": 10,
+                "Intetsu Battleaxe": 10
+            }
+        }
+    },
+
+    "Yellow Dragon Spire":
+    {
+        "Level_Required": 46,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2600, 2700], "Ryou": [6300, 6500]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2700, 2800], "Ryou": [6400, 6600]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2800, 2900], "Ryou": [6500, 6700]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 7],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2900, 3000], "Ryou": [6600, 6800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Shikigami Slice",
+            "Shikigami Stab",
+            "Shikigami Curse",
+            "Nue",
+            "Kokushiki",
+            "Lantern Ghost"
+        ],
+        "Boss":
+        {
+            "Name": "Benkei",
+            "HP": 8500,
+            "Resistances": ["Lightning", "Ice", "Dark", "Holy", "Wind"],
+            "Weaknesses": ["Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [360000, 380000], "rate": 100},
+            "EXP": {"range": [6600, 6800], "rate": 100},
+            "Weapons":
+            {
+                "Onikirikunitsuna": 1,
+                "Gae Bolg": 3,
+                "Ice Arawashi Twin Blades": 5,
+                "Pearl Staff": 10,
+                "Daikokuten Talisman": 10
+            }
+        }
+    },
+
+    "Shinoda Forest":
+    {
+        "Level_Required": 47,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2700, 2800], "Ryou": [6500, 6700]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2800, 2900], "Ryou": [6600, 6800]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2900, 3000], "Ryou": [6700, 6900]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3000, 3100], "Ryou": [6800, 7000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Momijina",
+            "Amagaeru",
+            "Gama",
+            "Bengara",
+            "Tsujigami",
+            "Shikifuda",
+            "Aoshiki",
+            "Shikigami Slice",
+            "Shikigami Stab",
+            "Shikigami Curse"
+        ],
+        "Boss":
+        {
+            "Name": ["Shikigami Slice", "Shikigami Stab", "Shikigami Curse"],
+            "HP": 9000,
+            "Resistances": ["Poison"],
+            "Weaknesses": []
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [380000, 400000], "rate": 100},
+            "EXP": {"range": [6800, 7000], "rate": 100},
+            "Weapons":
+            {
+                "Genma": 1,
+                "Chidori": 3,
+                "Chained Magnolia Spear": 10,
+                "Helm-Splitter Sword": 10,
+                "Blooming Flower Bow": 10
+            }
+        }
+    },
+
+    "Mount Kurama":
+    {
+        "Level_Required": 48,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2800, 2900], "Ryou": [6700, 9700]}, "rate": 79},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 1]}, "rate": 20}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [2900, 3000], "Ryou": [6800, 9800]}, "rate": 79},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 2]}, "rate": 20}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3000, 3100], "Ryou": [6900, 9900]}, "rate": 79},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 3]}, "rate": 20}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3100, 3200], "Ryou": [7000, 10000]}, "rate": 79},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Kinmedai Nigiri": [1, 4]}, "rate": 20}
+                ]
+            }
+        },
+        "Floors": 4,
+        "Yokai":
+        [
+            "Bengara",
+            "Tsujigami",
+            "Lantern Ghost",
+            "Kokushiki",
+            "Shikigami Curse",
+            "Shikigami Slice",
+            "Shikigami Stab",
+            "Akamekabe"
+        ],
+        "Boss":
+        {
+            "Name": "Odin",
+            "HP": 11000,
+            "Resistances": ["Holy", "Fire"],
+            "Weaknesses": ["Dark", "Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [400000, 500000], "rate": 100},
+            "EXP": {"range": [7000, 10000], "rate": 100},
+            "Weapons":
+            {
+                "Amanokako Bow": 1,
+                "Tokoyo Sword": 1,
+                "Deathbringer": 3,
+                "Failnaught": 3,
+                "Ukonvasara": 3,
+                "Ookanehira": 3,
+                "Lightning Seidou Battleaxe": 5,
+                "Sekkou Battleaxe": 10,
+                "Nyuudou Tachi": 10
             }
         }
     }
