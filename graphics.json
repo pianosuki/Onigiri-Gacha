@@ -261,6 +261,7 @@
             ["Graphics/Yokai/Shikigami Curse/1.png", "shikigamicurse-1.png", "attachment://shikigamicurse-1.png"],
             ["Graphics/Yokai/Shikigami Curse/2.png", "shikigamicurse-2.png", "attachment://shikigamicurse-2.png"]
         ],
+        "Tsujigami": [["Graphics/Yokai/Tsujigami/1.png", "tsujigami-1.png", "attachment://tsujigami-1.png"]],
         "Shikifuda": [["Graphics/Yokai/Shikifuda/1.png", "shikifuda-1.png", "attachment://shikifuda-1.png"]],
         "Kokushiki": [["Graphics/Yokai/Kokushiki/1.png", "kokushiki-1.png", "attachment://kokushiki-1.png"]],
         "Aoshiki": [["Graphics/Yokai/Aoshiki/1.png", "aoshiki-1.png", "attachment://aoshiki-1.png"]],
