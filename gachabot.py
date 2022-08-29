@@ -898,6 +898,33 @@ async def dungeons(ctx, *input):
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                     # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                     e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards, dg.multiplier), inline = True)
+
+                    d = e.to_dict()
+
+                    if len(d["fields"][0]["value"]) > 1024:
+                        weapons_list = formatWeaponRewards(dg.rewards, dg.multiplier).split("\n")
+                        weapons_1 = ""
+                        weapons_2 = ""
+                        for index, line in enumerate(weapons_list):
+                            if index <= math.floor(len(weapons_list) / 2):
+                                weapons_1 += line + "\n"
+                            else:
+                                weapons_2 += line + "\n"
+                        e.set_field_at(0, name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_1, inline = True)
+                        e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_2, inline = True)
+
+                    if len(d["fields"][1]["value"]) > 1024:
+                        magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
+                        magatamas_1 = ""
+                        magagatams_2 = ""
+                        for index, line in enumerate(magatamas_list):
+                            if index <= math.floor(len(magatamas_list) / 2):
+                                magatamas_1 += line + "\n"
+                            else:
+                                magagatams_2 += line + "\n"
+                        e.set_field_at(1, name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_1, inline = True)
+                        e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magagatams_2, inline = True)
+
                     await message.edit(embed = e)
                     emojis = ["↩️"]
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -1972,7 +1999,11 @@ async def dungeons(ctx, *input):
         formatted_string = ""
         formatted_string += "───────────────\n"
         for weapon, rate in dungeon_rewards["Weapons"].items():
-            formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate * multiplier}%**\n"
+            elements = ""
+            if not Weapons[weapon]['Elements'] is None:
+                for element in Weapons[weapon]['Elements']:
+                    elements += Icons[element]
+            formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}{' │ ' + elements if not elements == '' else ''} │ **{rate * multiplier}%**\n"
         return formatted_string
 
     def getElementEmojis(array):

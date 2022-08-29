@@ -2339,7 +2339,7 @@
             "EXP": {"range": [6200, 6300], "rate": 100},
             "Weapons":
             {
-                "Samehada": 1,
+                "Muramasa": 1,
                 "Heavenly Ranmagiri Sword": 5,
                 "Whitecap Staff": 10,
                 "Tokage Twin Blades": 10
@@ -2418,8 +2418,8 @@
             "EXP": {"range": [6300, 6400], "rate": 100},
             "Weapons":
             {
-                "Muramasa": 1,
-                "Seiryuu Scimitar": 3,
+                "Kinkousen": 1,
+                "Ukonvasara": 3,
                 "Earth Oshikiri Tachi": 5,
                 "Byakue Talisman": 10
             }
@@ -2497,9 +2497,9 @@
             "EXP": {"range": [6400, 6500], "rate": 100},
             "Weapons":
             {
-                "Kinkousen": 1,
+                "Ugenhaou": 1,
                 "Mizukiri Tachi": 3,
-                "Fragarach": 3,
+                "Ookanehira": 3,
                 "Ikkaku Tachi": 10,
                 "Minamoto Bow": 10
             }
@@ -2582,9 +2582,9 @@
             "EXP": {"range": [6500, 6600], "rate": 100},
             "Weapons":
             {
-                "Ugenhaou": 1,
                 "Kinben": 3,
                 "Brionac": 3,
+                "Failnaught": 3,
                 "Tiger Claw Twin Blades": 10,
                 "Intetsu Battleaxe": 10
             }
@@ -2828,9 +2828,8 @@
                 "Amanokako Bow": 1,
                 "Tokoyo Sword": 1,
                 "Deathbringer": 3,
-                "Failnaught": 3,
-                "Ukonvasara": 3,
-                "Ookanehira": 3,
+                "Seiryuu Scimitar": 3,
+                "Fragarach": 3,
                 "Lightning Seidou Battleaxe": 5,
                 "Sekkou Battleaxe": 10,
                 "Nyuudou Tachi": 10
