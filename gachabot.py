@@ -596,8 +596,8 @@ async def dungeons(ctx, *input):
             self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.default_goldaruma_spawnrate
             self.goldaruma_spawnrate /= 100.
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
-            self.yokai_modulations = config.default_yokai_modulations
-            self.yokai_modulations.update(self.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_yokai_modulations)
+            self.yokai_modulations = config.default_yokai_modulations.copy()
+            self.yokai_modulations.update(self.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_yokai_modulations.copy())
 
             # Seed
             if seed is None:
@@ -942,6 +942,7 @@ async def dungeons(ctx, *input):
         except IndexError:
             await ctx.send(f"⚠️ **Invalid difficulty mode specified:** Dungeon `{dungeon}` has no mode `{mode}`")
             flag = False
+        del dg
         return message, flag, mode
 
     async def dungeonEntry(ctx, message, flag, dg, seed):
@@ -2064,23 +2065,22 @@ async def dungeons(ctx, *input):
             # Check if the provided dungeon argument is an existing dungeon
             if dg_string.casefold() == dungeon.casefold():
                 # A match was found! Proceed to load the dungeon
-                if mode == -1:
-                    # Mode wasn't provided so let the user select it by hand
-                    await selectDungeon(ctx, message, dungeon, mode, seed)
-                else:
-                    # Mode was provided so shortcut straight to the entry screen
-                    await selectDungeon(ctx, message, dungeon, mode, seed)
-                # User finished the dungeon, exit now
-                return
+                dungeon_ready = True
+                break
             else:
+                dungeon_ready = False
                 continue
-        # Checks failed; therefore, user must have mistyped the dungeon name
-        await ctx.send(f"⚠️ **There doesn't exist any dungeons with the name:** `{dg_string}`")
-        return
+        if dungeon_ready:
+            await selectDungeon(ctx, message, dungeon, mode, seed)
+        else:
+            # Checks failed; therefore, user must have mistyped the dungeon name
+            await ctx.send(f"⚠️ **There doesn't exist any dungeons with the name:** `{dg_string}`")
     else:
         # Conclude that neither dungeon name nor mode was provided
         # Show the user a list of dungeons they have unlocked
         await menuDungeons(ctx, message)
+    # EOF
+    return
 
 @bot.command(aliases = ["quest", "questing", "subquest", "subquests", "sidequest", "sidequests", "mission", "missions"])
 @commands.check(checkChannel)
