@@ -597,7 +597,7 @@ async def dungeons(ctx, *input):
             self.goldaruma_spawnrate /= 100.
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
             self.yokai_modulations = config.default_yokai_modulations
-            self.yokai_modulations.update(elf.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_yokai_modulations)
+            self.yokai_modulations.update(self.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_yokai_modulations)
 
             # Seed
             if seed is None:
