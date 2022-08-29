@@ -168,6 +168,16 @@ weapon_emojis   = {
     "staff": "<:staff:1012806593122938951>",
     "wand": "<:wand:1012806581123043459>"
 }
+magatama_emojis = {
+    "magatama_axe": "<:magatama_axe:1013652287119425596>",
+    "magatama_staff": "<:magatama_staff:1013652329989423195>",
+    "magatama_wand": "<:magatama_wand:1013652462290350180>",
+    "magatama_twin_swords": "<:magatama_twin_swords:1013652358850433224>",
+    "magatama_bow": "<:magatama_bow:1013652377921929246>",
+    "magatama_sword": "<:magatama_sword:1013652395596726402>",
+    "magatama_odachi": "<:magatama_odachi:1013652408603263067>",
+    "magatama_spear": "<:magatama_spear:1013652422897451139>"
+}
 rarity_emojis   = {
     "rarity_white": "<:rarity_white:1012809065715474472>",
     "rarity_blue": "<:rarity_blue:1012853447516762122>",

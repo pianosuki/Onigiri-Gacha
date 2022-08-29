@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Onigiri"
 bot_version = "1.9"
-debug_mode  = False
+debug_mode  = True
 
 import config, dresource
 from database import Database
@@ -77,7 +77,7 @@ Tables      = json.load(open("tables.json")) # Load tables for systems to use co
 Weapons     = json.load(open("weapons.json")) # Load weapons dictionary
 Magatamas   = json.load(open("magatamas.json")) # Load magatamas dictionary
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
-Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis, **config.weapon_emojis, **config.rarity_emojis}
+Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis, **config.weapon_emojis, **config.magatama_emojis, **config.rarity_emojis}
 
 # Names
 coin_name = config.coin_name
@@ -893,6 +893,8 @@ async def dungeons(ctx, *input):
                         await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player.level}` more levels!")
                         flag = False
                 case "🎁":
+                    print(mode, dg.mode, dg.mode_name, "\n")
+                    print(dg)
                     await message.clear_reactions()
                     e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list for mode: __{dg.mode_name}__", color = 0x9575cd)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
@@ -913,17 +915,17 @@ async def dungeons(ctx, *input):
                         e.set_field_at(0, name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_1, inline = True)
                         e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_2, inline = True)
 
-                    if len(d["fields"][1]["value"]) > 1024:
-                        magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
-                        magatamas_1 = ""
-                        magagatams_2 = ""
-                        for index, line in enumerate(magatamas_list):
-                            if index <= math.floor(len(magatamas_list) / 2):
-                                magatamas_1 += line + "\n"
-                            else:
-                                magagatams_2 += line + "\n"
-                        e.set_field_at(1, name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_1, inline = True)
-                        e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magagatams_2, inline = True)
+                    # if len(d["fields"][1]["value"]) > 1024:
+                    #     magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
+                    #     magatamas_1 = ""
+                    #     magagatams_2 = ""
+                    #     for index, line in enumerate(magatamas_list):
+                    #         if index <= math.floor(len(magatamas_list) / 2):
+                    #             magatamas_1 += line + "\n"
+                    #         else:
+                    #             magagatams_2 += line + "\n"
+                    #     e.set_field_at(1, name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_1, inline = True)
+                    #     e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magagatams_2, inline = True)
 
                     await message.edit(embed = e)
                     emojis = ["↩️"]
