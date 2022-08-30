@@ -173,3 +173,6 @@ role_boosts = {
     "OniOG": 7,
     "Oni-Booster": 20
 }
+
+# Consolations
+role_consolation = 5

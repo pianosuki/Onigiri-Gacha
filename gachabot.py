@@ -2522,6 +2522,10 @@ async def roll(ctx, skip=None):
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __Safe From Purge__ Role: **{config.safe_role}**!")
                         else:
                             continue
+                    else:
+                        amount = config.role_consolation
+                        GachaDB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with consolation prize: **{amount} Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                 # case x if x.endswith("EXP"):
                 #     exp = int(x.rstrip(" EXP"))
                 #     # channel = bot.get_channel(config.channels["exp"])
