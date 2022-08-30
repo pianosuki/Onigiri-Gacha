@@ -12,7 +12,7 @@
       "red": [],
       "silver": [],
       "gold": [],
-      "platinum": ["VIP WL PASS"]
+      "platinum": []
     }
   },
 
@@ -29,7 +29,7 @@
       "red": [],
       "silver": [],
       "gold": [],
-      "platinum": ["VIP WL PASS"]
+      "platinum": []
     }
   },
 
@@ -46,24 +46,24 @@
       "red": [],
       "silver": [],
       "gold": [],
-      "platinum": ["OG"]
+      "platinum": []
     }
   },
 
   "tier_4":
   {
-    "name": "Tier 4",
+    "name": "GAMA Raffle",
     "symbol": "🏅",
     "tickets_required": 10,
     "regulated": true,
     "prizes":
     {
-      "blue": [],
-      "green": [],
-      "red": [],
-      "silver": [],
-      "gold": [],
-      "platinum": ["GOLD PASS"]
+      "blue": ["2 Gacha Tickets"],
+      "green": ["5 Gacha Tickets"],
+      "red": ["100 <:GAMADCOIN:1003392621005262931> WOG"],
+      "silver": ["VIP Pass"],
+      "gold": ["OG"],
+      "platinum": ["500 <:GAMADCOIN:1003392621005262931> WOG"]
     }
   }
 }

@@ -35,8 +35,8 @@ consumables             = {
 weights         = {"tier_1": [25, 25, 20, 15, 10, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
                    "tier_2": [25, 25, 20, 15, 10, 5],
                    "tier_3": [25, 25, 20, 15, 10, 5],
-                   "tier_4": [29, 25, 20, 15, 10, 1]}
-weight_mods     = [1] # Applied respectively according to how many times prize has been rolled. 0 rolled = weight_mods[0], 1 rolled = weight_mods[1], etc.
+                   "tier_4": [32, 25, 18, 12, 8, 5]}
+weight_mods     = [0] # Applied respectively according to how many times prize has been rolled. 0 rolled = weight_mods[0], 1 rolled = weight_mods[1], etc.
 encouragement   = {"tier_1": [32, 25, 18, 12, 8, 5],
                    "tier_2": [32, 25, 18, 12, 8, 5],
                    "tier_3": [32, 25, 18, 12, 8, 5],
@@ -52,7 +52,7 @@ admin_list      = [462763810365898783, 859699653128486912, 629713896747433995, 4
 wl_role         = "VIP WL PASS (Silver)"
 gold_pass_role  = "GOLD PASS"
 og_role         = "o🇬 (500)"
-gacha_mod_role  = 989407410693210117
+gacha_mod_role  = 1014248074471813120
 
 # Channels
 channels = {
@@ -61,7 +61,7 @@ channels = {
     "quests": [1011471996011413514],
     "dungeons": [1011471996011413514],
     "chat_earn": [989407418008096807],
-    "exp": [1011471996011413514],
+    "reward": [1011471996011413514],
     "history": [1001853369285099590, 1001869730992361554],
     "craft": [1001853369285099590, 1001869730992361554],
     "inv": [1001853369285099590, 1001869730992361554],
@@ -99,8 +99,8 @@ numbers         = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️�
 # Testing server: custom_emojis   = {"ryou": "<:ryouu1:1004945368460578908>", "ticket": "<:gamaticket:1003394371883892826>", "fragment": "<:GachaTicketReg:1004959178814668881>", "exp": "<:exp:1005561171295879308>", "level": "<:level:1005563309124223067>"}
 custom_emojis   = {
     "ryou": "<:GAMADCOIN:1003392621005262931>",
-    "ticket": "<:gamaticket:1003394371883892826>",
-    "fragment": "<:GachaTicketReg:1004959142458446005>",
+    "ticket": "<:gamaticket:1003394597386457228>",
+    "fragment": "<:ticket_fragment:1014237835169107968>",
     "exp": "<:exp:1006052726603517954>",
     "level": "<:level:1006053105420484669>",
     "energy": "<:energy:1007492998487097365>",

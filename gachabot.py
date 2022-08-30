@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "War of GAMA"
 bot_version = "1.9"
-debug_mode  = False
+debug_mode  = True
 
 import config, dresource
 from database import Database
@@ -1968,474 +1968,474 @@ def boxifyArray(array, padding = 1, min_width = 0, spacer_character = "-"):
 #         seconds = (last_quest + wait - now) % 60
 #         await ctx.send(f"There are currently no quests, please check back in ⌛ **{hours} hours**, **{minutes} minutes**, and **{seconds} seconds**.")
 
-@bot.command(aliases = ["market", "buy", "sell", "trade", "shop", "store"])
-@commands.check(checkChannel)
-async def tavern(ctx):
-    ''' | Usage: +market | Use reactions to navigate the menus '''
-    user_id         = ctx.author.id
-    menu_top        = config.menu_top
-    menu_separator  = config.menu_separator
-    menu_bottom     = config.menu_bottom
-    default_color   = config.default_color
-    numbers         = config.numbers
-    coin_name       = config.coin_name
-    conv_rate       = config.conv_rate
-    conv_rates      = [
-        f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *{coin_name}*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*",
-        f"{Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*  =  {Icons['ryou']} x `{'{:,}'.format(int(conv_rate[0] / 10))}` *{coin_name}*"
-    ]
-
-    async def menuMain(ctx, message, flag):
-        banner = generateFileObject("GAMA-Market", Graphics["Banners"]["GAMA-Market"][0])
-        e = discord.Embed(title = f"Welcome to the {branch_name} Tavern!", description = "What would you like to do today?", color = default_color)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-        e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-        e.add_field(name = "▷ ⚖️  ──────  Trade  ───────  ⚖️ ◁", value = menu_separator, inline = False)
-        e.add_field(name = "▷ 🛒 ─────── Buy ──────── 🛒 ◁", value = menu_separator, inline = False)
-        e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
-        message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
-        emojis = ["⚖️", "🛒", "❌"]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            flag = False
-            return message, flag
-        match str(reaction.emoji):
-            case "⚖️":
-                e.set_field_at(1, name = "►⚖️  ──────  Trade  ───────  ⚖️ ◄", value = menu_separator, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                message, flag = await tradeEntry(ctx, message, flag)
-                return message, flag
-            case "🛒":
-                e.set_field_at(2, name = "►🛒 ─────── Buy ──────── 🛒 ◄", value = menu_separator, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                message, flag = await shopEntry(ctx, message, flag)
-                return message, flag
-            case "❌":
-                e.set_field_at(3, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                flag = False
-                return message, flag
-
-    async def tradeEntry(ctx, message, flag):
-        while flag:
-            inv_gacha   = getUserGachaInv(user_id)
-            inv_market  = getUserMarketInv(user_id)
-            tickets     = inv_gacha.gacha_tickets
-            fragments   = inv_gacha.gacha_fragments
-            total_rolls = inv_gacha.total_rolls
-            ryou        = inv_market.ryou
-            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *{coin_name}* and *Gacha Tickets*!", color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
-            e.add_field(name = f"Your {coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-            e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
-            e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-            e.add_field(name = f"▷ {Icons['ticket']} ─ {coin_name} ─> Tickets ─  {Icons['ticket']} ◁", value = menu_separator, inline = False)
-            e.add_field(name = f"▷ {Icons['ryou']} ─ Tickets ─> {coin_name} ─  {Icons['ryou']} ◁", value = menu_separator, inline = False)
-            e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
-            await message.edit(embed = e)
-            emojis = [Icons['ticket'], Icons['ryou'], "↩️"]
-            reaction, user = await waitForReaction(ctx, message, e, emojis)
-            if reaction is None:
-                flag = False
-                return message, flag
-            match str(reaction.emoji):
-                case x if x == Icons['ticket']:
-                    e.set_field_at(4, name = f"►{Icons['ticket']} ─ {coin_name} ─> Tickets ─  {Icons['ticket']} ◄", value = menu_separator, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    message, flag = await ryouToTickets(ctx, message, flag)
-                case x if x == Icons['ryou']:
-                    e.set_field_at(5, name = f"►{Icons['ryou']} ─ Tickets ─> {coin_name} ─  {Icons['ryou']} ◄", value = menu_separator, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    message, flag = await ticketsToRyou(ctx, message, flag)
-                case "↩️":
-                    e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    return message, flag
-            if flag:
-                continue
-            else:
-                return message, flag
-
-    async def ryouToTickets(ctx, message, flag):
-        inv_gacha   = getUserGachaInv(user_id)
-        inv_market  = getUserMarketInv(user_id)
-        tickets     = inv_gacha.gacha_tickets
-        fragments   = inv_gacha.gacha_fragments
-        total_rolls = inv_gacha.total_rolls
-        ryou        = inv_market.ryou
-        if ryou >= conv_rate[0]:
-            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = f"Trade your *{coin_name}* into *Gacha Tickets*", color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
-            e.add_field(name = f"Your {coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-            e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
-            e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-            e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
-            e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
-            e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
-            await message.edit(embed = e)
-            emojis = ["1️⃣", "*️⃣", "↩️"]
-            reaction, user = await waitForReaction(ctx, message, e, emojis)
-            if reaction is None:
-                flag = False
-                return message, flag
-            match str(reaction.emoji):
-                case "1️⃣":
-                    e.set_field_at(4, name = "►1️⃣  ──── Exchange  One ────  1️⃣ ◄", value = menu_separator, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    ryou_traded = int(conv_rate[0])
-                    tickets_traded = int(conv_rate[1])
-                case "*️⃣":
-                    e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    ryou_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[0])
-                    tickets_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[1])
-                case "↩️":
-                    e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    return message, flag
-            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *{coin_name}* into *Gacha Tickets*!", color = 0x4caf50)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = f"Traded *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
-            e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
-            e.add_field(name = f"You now have this many *{coin_name}* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
-            e.add_field(name = "Your total *Gacha Tickets* are now:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets + tickets_traded)}`", inline = False)
-            message = await ctx.send(embed = e)
-            MarketDB.userdata[user_id] = {"ryou": ryou - ryou_traded}
-            GachaDB.userdata[user_id] = {"gacha_tickets": tickets + tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
-            flag = False
-            return message, flag
-        else:
-            e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = f"You have insufficient *{coin_name}*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
-            message = await ctx.send(embed = e)
-            flag = False
-            return message, flag
-
-    async def ticketsToRyou(ctx, message, flag):
-        inv_gacha   = getUserGachaInv(user_id)
-        inv_market  = getUserMarketInv(user_id)
-        tickets     = inv_gacha.gacha_tickets
-        fragments   = inv_gacha.gacha_fragments
-        total_rolls = inv_gacha.total_rolls
-        ryou        = inv_market.ryou
-        if tickets >= conv_rate[1]:
-            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = f"Trade your *Gacha Tickets* into *{coin_name}*", color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
-            e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
-            e.add_field(name = f"Bulk {coin_name} yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * (conv_rate[0] / 10)))}`", inline = True)
-            e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-            e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
-            e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
-            e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
-            await message.edit(embed = e)
-            emojis = ["1️⃣", "*️⃣", "↩️"]
-            reaction, user = await waitForReaction(ctx, message, e, emojis)
-            if reaction is None:
-                flag = False
-                return message, flag
-            match str(reaction.emoji):
-                case "1️⃣":
-                    e.set_field_at(4, name = "►1️⃣  ──── Exchange  One ────  1️⃣ ◄", value = menu_separator, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    ryou_traded = int(conv_rate[0] / 10)
-                    tickets_traded = int(conv_rate[1])
-                case "*️⃣":
-                    e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    ryou_traded = int(math.floor(tickets / conv_rate[1]) * (conv_rate[0] / 10))
-                    tickets_traded = int(tickets)
-                case "↩️":
-                    e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
-                    await message.edit(embed = e)
-                    await message.clear_reactions()
-                    return message, flag
-            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Tickets* into *{coin_name}*!", color = 0x4caf50)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = "Traded *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
-            e.add_field(name = f"Obtained *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
-            e.add_field(name = "You now have this many *Gacha Tickets* left:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets - tickets_traded)}`", inline = False)
-            e.add_field(name = f"Your total *{coin_name}* are now:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou + ryou_traded)}`", inline = False)
-            message = await ctx.send(embed = e)
-            GachaDB.userdata[user_id] = {"gacha_tickets": tickets - tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
-            MarketDB.userdata[user_id] = {"ryou": ryou + ryou_traded}
-            flag = False
-            return message, flag
-        else:
-            e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {Icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
-            message = await ctx.send(embed = e)
-            flag = False
-            return message, flag
-
-    async def shopEntry(ctx, message, flag):
-        products_length = len(Products)
-        e = discord.Embed(title = f"Welcome to the {branch_name} Shop!", description = "Select a product to purchase:", color = default_color)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-        # Set offset to 0 (page 1) and begin bidirectional page system
-        offset = 0
-        while flag:
-            counter = 0
-            emojis = []
-            # Iterate through products in groups of 5
-            for index, product in enumerate(Products):
-                if index < offset:
-                    # Skipping to next entry until arriving at the proper page/offset
-                    continue
-                e.add_field(name = f"{numbers[counter]}  -  ***{product}***", value = f"╰ Price: {Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
-                emojis.append(numbers[counter])
-                counter +=1
-                # Once a full page is assembled, print it
-                if counter == 6 or index + 1 == products_length:
-                    await message.edit(embed = e)
-                    if index + 1 > 6 and index + 1 < products_length:
-                        # Is a middle page
-                        emojis[:0] = ["⏪", "⏩", "❌"]
-                    elif index + 1 < products_length:
-                        # Is the first page
-                        emojis[:0] = ["⏩", "❌"]
-                    elif products_length > 6:
-                        # Is the last page
-                        emojis[:0] = ["⏪", "❌"]
-                    else:
-                        # Is the only page
-                        emojis[:0] = ["❌"]
-                    reaction, user = await waitForReaction(ctx, message, e, emojis)
-                    if reaction is None:
-                        flag = False
-                        return message, flag
-                    match str(reaction.emoji):
-                        case "⏩":
-                            # Tell upcomming re-iteration to skip to the next page's offset
-                            offset += 6
-                            await message.clear_reactions()
-                            e.clear_fields()
-                            break
-                        case "⏪":
-                            # Tell upcomming re-iteration to skip to the previous page's offset
-                            offset -= 6
-                            await message.clear_reactions()
-                            e.clear_fields()
-                            break
-                        case "❌":
-                            await message.clear_reactions()
-                            return message, flag
-                        case number_emoji if number_emoji in numbers:
-                            await message.clear_reactions()
-                            product_index = getProductIndex(number_emoji, offset)
-                            product = getProduct(product_index)
-                            if product is None:
-                                await ctx.send("The product you chose could not be loaded!")
-                                flag = False
-                            else:
-                                e.clear_fields()
-                                message, flag = await selectProduct(ctx, message, flag, product)
-                                if flag:
-                                    break
-                                else:
-                                    return message, flag
-                    if flag:
-                        continue
-                    else:
-                        return message, flag
-
-    async def selectProduct(ctx, message, flag, product):
-        stock = getProductStock(product)
-        attributes = getProductAttributes(product)
-        e = discord.Embed(title = f"Cart Checkout", description = f"Properties of product selected:", color = default_color)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-        e.add_field(name = "Product name", value = f"🏷️ **{product}**", inline = True)
-        e.add_field(name = "Price", value = f"{Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
-        e.add_field(name = "Current stock", value = f"🏦 `{stock}`", inline = True)
-        e.add_field(name = "Type", value = f"🔧 `{Products[product]['Type']}`", inline = True)
-        e.add_field(name = "Stacks in inventory?", value = f"🗃️ `{str(Products[product]['Stackable'])}`", inline = True)
-        e.add_field(name = f"📍 Attributes ({len(Products[product]['Attributes'])}):", value = "None" if not attributes else f"```{attributes}```", inline = False)
-        e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-        e.add_field(name = "▷ ✅   ─────   Purchase   ─────    ✅ ◁", value = menu_separator, inline = False)
-        e.add_field(name = "▷ 🚫  ──────   Cancel   ──────  🚫 ◁", value = menu_bottom, inline = False)
-        await message.edit(embed = e)
-        emojis = ["✅", "🚫"]
-        reaction, user = await waitForReaction(ctx, message, e, emojis)
-        if reaction is None:
-            flag = False
-            return message, flag
-        match str(reaction.emoji):
-            case "✅":
-                e.set_field_at(7, name = "►✅   ─────   Purchase   ─────    ✅ ◄", value = menu_separator, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                message, flag = await buyProduct(ctx, message, flag, product)
-                flag = False
-                return message, flag
-            case "🚫":
-                e.set_field_at(8, name = "►🚫  ──────   Cancel   ──────  🚫 ◄", value = menu_bottom, inline = False)
-                await message.edit(embed = e)
-                await message.clear_reactions()
-                return message, flag
-
-    async def buyProduct(ctx, message, flag, product):
-        inv_gacha       = getUserGachaInv(user_id)
-        inv_market      = getUserMarketInv(user_id)
-        inv_items       = getUserItemInv(user_id)
-        item_quantity   = getUserItemQuantity(user_id, product)
-        requirements    = getProductRequirements(product)
-        stock           = getProductStock(product)
-        tickets         = inv_gacha.gacha_tickets
-        fragments       = inv_gacha.gacha_fragments
-        total_rolls     = inv_gacha.total_rolls
-        ryou            = inv_market.ryou
-        price           = Products[product]["Price"]
-        stackable       = Products[product]['Stackable']
-        if stock == "Unlimited" or stock > 0:
-            if checkMeetsItemRequirements(user_id, product):
-                if ryou >= price:
-                    if stackable or not stackable and item_quantity == None:
-                        if not updateProductStock(product):
-                            await ctx.send("‼️ Critical Error: Could not complete transaction. ‼️")
-                            flag = False
-                            return message, flag
-                        if item_quantity == None:
-                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, 1))
-                        else:
-                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + 1, product))
-                        MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou - price, user_id))
-                        e = discord.Embed(title = "Checkout Result", description = f"✅ Purchase was successful!", color = 0x4caf50)
-                        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-                        e.add_field(name = f"Spent *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
-                        e.add_field(name = "Obtained *Item*:", value = f"🏷️ ***{product}***", inline = True)
-                        e.add_field(name = f"You now have this many *{coin_name}* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
-                        await ctx.send(embed = e)
-                        if product in config.role_boosts:
-                            await addRole(ctx, product)
-                    else:
-                        e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
-                        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                        e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-                        e.add_field(name = "This item is not stackable!", value =  "You already have one of this item.", inline = False)
-                        await ctx.send(embed = e)
-                else:
-                    e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
-                    e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                    e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-                    e.add_field(name = f"You have insufficient *{coin_name}*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
-                    await ctx.send(embed = e)
-            else:
-                e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
-                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-                e.add_field(name = "You do not meet the product requirements.", value =  f"Check your {config.prefix}inv to compare your items to the requirements above.", inline = False)
-                await ctx.send(embed = e)
-        else:
-            e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
-            e.add_field(name = "This product is out of stock!", value = "Sorry! Please come again~", inline = False)
-            await ctx.send(embed = e)
-        return message, flag
-
-    def getProductIndex(number_emoji, offset = 0):
-        for n, emoji in enumerate(numbers):
-            if number_emoji == emoji:
-                product_index = n + offset
-        return product_index
-
-    def getProduct(product_index):
-        product_array = list(Products.items())
-        for p in Products:
-            if p == product_array[product_index][0]:
-                product = p
-                break
-            else:
-                product = None
-        return product
-
-    def getProductAttributes(product):
-        attributes = Products[product]["Attributes"]
-        attributes_formatted = ""
-        for attribute in attributes:
-            border = ""
-            for _ in attribute:
-                border += "═"
-            attributes_formatted += f"╔{border}╗\n║{attribute}║\n╚{border}╝\n"
-        return attributes_formatted
-
-    def getProductRequirements(product):
-        requirements = Products[product]["Requirements"]
-        return requirements
-
-    def checkMeetsItemRequirements(user_id, product):
-            inv_items = getUserItemInv(user_id)
-            requirements = getProductRequirements(product)
-            if not requirements:
-                meets_requirements = True
-            elif not inv_items:
-                    meets_requirements = False
-            else:
-                for requirement, quantity in requirements.items():
-                    for item in inv_items:
-                        if item[0] == requirement and item[1] >= quantity:
-                            meets_requirements = True
-                            break
-                        else:
-                            meets_requirements = False
-                            continue
-            return meets_requirements
-
-    def getProductStock(product):
-        data = GachaDB.query(f"SELECT * FROM backstock WHERE prize = '{product}'")
-        if data:
-            stock = GachaDB.backstock[product]
-            current_stock = stock.current_stock
-            return current_stock
-        else:
-            return "Unlimited"
-
-    def updateProductStock(product):
-        data = GachaDB.query(f"SELECT * FROM backstock WHERE prize = '{product}'")
-        if data:
-            stock = GachaDB.backstock[product]
-            current_stock = stock.current_stock
-            times_rolled = stock.times_rolled
-            max_limit = stock.max_limit
-            if times_rolled < max_limit and current_stock > 0:
-                GachaDB.backstock[product] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
-                return True
-            else:
-                return False
-        else:
-            return True
-
-    # main()
-    message = None
-    flag = True
-    while flag:
-        message, flag = await menuMain(ctx, message, flag)
+# @bot.command(aliases = ["market", "buy", "sell", "trade", "shop", "store"])
+# @commands.check(checkChannel)
+# async def tavern(ctx):
+#     ''' | Usage: +market | Use reactions to navigate the menus '''
+#     user_id         = ctx.author.id
+#     menu_top        = config.menu_top
+#     menu_separator  = config.menu_separator
+#     menu_bottom     = config.menu_bottom
+#     default_color   = config.default_color
+#     numbers         = config.numbers
+#     coin_name       = config.coin_name
+#     conv_rate       = config.conv_rate
+#     conv_rates      = [
+#         f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *{coin_name}*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*",
+#         f"{Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*  =  {Icons['ryou']} x `{'{:,}'.format(int(conv_rate[0] / 10))}` *{coin_name}*"
+#     ]
+#
+#     async def menuMain(ctx, message, flag):
+#         banner = generateFileObject("GAMA-Market", Graphics["Banners"]["GAMA-Market"][0])
+#         e = discord.Embed(title = f"Welcome to the {branch_name} Tavern!", description = "What would you like to do today?", color = default_color)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+#         e.add_field(name = "▷ ⚖️  ──────  Trade  ───────  ⚖️ ◁", value = menu_separator, inline = False)
+#         e.add_field(name = "▷ 🛒 ─────── Buy ──────── 🛒 ◁", value = menu_separator, inline = False)
+#         e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
+#         message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+#         emojis = ["⚖️", "🛒", "❌"]
+#         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#         if reaction is None:
+#             flag = False
+#             return message, flag
+#         match str(reaction.emoji):
+#             case "⚖️":
+#                 e.set_field_at(1, name = "►⚖️  ──────  Trade  ───────  ⚖️ ◄", value = menu_separator, inline = False)
+#                 await message.edit(embed = e)
+#                 await message.clear_reactions()
+#                 message, flag = await tradeEntry(ctx, message, flag)
+#                 return message, flag
+#             case "🛒":
+#                 e.set_field_at(2, name = "►🛒 ─────── Buy ──────── 🛒 ◄", value = menu_separator, inline = False)
+#                 await message.edit(embed = e)
+#                 await message.clear_reactions()
+#                 message, flag = await shopEntry(ctx, message, flag)
+#                 return message, flag
+#             case "❌":
+#                 e.set_field_at(3, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
+#                 await message.edit(embed = e)
+#                 await message.clear_reactions()
+#                 flag = False
+#                 return message, flag
+#
+#     async def tradeEntry(ctx, message, flag):
+#         while flag:
+#             inv_gacha   = getUserGachaInv(user_id)
+#             inv_market  = getUserMarketInv(user_id)
+#             tickets     = inv_gacha.gacha_tickets
+#             fragments   = inv_gacha.gacha_fragments
+#             total_rolls = inv_gacha.total_rolls
+#             ryou        = inv_market.ryou
+#             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *{coin_name}* and *Gacha Tickets*!", color = default_color)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
+#             e.add_field(name = f"Your {coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+#             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
+#             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+#             e.add_field(name = f"▷ {Icons['ticket']} ─ {coin_name} ─> Tickets ─  {Icons['ticket']} ◁", value = menu_separator, inline = False)
+#             e.add_field(name = f"▷ {Icons['ryou']} ─ Tickets ─> {coin_name} ─  {Icons['ryou']} ◁", value = menu_separator, inline = False)
+#             e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+#             await message.edit(embed = e)
+#             emojis = [Icons['ticket'], Icons['ryou'], "↩️"]
+#             reaction, user = await waitForReaction(ctx, message, e, emojis)
+#             if reaction is None:
+#                 flag = False
+#                 return message, flag
+#             match str(reaction.emoji):
+#                 case x if x == Icons['ticket']:
+#                     e.set_field_at(4, name = f"►{Icons['ticket']} ─ {coin_name} ─> Tickets ─  {Icons['ticket']} ◄", value = menu_separator, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     message, flag = await ryouToTickets(ctx, message, flag)
+#                 case x if x == Icons['ryou']:
+#                     e.set_field_at(5, name = f"►{Icons['ryou']} ─ Tickets ─> {coin_name} ─  {Icons['ryou']} ◄", value = menu_separator, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     message, flag = await ticketsToRyou(ctx, message, flag)
+#                 case "↩️":
+#                     e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     return message, flag
+#             if flag:
+#                 continue
+#             else:
+#                 return message, flag
+#
+#     async def ryouToTickets(ctx, message, flag):
+#         inv_gacha   = getUserGachaInv(user_id)
+#         inv_market  = getUserMarketInv(user_id)
+#         tickets     = inv_gacha.gacha_tickets
+#         fragments   = inv_gacha.gacha_fragments
+#         total_rolls = inv_gacha.total_rolls
+#         ryou        = inv_market.ryou
+#         if ryou >= conv_rate[0]:
+#             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = f"Trade your *{coin_name}* into *Gacha Tickets*", color = default_color)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
+#             e.add_field(name = f"Your {coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+#             e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
+#             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+#             e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
+#             e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
+#             e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+#             await message.edit(embed = e)
+#             emojis = ["1️⃣", "*️⃣", "↩️"]
+#             reaction, user = await waitForReaction(ctx, message, e, emojis)
+#             if reaction is None:
+#                 flag = False
+#                 return message, flag
+#             match str(reaction.emoji):
+#                 case "1️⃣":
+#                     e.set_field_at(4, name = "►1️⃣  ──── Exchange  One ────  1️⃣ ◄", value = menu_separator, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     ryou_traded = int(conv_rate[0])
+#                     tickets_traded = int(conv_rate[1])
+#                 case "*️⃣":
+#                     e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     ryou_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[0])
+#                     tickets_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[1])
+#                 case "↩️":
+#                     e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     return message, flag
+#             e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *{coin_name}* into *Gacha Tickets*!", color = 0x4caf50)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = f"Traded *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
+#             e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
+#             e.add_field(name = f"You now have this many *{coin_name}* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
+#             e.add_field(name = "Your total *Gacha Tickets* are now:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets + tickets_traded)}`", inline = False)
+#             message = await ctx.send(embed = e)
+#             MarketDB.userdata[user_id] = {"ryou": ryou - ryou_traded}
+#             GachaDB.userdata[user_id] = {"gacha_tickets": tickets + tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
+#             flag = False
+#             return message, flag
+#         else:
+#             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = f"You have insufficient *{coin_name}*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
+#             message = await ctx.send(embed = e)
+#             flag = False
+#             return message, flag
+#
+#     async def ticketsToRyou(ctx, message, flag):
+#         inv_gacha   = getUserGachaInv(user_id)
+#         inv_market  = getUserMarketInv(user_id)
+#         tickets     = inv_gacha.gacha_tickets
+#         fragments   = inv_gacha.gacha_fragments
+#         total_rolls = inv_gacha.total_rolls
+#         ryou        = inv_market.ryou
+#         if tickets >= conv_rate[1]:
+#             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = f"Trade your *Gacha Tickets* into *{coin_name}*", color = default_color)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
+#             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
+#             e.add_field(name = f"Bulk {coin_name} yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * (conv_rate[0] / 10)))}`", inline = True)
+#             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+#             e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
+#             e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
+#             e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+#             await message.edit(embed = e)
+#             emojis = ["1️⃣", "*️⃣", "↩️"]
+#             reaction, user = await waitForReaction(ctx, message, e, emojis)
+#             if reaction is None:
+#                 flag = False
+#                 return message, flag
+#             match str(reaction.emoji):
+#                 case "1️⃣":
+#                     e.set_field_at(4, name = "►1️⃣  ──── Exchange  One ────  1️⃣ ◄", value = menu_separator, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     ryou_traded = int(conv_rate[0] / 10)
+#                     tickets_traded = int(conv_rate[1])
+#                 case "*️⃣":
+#                     e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     ryou_traded = int(math.floor(tickets / conv_rate[1]) * (conv_rate[0] / 10))
+#                     tickets_traded = int(tickets)
+#                 case "↩️":
+#                     e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+#                     await message.edit(embed = e)
+#                     await message.clear_reactions()
+#                     return message, flag
+#             e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Tickets* into *{coin_name}*!", color = 0x4caf50)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = "Traded *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
+#             e.add_field(name = f"Obtained *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
+#             e.add_field(name = "You now have this many *Gacha Tickets* left:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets - tickets_traded)}`", inline = False)
+#             e.add_field(name = f"Your total *{coin_name}* are now:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou + ryou_traded)}`", inline = False)
+#             message = await ctx.send(embed = e)
+#             GachaDB.userdata[user_id] = {"gacha_tickets": tickets - tickets_traded, "gacha_fragments": fragments, "total_rolls": total_rolls}
+#             MarketDB.userdata[user_id] = {"ryou": ryou + ryou_traded}
+#             flag = False
+#             return message, flag
+#         else:
+#             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {Icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
+#             message = await ctx.send(embed = e)
+#             flag = False
+#             return message, flag
+#
+#     async def shopEntry(ctx, message, flag):
+#         products_length = len(Products)
+#         e = discord.Embed(title = f"Welcome to the {branch_name} Shop!", description = "Select a product to purchase:", color = default_color)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#         # Set offset to 0 (page 1) and begin bidirectional page system
+#         offset = 0
+#         while flag:
+#             counter = 0
+#             emojis = []
+#             # Iterate through products in groups of 5
+#             for index, product in enumerate(Products):
+#                 if index < offset:
+#                     # Skipping to next entry until arriving at the proper page/offset
+#                     continue
+#                 e.add_field(name = f"{numbers[counter]}  -  ***{product}***", value = f"╰ Price: {Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
+#                 emojis.append(numbers[counter])
+#                 counter +=1
+#                 # Once a full page is assembled, print it
+#                 if counter == 6 or index + 1 == products_length:
+#                     await message.edit(embed = e)
+#                     if index + 1 > 6 and index + 1 < products_length:
+#                         # Is a middle page
+#                         emojis[:0] = ["⏪", "⏩", "❌"]
+#                     elif index + 1 < products_length:
+#                         # Is the first page
+#                         emojis[:0] = ["⏩", "❌"]
+#                     elif products_length > 6:
+#                         # Is the last page
+#                         emojis[:0] = ["⏪", "❌"]
+#                     else:
+#                         # Is the only page
+#                         emojis[:0] = ["❌"]
+#                     reaction, user = await waitForReaction(ctx, message, e, emojis)
+#                     if reaction is None:
+#                         flag = False
+#                         return message, flag
+#                     match str(reaction.emoji):
+#                         case "⏩":
+#                             # Tell upcomming re-iteration to skip to the next page's offset
+#                             offset += 6
+#                             await message.clear_reactions()
+#                             e.clear_fields()
+#                             break
+#                         case "⏪":
+#                             # Tell upcomming re-iteration to skip to the previous page's offset
+#                             offset -= 6
+#                             await message.clear_reactions()
+#                             e.clear_fields()
+#                             break
+#                         case "❌":
+#                             await message.clear_reactions()
+#                             return message, flag
+#                         case number_emoji if number_emoji in numbers:
+#                             await message.clear_reactions()
+#                             product_index = getProductIndex(number_emoji, offset)
+#                             product = getProduct(product_index)
+#                             if product is None:
+#                                 await ctx.send("The product you chose could not be loaded!")
+#                                 flag = False
+#                             else:
+#                                 e.clear_fields()
+#                                 message, flag = await selectProduct(ctx, message, flag, product)
+#                                 if flag:
+#                                     break
+#                                 else:
+#                                     return message, flag
+#                     if flag:
+#                         continue
+#                     else:
+#                         return message, flag
+#
+#     async def selectProduct(ctx, message, flag, product):
+#         stock = getProductStock(product)
+#         attributes = getProductAttributes(product)
+#         e = discord.Embed(title = f"Cart Checkout", description = f"Properties of product selected:", color = default_color)
+#         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#         e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#         e.add_field(name = "Product name", value = f"🏷️ **{product}**", inline = True)
+#         e.add_field(name = "Price", value = f"{Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
+#         e.add_field(name = "Current stock", value = f"🏦 `{stock}`", inline = True)
+#         e.add_field(name = "Type", value = f"🔧 `{Products[product]['Type']}`", inline = True)
+#         e.add_field(name = "Stacks in inventory?", value = f"🗃️ `{str(Products[product]['Stackable'])}`", inline = True)
+#         e.add_field(name = f"📍 Attributes ({len(Products[product]['Attributes'])}):", value = "None" if not attributes else f"```{attributes}```", inline = False)
+#         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+#         e.add_field(name = "▷ ✅   ─────   Purchase   ─────    ✅ ◁", value = menu_separator, inline = False)
+#         e.add_field(name = "▷ 🚫  ──────   Cancel   ──────  🚫 ◁", value = menu_bottom, inline = False)
+#         await message.edit(embed = e)
+#         emojis = ["✅", "🚫"]
+#         reaction, user = await waitForReaction(ctx, message, e, emojis)
+#         if reaction is None:
+#             flag = False
+#             return message, flag
+#         match str(reaction.emoji):
+#             case "✅":
+#                 e.set_field_at(7, name = "►✅   ─────   Purchase   ─────    ✅ ◄", value = menu_separator, inline = False)
+#                 await message.edit(embed = e)
+#                 await message.clear_reactions()
+#                 message, flag = await buyProduct(ctx, message, flag, product)
+#                 flag = False
+#                 return message, flag
+#             case "🚫":
+#                 e.set_field_at(8, name = "►🚫  ──────   Cancel   ──────  🚫 ◄", value = menu_bottom, inline = False)
+#                 await message.edit(embed = e)
+#                 await message.clear_reactions()
+#                 return message, flag
+#
+#     async def buyProduct(ctx, message, flag, product):
+#         inv_gacha       = getUserGachaInv(user_id)
+#         inv_market      = getUserMarketInv(user_id)
+#         inv_items       = getUserItemInv(user_id)
+#         item_quantity   = getUserItemQuantity(user_id, product)
+#         requirements    = getProductRequirements(product)
+#         stock           = getProductStock(product)
+#         tickets         = inv_gacha.gacha_tickets
+#         fragments       = inv_gacha.gacha_fragments
+#         total_rolls     = inv_gacha.total_rolls
+#         ryou            = inv_market.ryou
+#         price           = Products[product]["Price"]
+#         stackable       = Products[product]['Stackable']
+#         if stock == "Unlimited" or stock > 0:
+#             if checkMeetsItemRequirements(user_id, product):
+#                 if ryou >= price:
+#                     if stackable or not stackable and item_quantity == None:
+#                         if not updateProductStock(product):
+#                             await ctx.send("‼️ Critical Error: Could not complete transaction. ‼️")
+#                             flag = False
+#                             return message, flag
+#                         if item_quantity == None:
+#                             ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, 1))
+#                         else:
+#                             ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + 1, product))
+#                         MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou - price, user_id))
+#                         e = discord.Embed(title = "Checkout Result", description = f"✅ Purchase was successful!", color = 0x4caf50)
+#                         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                         e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#                         e.add_field(name = f"Spent *{coin_name}*:", value = f"{Icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
+#                         e.add_field(name = "Obtained *Item*:", value = f"🏷️ ***{product}***", inline = True)
+#                         e.add_field(name = f"You now have this many *{coin_name}* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
+#                         await ctx.send(embed = e)
+#                         if product in config.role_boosts:
+#                             await addRole(ctx, product)
+#                     else:
+#                         e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
+#                         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                         e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#                         e.add_field(name = "This item is not stackable!", value =  "You already have one of this item.", inline = False)
+#                         await ctx.send(embed = e)
+#                 else:
+#                     e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
+#                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                     e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#                     e.add_field(name = f"You have insufficient *{coin_name}*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
+#                     await ctx.send(embed = e)
+#             else:
+#                 e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
+#                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                 e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#                 e.add_field(name = "You do not meet the product requirements.", value =  f"Check your {config.prefix}inv to compare your items to the requirements above.", inline = False)
+#                 await ctx.send(embed = e)
+#         else:
+#             e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
+#             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#             e.set_thumbnail(url = Resource["GAMA-Market_TN"][0])
+#             e.add_field(name = "This product is out of stock!", value = "Sorry! Please come again~", inline = False)
+#             await ctx.send(embed = e)
+#         return message, flag
+#
+#     def getProductIndex(number_emoji, offset = 0):
+#         for n, emoji in enumerate(numbers):
+#             if number_emoji == emoji:
+#                 product_index = n + offset
+#         return product_index
+#
+#     def getProduct(product_index):
+#         product_array = list(Products.items())
+#         for p in Products:
+#             if p == product_array[product_index][0]:
+#                 product = p
+#                 break
+#             else:
+#                 product = None
+#         return product
+#
+#     def getProductAttributes(product):
+#         attributes = Products[product]["Attributes"]
+#         attributes_formatted = ""
+#         for attribute in attributes:
+#             border = ""
+#             for _ in attribute:
+#                 border += "═"
+#             attributes_formatted += f"╔{border}╗\n║{attribute}║\n╚{border}╝\n"
+#         return attributes_formatted
+#
+#     def getProductRequirements(product):
+#         requirements = Products[product]["Requirements"]
+#         return requirements
+#
+#     def checkMeetsItemRequirements(user_id, product):
+#             inv_items = getUserItemInv(user_id)
+#             requirements = getProductRequirements(product)
+#             if not requirements:
+#                 meets_requirements = True
+#             elif not inv_items:
+#                     meets_requirements = False
+#             else:
+#                 for requirement, quantity in requirements.items():
+#                     for item in inv_items:
+#                         if item[0] == requirement and item[1] >= quantity:
+#                             meets_requirements = True
+#                             break
+#                         else:
+#                             meets_requirements = False
+#                             continue
+#             return meets_requirements
+#
+#     def getProductStock(product):
+#         data = GachaDB.query(f"SELECT * FROM backstock WHERE prize = '{product}'")
+#         if data:
+#             stock = GachaDB.backstock[product]
+#             current_stock = stock.current_stock
+#             return current_stock
+#         else:
+#             return "Unlimited"
+#
+#     def updateProductStock(product):
+#         data = GachaDB.query(f"SELECT * FROM backstock WHERE prize = '{product}'")
+#         if data:
+#             stock = GachaDB.backstock[product]
+#             current_stock = stock.current_stock
+#             times_rolled = stock.times_rolled
+#             max_limit = stock.max_limit
+#             if times_rolled < max_limit and current_stock > 0:
+#                 GachaDB.backstock[product] = {"current_stock": current_stock - 1, "times_rolled": times_rolled + 1, "max_limit": max_limit}
+#                 return True
+#             else:
+#                 return False
+#         else:
+#             return True
+#
+#     # main()
+#     message = None
+#     flag = True
+#     while flag:
+#         message, flag = await menuMain(ctx, message, flag)
 
 @bot.command(aliases = ["gacha", "spin"])
 @commands.check(checkChannel)
@@ -2490,50 +2490,50 @@ async def roll(ctx, skip=None):
         grand_prize_string = f"1 {branch_name} NFT"
         for sub_prize in prize_array:
             match sub_prize:
-                case "VIP WL PASS":
+                case "VIP Pass":
                     wl_role = discord.utils.get(ctx.guild.roles, name = config.wl_role)
                     if not wl_role in ctx.author.roles:
                         if await updateStock(ctx, sub_prize):
                             await member.add_roles(wl_role)
-                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with Whitelist Role: **{config.wl_role}**!")
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __Whitelist__ Role: **{config.wl_role}**!")
                         else:
                             continue
-                case "GOLD PASS":
-                    gold_pass_role = discord.utils.get(ctx.guild.roles, name = config.gold_pass_role)
-                    if not gold_pass_role in ctx.author.roles:
-                        if await updateStock(ctx, sub_prize):
-                            await member.add_roles(gold_pass_role)
-                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with GOLD PASS Role: **{config.gold_pass_role}**!")
-                        else:
-                            continue
+                # case "GOLD PASS":
+                #     gold_pass_role = discord.utils.get(ctx.guild.roles, name = config.gold_pass_role)
+                #     if not gold_pass_role in ctx.author.roles:
+                #         if await updateStock(ctx, sub_prize):
+                #             await member.add_roles(gold_pass_role)
+                #             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with GOLD PASS Role: **{config.gold_pass_role}**!")
+                #         else:
+                #             continue
                 case "OG":
                     og_role = discord.utils.get(ctx.guild.roles, name = config.og_role)
                     if not og_role in ctx.author.roles:
                         if await updateStock(ctx, sub_prize):
                             await member.add_roles(og_role)
-                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with OG Role: **{config.og_role}**!")
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __OG__ Role: **{config.og_role}**!")
                         else:
                             continue
-                case x if x.endswith("EXP"):
-                    exp = int(x.rstrip(" EXP"))
-                    # channel = bot.get_channel(config.channels["exp"])
-                    # role_id = config.gacha_mod_role
-                    # if await updateStock(ctx, sub_prize):
-                    #     if not checkAdmin(ctx):
-                    #         await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
-                    #     await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
-                    if await updateStock(ctx, sub_prize):
-                        exp_reward = addPlayerExp(user_id, exp)
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(exp_reward)} EXP**!")
-                    else:
-                        continue
-                case x if x.endswith(f"{coin_name}"):
-                    ryou = int(x.rstrip(f" {coin_name}"))
-                    if await updateStock(ctx, sub_prize):
-                        ryou_reward = addPlayerRyou(user_id, ryou)
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(ryou_reward)} {coin_name}**!")
-                    else:
-                        continue
+                # case x if x.endswith("EXP"):
+                #     exp = int(x.rstrip(" EXP"))
+                #     # channel = bot.get_channel(config.channels["exp"])
+                #     # role_id = config.gacha_mod_role
+                #     # if await updateStock(ctx, sub_prize):
+                #     #     if not checkAdmin(ctx):
+                #     #         await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won {exp} EXP from the Gacha! Please paste this to reward them:{chr(10)}`!give-xp {ctx.author.mention} {exp}`")
+                #     #     await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **{exp} EXP**!")
+                #     if await updateStock(ctx, sub_prize):
+                #         exp_reward = addPlayerExp(user_id, exp)
+                #         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(exp_reward)} EXP**!")
+                #     else:
+                #         continue
+                # case x if x.endswith(f"{coin_name}"):
+                #     ryou = int(x.rstrip(f" {coin_name}"))
+                #     if await updateStock(ctx, sub_prize):
+                #         ryou_reward = addPlayerRyou(user_id, ryou)
+                #         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{'{:,}'.format(ryou_reward)} {coin_name}**!")
+                #     else:
+                #         continue
                 case x if x.endswith("Fragment") or x.endswith("Fragments"):
                     amount = int(x.split(" ")[0])
                     if await updateStock(ctx, sub_prize):
@@ -2548,16 +2548,25 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with prize: **{amount} Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                     else:
                         continue
-                case x if x.endswith("Energy Restores"):
-                    product = "Energy Restore"
-                    amount = int(x.rstrip(" Energy Restores"))
-                    if await updateStock(ctx, product):
-                        item_quantity = getUserItemQuantity(user_id, product)
-                        if item_quantity == None:
-                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, 1))
-                        else:
-                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + 1, product))
-                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
+                # case x if x.endswith("Energy Restores"):
+                #     product = "Energy Restore"
+                #     amount = int(x.rstrip(" Energy Restores"))
+                #     if await updateStock(ctx, product):
+                #         item_quantity = getUserItemQuantity(user_id, product)
+                #         if item_quantity == None:
+                #             ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, 1))
+                #         else:
+                #             ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + 1, product))
+                #         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
+                #     else:
+                #         continue
+                case x if x.endswith(f"{Icons['ryou']} WOG"):
+                    amount = int(x.split(" ")[0])
+                    channel = bot.get_channel(config.channels["reward"])
+                    role_id = config.gacha_mod_role
+                    if await updateStock(ctx, sub_prize):
+                        await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won __{amount} {Icons['ryou']} WOG__ from the Gacha! Please paste this to reward them:{chr(10)}`.give-rewards {ctx.author.mention} {amount}`")
+                        await channel.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **__{amount} {Icons['ryou']} WOG__**!")
                     else:
                         continue
                 case x if x == grand_prize_string:
@@ -2757,12 +2766,12 @@ async def roll(ctx, skip=None):
             case "📜":
                 def formatPrizeList(tier):
                     formatted_prize_list = f"\
-                        🔵  ─  *Blue*  ─  {config.encouragement[tier][0]}%\n  └ **`{getPrize(tier, 'blue')}`**\n\
-                        🟢  ─  *Green*  ─  {config.encouragement[tier][1]}%\n  └ **`{getPrize(tier, 'green')}`**\n\
-                        🔴  ─  *Red*  ─  {config.encouragement[tier][2]}%\n  └ **`{getPrize(tier, 'red')}`**\n\
-                        ⚪  ─  *Silver*  ─  {config.encouragement[tier][3]}%\n  └ **`{getPrize(tier, 'silver')}`**\n\
-                        🟡  ─  *Gold*  ─  {config.encouragement[tier][4]}%\n  └ **`{getPrize(tier, 'gold')}`**\n\
-                        🟣  ─  *Platinum*  ─  {config.encouragement[tier][5]}%\n  └ **`{getPrize(tier, 'platinum')}`**\n\
+                        🔵  ─  *Blue*  ─  {config.encouragement[tier][0]}%\n  └ **__{getPrize(tier, 'blue')}__**\n\
+                        🟢  ─  *Green*  ─  {config.encouragement[tier][1]}%\n  └ **__{getPrize(tier, 'green')}__**\n\
+                        🔴  ─  *Red*  ─  {config.encouragement[tier][2]}%\n  └ **__{getPrize(tier, 'red')}__**\n\
+                        ⚪  ─  *Silver*  ─  {config.encouragement[tier][3]}%\n  └ **__{getPrize(tier, 'silver')}__**\n\
+                        🟡  ─  *Gold*  ─  {config.encouragement[tier][4]}%\n  └ **__{getPrize(tier, 'gold')}__**\n\
+                        🟣  ─  *Platinum*  ─  {config.encouragement[tier][5]}%\n  └ **__{getPrize(tier, 'platinum')}__**\n\
                     "
                     return formatted_prize_list
 
@@ -2772,11 +2781,11 @@ async def roll(ctx, skip=None):
                 e = discord.Embed(title = f"Welcome to the {branch_name} Gacha!", description = "Here are today's prize pools:", color = default_color)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                 e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
-                e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_1']['tickets_required']}", value = formatPrizeList("tier_1"), inline = True)
-                e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_2']['tickets_required']}", value = formatPrizeList("tier_2"), inline = True)
-                e.add_field(name = "\u200b", value = "\u200b", inline = True)
-                e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_3']['tickets_required']}", value = formatPrizeList("tier_3"), inline = True)
-                e.add_field(name = f"Tier 4: {Prizes['tier_4']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_4']['tickets_required']}", value = formatPrizeList("tier_4"), inline = True)
+                # e.add_field(name = f"Tier 1: {Prizes['tier_1']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_1']['tickets_required']}", value = formatPrizeList("tier_1"), inline = True)
+                # e.add_field(name = f"Tier 2: {Prizes['tier_2']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_2']['tickets_required']}", value = formatPrizeList("tier_2"), inline = True)
+                # e.add_field(name = "\u200b", value = "\u200b", inline = True)
+                # e.add_field(name = f"Tier 3: {Prizes['tier_3']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_3']['tickets_required']}", value = formatPrizeList("tier_3"), inline = True)
+                e.add_field(name = f"__{Prizes['tier_4']['name']}__: {Prizes['tier_4']['symbol']}\nTickets required: 🎟️ x {Prizes['tier_4']['tickets_required']}", value = formatPrizeList("tier_4"), inline = True)
                 e.add_field(name = "\u200b", value = "\u200b", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
@@ -2788,7 +2797,7 @@ async def roll(ctx, skip=None):
                 match str(reaction.emoji):
                     case "↩️":
                         prev_flag = edit_flag = True
-                        e.set_field_at(7, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                        e.set_field_at(3, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                         await message.edit(embed = e)
                         await message.clear_reactions()
             case "🎰":
@@ -2800,51 +2809,52 @@ async def roll(ctx, skip=None):
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                     e.set_thumbnail(url = Resource["GAMA-Gacha_TN"][0])
                     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-                    e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
-                    e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
-                    e.add_field(name = "▷ 🥇 ───── Tier 3 Raffle ───── 🥇 ◁", value = menu_separator, inline = False)
-                    e.add_field(name = "▷ 🏅 ───── Tier 4 Raffle ───── 🏅 ◁", value = menu_separator, inline = False)
+                    # e.add_field(name = "▷ 🥉 ───── Tier 1 Raffle ───── 🥉 ◁", value = menu_separator, inline = False)
+                    # e.add_field(name = "▷ 🥈 ───── Tier 2 Raffle ───── 🥈 ◁", value = menu_separator, inline = False)
+                    # e.add_field(name = "▷ 🥇 ───── Tier 3 Raffle ───── 🥇 ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ 🏅 ────  GAMA   Raffle  ──── 🏅 ◁", value = menu_separator, inline = False)
                     e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
-                    emojis = ["🥉", "🥈", "🥇", "🏅", "↩️"]
+                    # emojis = ["🥉", "🥈", "🥇", "🏅", "↩️"]
+                    emojis = ["🏅", "↩️"]
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
                     if reaction is None:
                         exit_flag = True
                         break
                     match str(reaction.emoji):
-                        case "🥉":
-                            tier = "tier_1"
-                            e.set_field_at(1, name = "►🥉 ───── Tier 1 Raffle ───── 🥉 ◄", value = menu_separator, inline = False)
-                            await message.edit(embed = e)
-                            await message.clear_reactions()
-                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
-                            if status:
-                                rolled_flag = True
-                            else:
-                                rolled_flag = False
-                        case "🥈":
-                            tier = "tier_2"
-                            e.set_field_at(2, name = "►🥈 ───── Tier 2 Raffle ───── 🥈 ◄", value = menu_separator, inline = False)
-                            await message.edit(embed = e)
-                            await message.clear_reactions()
-                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
-                            if status:
-                                rolled_flag = True
-                            else:
-                                rolled_flag = False
-                        case "🥇":
-                            tier = "tier_3"
-                            e.set_field_at(3, name = "►🥇 ───── Tier 3 Raffle ───── 🥇 ◄", value = menu_separator, inline = False)
-                            await message.edit(embed = e)
-                            await message.clear_reactions()
-                            message, e, status = await raffleEntry(ctx, message, e, tier, skip)
-                            if status:
-                                rolled_flag = True
-                            else:
-                                rolled_flag = False
+                        # case "🥉":
+                        #     tier = "tier_1"
+                        #     e.set_field_at(1, name = "►🥉 ───── Tier 1 Raffle ───── 🥉 ◄", value = menu_separator, inline = False)
+                        #     await message.edit(embed = e)
+                        #     await message.clear_reactions()
+                        #     message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                        #     if status:
+                        #         rolled_flag = True
+                        #     else:
+                        #         rolled_flag = False
+                        # case "🥈":
+                        #     tier = "tier_2"
+                        #     e.set_field_at(2, name = "►🥈 ───── Tier 2 Raffle ───── 🥈 ◄", value = menu_separator, inline = False)
+                        #     await message.edit(embed = e)
+                        #     await message.clear_reactions()
+                        #     message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                        #     if status:
+                        #         rolled_flag = True
+                        #     else:
+                        #         rolled_flag = False
+                        # case "🥇":
+                        #     tier = "tier_3"
+                        #     e.set_field_at(3, name = "►🥇 ───── Tier 3 Raffle ───── 🥇 ◄", value = menu_separator, inline = False)
+                        #     await message.edit(embed = e)
+                        #     await message.clear_reactions()
+                        #     message, e, status = await raffleEntry(ctx, message, e, tier, skip)
+                        #     if status:
+                        #         rolled_flag = True
+                        #     else:
+                        #         rolled_flag = False
                         case "🏅":
                             tier = "tier_4"
-                            e.set_field_at(4, name = "►🏅 ───── Tier 4 Raffle ───── 🏅 ◄", value = menu_separator, inline = False)
+                            e.set_field_at(1, name = "►🏅 ────  GAMA   Raffle  ──── 🏅 ◄", value = menu_separator, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
                             message, e, status = await raffleEntry(ctx, message, e, tier, skip)
@@ -2891,9 +2901,9 @@ async def roll(ctx, skip=None):
                 e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
                 e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
                 e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
-                e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-                e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
-                e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
+                # e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+                # e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
+                # e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
                 e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
                 e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
                 await message.edit(embed = e)
@@ -2904,7 +2914,7 @@ async def roll(ctx, skip=None):
                 match str(reaction.emoji):
                     case "↩️":
                         prev_flag = edit_flag = True
-                        e.set_field_at(5, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                        e.set_field_at(4, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                         await message.edit(embed = e)
                         await message.clear_reactions()
             case "❌":
@@ -3081,9 +3091,9 @@ async def inv(ctx, target = None):
         e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
         e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
         e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
-        e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-        e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
-        e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
+        # e.add_field(name = f"{coin_name}:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+        # e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
+        # e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
         # e.add_field(name = "Energy:", value = f"{Icons['energy']} `{'{:,}'.format(energy)}`", inline = True)
         # e.add_field(name = "Dungeons cleared:", value = f"{Icons['dungeon']} `{'{:,}'.format(total_clears)}`", inline = True)
         for slot, item in enumerate(inv_items):
