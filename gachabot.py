@@ -2498,6 +2498,10 @@ async def roll(ctx, skip=None):
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __Whitelist__ Role: **{config.wl_role}**!")
                         else:
                             continue
+                    else:
+                        amount = config.role_consolation
+                        GachaDB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with consolation prize: **{amount} Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                 # case "GOLD PASS":
                 #     gold_pass_role = discord.utils.get(ctx.guild.roles, name = config.gold_pass_role)
                 #     if not gold_pass_role in ctx.author.roles:
@@ -2514,6 +2518,10 @@ async def roll(ctx, skip=None):
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __OG__ Role: **{config.og_role}**!")
                         else:
                             continue
+                    else:
+                        amount = config.role_consolation
+                        GachaDB.userdata[user_id] = {"gacha_tickets": tickets + amount, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with consolation prize: **{amount} Gacha Ticket(s)**! User now has a total of `{tickets + amount}`.")
                 case "Safe from purge":
                     safe_role = discord.utils.get(ctx.guild.roles, name = config.safe_role)
                     if not safe_role in ctx.author.roles:
