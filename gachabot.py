@@ -76,25 +76,25 @@ async def on_ready():
     await bot.change_presence(status = discord.Status.online, activity = discord.Game(f"{config.prefix}roll to spin the Gacha!"))
     print(f"Logged in as {bot.user} | Version: {bot_version}")
 
-@bot.event
-async def on_message(ctx):
-    if ctx.author.bot:
-        return
-    if ctx.channel.id in config.channels["chat_earn"]:
-        user_id = ctx.author.id
-        level = getPlayerLevel(user_id)
-        ryou_earn_range = config.chat_ryou_earn
-        chat_earn_wait = config.chat_earn_wait
-        last_chat = getLastChat(user_id)
-        now = int(time.time())
-        if now >= last_chat:
-            marketdata = getUserMarketInv(user_id)
-            ryou = marketdata.ryou
-            ryou_earned = random.randint(ryou_earn_range[0], ryou_earn_range[1]) * level
-            MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_earned, user_id))
-            ActivityDB.execute("UPDATE chat SET last_activity = ? WHERE user_id = ?", (now + chat_earn_wait, user_id))
-            await ctx.add_reaction(Icons["ryou"])
-    await bot.process_commands(ctx)
+# @bot.event
+# async def on_message(ctx):
+#     if ctx.author.bot:
+#         return
+#     if ctx.channel.id in config.channels["chat_earn"]:
+#         user_id = ctx.author.id
+#         level = getPlayerLevel(user_id)
+#         ryou_earn_range = config.chat_ryou_earn
+#         chat_earn_wait = config.chat_earn_wait
+#         last_chat = getLastChat(user_id)
+#         now = int(time.time())
+#         if now >= last_chat:
+#             marketdata = getUserMarketInv(user_id)
+#             ryou = marketdata.ryou
+#             ryou_earned = random.randint(ryou_earn_range[0], ryou_earn_range[1]) * level
+#             MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_earned, user_id))
+#             ActivityDB.execute("UPDATE chat SET last_activity = ? WHERE user_id = ?", (now + chat_earn_wait, user_id))
+#             await ctx.add_reaction(Icons["ryou"])
+#     await bot.process_commands(ctx)
 
 ### Functions
 def checkChannel(ctx):
