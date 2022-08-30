@@ -52,6 +52,7 @@ admin_list      = [462763810365898783, 859699653128486912, 629713896747433995, 4
 wl_role         = "VIP WL PASS (Silver)"
 gold_pass_role  = "GOLD PASS"
 og_role         = "o🇬 (500)"
+safe_role       = "Safe From Purge"
 gacha_mod_role  = 1014248074471813120
 
 # Channels

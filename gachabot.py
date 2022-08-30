@@ -2514,6 +2514,14 @@ async def roll(ctx, skip=None):
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __OG__ Role: **{config.og_role}**!")
                         else:
                             continue
+                case "Safe from purge":
+                    safe_role = discord.utils.get(ctx.guild.roles, name = config.safe_role)
+                    if not safe_role in ctx.author.roles:
+                        if await updateStock(ctx, sub_prize):
+                            await member.add_roles(safe_role)
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with __Safe From Purge__ Role: **{config.safe_role}**!")
+                        else:
+                            continue
                 # case x if x.endswith("EXP"):
                 #     exp = int(x.rstrip(" EXP"))
                 #     # channel = bot.get_channel(config.channels["exp"])
