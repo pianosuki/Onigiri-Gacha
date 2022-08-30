@@ -2574,7 +2574,7 @@ async def roll(ctx, skip=None):
                     role_id = config.gacha_mod_role
                     if await updateStock(ctx, sub_prize):
                         await channel.send(f"<@&{role_id}> | {ctx.author.mention} has won __{amount} {Icons['ryou']} WOG__ from the Gacha! Please paste this to reward them:{chr(10)}`.give-rewards {ctx.author.mention} {amount}`")
-                        await channel.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **__{amount} {Icons['ryou']} WOG__**!")
+                        await ctx.send(f"🎉 Reward sent for reviewal: {ctx.author.mention} with **__{amount} {Icons['ryou']} WOG__**!")
                     else:
                         continue
                 case x if x == grand_prize_string:
