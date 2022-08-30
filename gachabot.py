@@ -2884,7 +2884,7 @@ async def roll(ctx, skip=None):
                                 rolled_flag = False
                         case "↩️":
                             prev_flag = edit_flag = True
-                            e.set_field_at(5, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                            e.set_field_at(2, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                             await message.edit(embed = e)
                             await message.clear_reactions()
                             break
