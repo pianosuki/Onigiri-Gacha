@@ -53,7 +53,7 @@ wl_role         = "VIP WL PASS (Silver)"
 gold_pass_role  = "GOLD PASS"
 og_role         = "o🇬 (500)"
 safe_role       = "Safe From Purge"
-gacha_mod_role  = 1014248074471813120
+gacha_mod_role  = 1014311857470832650
 
 # Channels
 channels = {
