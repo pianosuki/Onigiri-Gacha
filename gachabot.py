@@ -3458,48 +3458,54 @@ async def equip(ctx, *input):
         weapons_inv = getPlayerWeaponsInv(user_id)
         weapons_list = weapons_inv.split(", ")
         formatted_string = ""
-        for index, weapon in enumerate(weapons_list):
-            lvl = Weapons[weapon]["Level_Required"]
-            elements = "┃ "
-            if not Weapons[weapon]["Elements"] is None:
-                for index, element in enumerate(Weapons[weapon]["Elements"]):
-                    elements += f"*{element}*"
-                    if index + 1 < len(Weapons[weapon]["Elements"]):
-                        elements += ", "
-            else:
-                elements = ""
-            match Weapons[weapon]["Rarity"]:
-                case "White":
-                    circle = "⚪"
-                case "Blue":
-                    circle = "🔵"
-                case "Red":
-                    circle = "🔴"
-                case "Gold":
-                    circle = "🟡"
-            formatted_string += f"{circle} ┃ __{weapon}__ ┃ **Lvl.{lvl}** {elements}\n"
+        if weapons_inv:
+            for index, weapon in enumerate(weapons_list):
+                lvl = Weapons[weapon]["Level_Required"]
+                elements = "┃ "
+                if not Weapons[weapon]["Elements"] is None:
+                    for index, element in enumerate(Weapons[weapon]["Elements"]):
+                        elements += f"*{element}*"
+                        if index + 1 < len(Weapons[weapon]["Elements"]):
+                            elements += ", "
+                else:
+                    elements = ""
+                match Weapons[weapon]["Rarity"]:
+                    case "White":
+                        circle = "⚪"
+                    case "Blue":
+                        circle = "🔵"
+                    case "Red":
+                        circle = "🔴"
+                    case "Gold":
+                        circle = "🟡"
+                formatted_string += f"{circle} ┃ __{weapon}__ ┃ **Lvl.{lvl}** {elements}\n"
+        else:
+            formatted_string = "None"
         return formatted_string
 
     def formatMagatamaInventory():
         magatamas_inv = getPlayerMagatamasInv(user_id)
         magatamas_list = magatamas_inv.split(", ")
         formatted_string = ""
-        for index, magatama in enumerate(magatamas_list):
-            lvl = Magatamas[magatama]["Level_Required"]
-            chakra = Magatamas[magatama]["Chakra"]
-            elements = "┃ "
-            if not Magatamas[magatama]["Elements"] is None:
-                for index, element in enumerate(Magatamas[magatama]["Elements"]):
-                    if Magatamas[magatama]["Elements"][element]:
-                        elements += f"(+{element})"
-                    else:
-                        elements += f"(-{element})"
-                    if index + 1 < len(Magatamas[magatama]["Elements"]):
-                        elements += ", "
-            else:
-                elements = ""
-            type = Magatamas[magatama]["Type"].lower().replace(" ", "_")
-            formatted_string += f"{Icons['magatama_' + type]} ┃ __{magatama}__ ┃ **Lvl.{lvl}** ┃ *Chakra:* **{chakra}** {elements}\n"
+        if magatamas_inv:
+            for index, magatama in enumerate(magatamas_list):
+                lvl = Magatamas[magatama]["Level_Required"]
+                chakra = Magatamas[magatama]["Chakra"]
+                elements = "┃ "
+                if not Magatamas[magatama]["Elements"] is None:
+                    for index, element in enumerate(Magatamas[magatama]["Elements"]):
+                        if Magatamas[magatama]["Elements"][element]:
+                            elements += f"(+{element})"
+                        else:
+                            elements += f"(-{element})"
+                        if index + 1 < len(Magatamas[magatama]["Elements"]):
+                            elements += ", "
+                else:
+                    elements = ""
+                type = Magatamas[magatama]["Type"].lower().replace(" ", "_")
+                formatted_string += f"{Icons['magatama_' + type]} ┃ __{magatama}__ ┃ **Lvl.{lvl}** ┃ *Chakra:* **{chakra}** {elements}\n"
+        else:
+            formatted_string = "None"
         return formatted_string
 
     if not input:
