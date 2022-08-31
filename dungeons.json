@@ -72,6 +72,17 @@
                 "Cedar Spear": 10,
                 "Pine Staff": 10,
                 "Manjusri Talisman": 10
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -145,6 +156,17 @@
             "Weapons":
             {
                 "Flame Sukedachi": 5
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -292,6 +314,17 @@
             {
                 "Kikuichimonji": 1,
                 "Heavenly Nora Twin Blades": 5
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -366,6 +399,17 @@
             {
                 "Jizou Talisman": 10,
                 "Nodachi": 10
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -440,6 +484,17 @@
             {
                 "Fledgling Sparrow Bow": 10,
                 "Iron Battleaxe": 10
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -515,6 +570,17 @@
             {
                 "Gingko Spear": 10,
                 "Oak Staff": 10
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -591,6 +657,17 @@
             {
                 "Oninodachi": 1,
                 "Nameless Sword": 10
+            },
+            "Magatamas":
+            {
+                "Kougasha Magatama": 0.1,
+                "Tesso Magatama": 0.1,
+                "Tasogare Magatama": 0.1,
+                "Mikan Magatama": 0.1,
+                "Bonnou Magatama": 0.1,
+                "Aries Magatama": 0.1,
+                "Lord Shinkou Magatama": 0.1,
+                "Kousei Magatama": 0.1
             }
         }
     },
@@ -666,6 +743,17 @@
             {
                 "Kikusenkaku": 1,
                 "Boulder Battleaxe": 5
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -740,6 +828,17 @@
             {
                 "Nihongou": 1,
                 "Honebamiyoshimitsu": 3
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -814,6 +913,17 @@
             {
                 "Kotetsu": 3,
                 "Kabura Bow": 3
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -889,6 +999,17 @@
             {
                 "Thirty Six Poets": 1,
                 "Bardiche": 3
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -964,6 +1085,17 @@
             {
                 "Onikiri": 1,
                 "Ice Cedar Spear": 5
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -998,6 +1130,17 @@
                 "Kakushinkenfumatsu": 3,
                 "Dainsleif": 3,
                 "Dark Fledgling Sparrow Bow": 5
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -1079,6 +1222,17 @@
                 "Sunlight Talisman": 10,
                 "Ochimusha Sword": 10,
                 "Oshikiri Tachi": 10
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -1161,6 +1315,17 @@
                 "Rusted Battleaxe": 10,
                 "Adorned Bamboo Spear": 10,
                 "Plum Staff": 10
+            },
+            "Magatamas":
+            {
+                "Asougi Magatama": 0.1,
+                "Inari Magatama": 0.1,
+                "Yoake Magatama": 0.1,
+                "Banana Magatama": 0.1,
+                "Oumagatoki Magatama": 0.1,
+                "Taurus Magatama": 0.1,
+                "Lord Shokou Magatama": 0.1,
+                "Sekisei Magatama": 0.1
             }
         }
     },
@@ -1245,6 +1410,18 @@
                 "Konotegashiwa": 3,
                 "Earth Ishikiri Sword": 5,
                 "Water Oak Staff": 5
+            },
+            "Magatamas":
+            {
+                "Nayuta Magatama": 0.1,
+                "Lion-Dog Magatama": 0.1,
+                "Sougyou Magatama": 0.1,
+                "Pineapple Magatama": 0.1,
+                "Hangon Magatama": 0.1,
+                "Gemini Magatama": 0.1,
+                "Lord Soutei Magatama": 0.1,
+                "Lord Gokan Magatama": 0.1,
+                "Kouryuu Magatama": 0.1
             }
         }
     },
@@ -1324,6 +1501,18 @@
                 "Caduceus": 3,
                 "Red Lacquer Spear": 10,
                 "Moonlight Talisman": 10
+            },
+            "Magatamas":
+            {
+                "Nayuta Magatama": 0.1,
+                "Lion-Dog Magatama": 0.1,
+                "Sougyou Magatama": 0.1,
+                "Pineapple Magatama": 0.1,
+                "Hangon Magatama": 0.1,
+                "Gemini Magatama": 0.1,
+                "Lord Soutei Magatama": 0.1,
+                "Lord Gokan Magatama": 0.1,
+                "Kouryuu Magatama": 0.1
             }
         }
     },
@@ -1402,6 +1591,18 @@
                 "Durandal": 3,
                 "Seidou Battleaxe": 10,
                 "Kashi Staff": 10
+            },
+            "Magatamas":
+            {
+                "Nayuta Magatama": 0.1,
+                "Lion-Dog Magatama": 0.1,
+                "Sougyou Magatama": 0.1,
+                "Pineapple Magatama": 0.1,
+                "Hangon Magatama": 0.1,
+                "Gemini Magatama": 0.1,
+                "Lord Soutei Magatama": 0.1,
+                "Lord Gokan Magatama": 0.1,
+                "Kouryuu Magatama": 0.1
             }
         }
     },
@@ -1480,6 +1681,18 @@
                 "Balmung": 3,
                 "Ishikiri Sword": 10,
                 "Araburi Tachi": 10
+            },
+            "Magatamas":
+            {
+                "Nayuta Magatama": 0.1,
+                "Lion-Dog Magatama": 0.1,
+                "Sougyou Magatama": 0.1,
+                "Pineapple Magatama": 0.1,
+                "Hangon Magatama": 0.1,
+                "Gemini Magatama": 0.1,
+                "Lord Soutei Magatama": 0.1,
+                "Lord Gokan Magatama": 0.1,
+                "Kouryuu Magatama": 0.1
             }
         }
     },
@@ -1560,6 +1773,18 @@
                 "Wind Tachi": 5,
                 "Arawashi Twin Blades": 10,
                 "Fuedou Bow": 10
+            },
+            "Magatamas":
+            {
+                "Nayuta Magatama": 0.1,
+                "Lion-Dog Magatama": 0.1,
+                "Sougyou Magatama": 0.1,
+                "Pineapple Magatama": 0.1,
+                "Hangon Magatama": 0.1,
+                "Gemini Magatama": 0.1,
+                "Lord Soutei Magatama": 0.1,
+                "Lord Gokan Magatama": 0.1,
+                "Kouryuu Magatama": 0.1
             }
         }
     },
@@ -1641,6 +1866,18 @@
                 "Black Cloud Bow": 3,
                 "Houtenga Halberd": 3,
                 "Flame Hakuda Twin Blades": 5
+            },
+            "Magatamas":
+            {
+                "Nayuta Magatama": 0.1,
+                "Lion-Dog Magatama": 0.1,
+                "Sougyou Magatama": 0.1,
+                "Pineapple Magatama": 0.1,
+                "Hangon Magatama": 0.1,
+                "Gemini Magatama": 0.1,
+                "Lord Soutei Magatama": 0.1,
+                "Lord Gokan Magatama": 0.1,
+                "Kouryuu Magatama": 0.1
             }
         }
     },
@@ -1720,6 +1957,21 @@
                 "Water Rusted Battleaxe": 5,
                 "Ariake Tachi": 10,
                 "Kisshouten Talisman": 10
+            },
+            "Magatamas":
+            {
+                "Araya Magatama": 0.1,
+                "Amara Magatama": 0.1,
+                "Nekomata Magatama": 0.1,
+                "Akebono Magatama": 0.1,
+                "Dusk Magatama": 0.1,
+                "Melon Magatama": 0.1,
+                "Gedatsu Magatama": 0.1,
+                "Konron Magatama": 0.1,
+                "Cancer Magatama": 0.1,
+                "Leo Magatama": 0.1,
+                "Lord Enma Magatama": 0.1,
+                "Taiitsu Magatama": 0.1
             }
         }
     },
@@ -1799,6 +2051,21 @@
                 "Lightning Adorned Bamboo Spear": 5,
                 "Black Pine Bow": 10,
                 "Tatsujin Sword": 10
+            },
+            "Magatamas":
+            {
+                "Araya Magatama": 0.1,
+                "Amara Magatama": 0.1,
+                "Nekomata Magatama": 0.1,
+                "Akebono Magatama": 0.1,
+                "Dusk Magatama": 0.1,
+                "Melon Magatama": 0.1,
+                "Gedatsu Magatama": 0.1,
+                "Konron Magatama": 0.1,
+                "Cancer Magatama": 0.1,
+                "Leo Magatama": 0.1,
+                "Lord Enma Magatama": 0.1,
+                "Taiitsu Magatama": 0.1
             }
         }
     },
@@ -1877,6 +2144,21 @@
                 "Ice Heavy Rattan Bow": 5,
                 "Steel Battleaxe": 10,
                 "Kokuto Twin Blades": 10
+            },
+            "Magatamas":
+            {
+                "Araya Magatama": 0.1,
+                "Amara Magatama": 0.1,
+                "Nekomata Magatama": 0.1,
+                "Akebono Magatama": 0.1,
+                "Dusk Magatama": 0.1,
+                "Melon Magatama": 0.1,
+                "Gedatsu Magatama": 0.1,
+                "Konron Magatama": 0.1,
+                "Cancer Magatama": 0.1,
+                "Leo Magatama": 0.1,
+                "Lord Enma Magatama": 0.1,
+                "Taiitsu Magatama": 0.1
             }
         }
     },
@@ -1957,6 +2239,21 @@
                 "Ichimonjimuneoki": 1,
                 "Goshinken": 1,
                 "Maple Spear": 10
+            },
+            "Magatamas":
+            {
+                "Araya Magatama": 0.1,
+                "Amara Magatama": 0.1,
+                "Nekomata Magatama": 0.1,
+                "Akebono Magatama": 0.1,
+                "Dusk Magatama": 0.1,
+                "Melon Magatama": 0.1,
+                "Gedatsu Magatama": 0.1,
+                "Konron Magatama": 0.1,
+                "Cancer Magatama": 0.1,
+                "Leo Magatama": 0.1,
+                "Lord Enma Magatama": 0.1,
+                "Taiitsu Magatama": 0.1
             }
         }
     },
@@ -2035,6 +2332,21 @@
                 "Taroutachi": 1,
                 "Ikkokunagayoshi": 1,
                 "Tea Oak Staff": 10
+            },
+            "Magatamas":
+            {
+                "Araya Magatama": 0.1,
+                "Amara Magatama": 0.1,
+                "Nekomata Magatama": 0.1,
+                "Akebono Magatama": 0.1,
+                "Dusk Magatama": 0.1,
+                "Melon Magatama": 0.1,
+                "Gedatsu Magatama": 0.1,
+                "Konron Magatama": 0.1,
+                "Cancer Magatama": 0.1,
+                "Leo Magatama": 0.1,
+                "Lord Enma Magatama": 0.1,
+                "Taiitsu Magatama": 0.1
             }
         }
     },
@@ -2117,6 +2429,21 @@
                 "One Chance": 3,
                 "Kogitsunemaru": 3,
                 "Wind Sunlight Talisman": 5
+            },
+            "Magatamas":
+            {
+                "Araya Magatama": 0.1,
+                "Amara Magatama": 0.1,
+                "Nekomata Magatama": 0.1,
+                "Akebono Magatama": 0.1,
+                "Dusk Magatama": 0.1,
+                "Melon Magatama": 0.1,
+                "Gedatsu Magatama": 0.1,
+                "Konron Magatama": 0.1,
+                "Cancer Magatama": 0.1,
+                "Leo Magatama": 0.1,
+                "Lord Enma Magatama": 0.1,
+                "Taiitsu Magatama": 0.1
             }
         }
     },
@@ -2190,6 +2517,17 @@
                 "Yatsuka": 3,
                 "Dark Kashi Staff": 5,
                 "Kareyanagi Staff": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2268,6 +2606,17 @@
                 "Kamatarizakura": 3,
                 "Aburahinoki Spear": 10,
                 "Ranmagiri Sword": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2343,6 +2692,17 @@
                 "Heavenly Ranmagiri Sword": 5,
                 "Whitecap Staff": 10,
                 "Tokage Twin Blades": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2422,6 +2782,17 @@
                 "Ukonvasara": 3,
                 "Earth Oshikiri Tachi": 5,
                 "Byakue Talisman": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2502,6 +2873,17 @@
                 "Ookanehira": 3,
                 "Ikkaku Tachi": 10,
                 "Minamoto Bow": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2587,6 +2969,17 @@
                 "Failnaught": 3,
                 "Tiger Claw Twin Blades": 10,
                 "Intetsu Battleaxe": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2666,6 +3059,17 @@
                 "Ice Arawashi Twin Blades": 5,
                 "Pearl Staff": 10,
                 "Daikokuten Talisman": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2749,6 +3153,17 @@
                 "Chained Magnolia Spear": 10,
                 "Helm-Splitter Sword": 10,
                 "Blooming Flower Bow": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     },
@@ -2833,6 +3248,17 @@
                 "Lightning Seidou Battleaxe": 5,
                 "Sekkou Battleaxe": 10,
                 "Nyuudou Tachi": 10
+            },
+            "Magatamas":
+            {
+                "Kouha Magatama": 0.1,
+                "Fuuri Magatama": 0.1,
+                "Shinonome Magatama": 0.1,
+                "Grape Magatama": 0.1,
+                "Kakuryo Magatama": 0.1,
+                "Virgo Magatama": 0.1,
+                "Lord Henjyo Magatama": 0.1,
+                "Gyokutei Magatama": 0.1
             }
         }
     }

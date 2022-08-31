@@ -15,6 +15,7 @@ import numpy as np
 from collections import Counter
 from os.path import exists as file_exists
 from os import makedirs
+from functools import reduce
 
 intents                 = discord.Intents.default()
 intents.message_content = True
@@ -391,23 +392,29 @@ def getPlayerWeaponsInv(user_id):
     return inventory[0][0]
 
 def getPlayerMagatamasInv(user_id):
-    EquipmentDB.execute("INSERT OR IGNORE INTO inventory (user_id, weapons, magatamas) VALUES (%s, '', '')" % str(user_id))
+    EquipmentDB.execute("INSERT OR IGNORE INTO inventory (user_id, weapons, magatamas) VALUES (%s, 'Oni Dagger', '')" % str(user_id))
     inventory = EquipmentDB.query(f"SELECT magatamas FROM inventory WHERE user_id = '{user_id}'")
     return inventory[0][0]
 
 def getPlayerEquipment(user_id):
     EquipmentDB.execute("INSERT OR IGNORE INTO equipment (user_id, weapon, magatama_1, magatama_2, magatama_3, magatama_4) VALUES (%s, 'Oni Dagger', '', '', '', '')" % str(user_id))
-    weapon = EquipmentDB.query(f"SELECT weapon FROM equipment WHERE user_id = '{user_id}'")
-    magatama_1 = EquipmentDB.query(f"SELECT magatama_1 FROM equipment WHERE user_id = '{user_id}'")
-    magatama_2 = EquipmentDB.query(f"SELECT magatama_2 FROM equipment WHERE user_id = '{user_id}'")
-    magatama_3 = EquipmentDB.query(f"SELECT magatama_3 FROM equipment WHERE user_id = '{user_id}'")
-    magatama_4 = EquipmentDB.query(f"SELECT magatama_4 FROM equipment WHERE user_id = '{user_id}'")
+    weapon = EquipmentDB.query(f"SELECT weapon FROM equipment WHERE user_id = '{user_id}'")[0][0]
+    magatama_1 = EquipmentDB.query(f"SELECT magatama_1 FROM equipment WHERE user_id = '{user_id}'")[0][0]
+    magatama_2 = EquipmentDB.query(f"SELECT magatama_2 FROM equipment WHERE user_id = '{user_id}'")[0][0]
+    magatama_3 = EquipmentDB.query(f"SELECT magatama_3 FROM equipment WHERE user_id = '{user_id}'")[0][0]
+    magatama_4 = EquipmentDB.query(f"SELECT magatama_4 FROM equipment WHERE user_id = '{user_id}'")[0][0]
     equipment = {}
-    equipment.update({"weapon": weapon, "magatama_1": magatama_1, "magatama_2": magatama_2, "magatama_3": magatama_3, "magatama_4": magatama_4})
+    equipment.update({"weapon": weapon, "magatamas": [magatama_1, magatama_2, magatama_3, magatama_4]})
     return equipment
 
 def equipWeapon(user_id, weapon):
+    EquipmentDB.execute("INSERT OR IGNORE INTO equipment (user_id, weapon, magatama_1, magatama_2, magatama_3, magatama_4) VALUES (%s, 'Oni Dagger', '', '', '', '')" % str(user_id))
     EquipmentDB.execute("UPDATE equipment SET weapon = ? WHERE user_id = ?", (weapon, user_id))
+    return
+
+def equipMagatama(user_id, magatama, slot):
+    EquipmentDB.execute("INSERT OR IGNORE INTO equipment (user_id, weapon, magatama_1, magatama_2, magatama_3, magatama_4) VALUES (%s, 'Oni Dagger', '', '', '', '')" % str(user_id))
+    EquipmentDB.execute("UPDATE equipment SET magatama_%s = ? WHERE user_id = ?" % str(slot), (magatama, user_id))
     return
 
 def givePlayerWeapon(user_id, weapon):
@@ -416,9 +423,43 @@ def givePlayerWeapon(user_id, weapon):
     EquipmentDB.execute("UPDATE inventory SET weapons = ? WHERE user_id = ?", (weapons, user_id))
     return
 
-# def getPlayerSeeds(user_id):
-#     seeds = SeedsDB.query(f"SELECT * FROM seeds WHERE user_id = {user_id}")
-#     return seeds
+def givePlayerMagatama(user_id, magatama):
+    magatamas = getPlayerMagatamasInv(user_id)
+    magatamas = magatamas + f", {magatama}" if magatamas != "" else magatama
+    EquipmentDB.execute("UPDATE inventory SET magatamas = ? WHERE user_id = ?", (magatamas, user_id))
+    return
+
+def getPlayerChakra(user_id):
+    equipment = getPlayerEquipment(user_id)
+    chakra = 0
+    equipped = equipment["magatamas"]
+    magatamas = []
+    for magatama in equipped:
+        magatamas.append((magatama, Magatamas[magatama]) if magatama != "" else ())
+    for slot, magatama in enumerate(magatamas):
+        if magatama:
+            chakra += magatamas[slot][1]["Chakra"]
+    return chakra
+
+def clearPlayerEquipment(user_id):
+    EquipmentDB.execute("UPDATE equipment SET magatama_1 = '' WHERE user_id = %s" % str(user_id))
+    EquipmentDB.execute("UPDATE equipment SET magatama_2 = '' WHERE user_id = %s" % str(user_id))
+    EquipmentDB.execute("UPDATE equipment SET magatama_3 = '' WHERE user_id = %s" % str(user_id))
+    EquipmentDB.execute("UPDATE equipment SET magatama_4 = '' WHERE user_id = %s" % str(user_id))
+    return
+
+def getPlayerSkillForce(user_id):
+    equipment = getPlayerEquipment(user_id)
+    sf = 0
+    equipped_weap = equipment["weapon"]
+    equipped_mags = equipment["magatamas"]
+    magatamas = []
+    for magatama in equipped_mags:
+        magatamas.append((magatama, Magatamas[magatama]) if magatama != "" else ())
+    for slot, magatama in enumerate(magatamas):
+        if magatama and Magatamas[magatamas[slot][0]]["Type"] == Weapons[equipped_weap]["Type"] and "Skill Force" in Magatamas[magatamas[slot][0]]["Effects"]:
+            sf += magatamas[slot][1]["Effects"]["Skill Force"]
+    return sf
 
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
@@ -549,6 +590,7 @@ async def dungeons(ctx, *input):
                 self.tax_rate = 50
                 self.tax = 0
                 self.weapon_rewards = []
+                self.magatama_rewards = []
 
         class PlayerState:
             def __init__(self):
@@ -557,8 +599,10 @@ async def dungeons(ctx, *input):
                 self.ATK = getPlayerATK(user_id)
                 self.DEF = getPlayerDEF(user_id)
                 self.level = getPlayerLevel(user_id)
-                self.weapon = getPlayerEquipment(user_id)["weapon"][0][0]
+                self.weapon = getPlayerEquipment(user_id)["weapon"]
                 self.weapon_atk = Weapons[self.weapon]["Attack"] if self.weapon != "" else 0
+                self.magatamas = getPlayerEquipment(user_id)["magatamas"]
+                self.magatamas_def = sum([property for property in [Magatamas[magatama]["Defence"] for magatama in self.magatamas if magatama]])
 
         class YokaiState:
             def __init__(self):
@@ -893,13 +937,12 @@ async def dungeons(ctx, *input):
                         await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player.level}` more levels!")
                         flag = False
                 case "🎁":
-                    print(mode, dg.mode, dg.mode_name, "\n")
-                    print(dg)
                     await message.clear_reactions()
                     e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list for mode: __{dg.mode_name}__", color = 0x9575cd)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
                     # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                     e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards, dg.multiplier), inline = True)
+                    e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = formatMagatamaRewards(dg.rewards, dg.multiplier), inline = True)
 
                     d = e.to_dict()
 
@@ -913,7 +956,19 @@ async def dungeons(ctx, *input):
                             else:
                                 weapons_2 += line + "\n"
                         e.set_field_at(0, name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_1, inline = True)
-                        e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_2, inline = True)
+                        e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_2, inline = False)
+
+                    if len(d["fields"][1]["value"]) > 1024:
+                        magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
+                        magatamas_1 = ""
+                        magatamas_2 = ""
+                        for index, line in enumerate(magatamas_list):
+                            if index <= math.floor(len(magatamas_list) / 2):
+                                magatamas_1 += line + "\n"
+                            else:
+                                magatamas_2 += line + "\n"
+                        e.set_field_at(1, name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_1, inline = True)
+                        e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_2, inline = False)
 
                     # if len(d["fields"][1]["value"]) > 1024:
                     #     magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
@@ -1009,8 +1064,13 @@ async def dungeons(ctx, *input):
             if dg.Cache.weapon_rewards:
                 weapons_string = ""
                 for index, weapon in enumerate(dg.Cache.weapon_rewards):
-                    weapons_string += f" └──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} __*{weapon}*__{Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
+                    weapons_string += f" └──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} __*{weapon}*__ {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
                 congrats += f"⚔️ Found the following weapon(s):\n{weapons_string}\n"
+            if dg.Cache.magatama_rewards:
+                magatamas_string = ""
+                for index, magatama in enumerate(dg.Cache.magatama_rewards):
+                    magatamas_string += f" └──  {Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} __*{magatama}*__\n"
+                congrats += f"{Icons['magatama']} Found the following magatama(s):\n{magatamas_string}\n"
             if founder:
                 congrats += f"🔍 You are the first player to discover the seed `{seed if not seed is None else dg.seed}` for this mode!\n"
                 congrats += "Here is a blueprint of the unique dungeon properties you discovered with that seed:"
@@ -1797,11 +1857,12 @@ async def dungeons(ctx, *input):
                 exp1 = math.floor((dg.rewards["EXP"]['range'][1] * 0.75) + (dg.rewards["EXP"]['range'][1] / 4) * dg.multiplier)
                 ryou_range = [ryou0, ryou1]
                 exp_range = [exp0, exp1]
-                ryou_amount = addPlayerRyou(user_id, random.randint(ryou_range[0], ryou_range[1]))
+                ryou_amount = random.randint(ryou_range[0], ryou_range[1])
                 exp_amount = addPlayerExp(user_id, random.randint(exp_range[0], exp_range[1]))
                 boost = getUserBoost(ctx)
                 if boost > 0:
                     ryou_amount = ryou_amount + math.floor(ryou_amount * (boost / 100.))
+                ryou_amount = addPlayerRyou(user_id, ryou_amount)
                 clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
                 if "Weapons" in dg.rewards:
@@ -1814,6 +1875,16 @@ async def dungeons(ctx, *input):
                                 givePlayerWeapon(user_id, weapon)
                             dg.Cache.weapon_rewards.append(weapon)
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} dropped '{weapon}'")
+                if "Magatamas" in dg.rewards:
+                    for magatama, rate in dg.rewards["Magatamas"].items():
+                        random_number = random.uniform(0, 100)
+                        if random_number <= rate * dg.multiplier:
+                            magatamas_inv = getPlayerMagatamasInv(user_id)
+                            magatamas_list = magatamas_inv.split(", ")
+                            if not magatama in magatamas_list:
+                                givePlayerMagatama(user_id, magatama)
+                            dg.Cache.magatama_rewards.append(magatama)
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} dropped '{magatama}'")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
@@ -1865,11 +1936,13 @@ async def dungeons(ctx, *input):
         return file, founder
 
     def damageCalculator(attacker, defender):
+        sf = getPlayerSkillForce(user_id)
         is_critical = True if random.random() < 0.1 else False
         damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
         variance = round(damage / 10)
         var_roll = random.randint(-variance, variance)
         damage += var_roll
+        damage += round(damage * (sf / 100.))
         damage *= 2 if is_critical else 1
         return damage, is_critical
 
@@ -2007,6 +2080,22 @@ async def dungeons(ctx, *input):
                 for element in Weapons[weapon]['Elements']:
                     elements += Icons[element]
             formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}{' │ ' + elements if not elements == '' else ''} │ **{rate * multiplier}%**\n"
+        return formatted_string
+
+    def formatMagatamaRewards(dungeon_rewards, multiplier):
+        formatted_string = ""
+        formatted_string += "───────────────\n"
+        for magatama, rate in dungeon_rewards["Magatamas"].items():
+            elements = ""
+            if not Magatamas[magatama]['Elements'] is None:
+                for element in Magatamas[magatama]['Elements']:
+                    if Magatamas[magatama]['Elements'][element]:
+                        elements += f"(+{Icons[element]})"
+                    else:
+                        elements += f"(-{Icons[element]})"
+                    if index + 1 < len(Magatamas[magatama]['Elements']):
+                        elements += ", "
+            formatted_string += f"{Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} *__{magatama}__*{' │ ' + elements if not elements == '' else ''} │ **{rate * multiplier}%**\n"
         return formatted_string
 
     def getElementEmojis(array):
@@ -3283,7 +3372,7 @@ async def equip(ctx, *input):
     equipment = getPlayerEquipment(user_id)
 
     def formatEquippedWeapon(equipment):
-        equipped = equipment["weapon"][0][0]
+        equipped = equipment["weapon"]
         weapon = Weapons[equipped]
         formatted_string = ""
         emoji = weapon["Type"].lower().replace(" ", "_")
@@ -3294,6 +3383,7 @@ async def equip(ctx, *input):
                 elements += f"{Icons[element]}"
         else:
             elements = "None"
+
         formatted_string += "──────────────────\n"
         formatted_string += f"🏷️ ─ Name: **__{equipped}__**\n"
         formatted_string += "──────────────────\n"
@@ -3306,6 +3396,62 @@ async def equip(ctx, *input):
         formatted_string += f"{Icons['attack']} ─ Attack: **{'{:,}'.format(weapon['Attack'])}**\n"
         formatted_string += "──────────────────\n"
         formatted_string += f"⚛️ ─ Elements: **{elements}**"
+        return formatted_string
+
+    def listEquippedMagatamas(equipment):
+        equipped = equipment["magatamas"]
+        magatamas = []
+        for magatama in equipped:
+            magatamas.append((magatama, Magatamas[magatama]) if magatama != "" else ())
+        return magatamas
+
+    def getMagatamaEmoji(slot):
+        magatamas = listEquippedMagatamas(equipment)
+        if magatamas[slot]:
+            emoji = "magatama_" + magatamas[slot][1]["Type"].lower().replace(" ", "_")
+        else:
+            emoji = "magatama"
+        return emoji
+
+    def getMagatamaElements(slot):
+        magatamas = listEquippedMagatamas(equipment)
+        elements = ""
+        if magatamas[slot] and not magatamas[slot][1]["Elements"] is None:
+            for index, element in enumerate(magatamas[slot][1]["Elements"]):
+                if Magatamas[magatamas[slot][0]]["Elements"][element]:
+                    elements += f"(+{Icons[element]})"
+                else:
+                    elements += f"(-{Icons[element]})"
+                if index + 1 < len(magatamas[slot][1]["Elements"]):
+                    elements += ", "
+        else:
+            elements = "None"
+        return elements
+
+    def getMagatamaSkillForce(slot):
+        magatamas = listEquippedMagatamas(equipment)
+        sf = 0
+        if "Skill Force" in magatamas[slot][1]["Effects"]:
+            sf = magatamas[slot][1]["Effects"]["Skill Force"]
+        return sf
+
+    def formatEquippedMagatamas(equipment):
+        magatamas = listEquippedMagatamas(equipment)
+        formatted_string = ""
+
+        formatted_string += "──────────────────\n"
+        for slot, magatama in enumerate(magatamas):
+            if magatama:
+                formatted_string += f"📍 **Slot {slot + 1}:** {Icons[getMagatamaEmoji(slot)]} **__{magatamas[slot][0]}__**\n"
+                formatted_string += f" ╰─  Level: **{magatamas[slot][1]['Level_Required']}**\n"
+                formatted_string += f" ╰─  Chakra: **{magatamas[slot][1]['Chakra']}**\n"
+                formatted_string += f" ╰─  Defence: **{'{:,}'.format(magatamas[slot][1]['Defence'])}**\n"
+                formatted_string += f" ╰─  Elements: **{getMagatamaElements(slot)}**\n"
+                formatted_string += f" ╰─  Skill Force: **+{getMagatamaSkillForce(slot)}%**\n"
+                formatted_string += "──────────────────\n"
+            else:
+                formatted_string += f"{Icons[getMagatamaEmoji(slot)]} ─ Slot {slot + 1}: None\n"
+                formatted_string += "──────────────────\n"
         return formatted_string
 
     def formatWeaponInventory():
@@ -3334,32 +3480,59 @@ async def equip(ctx, *input):
             formatted_string += f"{circle} ┃ __{weapon}__ ┃ **Lvl.{lvl}** {elements}\n"
         return formatted_string
 
+    def formatMagatamaInventory():
+        magatamas_inv = getPlayerMagatamasInv(user_id)
+        magatamas_list = magatamas_inv.split(", ")
+        formatted_string = ""
+        for index, magatama in enumerate(magatamas_list):
+            lvl = Magatamas[magatama]["Level_Required"]
+            chakra = Magatamas[magatama]["Chakra"]
+            elements = "┃ "
+            if not Magatamas[magatama]["Elements"] is None:
+                for index, element in enumerate(Magatamas[magatama]["Elements"]):
+                    if Magatamas[magatama]["Elements"][element]:
+                        elements += f"(+{element})"
+                    else:
+                        elements += f"(-{element})"
+                    if index + 1 < len(Magatamas[magatama]["Elements"]):
+                        elements += ", "
+            else:
+                elements = ""
+            type = Magatamas[magatama]["Type"].lower().replace(" ", "_")
+            formatted_string += f"{Icons['magatama_' + type]} ┃ __{magatama}__ ┃ **Lvl.{lvl}** ┃ *Chakra:* **{chakra}** {elements}\n"
+        return formatted_string
+
     if not input:
-        commands = ["", "Equip a weapon:", "(+equip <weapon name>)", "", "View your inventory:", "(+equip inv)", ""]
-        e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing equipment of <@{user_id}>", color = default_color)
+        level = getPlayerLevel(user_id)
+        chakra = getPlayerChakra(user_id)
+        commands = ["", "Equip a weapon/magatama:", "(+equip <item name>)", "", "View your inventory:", "(+equip inv)", "", "Clear your magatama slots:", "(+equip clear)", ""]
+        e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing equipment of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        # e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = "⚔️ ─ Equipped Weapon ─ ⚔️", value = formatEquippedWeapon(equipment), inline = True)
-        # e.add_field(name = f"{Icons["mgatama"]} ─ Equipped Magatamas ─ {Icons["magatama"]}", value = formatEquippedMagatamas(), inline = True)
+        e.add_field(name = f"{Icons['magatama']} ─ Equipped Magatamas ─ {Icons['magatama']}", value = formatEquippedMagatamas(equipment), inline = True)
         e.add_field(name = "Commands:", value = boxifyArray(commands, padding = 2), inline = False)
         await ctx.send(embed = e)
     else:
         if argument == "inventory" or argument == "inv":
-            e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing inventory of <@{user_id}>", color = default_color)
+            level = getPlayerLevel(user_id)
+            chakra = getPlayerChakra(user_id)
+            e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing inventory of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             # e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-            e.add_field(name = "Weapon Inventory:", value = formatWeaponInventory(), inline = False)
+            e.add_field(name = "Weapon Inventory:", value = formatWeaponInventory(), inline = True)
+            e.add_field(name = "Magatama Inventory:", value = formatMagatamaInventory(), inline = True)
             await ctx.send(embed = e)
             return
+        elif argument == "clear" or argument == "reset":
+            clearPlayerEquipment(user_id)
+            await ctx.reply("You have successfully cleared your equipment slots!")
         else:
-            weapon_found = False
-            weapon = None
-            for weapon in Weapons:
-                if argument.casefold() == weapon.casefold():
-                    weapon_found = True
-                    break
-            weapon_string = f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **{weapon}** {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}"
-            if weapon_found:
+            weapon = [w for w in Weapons if argument.casefold() == w.casefold()]
+            magatama = [m for m in Magatamas if argument.casefold() == m.casefold()]
+            if weapon:
+                weapon = weapon[0]
+                weapon_string = f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **{weapon}** {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}"
                 weapons_inv = getPlayerWeaponsInv(user_id)
                 weapons_list = weapons_inv.split(", ")
                 if weapon in weapons_list:
@@ -3373,6 +3546,60 @@ async def equip(ctx, *input):
                         f"*Level Required:* {Icons['level']}**{Weapons[weapon]['Level_Required']}**")
                 else:
                     await ctx.reply(f"You don't own: {weapon_string}")
+            elif magatama:
+                magatama = magatama[0]
+                magatama_string = f"{Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} **__{magatama}__**"
+                magatamas_inv = getPlayerMagatamasInv(user_id)
+                magatamas_list = magatamas_inv.split(", ")
+                slots = listEquippedMagatamas(equipment)
+                level = getPlayerLevel(user_id)
+                chakra = getPlayerChakra(user_id)
+                if magatama in magatamas_list:
+                    if level >= Magatamas[magatama]["Level_Required"]:
+                        if chakra + Magatamas[magatama]["Chakra"] <= level:
+                            if not magatama in [m[0] for m in slots if m]:
+                                e = discord.Embed(title = f"{Icons['magatama']} ─ Equip Magatama ─ {Icons['magatama']}", description = f"Select a slot to equip {magatama_string} into:", color = default_color)
+                                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                                e.add_field(name = "1️⃣ ─ Slot 1", value = f"{Icons[getMagatamaEmoji(0)]} **{slots[0][0] if slots[0] else 'None'}**", inline = True)
+                                e.add_field(name = "2️⃣ ─ Slot 2", value = f"{Icons[getMagatamaEmoji(1)]} **{slots[1][0] if slots[1] else 'None'}**", inline = True)
+                                e.add_field(name = "\u200b", value = "\u200b", inline = True)
+                                e.add_field(name = "3️⃣ ─ Slot 3", value = f"{Icons[getMagatamaEmoji(2)]} **{slots[2][0] if slots[2] else 'None'}**", inline = True)
+                                e.add_field(name = "4️⃣ ─ Slot 4", value = f"{Icons[getMagatamaEmoji(3)]} **{slots[3][0] if slots[3] else 'None'}**", inline = True)
+                                e.add_field(name = "\u200b", value = "\u200b", inline = True)
+                                message = await ctx.send(embed = e)
+                                emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "🚫"]
+                                reaction, user = await waitForReaction(ctx, message, e, emojis)
+                                if reaction is None:
+                                    return
+                                match str(reaction.emoji):
+                                    case "1️⃣":
+                                        await message.clear_reactions()
+                                        slot = 1
+                                    case "2️⃣":
+                                        await message.clear_reactions()
+                                        slot = 2
+                                    case "3️⃣":
+                                        await message.clear_reactions()
+                                        slot = 3
+                                    case "4️⃣":
+                                        await message.clear_reactions()
+                                        slot = 4
+                                    case "🚫":
+                                        await message.clear_reactions()
+                                        return
+                                equipMagatama(user_id, magatama, slot)
+                                await ctx.reply(f"You equipped {magatama_string} to **Slot {slot}**")
+                            else:
+                                await ctx.reply(f"You already have {magatama_string} equipped!")
+                        else:
+                            await ctx.reply(f"You don't have enough chakra to equip {magatama_string}! (Overshot by **{(chakra + Magatamas[magatama]['Chakra']) - level}**)")
+                    else:
+                        await ctx.reply(f"You are not high enough level to equip: {magatama_string}" + "\n" + \
+                        f"*Your level:* {Icons['level']}**{level}**" + "\n" + \
+                        f"*Level Required:* {Icons['level']}**{Magatamas[magatama]['Level_Required']}**")
+                else:
+                    await ctx.reply(f"You don't own: {magatama_string}")
+
             else:
                 await ctx.reply(f"There were no matches found for `{argument}`")
 
@@ -3526,7 +3753,7 @@ async def stats(ctx, target = None):
         HP = getPlayerHP(user_id)
         ATK = getPlayerATK(user_id)
         DEF = getPlayerDEF(user_id)
-        weapon_ATK = Weapons[getPlayerEquipment(user_id)["weapon"][0][0]]["Attack"]
+        weapon_ATK = Weapons[getPlayerEquipment(user_id)["weapon"]]["Attack"]
         player_stats = ["", f"{user.name}", f"Total HP: {HP}", f"Total ATK: {ATK} (+{weapon_ATK})", f"Total DEF: {DEF}", ""]
         return player_stats
 
@@ -3620,6 +3847,50 @@ async def stats(ctx, target = None):
                         await message.clear_reactions()
                         return
             else:
+                e.add_field(name = f"You have `{points}` available stat points.", value = "Choose an option:", inline = True)
+                e.add_field(name = "│ Options:", value = f"**│** {Icons['statsreset']} ─ **Reset Stats**\n**│** ❌ ─ **Exit**\n", inline = True)
+                await message.edit(embed = e)
+                emojis = [Icons["statsreset"], "❌"]
+                reaction, user = await waitForReaction(ctx, message, e, emojis)
+                if reaction is None:
+                    return
+                match str(reaction.emoji):
+                    case x if x == Icons["statsreset"]:
+                        await message.clear_reactions()
+                        product = "Stats Reset"
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        e.description = "Will you reset your stats?"
+                        e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+                        e.add_field(name = f"{Icons['statsreset']} Confirmation: Will you reset your stat points?", value = f"(You have `{item_quantity if not item_quantity is None else 0}` Stats Reset uses.)", inline = False) # Field 8
+                        await message.edit(embed = e)
+                        emojis = ["✅", "❌"]
+                        reaction, user = await waitForReaction(ctx, message, e, emojis)
+                        if reaction is None:
+                            return
+                        match str(reaction.emoji):
+                            case "✅":
+                                await message.clear_reactions()
+                                if not item_quantity is None and item_quantity > 0:
+                                    StatsDB.execute(f"DELETE FROM userdata WHERE user_id = {user_id}")
+                                    ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity - 1, product))
+                                    if item_quantity - 1 == 0:
+                                        ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
+                                    e.add_field(name = "✅ Success!", value = "Your points have been successfuly reset.", inline = False) # Field 9
+                                    await message.edit(embed = e)
+                                    time.sleep(4)
+                                    e.remove_field(9)
+                                    e.remove_field(8)
+                                else:
+                                    e.add_field(name = "❌ Failure!", value = "You don't have any Stats Reset uses, you can buy one from the Market.", inline = False) # Field 9
+                                    await message.edit(embed = e)
+                                    time.sleep(4)
+                                    e.remove_field(8)
+                            case "❌":
+                                await message.clear_reactions()
+                                e.remove_field(8)
+                    case "❌":
+                        await message.clear_reactions()
+                        return
                 flag = False
     else:
         await ctx.send("Please **@ mention** a valid user to check their stats (+help stats)")
@@ -3870,67 +4141,84 @@ async def reward(ctx, target: str, item: str, quantity):
                     user_id = convertMentionToId(target)
                     weapons_inv = getPlayerWeaponsInv(user_id)
                     weapons_list = weapons_inv.split(", ")
+                    weapon_string = f"{Icons[Weapons[w]['Type'].lower().replace(' ', '_')]} **{w}**"
                     if not w in weapons_list:
                         givePlayerWeapon(user_id, w)
-                        await ctx.send(f"Rewarded {target} with {Icons['attack']} **{w}**!")
+                        await ctx.send(f"Rewarded {target} with {weapon_string}!")
                     else:
-                        await ctx.send(f"User already has **{w}**!")
+                        await ctx.send(f"User already has {weapon_string}!")
                     return
             await ctx.send("Please enter a **valid weapon name** to reward.")
             return
-
-        # Ensure integer
-        try:
-            quantity    = int(quantity)
-            if quantity == 0:
-                return
-            user_id     = convertMentionToId(target)
-            inv_gacha   = getUserGachaInv(user_id)
-            inv_market  = getUserMarketInv(user_id)
-            inv_items   = getUserItemInv(user_id)
-            tickets     = inv_gacha.gacha_tickets
-            fragments   = inv_gacha.gacha_fragments
-            total_rolls = inv_gacha.total_rolls
-            ryou        = inv_market.ryou
-            # Add the respective reward on top of what the user already has
-            match item:
-                case "ticket" | "tickets":
-                    GachaDB.userdata[user_id] = {"gacha_tickets": tickets + quantity, "gacha_fragments": fragments, "total_rolls": total_rolls}
-                    await ctx.send(f"Rewarded {target} with {Icons['ticket']} `{quantity}` **Gacha Ticket(s)**! User now has a total of `{tickets + quantity}`.")
-                case "fragment" | "fragments":
-                    GachaDB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + quantity, "total_rolls": total_rolls}
-                    await ctx.send(f"Rewarded {target} with {Icons['fragment']} `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
-                case "ryou" | "coins":
-                    MarketDB.userdata[user_id] = {"ryou": ryou + quantity}
-                    await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
-                case "exp" | "xp":
-                    exp = getPlayerExp(user_id)
-                    exp_reward = addPlayerExp(user_id, quantity)
-                    await ctx.send(f"Rewarded {target} with {Icons['exp']} `{exp_reward}` **Experience Points**! User now has a total of `{exp + exp_reward}`.")
-                case "energy":
-                    energy = getPlayerEnergy(user_id)
-                    energy_reward = addPlayerEnergy(user_id, quantity)
-                    await ctx.send(f"Rewarded {target} with {Icons['energy']} `{energy_reward}` **Energy**! User now has a total of `{energy + energy_reward}`.")
-                case x if x in Products:
-                    item_quantity = getUserItemQuantity(user_id, x)
-                    if item_quantity == None:
-                        if quantity < 0:
-                            return
-                        else:
-                            ItemsDB.execute("INSERT INTO user_{} (item, quantity) VALUES ('{}', {})".format(str(user_id), x, quantity))
-                    elif item_quantity + quantity > 0:
-                        ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + quantity, x))
+        elif item == "magatama":
+            magatama = quantity
+            for m in Magatamas:
+                if magatama.casefold() == m.casefold():
+                    user_id = convertMentionToId(target)
+                    magatamas_inv = getPlayerMagatamasInv(user_id)
+                    magatamas_list = magatamas_inv.split(", ")
+                    magatama_string = f"{Icons['magatama_' + Magatamas[m]['Type'].lower().replace(' ', '_')]} **{m}**"
+                    if not m in magatamas_list:
+                        givePlayerMagatama(user_id, m)
+                        await ctx.send(f"Rewarded {target} with {magatama_string}!")
                     else:
-                        ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), x))
-                        await ctx.send(f"Removed item from {target}: **{x}**")
-                        return
-                    await ctx.send(f"Rewarded {target} with `{quantity}` of item: **{x}**")
-                    if x in config.role_boosts:
-                        await addRole(ctx, x)
-                case _:
-                    await ctx.send(f"Please enter a **valid item** to reward ({config.prefix}help reward)")
-        except ValueError:
-            await ctx.send(f"Please enter an **integer** of item(s) to reward ({config.prefix}help reward)")
+                        await ctx.send(f"User already has {magatama_string}!")
+                    return
+            await ctx.send("Please enter a **valid magatama name** to reward.")
+            return
+        else:
+            # Ensure integer
+            try:
+                quantity    = int(quantity)
+                if quantity == 0:
+                    return
+                user_id     = convertMentionToId(target)
+                inv_gacha   = getUserGachaInv(user_id)
+                inv_market  = getUserMarketInv(user_id)
+                inv_items   = getUserItemInv(user_id)
+                tickets     = inv_gacha.gacha_tickets
+                fragments   = inv_gacha.gacha_fragments
+                total_rolls = inv_gacha.total_rolls
+                ryou        = inv_market.ryou
+                # Add the respective reward on top of what the user already has
+                match item:
+                    case "ticket" | "tickets":
+                        GachaDB.userdata[user_id] = {"gacha_tickets": tickets + quantity, "gacha_fragments": fragments, "total_rolls": total_rolls}
+                        await ctx.send(f"Rewarded {target} with {Icons['ticket']} `{quantity}` **Gacha Ticket(s)**! User now has a total of `{tickets + quantity}`.")
+                    case "fragment" | "fragments":
+                        GachaDB.userdata[user_id] = {"gacha_tickets": tickets, "gacha_fragments": fragments + quantity, "total_rolls": total_rolls}
+                        await ctx.send(f"Rewarded {target} with {Icons['fragment']} `{quantity}` **Gacha Ticket Fragment(s)**! User now has a total of `{fragments + quantity}`.")
+                    case "ryou" | "coins":
+                        MarketDB.userdata[user_id] = {"ryou": ryou + quantity}
+                        await ctx.send(f"Rewarded {target} with {Icons['ryou']} `{quantity}` **Ryou D-Coin(s)**! User now has a total of `{ryou + quantity}`.")
+                    case "exp" | "xp":
+                        exp = getPlayerExp(user_id)
+                        exp_reward = addPlayerExp(user_id, quantity)
+                        await ctx.send(f"Rewarded {target} with {Icons['exp']} `{exp_reward}` **Experience Points**! User now has a total of `{exp + exp_reward}`.")
+                    case "energy":
+                        energy = getPlayerEnergy(user_id)
+                        energy_reward = addPlayerEnergy(user_id, quantity)
+                        await ctx.send(f"Rewarded {target} with {Icons['energy']} `{energy_reward}` **Energy**! User now has a total of `{energy + energy_reward}`.")
+                    case x if x in Products:
+                        item_quantity = getUserItemQuantity(user_id, x)
+                        if item_quantity == None:
+                            if quantity < 0:
+                                return
+                            else:
+                                ItemsDB.execute("INSERT INTO user_{} (item, quantity) VALUES ('{}', {})".format(str(user_id), x, quantity))
+                        elif item_quantity + quantity > 0:
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + quantity, x))
+                        else:
+                            ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), x))
+                            await ctx.send(f"Removed item from {target}: **{x}**")
+                            return
+                        await ctx.send(f"Rewarded {target} with `{quantity}` of item: **{x}**")
+                        if x in config.role_boosts:
+                            await addRole(ctx, x)
+                    case _:
+                        await ctx.send(f"Please enter a **valid item** to reward ({config.prefix}help reward)")
+            except ValueError:
+                await ctx.send(f"Please enter an **integer** of item(s) to reward ({config.prefix}help reward)")
     else:
         await ctx.send(f"Please **@ mention** a valid user to reward ({config.prefix}help reward)")
 
@@ -4288,9 +4576,7 @@ async def compensate(ctx):
 @bot.command()
 @commands.is_owner()
 async def test(ctx):
-    user_id = ctx.author.id
-    whitelist = getUserWhitelist(user_id)
-    print(whitelist)
+    pass
 
 @bot.command()
 @commands.is_owner()
