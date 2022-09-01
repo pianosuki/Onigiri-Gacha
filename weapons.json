@@ -2069,6 +2069,43 @@
         "Elements": null
     },
 
+    "Chikurinbou Spirit Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 52,
+        "Rarity": "Red",
+        "Attack": 47,
+        "Elements": null
+    },
+
+    "Water Fuedou Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 54,
+        "Rarity": "Blue",
+        "Attack": 43,
+        "Elements": ["Rain"]
+    },
+
+    "Yuusai Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 55,
+        "Rarity": "White",
+        "Attack": 38,
+        "Elements": null
+    },
+
+    "Life Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 56,
+        "Rarity": "Gold",
+        "Attack": 56,
+        "Elements": null
+    },
+
+
 
 
 
@@ -2254,6 +2291,33 @@
         "Rarity": "Blue",
         "Attack": 39,
         "Elements": ["Lightning"]
+    },
+
+    "Mjollnir":
+    {
+        "Type": "Axe",
+        "Level_Required": 53,
+        "Rarity": "Gold",
+        "Attack": 53,
+        "Elements": ["Lightning"]
+    },
+
+    "Sekinseki Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 55,
+        "Rarity": "White",
+        "Attack": 38,
+        "Elements": null
+    },
+
+    "Heat Hawk":
+    {
+        "Type": "Axe",
+        "Level_Required": 57,
+        "Rarity": "Gold",
+        "Attack": 57,
+        "Elements": ["Fire"]
     },
 
 
@@ -2464,6 +2528,24 @@
         "Elements": ["Wind"]
     },
 
+    "Shouinmatsu Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 55,
+        "Rarity": "White",
+        "Attack": 38,
+        "Elements": null
+    },
+
+    "Beast Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 56,
+        "Rarity": "Gold",
+        "Attack": 56,
+        "Elements": ["Dark"]
+    },
+
 
 
 
@@ -2660,6 +2742,42 @@
         "Rarity": "Gold",
         "Attack": 49,
         "Elements": ["Dark"]
+    },
+
+    "Guyouhoujyou":
+    {
+        "Type": "Staff",
+        "Level_Required": 53,
+        "Rarity": "Red",
+        "Attack": 48,
+        "Elements": ["Holy"]
+    },
+
+    "Flourite Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 55,
+        "Rarity": "White",
+        "Attack": 38,
+        "Elements": null
+    },
+
+    "Amidahijiri":
+    {
+        "Type": "Staff",
+        "Level_Required": 57,
+        "Rarity": "Gold",
+        "Attack": 57,
+        "Elements": ["Holy"]
+    },
+
+    "Heavenly Tea Oak Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 59,
+        "Rarity": "Blue",
+        "Attack": 47,
+        "Elements": ["Holy"]
     },
 
 
@@ -2875,6 +2993,42 @@
         "Rarity": "Gold",
         "Attack": 49,
         "Elements": ["Dark"]
+    },
+
+    "Thunder Lash":
+    {
+        "Type": "Wand",
+        "Level_Required": 53,
+        "Rarity": "Gold",
+        "Attack": 53,
+        "Elements": ["Lightning"]
+    },
+
+    "Peacock Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 55,
+        "Rarity": "White",
+        "Attack": 38,
+        "Elements": null
+    },
+
+    "Dark Kisshouten Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 56,
+        "Rarity": "Blue",
+        "Attack": 45,
+        "Elements": ["Dark"]
+    },
+
+    "Laevateinn":
+    {
+        "Type": "Wand",
+        "Level_Required": 57,
+        "Rarity": "Red",
+        "Attack": 51,
+        "Elements": ["Fire"]
     },
 
 

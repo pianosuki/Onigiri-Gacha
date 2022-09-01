@@ -265,7 +265,11 @@
         "Shikifuda": [["Graphics/Yokai/Shikifuda/1.png", "shikifuda-1.png", "attachment://shikifuda-1.png"]],
         "Kokushiki": [["Graphics/Yokai/Kokushiki/1.png", "kokushiki-1.png", "attachment://kokushiki-1.png"]],
         "Aoshiki": [["Graphics/Yokai/Aoshiki/1.png", "aoshiki-1.png", "attachment://aoshiki-1.png"]],
-        "Akamekabe": [["Graphics/Yokai/Akamekabe/1.png", "akamekabe-1.png", "attachment://akamekabe-1.png"]],
+        "Akamekabe":
+        [
+            ["Graphics/Yokai/Akamekabe/1.png", "akamekabe-1.png", "attachment://akamekabe-1.png"],
+            ["Graphics/Yokai/Akamekabe/2.png", "akamekabe-2.png", "attachment://akamekabe-2.png"]
+        ],
         "Benkei":
         [
             ["Graphics/Yokai/Benkei/1.png", "benkei-1.png", "attachment://benkei-1.png"],
@@ -275,6 +279,34 @@
         [
             ["Graphics/Yokai/Odin/1.png", "odin-1.png", "attachment://odin-1.png"],
             ["Graphics/Yokai/Odin/2.png", "odin-2.png", "attachment://odin-2.png"]
+        ],
+        "Tsuchikorobi": [["Graphics/Yokai/Tsuchikorobi/1.png", "tsuchikorobi-1.png", "attachment://tsuchikorobi-1.png"]],
+        "Death Scythe":
+        [
+            ["Graphics/Yokai/Death Scythe/1.png", "deathscythe-1.png", "attachment://deathscythe-1.png"],
+            ["Graphics/Yokai/Death Scythe/2.png", "deathscythe-2.png", "attachment://deathscythe-2.png"]
+        ],
+        "Nozuchi": [["Graphics/Yokai/Nozuchi/1.png", "nozuchi-1.png", "attachment://nozuchi-1.png"]],
+        "Reaper": [["Graphics/Yokai/Reaper/1.png", "reaper-1.png", "attachment://reaper-1.png"]],
+        "Ethereal Cerberus":
+        [
+            ["Graphics/Yokai/Ethereal Cerberus/1.png", "etherealcerberus-1.png", "attachment://etherealcerberus-1.png"],
+            ["Graphics/Yokai/Ethereal Cerberus/2.png", "etherealcerberus-2.png", "attachment://etherealcerberus-2.png"]
+        ],
+        "Revived Cerberus":
+        [
+            ["Graphics/Yokai/Revived Cerberus/1.png", "revivedcerberus-1.png", "attachment://revivedcerberus-1.png"],
+            ["Graphics/Yokai/Revived Cerberus/2.png", "revivedcerberus-2.png", "attachment://revivedcerberus-2.png"]
+        ],
+        "Preserved Cerberus":
+        [
+            ["Graphics/Yokai/Preserved Cerberus/1.png", "preservedcerberus-1.png", "attachment://preservedcerberus-1.png"],
+            ["Graphics/Yokai/Preserved Cerberus/2.png", "preservedcerberus-2.png", "attachment://preservedcerberus-2.png"]
+        ],
+        "Hades":
+        [
+            ["Graphics/Yokai/Hades/1.png", "hades-1.png", "attachment://hades-1.png"],
+            ["Graphics/Yokai/Hades/2.png", "hades-2.png", "attachment://hades-2.png"]
         ]
     },
 
