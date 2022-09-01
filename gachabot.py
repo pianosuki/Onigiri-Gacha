@@ -2915,6 +2915,20 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
                     else:
                         continue
+                case x if x == "1 Random Magatama":
+                    magatamas_inv = getPlayerMagatamasInv(user_id)
+                    magatamas_list = magatamas_inv.split(", ")
+                    magatamas = list(Magatamas.keys())
+                    choosing = True
+                    while choosing:
+                        choice = random.choice(magatamas)
+                        if not choice in magatamas_list:
+                            givePlayerMagatama(user_id, choice)
+                            magatama_string = f"{Icons['magatama_' + Magatamas[choice]['Type'].lower().replace(' ', '_')]} **{choice}**"
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with {magatama_string}!")
+                            choosing = false
+                        else:
+                            continue
                 case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
                     if await updateStock(ctx, sub_prize):

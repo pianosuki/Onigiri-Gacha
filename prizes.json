@@ -55,7 +55,7 @@
     "name": "Tier 4",
     "symbol": "🏅",
     "tickets_required": 10,
-    "regulated": true,
+    "regulated": false,
     "prizes":
     {
       "blue": ["1000 EXP"],
@@ -63,7 +63,7 @@
       "red": ["2000 EXP", "4 Gacha Tickets"],
       "silver": ["500000 Ryou", "6 Gacha Tickets"],
       "gold": ["OG", "8 Gacha Tickets"],
-      "platinum": ["1 Onigiri NFT"]
+      "platinum": ["1 Random Magatama"]
     }
   }
 }

@@ -1212,7 +1212,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [2500, 3000], "rate": 100},
+            "Ryou": {"range": [2500, 5000], "rate": 100},
             "EXP": {"range": [2500, 3000], "rate": 100},
             "Weapons":
             {
@@ -1304,7 +1304,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [3000, 3500], "rate": 100},
+            "Ryou": {"range": [5000, 10000], "rate": 100},
             "EXP": {"range": [3000, 3500], "rate": 100},
             "Weapons":
             {
@@ -1395,7 +1395,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [5000, 10000], "rate": 100},
+            "Ryou": {"range": [10000, 11000], "rate": 100},
             "EXP": {"range": [3500, 3600], "rate": 100},
             "Weapons":
             {
@@ -1491,7 +1491,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [10000, 20000], "rate": 100},
+            "Ryou": {"range": [11000, 12000], "rate": 100},
             "EXP": {"range": [3600, 3700], "rate": 100},
             "Weapons":
             {
@@ -1582,7 +1582,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [20000, 40000], "rate": 100},
+            "Ryou": {"range": [12000, 13000], "rate": 100},
             "EXP": {"range": [3700, 3800], "rate": 100},
             "Weapons":
             {
@@ -1671,7 +1671,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [30000, 60000], "rate": 100},
+            "Ryou": {"range": [13000, 14000], "rate": 100},
             "EXP": {"range": [3800, 3900], "rate": 100},
             "Weapons":
             {
@@ -1762,7 +1762,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [40000, 80000], "rate": 100},
+            "Ryou": {"range": [14000, 15000], "rate": 100},
             "EXP": {"range": [3900, 4000], "rate": 100},
             "Weapons":
             {
@@ -1854,7 +1854,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [50000, 100000], "rate": 100},
+            "Ryou": {"range": [15000, 20000], "rate": 100},
             "EXP": {"range": [4000, 5000], "rate": 100},
             "Weapons":
             {
@@ -1948,7 +1948,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [100000, 120000], "rate": 100},
+            "Ryou": {"range": [20000, 25000], "rate": 100},
             "EXP": {"range": [5000, 5100], "rate": 100},
             "Weapons":
             {
@@ -2042,7 +2042,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [120000, 140000], "rate": 100},
+            "Ryou": {"range": [25000, 30000], "rate": 100},
             "EXP": {"range": [5100, 5200], "rate": 100},
             "Weapons":
             {
@@ -2135,7 +2135,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [140000, 160000], "rate": 100},
+            "Ryou": {"range": [30000, 35000], "rate": 100},
             "EXP": {"range": [5200, 5300], "rate": 100},
             "Weapons":
             {
@@ -2231,7 +2231,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [160000, 180000], "rate": 100},
+            "Ryou": {"range": [35000, 40000], "rate": 100},
             "EXP": {"range": [5300, 5400], "rate": 100},
             "Weapons":
             {
@@ -2324,7 +2324,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [180000, 200000], "rate": 100},
+            "Ryou": {"range": [40000, 50000], "rate": 100},
             "EXP": {"range": [5400, 5500], "rate": 100},
             "Weapons":
             {
@@ -2417,7 +2417,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [200000, 300000], "rate": 100},
+            "Ryou": {"range": [50000, 100000], "rate": 100},
             "EXP": {"range": [5500, 6000], "rate": 100},
             "Weapons":
             {
@@ -2509,7 +2509,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [300000, 310000], "rate": 100},
+            "Ryou": {"range": [100000, 110000], "rate": 100},
             "EXP": {"range": [6000, 6100], "rate": 100},
             "Weapons":
             {
@@ -2598,7 +2598,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [310000, 320000], "rate": 100},
+            "Ryou": {"range": [110000, 120000], "rate": 100},
             "EXP": {"range": [6100, 6200], "rate": 100},
             "Weapons":
             {
@@ -2684,7 +2684,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [320000, 330000], "rate": 100},
+            "Ryou": {"range": [120000, 130000], "rate": 100},
             "EXP": {"range": [6200, 6300], "rate": 100},
             "Weapons":
             {
@@ -2774,7 +2774,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [330000, 340000], "rate": 100},
+            "Ryou": {"range": [130000, 140000], "rate": 100},
             "EXP": {"range": [6300, 6400], "rate": 100},
             "Weapons":
             {
@@ -2864,7 +2864,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [340000, 350000], "rate": 100},
+            "Ryou": {"range": [140000, 150000], "rate": 100},
             "EXP": {"range": [6400, 6500], "rate": 100},
             "Weapons":
             {
@@ -2960,7 +2960,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [350000, 360000], "rate": 100},
+            "Ryou": {"range": [150000, 160000], "rate": 100},
             "EXP": {"range": [6500, 6600], "rate": 100},
             "Weapons":
             {
@@ -3050,7 +3050,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [360000, 380000], "rate": 100},
+            "Ryou": {"range": [160000, 180000], "rate": 100},
             "EXP": {"range": [6600, 6800], "rate": 100},
             "Weapons":
             {
@@ -3144,7 +3144,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [380000, 400000], "rate": 100},
+            "Ryou": {"range": [180000, 190000], "rate": 100},
             "EXP": {"range": [6800, 7000], "rate": 100},
             "Weapons":
             {
@@ -3236,7 +3236,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [400000, 500000], "rate": 100},
+            "Ryou": {"range": [190000, 200000], "rate": 100},
             "EXP": {"range": [7000, 10000], "rate": 100},
             "Weapons":
             {

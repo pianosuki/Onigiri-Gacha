@@ -64,20 +64,6 @@
         }
     },
 
-    "Energy Restore":
-    {
-        "Price": 2000000,
-        "Type": "Consumable",
-        "Stackable": true,
-        "Attributes":
-        [
-            "Fully restore your energy"
-        ],
-        "Requirements":
-        {
-        }
-    },
-
     "Stats Reset":
     {
         "Price": 2000000,
