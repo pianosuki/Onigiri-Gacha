@@ -2463,8 +2463,37 @@ async def tavern(ctx):
                     e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
-                    ryou_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[0])
-                    tickets_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[1])
+                    e.remove_field(6)
+                    e.remove_field(5)
+                    e.remove_field(4)
+                    e.remove_field(3)
+                    e.add_field(name = "⚠️ WARNING ⚠️", value = "**This is an __irreversible__ action, please ensure you are aware of the __2 different conversion rates above__ before proceeding.**", inline = False)
+                    e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+                    if ryou >= conv_rate[0] * 10:
+                        e.add_field(name = "▷ 🔟  ──── Exchange  Ten  ────  🔟 ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ *️⃣  ──── Exchange  ALL  ────  *️⃣ ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+                    await message.edit(embed = e)
+                    emojis = []
+                    if ryou >= conv_rate[0] * 10:
+                        emojis.append("🔟")
+                    emojis.extend(["*️⃣", "↩️"])
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        return message, flag
+                    match str(reaction.emoji):
+                        case "🔟":
+                            await message.clear_reactions()
+                            ryou_traded = int(conv_rate[0] * 10)
+                            tickets_traded = int(conv_rate[1] * 10)
+                        case "*️⃣":
+                            await message.clear_reactions()
+                            ryou_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[0])
+                            tickets_traded = int(math.floor(ryou / conv_rate[0]) * conv_rate[1])
+                        case "↩️":
+                            await message.clear_reactions()
+                            return message, flag
                 case "↩️":
                     e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
@@ -2526,8 +2555,37 @@ async def tavern(ctx):
                     e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
-                    ryou_traded = int(math.floor(tickets / conv_rate[1]) * (conv_rate[0] / 10))
-                    tickets_traded = int(tickets)
+                    e.remove_field(6)
+                    e.remove_field(5)
+                    e.remove_field(4)
+                    e.remove_field(3)
+                    e.add_field(name = "⚠️ WARNING ⚠️", value = "**This is an __irreversible__ action, please ensure you are aware of the __2 different conversion rates above__ before proceeding.**", inline = False)
+                    e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+                    if ryou >= conv_rate[0] * 10:
+                        e.add_field(name = "▷ 🔟  ──── Exchange  Ten  ────  🔟 ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ *️⃣  ──── Exchange  ALL  ────  *️⃣ ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+                    await message.edit(embed = e)
+                    emojis = []
+                    if ryou >= conv_rate[0] * 10:
+                        emojis.append("🔟")
+                    emojis.extend(["*️⃣", "↩️"])
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        return message, flag
+                    match str(reaction.emoji):
+                        case "🔟":
+                            await message.clear_reactions()
+                            ryou_traded = int(math.floor((conv_rate[0] / 10) * 10))
+                            tickets_traded = int(conv_rate[1] * 10)
+                        case "*️⃣":
+                            await message.clear_reactions()
+                            ryou_traded = int(math.floor(tickets / conv_rate[1]) * (conv_rate[0] / 10))
+                            tickets_traded = int(tickets)
+                        case "↩️":
+                            await message.clear_reactions()
+                            return message, flag
                 case "↩️":
                     e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
