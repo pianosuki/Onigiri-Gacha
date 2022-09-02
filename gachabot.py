@@ -3526,7 +3526,7 @@ async def equip(ctx, *input):
                 formatted_string += "──────────────────\n"
         return formatted_string
 
-    def formatWeaponInventory(offset, size, half):
+    def formatWeaponInventory(offset, size, half, is_compact):
         weapons_inv = getPlayerWeaponsInv(user_id)
         weapons_list = weapons_inv.split(", ")
         formatted_string = ""
@@ -3548,11 +3548,14 @@ async def equip(ctx, *input):
                             elements += ", "
                 else:
                     elements = "None"
-                formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} ┃ **__{weapon}__**\n"
-                formatted_string += f" ╰─  *Rarity:* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
-                formatted_string += f" ╰─  *Level:* **{lvl}**\n"
-                formatted_string += f" ╰─  *Attack:* **{Weapons[weapon]['Attack']}**\n"
-                formatted_string += f" ╰─  *Elements:* **{elements}**\n"
+                if not is_compact:
+                    formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} ┃ **__{weapon}__**\n"
+                    formatted_string += f" ╰─  *Rarity:* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
+                    formatted_string += f" ╰─  *Level:* **{lvl}**\n"
+                    formatted_string += f" ╰─  *Attack:* **{Weapons[weapon]['Attack']}**\n"
+                    formatted_string += f" ╰─  *Elements:* **{elements}**\n"
+                else:
+                    formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} ┃ **__{weapon}__** {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
                 counter += 1
                 # Once a full page is assembled, print it
                 if counter == size or index + 1 == len(weapons_list):
@@ -3561,7 +3564,7 @@ async def equip(ctx, *input):
             formatted_string = "**None**"
         return formatted_string
 
-    def formatMagatamaInventory(offset, size, half):
+    def formatMagatamaInventory(offset, size, half, is_compact):
         magatamas_inv = getPlayerMagatamasInv(user_id)
         magatamas_list = magatamas_inv.split(", ")
         formatted_string = ""
@@ -3590,11 +3593,14 @@ async def equip(ctx, *input):
                 else:
                     elements = "None"
                 type = Magatamas[magatama]["Type"].lower().replace(" ", "_")
-                formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
-                formatted_string += f" ╰─  *Level:* **{lvl}** ┃ *Chakra:* **{chakra}**\n"
-                formatted_string += f" ╰─  *Defence:* **{defence}**\n"
-                formatted_string += f" ╰─  *Elements:* **{elements}**\n"
-                formatted_string += f" ╰─  *Skill Force:* **+{sf}%**\n"
+                if not is_compact:
+                    formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
+                    formatted_string += f" ╰─  *Level:* **{lvl}** ┃ *Chakra:* **{chakra}**\n"
+                    formatted_string += f" ╰─  *Defence:* **{defence}**\n"
+                    formatted_string += f" ╰─  *Elements:* **{elements}**\n"
+                    formatted_string += f" ╰─  *Skill Force:* **+{sf}%**\n"
+                else:
+                    formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
                 counter += 1
                 # Once a full page is assembled, print it
                 if counter == size or index + 1 == len(magatamas_list):
@@ -3614,7 +3620,21 @@ async def equip(ctx, *input):
         e.add_field(name = "Commands:", value = boxifyArray(commands, padding = 2), inline = False)
         await ctx.send(embed = e)
     else:
-        if argument == "inventory" or argument == "inv":
+        if argument.startswith("inventory") or argument.startswith("inv"):
+
+            def getSeparator(is_compact):
+                separator = ""
+                length = 5 if not is_compact else 1
+                for _ in range(0, math.floor(size / 2) * length):
+                    separator += "┃\n"
+                return separator
+
+            if argument.endswith(("compact", "mobile", "short", "small", "phone")):
+                is_mobile = True
+            else:
+                is_mobile = False
+
+            is_compact = False
             message = None
             level = getPlayerLevel(user_id)
             chakra = getPlayerChakra(user_id)
@@ -3623,23 +3643,33 @@ async def equip(ctx, *input):
             w_offset = 0
             m_offset = 0
             size = 6
-            separator = ""
-            for _ in range(0, math.floor(size / 2) * 5):
-                separator += "┃\n"
+
             flag = True
             # Set offset to 0 (page 1) and begin bidirectional page system
             while flag:
                 e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing inventory of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.add_field(name = "Weapon Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatWeaponInventory(w_offset, size, half = "first"), inline = True)
-                e.add_field(name = "┃", value = separator, inline = True)
-                e.add_field(name = "Magatama Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMagatamaInventory(m_offset, size, half = "first"), inline = True)
-                e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatWeaponInventory(w_offset, size, half = "second"), inline = True)
-                e.add_field(name = "┃", value = separator, inline = True)
-                e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatMagatamaInventory(m_offset, size, half = "second"), inline = True)
+                if not is_mobile:
+                    half = "first"
+                    e.add_field(name = "Weapon Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatWeaponInventory(w_offset, size, half, is_compact), inline = True)
+                    e.add_field(name = "┃", value = getSeparator(is_compact), inline = True)
+                    e.add_field(name = "Magatama Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMagatamaInventory(m_offset, size, half, is_compact), inline = True)
+                    half = "second"
+                    e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatWeaponInventory(w_offset, size, half, is_compact), inline = True)
+                    e.add_field(name = "┃", value = getSeparator(is_compact), inline = True)
+                    e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatMagatamaInventory(m_offset, size, half, is_compact), inline = True)
+                else:
+                    half = "first"
+                    e.add_field(name = "Weapon Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatWeaponInventory(w_offset, size, half, is_compact), inline = False)
+                    half = "second"
+                    e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatWeaponInventory(w_offset, size, half, is_compact), inline = False)
+                    half = "first"
+                    e.add_field(name = "Magatama Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMagatamaInventory(m_offset, size, half, is_compact), inline = False)
+                    half = "second"
+                    e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatMagatamaInventory(m_offset, size, half, is_compact), inline = False)
                 e.set_footer(text = f"Page: {max(math.floor(w_offset / size) + 1, math.floor(m_offset / size) + 1)}/{max(math.ceil(w_length / size), math.ceil(m_length / size))}")
                 message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
-                emojis = ["⏪", "⏩", "❌"]
+                emojis = ["⏪", "⏩", "📏", "❌"]
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 if reaction is None:
                     flag = False
@@ -3675,6 +3705,9 @@ async def equip(ctx, *input):
                             m_offset = size * math.floor(m_length / size)
                         await message.clear_reactions()
                         continue
+                    case "📏":
+                        is_compact = True if not is_compact else False
+                        await message.clear_reactions()
                     case "❌":
                         await message.clear_reactions()
                         flag = False
