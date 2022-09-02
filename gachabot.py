@@ -1430,13 +1430,13 @@ async def dungeons(ctx, *input):
                         if player_1_killed and Party["Player_1"]["Alive"]:
                             dg.Player = dg.Player2
                             Party.update({"Current": 2})
-                            Party.update({"Player_1": {"Alive": False}})
+                            Party["Player_1"].update({"Alive": False})
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} has slain {Party['Player_1']['Name']}")
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                         elif player_2_killed and Party["Player_2"]["Alive"]:
                             dg.Player = dg.Player1
                             Party.update({"Current": 1})
-                            Party.update({"Player_2": {"Alive": False}})
+                            Party["Player_2"].update({"Alive": False})
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} has slain {Party['Player_2']['Name']}")
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
             if not yokai_killed and not player_killed:
@@ -1948,13 +1948,13 @@ async def dungeons(ctx, *input):
                         if player_1_killed and Party["Player_1"]["Alive"]:
                             dg.Player = dg.Player2
                             Party.update({"Current": 2})
-                            Party.update({"Player_1": {"Alive": False}})
+                            Party["Player_1"].update({"Alive": False})
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has slain {Party['Player_1']['Name']}")
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                         elif player_2_killed and Party["Player_2"]["Alive"]:
                             dg.Player = dg.Player1
                             Party.update({"Current": 1})
-                            Party.update({"Player_2": {"Alive": False}})
+                            Party["Player_2"].update({"Alive": False})
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has slain {Party['Player_2']['Name']}")
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
             if not boss_killed and not player_killed:
