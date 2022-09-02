@@ -963,7 +963,7 @@ async def dungeons(ctx, *input):
                             energy = getPlayerEnergy(user_id)
                             if energy >= dg.energy:
                                 addPlayerEnergy(user_id, -dg.energy)
-                                message, flag = await dungeonEntry(ctx, message, flag, dg, seed)
+                                message, flag = await dungeonEntry(ctx, message, flag, dg, seed, Party)
                                 flag = False
                             else:
                                 await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy}` more.")
@@ -1232,7 +1232,7 @@ async def dungeons(ctx, *input):
                     ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(Party[f"Player_{Party['Current']}"]["ID"]), item_quantity - 1, product))
                     if item_quantity - 1 == 0:
                         ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(Party[f"Player_{Party['Current']}"]["ID"]), product))
-                        base_player_hp = getPlayerHP(Party[f"Player_{Party['Current']}"]["ID"])
+                    base_player_hp = getPlayerHP(Party[f"Player_{Party['Current']}"]["ID"])
                 heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
                 dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You ate some tasty {product}!")
