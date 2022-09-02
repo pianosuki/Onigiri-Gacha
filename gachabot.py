@@ -1996,7 +1996,7 @@ async def dungeons(ctx, *input):
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case x if x == Icons["riceball"]:
                                 await message.clear_reactions()
-                                message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole)
+                                message, flag, result = await consumeNigiri(message, flag, e, console, turn, atk_gauge, def_gauge, dg, printToConsole, Party)
                                 if result:
                                     message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
                                 else:
