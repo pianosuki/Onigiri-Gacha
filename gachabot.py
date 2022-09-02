@@ -3625,7 +3625,7 @@ async def equip(ctx, *input):
             def getSeparator(is_compact):
                 separator = ""
                 length = 5 if not is_compact else 1
-                for _ in range(0, math.floor(size / 2) * length):
+                for _ in range(0, math.floor(size / 2) * length + 1):
                     separator += "┃\n"
                 return separator
 
