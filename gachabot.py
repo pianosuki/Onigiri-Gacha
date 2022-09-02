@@ -2135,7 +2135,12 @@ async def dungeons(ctx, *input):
                 else:
                     if Party["Player_1"]["Alive"]: ryou_amount_1 = addPlayerRyou(Party['Player_1']['ID'], math.floor(ryou_amount / (2 if Party["Player_2"]["Alive"] else 1)))
                     if Party["Player_2"]["Alive"]: ryou_amount_2 = addPlayerRyou(Party['Player_2']['ID'], math.floor(ryou_amount / (2 if Party["Player_1"]["Alive"] else 1)))
-                    clear_rewards.update({"ryou": ryou_amount_1 + ryou_amount_2, "exp": exp_amount_1 + exp_amount_2})
+                    if Party["Player_1"]["Alive"] and Party["Player_2"]["Alive"]:
+                        clear_rewards.update({"ryou": ryou_amount_1 + ryou_amount_2, "exp": exp_amount_1 + exp_amount_2})
+                    elif Party["Player_1"]["Alive"] and not Party["Player_2"]["Alive"]:
+                        clear_rewards.update({"ryou": ryou_amount_1 , "exp": exp_amount_1})
+                    elif not Party["Player_1"]["Alive"] and Party["Player_2"]["Alive"]:
+                        clear_rewards.update({"ryou": ryou_amount_2 , "exp": exp_amount_2})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
                 if "Weapons" in dg.rewards:
                     if Party is None:
@@ -2198,8 +2203,8 @@ async def dungeons(ctx, *input):
                 if Party is None:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 else:
-                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(ryou_amount_1 * (1 if Party['Player_2']['Alive'] else 2))} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
-                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(ryou_amount_2 * (1 if Party['Player_1']['Alive'] else 2))} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
+                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(ryou_amount_1 * (1 if not Party['Player_2']['Alive'] else 2))} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
+                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(ryou_amount_2 * (1 if not Party['Player_1']['Alive'] else 2))} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
                         whitelist = getUserWhitelist(dg.founder)
@@ -2236,8 +2241,8 @@ async def dungeons(ctx, *input):
                 if Party is None:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_amount)} EXP!)")
                 else:
-                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_1 * (1 if Party['Player_2']['Alive'] else 2))} EXP!)")
-                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_amount_2 * (1 if Party['Player_1']['Alive'] else 2))} EXP!)")
+                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_1 * (1 if not Party['Player_2']['Alive'] else 2))} EXP!)")
+                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_amount_2 * (1 if not Party['Player_1']['Alive'] else 2))} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
                 break
