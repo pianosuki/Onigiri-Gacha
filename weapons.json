@@ -5,7 +5,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 0,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Sukedachi Sword":
@@ -14,7 +14,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 1,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Flame Sukedachi":
@@ -23,7 +23,7 @@
         "Level_Required": 5,
         "Rarity": "Blue",
         "Attack": 4,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Kikuichimonji":
@@ -32,7 +32,7 @@
         "Level_Required": 9,
         "Rarity": "Gold",
         "Attack": 9,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Nameless Sword":
@@ -41,7 +41,7 @@
         "Level_Required": 10,
         "Rarity": "White",
         "Attack": 7,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Gouentou":
@@ -50,7 +50,7 @@
         "Level_Required": 10,
         "Rarity": "Red",
         "Attack": 9,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kotetsu":
@@ -59,7 +59,7 @@
         "Level_Required": 13,
         "Rarity": "Red",
         "Attack": 12,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kanemitsu":
@@ -68,7 +68,7 @@
         "Level_Required": 17,
         "Rarity": "Gold",
         "Attack": 17,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Ochimusha Sword":
@@ -77,7 +77,7 @@
         "Level_Required": 19,
         "Rarity": "White",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Konotegashiwa":
@@ -86,7 +86,7 @@
         "Level_Required": 21,
         "Rarity": "Red",
         "Attack": 19,
-        "Elements": ["Rain", "Fire"]
+        "Elements": ["Slice", "Rain", "Fire"]
     },
 
     "Earth Ishikiri Sword":
@@ -95,7 +95,7 @@
         "Level_Required": 24,
         "Rarity": "Blue",
         "Attack": 19,
-        "Elements": ["Mountain"]
+        "Elements": ["Slice", "Mountain"]
     },
 
     "Durandal":
@@ -104,7 +104,7 @@
         "Level_Required": 25,
         "Rarity": "Red",
         "Attack": 22,
-        "Elements": ["Mountain"]
+        "Elements": ["Slice", "Mountain"]
     },
 
     "Mage's Senken":
@@ -113,7 +113,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Ishikiri Sword":
@@ -122,7 +122,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Itennoken":
@@ -131,7 +131,7 @@
         "Level_Required": 29,
         "Rarity": "Gold",
         "Attack": 29,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Ichimonjimuneoki":
@@ -140,7 +140,7 @@
         "Level_Required": 33,
         "Rarity": "Gold",
         "Attack": 33,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Tatsujin Sword":
@@ -149,7 +149,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 24,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Mikazukimunechika":
@@ -158,7 +158,7 @@
         "Level_Required": 37,
         "Rarity": "Gold",
         "Attack": 37,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Ookanehira":
@@ -167,7 +167,7 @@
         "Level_Required": 41,
         "Rarity": "Red",
         "Attack": 37,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Ranmagiri Sword":
@@ -176,7 +176,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Heavenly Ranmagiri Sword":
@@ -185,7 +185,7 @@
         "Level_Required": 42,
         "Rarity": "Blue",
         "Attack": 33,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Mizukiri Tachi":
@@ -194,7 +194,7 @@
         "Level_Required": 44,
         "Rarity": "Red",
         "Attack": 40,
-        "Elements": ["Rain"]
+        "Elements": ["Slice", "Rain"]
     },
 
     "Onikirikunitsuna":
@@ -203,7 +203,7 @@
         "Level_Required": 47,
         "Rarity": "Gold",
         "Attack": 47,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Helm-Splitter Sword":
@@ -212,7 +212,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Doujikiriyasutsuna":
@@ -221,7 +221,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 50,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Daggerbranch Sword":
@@ -230,7 +230,7 @@
         "Level_Required": 50,
         "Rarity": "Red",
         "Attack": 45,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Magoroku":
@@ -239,7 +239,7 @@
         "Level_Required": 53,
         "Rarity": "Gold",
         "Attack": 53,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Fusemachi Sword":
@@ -248,7 +248,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Haganemaru":
@@ -257,7 +257,7 @@
         "Level_Required": 56,
         "Rarity": "Red",
         "Attack": 50,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Masamune":
@@ -266,7 +266,7 @@
         "Level_Required": 59,
         "Rarity": "Red",
         "Attack": 53,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Hakujin Sword":
@@ -275,7 +275,7 @@
         "Level_Required": 61,
         "Rarity": "White",
         "Attack": 43,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kagehide":
@@ -284,7 +284,7 @@
         "Level_Required": 62,
         "Rarity": "Red",
         "Attack": 56,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Jyuzumaru":
@@ -293,7 +293,7 @@
         "Level_Required": 65,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Lightning Fusemachi Sword":
@@ -302,7 +302,7 @@
         "Level_Required": 65,
         "Rarity": "Blue",
         "Attack": 52,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Sunoo Sword":
@@ -311,7 +311,7 @@
         "Level_Required": 66,
         "Rarity": "White",
         "Attack": 46,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Usumidori":
@@ -320,7 +320,7 @@
         "Level_Required": 68,
         "Rarity": "Gold",
         "Attack": 68,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kaen Sword":
@@ -329,7 +329,7 @@
         "Level_Required": 71,
         "Rarity": "White",
         "Attack": 50,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Murasamemaru":
@@ -338,7 +338,7 @@
         "Level_Required": 71,
         "Rarity": "Gold",
         "Attack": 71,
-        "Elements": ["Rain"]
+        "Elements": ["Slice", "Rain"]
     },
 
     "Heishishuurinken":
@@ -347,7 +347,7 @@
         "Level_Required": 74,
         "Rarity": "Red",
         "Attack": 67,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Kengou Sword":
@@ -356,7 +356,7 @@
         "Level_Required": 75,
         "Rarity": "White",
         "Attack": 52,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Sword of Courage":
@@ -365,7 +365,7 @@
         "Level_Required": 76,
         "Rarity": "Gold",
         "Attack": 76,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Kogarasumaru":
@@ -374,7 +374,7 @@
         "Level_Required": 78,
         "Rarity": "Gold",
         "Attack": 78,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Shinuchi Sword":
@@ -383,7 +383,7 @@
         "Level_Required": 79,
         "Rarity": "White",
         "Attack": 55,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Seven Star Sword":
@@ -392,7 +392,7 @@
         "Level_Required": 80,
         "Rarity": "Red",
         "Attack": 72,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Dark Kengou Sword":
@@ -401,7 +401,7 @@
         "Level_Required": 81,
         "Rarity": "Blue",
         "Attack": 65,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Guren Sword":
@@ -410,7 +410,7 @@
         "Level_Required": 82,
         "Rarity": "White",
         "Attack": 57,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Light Saber":
@@ -419,7 +419,7 @@
         "Level_Required": 82,
         "Rarity": "Red",
         "Attack": 74,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Executioner's Sword":
@@ -428,7 +428,7 @@
         "Level_Required": 84,
         "Rarity": "Red",
         "Attack": 76,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Hyouma Sword":
@@ -437,7 +437,7 @@
         "Level_Required": 85,
         "Rarity": "White",
         "Attack": 59,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Ouryuuken":
@@ -446,7 +446,7 @@
         "Level_Required": 86,
         "Rarity": "Gold",
         "Attack": 86,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Futsunomitama":
@@ -455,7 +455,7 @@
         "Level_Required": 88,
         "Rarity": "Red",
         "Attack": 79,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Yagyuu Sword":
@@ -464,7 +464,7 @@
         "Level_Required": 90,
         "Rarity": "White",
         "Attack": 63,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Asura Sword":
@@ -473,7 +473,7 @@
         "Level_Required": 90,
         "Rarity": "White",
         "Attack": 63,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Jyaouensatsu":
@@ -482,7 +482,7 @@
         "Level_Required": 90,
         "Rarity": "Red",
         "Attack": 81,
-        "Elements": ["Dark", "Fire"]
+        "Elements": ["Slice", "Dark", "Fire"]
     },
 
     "Hellfire Sword":
@@ -491,7 +491,7 @@
         "Level_Required": 91,
         "Rarity": "Blue",
         "Attack": 73,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Poison Oubai":
@@ -500,7 +500,7 @@
         "Level_Required": 92,
         "Rarity": "Red",
         "Attack": 83,
-        "Elements": ["Poison"]
+        "Elements": ["Slice", "Poison"]
     },
 
     "Nothung":
@@ -509,7 +509,7 @@
         "Level_Required": 92,
         "Rarity": "Gold",
         "Attack": 92,
-        "Elements": ["Rain"]
+        "Elements": ["Slice", "Rain"]
     },
 
     "Tenmafudou Sword":
@@ -518,7 +518,7 @@
         "Level_Required": 94,
         "Rarity": "Red",
         "Attack": 85,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Niji":
@@ -527,7 +527,7 @@
         "Level_Required": 96,
         "Rarity": "Gold",
         "Attack": 96,
-        "Elements": ["Rain"]
+        "Elements": ["Slice", "Rain"]
     },
 
     "Bomb Sword":
@@ -536,7 +536,7 @@
         "Level_Required": 98,
         "Rarity": "Red",
         "Attack": 88,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Stardust Sword":
@@ -545,7 +545,7 @@
         "Level_Required": 100,
         "Rarity": "White",
         "Attack": 70,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Galvatron":
@@ -554,7 +554,7 @@
         "Level_Required": 100,
         "Rarity": "Red",
         "Attack": 90,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "End of Days":
@@ -563,7 +563,7 @@
         "Level_Required": 100,
         "Rarity": "Red",
         "Attack": 90,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Kerasamemaru":
@@ -572,7 +572,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 100,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Wrathblade":
@@ -581,7 +581,7 @@
         "Level_Required": 103,
         "Rarity": "Red",
         "Attack": 93,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Earth Kengou Sword":
@@ -590,7 +590,7 @@
         "Level_Required": 103,
         "Rarity": "Blue",
         "Attack": 82,
-        "Elements": ["Mountain"]
+        "Elements": ["Slice", "Mountain"]
     },
 
     "Gaillardia":
@@ -599,7 +599,7 @@
         "Level_Required": 105,
         "Rarity": "Gold",
         "Attack": 105,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Ichimonji Seirai":
@@ -608,7 +608,7 @@
         "Level_Required": 105,
         "Rarity": "Red",
         "Attack": 94,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "End of Days STAR":
@@ -617,7 +617,7 @@
         "Level_Required": 106,
         "Rarity": "Gold",
         "Attack": 106,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Doujikiri Sanemori":
@@ -626,7 +626,7 @@
         "Level_Required": 106,
         "Rarity": "Red",
         "Attack": 95,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "End of Days CROSS":
@@ -635,7 +635,7 @@
         "Level_Required": 108,
         "Rarity": "Gold",
         "Attack": 108,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Doujikiri Sanemori - Severance":
@@ -644,7 +644,7 @@
         "Level_Required": 108,
         "Rarity": "Gold",
         "Attack": 108,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Gaillardios":
@@ -653,7 +653,7 @@
         "Level_Required": 113,
         "Rarity": "Gold",
         "Attack": 113,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Moudou Yorukiri":
@@ -662,7 +662,7 @@
         "Level_Required": 116,
         "Rarity": "Red",
         "Attack": 104,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Meigetsu Tsuramune":
@@ -671,7 +671,7 @@
         "Level_Required": 117,
         "Rarity": "Gold",
         "Attack": 117,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "L. End of Days":
@@ -680,7 +680,7 @@
         "Level_Required": 118,
         "Rarity": "Gold",
         "Attack": 118,
-        "Elements": ["Lightning", "Holy"]
+        "Elements": ["Slice", "Lightning", "Holy"]
     },
 
     "Blade of Oaths":
@@ -689,7 +689,7 @@
         "Level_Required": 118,
         "Rarity": "Red",
         "Attack": 106,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "L. End of Days Sin":
@@ -698,7 +698,7 @@
         "Level_Required": 120,
         "Rarity": "Gold",
         "Attack": 120,
-        "Elements": ["Lightning", "Holy"]
+        "Elements": ["Slice", "Lightning", "Holy"]
     },
 
     "Blade of Oaths - Vow":
@@ -707,7 +707,7 @@
         "Level_Required": 121,
         "Rarity": "Gold",
         "Attack": 121,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Blade of Oaths - Completion":
@@ -716,7 +716,7 @@
         "Level_Required": 122,
         "Rarity": "Gold",
         "Attack": 122,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Dark Blade of Oaths - Warped":
@@ -725,7 +725,7 @@
         "Level_Required": 123,
         "Rarity": "Gold",
         "Attack": 123,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Dark Blade of Oaths - Nadir":
@@ -734,7 +734,7 @@
         "Level_Required": 123,
         "Rarity": "Gold",
         "Attack": 150,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Nora Twin Blades":
@@ -743,7 +743,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 1,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Heavenly Nora Twin Blades":
@@ -752,7 +752,7 @@
         "Level_Required": 9,
         "Rarity": "Blue",
         "Attack": 7,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Kikusenkaku":
@@ -761,7 +761,7 @@
         "Level_Required": 11,
         "Rarity": "Gold",
         "Attack": 11,
-        "Elements": ["Mountain"]
+        "Elements": ["Slice", "Mountain"]
     },
 
     "Tsuranukimaru":
@@ -770,7 +770,7 @@
         "Level_Required": 15,
         "Rarity": "Gold",
         "Attack": 15,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Seikounoken":
@@ -779,7 +779,7 @@
         "Level_Required": 19,
         "Rarity": "Gold",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Koryuukagemitsu":
@@ -788,7 +788,7 @@
         "Level_Required": 23,
         "Rarity": "Red",
         "Attack": 20,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Bandit's Dagger":
@@ -797,7 +797,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Arawashi Twin Blades":
@@ -806,7 +806,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Balmung":
@@ -815,7 +815,7 @@
         "Level_Required": 27,
         "Rarity": "Red",
         "Attack": 24,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Flame Hakuda Twin Blades":
@@ -824,7 +824,7 @@
         "Level_Required": 28,
         "Rarity": "Blue",
         "Attack": 22,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Kaketsushintou":
@@ -833,7 +833,7 @@
         "Level_Required": 31,
         "Rarity": "Gold",
         "Attack": 31,
-        "Elements": ["Poison"]
+        "Elements": ["Slice", "Poison"]
     },
 
     "Kokuto Twin Blades":
@@ -842,7 +842,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 17,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Goshinken":
@@ -851,7 +851,7 @@
         "Level_Required": 35,
         "Rarity": "Gold",
         "Attack": 35,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kogitsunemaru":
@@ -860,7 +860,7 @@
         "Level_Required": 39,
         "Rarity": "Red",
         "Attack": 35,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Tokage Twin Blades":
@@ -869,7 +869,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Muramasa":
@@ -878,7 +878,7 @@
         "Level_Required": 43,
         "Rarity": "Gold",
         "Attack": 43,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Chidori":
@@ -887,7 +887,7 @@
         "Level_Required": 47,
         "Rarity": "Red",
         "Attack": 42,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Ice Arawashi Twin Blades":
@@ -896,7 +896,7 @@
         "Level_Required": 47,
         "Rarity": "Blue",
         "Attack": 38,
-        "Elements": ["Ice"]
+        "Elements": ["Slice", "Ice"]
     },
 
     "Tiger Claw Twin Blades":
@@ -905,7 +905,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Onmyouhouken":
@@ -914,7 +914,7 @@
         "Level_Required": 51,
         "Rarity": "Gold",
         "Attack": 51,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Seiu Twin Blades":
@@ -923,7 +923,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Youtounihiru":
@@ -932,7 +932,7 @@
         "Level_Required": 55,
         "Rarity": "Red",
         "Attack": 49,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Amenohabagiri":
@@ -941,7 +941,7 @@
         "Level_Required": 59,
         "Rarity": "Gold",
         "Attack": 59,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Daijya Twin Blades":
@@ -950,7 +950,7 @@
         "Level_Required": 61,
         "Rarity": "White",
         "Attack": 43,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Heaven & Earth Blades":
@@ -959,7 +959,7 @@
         "Level_Required": 63,
         "Rarity": "Gold",
         "Attack": 63,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Wind Tiger Claw Twin Blades":
@@ -968,7 +968,7 @@
         "Level_Required": 63,
         "Rarity": "Blue",
         "Attack": 50,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Inugaminotou":
@@ -977,7 +977,7 @@
         "Level_Required": 66,
         "Rarity": "White",
         "Attack": 46,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kanshoubakuya":
@@ -986,7 +986,7 @@
         "Level_Required": 67,
         "Rarity": "Red",
         "Attack": 60,
-        "Elements": ["Fire", "Mountain", "Rain"]
+        "Elements": ["Slice", "Fire", "Mountain", "Rain"]
     },
 
     "Ginrou Twin Blades":
@@ -995,7 +995,7 @@
         "Level_Required": 71,
         "Rarity": "White",
         "Attack": 50,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Bear Claw":
@@ -1004,7 +1004,7 @@
         "Level_Required": 71,
         "Rarity": "Gold",
         "Attack": 71,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Abeno Twin Blades":
@@ -1013,7 +1013,7 @@
         "Level_Required": 75,
         "Rarity": "White",
         "Attack": 52,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Dark Bone Sword":
@@ -1022,7 +1022,7 @@
         "Level_Required": 75,
         "Rarity": "Red",
         "Attack": 67,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Tsuchi Spider Twin Blades":
@@ -1031,7 +1031,7 @@
         "Level_Required": 79,
         "Rarity": "White",
         "Attack": 55,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Cypher":
@@ -1040,7 +1040,7 @@
         "Level_Required": 79,
         "Rarity": "Gold",
         "Attack": 79,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Thunder Daijya Twin Blades":
@@ -1049,7 +1049,7 @@
         "Level_Required": 79,
         "Rarity": "Blue",
         "Attack": 63,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Tenkei Twin Blades":
@@ -1058,7 +1058,7 @@
         "Level_Required": 82,
         "Rarity": "White",
         "Attack": 57,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Izuna Twin Blades":
@@ -1067,7 +1067,7 @@
         "Level_Required": 85,
         "Rarity": "White",
         "Attack": 59,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Giron Sword":
@@ -1076,7 +1076,7 @@
         "Level_Required": 86,
         "Rarity": "Gold",
         "Attack": 86,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Dark Ootsuka Twin Blades":
@@ -1085,7 +1085,7 @@
         "Level_Required": 92,
         "Rarity": "Blue",
         "Attack": 74,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Annapurna":
@@ -1094,7 +1094,7 @@
         "Level_Required": 100,
         "Rarity": "Red",
         "Attack": 90,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "D3":
@@ -1103,7 +1103,7 @@
         "Level_Required": 100,
         "Rarity": "Red",
         "Attack": 90,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Heavenly Tiger Claw Twin Blades":
@@ -1112,7 +1112,7 @@
         "Level_Required": 100,
         "Rarity": "Blue",
         "Attack": 80,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Kijin":
@@ -1121,7 +1121,7 @@
         "Level_Required": 103,
         "Rarity": "Red",
         "Attack": 92,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Crossvolt":
@@ -1130,7 +1130,7 @@
         "Level_Required": 105,
         "Rarity": "Gold",
         "Attack": 105,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Dark Heaven Enbu":
@@ -1139,7 +1139,7 @@
         "Level_Required": 105,
         "Rarity": "Red",
         "Attack": 94,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "D3 STAR":
@@ -1148,7 +1148,7 @@
         "Level_Required": 106,
         "Rarity": "Gold",
         "Attack": 106,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Amatsu Habagiri":
@@ -1157,7 +1157,7 @@
         "Level_Required": 106,
         "Rarity": "Red",
         "Attack": 95,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "D3 CROSS":
@@ -1166,7 +1166,7 @@
         "Level_Required": 108,
         "Rarity": "Gold",
         "Attack": 108,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Amatsu Habagiri - Severance":
@@ -1175,7 +1175,7 @@
         "Level_Required": 108,
         "Rarity": "Gold",
         "Attack": 108,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Vikken":
@@ -1184,7 +1184,7 @@
         "Level_Required": 110,
         "Rarity": "Red",
         "Attack": 99,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Rising Crossvolt":
@@ -1193,7 +1193,7 @@
         "Level_Required": 113,
         "Rarity": "Gold",
         "Attack": 113,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Moudou Kakira":
@@ -1202,7 +1202,7 @@
         "Level_Required": 116,
         "Rarity": "Red",
         "Attack": 104,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Tsukikui Kirihira":
@@ -1211,7 +1211,7 @@
         "Level_Required": 117,
         "Rarity": "Gold",
         "Attack": 117,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "L. D3":
@@ -1220,7 +1220,7 @@
         "Level_Required": 118,
         "Rarity": "Gold",
         "Attack": 118,
-        "Elements": ["Lightning", "Holy"]
+        "Elements": ["Slice", "Lightning", "Holy"]
     },
 
     "Twin Blades of Agony":
@@ -1229,7 +1229,7 @@
         "Level_Required": 118,
         "Rarity": "Red",
         "Attack": 106,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "L. D3Sin":
@@ -1238,7 +1238,7 @@
         "Level_Required": 120,
         "Rarity": "Gold",
         "Attack": 120,
-        "Elements": ["Lightning", "Holy"]
+        "Elements": ["Slice", "Lightning", "Holy"]
     },
 
     "Twin Blades of Agony - Vow":
@@ -1247,7 +1247,7 @@
         "Level_Required": 121,
         "Rarity": "Gold",
         "Attack": 121,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Twin Blades of Agony - Completion":
@@ -1256,7 +1256,7 @@
         "Level_Required": 122,
         "Rarity": "Gold",
         "Attack": 122,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Dark Twin Blades of Agony - Warped":
@@ -1265,7 +1265,7 @@
         "Level_Required": 123,
         "Rarity": "Gold",
         "Attack": 123,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Dark Twin Blades of Agony - Nadir":
@@ -1274,7 +1274,7 @@
         "Level_Required": 123,
         "Rarity": "Gold",
         "Attack": 150,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Nodachi":
@@ -1283,7 +1283,7 @@
         "Level_Required": 10,
         "Rarity": "White",
         "Attack": 7,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Oninodachi":
@@ -1292,7 +1292,7 @@
         "Level_Required": 10,
         "Rarity": "Gold",
         "Attack": 10,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Onikiri":
@@ -1301,7 +1301,7 @@
         "Level_Required": 14,
         "Rarity": "Gold",
         "Attack": 14,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Oshikiri Tachi":
@@ -1310,7 +1310,7 @@
         "Level_Required": 19,
         "Rarity": "White",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Arondight":
@@ -1319,7 +1319,7 @@
         "Level_Required": 22,
         "Rarity": "Red",
         "Attack": 20,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Reckless Tachi":
@@ -1328,7 +1328,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Excalibur":
@@ -1337,7 +1337,7 @@
         "Level_Required": 26,
         "Rarity": "Red",
         "Attack": 23,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Wind Tachi":
@@ -1346,7 +1346,7 @@
         "Level_Required": 26,
         "Rarity": "Blue",
         "Attack": 21,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Araburi Tachi":
@@ -1355,7 +1355,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Mukademaru":
@@ -1364,7 +1364,7 @@
         "Level_Required": 30,
         "Rarity": "Gold",
         "Attack": 30,
-        "Elements": ["Poison"]
+        "Elements": ["Slice", "Poison"]
     },
 
     "Kakizome Tachi Kashi":
@@ -1373,7 +1373,7 @@
         "Level_Required": 30,
         "Rarity": "Gold",
         "Attack": 30,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Taroutachi":
@@ -1382,7 +1382,7 @@
         "Level_Required": 34,
         "Rarity": "Gold",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Ariake Tachi":
@@ -1391,7 +1391,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 24,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "One Chance":
@@ -1400,7 +1400,7 @@
         "Level_Required": 38,
         "Rarity": "Red",
         "Attack": 34,
-        "Elements": ["Ice"]
+        "Elements": ["Slice", "Ice"]
     },
 
     "Nyuudou Tachi":
@@ -1409,7 +1409,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Samehada":
@@ -1418,7 +1418,7 @@
         "Level_Required": 42,
         "Rarity": "Gold",
         "Attack": 42,
-        "Elements": ["Ice"]
+        "Elements": ["Slice", "Ice"]
     },
 
     "Earth Oshikiri Tachi":
@@ -1427,7 +1427,7 @@
         "Level_Required": 45,
         "Rarity": "Blue",
         "Attack": 36,
-        "Elements": ["Mountain"]
+        "Elements": ["Slice", "Mountain"]
     },
 
     "Fragarach":
@@ -1436,7 +1436,7 @@
         "Level_Required": 46,
         "Rarity": "Red",
         "Attack": 41,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Ikkaku Tachi":
@@ -1445,7 +1445,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Nanatsusaya Tachi":
@@ -1454,7 +1454,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 50,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Reikaissen":
@@ -1463,7 +1463,7 @@
         "Level_Required": 53,
         "Rarity": "Gold",
         "Attack": 53,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Touda Tachi":
@@ -1472,7 +1472,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Jyuuouken":
@@ -1481,7 +1481,7 @@
         "Level_Required": 56,
         "Rarity": "Red",
         "Attack": 50,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Master Sword":
@@ -1490,7 +1490,7 @@
         "Level_Required": 59,
         "Rarity": "Red",
         "Attack": 53,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Yasha Tachi":
@@ -1499,7 +1499,7 @@
         "Level_Required": 61,
         "Rarity": "White",
         "Attack": 43,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Flame Oshikiri Tachi":
@@ -1508,7 +1508,7 @@
         "Level_Required": 61,
         "Rarity": "Blue",
         "Attack": 49,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Daihannyanagamitsu":
@@ -1517,7 +1517,7 @@
         "Level_Required": 62,
         "Rarity": "Gold",
         "Attack": 62,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kijinmarukunishige":
@@ -1526,7 +1526,7 @@
         "Level_Required": 65,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Rasetsu Tachi":
@@ -1535,7 +1535,7 @@
         "Level_Required": 66,
         "Rarity": "White",
         "Attack": 46,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kamudo no Tsurugi":
@@ -1544,7 +1544,7 @@
         "Level_Required": 68,
         "Rarity": "Red",
         "Attack": 61,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Kumakiri Tachi":
@@ -1553,7 +1553,7 @@
         "Level_Required": 71,
         "Rarity": "White",
         "Attack": 50,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Zantetsuken":
@@ -1562,7 +1562,7 @@
         "Level_Required": 71,
         "Rarity": "Gold",
         "Attack": 71,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Amanomurakumo no Tsurugi":
@@ -1571,7 +1571,7 @@
         "Level_Required": 74,
         "Rarity": "Gold",
         "Attack": 74,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Geikotsu Tachi":
@@ -1580,7 +1580,7 @@
         "Level_Required": 75,
         "Rarity": "White",
         "Attack": 52,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Amenoohabari no Tsurugi":
@@ -1589,7 +1589,7 @@
         "Level_Required": 77,
         "Rarity": "Gold",
         "Attack": 77,
-        "Elements": ["Fire", "Lightning"]
+        "Elements": ["Slice", "Fire", "Lightning"]
     },
 
     "Heavenly Rasetsu Tachi":
@@ -1598,7 +1598,7 @@
         "Level_Required": 77,
         "Rarity": "Blue",
         "Attack": 62,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Kamui Tachi":
@@ -1607,7 +1607,7 @@
         "Level_Required": 79,
         "Rarity": "White",
         "Attack": 55,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Monster Wolf Tachi":
@@ -1616,7 +1616,7 @@
         "Level_Required": 80,
         "Rarity": "Gold",
         "Attack": 80,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Daihihi Tachi":
@@ -1625,7 +1625,7 @@
         "Level_Required": 82,
         "Rarity": "White",
         "Attack": 57,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Earth Spirit Sword":
@@ -1634,7 +1634,7 @@
         "Level_Required": 83,
         "Rarity": "Red",
         "Attack": 75,
-        "Elements": ["Mountain"]
+        "Elements": ["Slice", "Mountain"]
     },
 
     "Gyuuki Tachi":
@@ -1643,7 +1643,7 @@
         "Level_Required": 85,
         "Rarity": "White",
         "Attack": 59,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Sword of Darkness":
@@ -1652,7 +1652,7 @@
         "Level_Required": 86,
         "Rarity": "Red",
         "Attack": 77,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Eternal Force Blizzard":
@@ -1661,7 +1661,7 @@
         "Level_Required": 91,
         "Rarity": "Gold",
         "Attack": 91,
-        "Elements": ["Holy", "Wind"]
+        "Elements": ["Slice", "Holy", "Wind"]
     },
 
     "Sword of Kings":
@@ -1670,7 +1670,7 @@
         "Level_Required": 92,
         "Rarity": "Red",
         "Attack": 83,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Serpent Lord":
@@ -1679,7 +1679,7 @@
         "Level_Required": 97,
         "Rarity": "Red",
         "Attack": 87,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Starlight Tachi":
@@ -1688,7 +1688,7 @@
         "Level_Required": 100,
         "Rarity": "White",
         "Attack": 70,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Lost Kingdom":
@@ -1697,7 +1697,7 @@
         "Level_Required": 100,
         "Rarity": "Red",
         "Attack": 90,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Catastrophy":
@@ -1706,7 +1706,7 @@
         "Level_Required": 100,
         "Rarity": "Red",
         "Attack": 90,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Morion Blade":
@@ -1715,7 +1715,7 @@
         "Level_Required": 103,
         "Rarity": "Red",
         "Attack": 93,
-        "Elements": null
+        "Elements": ["Slice"]
     },
 
     "Wind Rasetsu Tachi":
@@ -1724,7 +1724,7 @@
         "Level_Required": 103,
         "Rarity": "Blue",
         "Attack": 82,
-        "Elements": ["Wind"]
+        "Elements": ["Slice", "Wind"]
     },
 
     "Air Cleaving Sword":
@@ -1733,7 +1733,7 @@
         "Level_Required": 105,
         "Rarity": "Gold",
         "Attack": 105,
-        "Elements": ["Holy", "Fire"]
+        "Elements": ["Slice", "Holy", "Fire"]
     },
 
     "Neo Excalibur":
@@ -1742,7 +1742,7 @@
         "Level_Required": 105,
         "Rarity": "Red",
         "Attack": 94,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Catastrophy STAR":
@@ -1751,7 +1751,7 @@
         "Level_Required": 106,
         "Rarity": "Gold",
         "Attack": 106,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Nokogiri Samehada":
@@ -1760,7 +1760,7 @@
         "Level_Required": 106,
         "Rarity": "Red",
         "Attack": 95,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Catastrophy CROSS":
@@ -1769,7 +1769,7 @@
         "Level_Required": 108,
         "Rarity": "Gold",
         "Attack": 108,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Nokogiri Samehada - Severance":
@@ -1778,7 +1778,7 @@
         "Level_Required": 108,
         "Rarity": "Gold",
         "Attack": 108,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "Sky Rending Sword":
@@ -1787,7 +1787,7 @@
         "Level_Required": 113,
         "Rarity": "Gold",
         "Attack": 113,
-        "Elements": ["Holy", "Fire"]
+        "Elements": ["Slice", "Holy", "Fire"]
     },
 
     "Ancient Cielo Oodachi":
@@ -1796,7 +1796,7 @@
         "Level_Required": 115,
         "Rarity": "Gold",
         "Attack": 115,
-        "Elements": ["Holy", "Fire"]
+        "Elements": ["Slice", "Holy", "Fire"]
     },
 
     "Moudou Ama-no-Kawa":
@@ -1805,7 +1805,7 @@
         "Level_Required": 116,
         "Rarity": "Red",
         "Attack": 104,
-        "Elements": ["Holy"]
+        "Elements": ["Slice", "Holy"]
     },
 
     "Ginwan Tachikogetsu":
@@ -1814,7 +1814,7 @@
         "Level_Required": 117,
         "Rarity": "Gold",
         "Attack": 117,
-        "Elements": ["Fire"]
+        "Elements": ["Slice", "Fire"]
     },
 
     "L. Catastrophe":
@@ -1823,7 +1823,7 @@
         "Level_Required": 118,
         "Rarity": "Gold",
         "Attack": 118,
-        "Elements": ["Lightning", "Holy"]
+        "Elements": ["Slice", "Lightning", "Holy"]
     },
 
     "Oodachi of Desire":
@@ -1832,7 +1832,7 @@
         "Level_Required": 118,
         "Rarity": "Red",
         "Attack": 106,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "L. Catastrophe Sin":
@@ -1841,7 +1841,7 @@
         "Level_Required": 120,
         "Rarity": "Gold",
         "Attack": 120,
-        "Elements": ["Lightning", "Holy"]
+        "Elements": ["Slice", "Lightning", "Holy"]
     },
 
     "Ancient Cielo Oodachi Lucid":
@@ -1850,7 +1850,7 @@
         "Level_Required": 120,
         "Rarity": "Gold",
         "Attack": 120,
-        "Elements": ["Lightning"]
+        "Elements": ["Slice", "Lightning"]
     },
 
     "Oodachi of Desire - Vow":
@@ -1859,7 +1859,7 @@
         "Level_Required": 121,
         "Rarity": "Gold",
         "Attack": 121,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Oodachi of Desire - Completion":
@@ -1868,7 +1868,7 @@
         "Level_Required": 122,
         "Rarity": "Gold",
         "Attack": 122,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Dark Oodachi of Desire - Warped":
@@ -1877,7 +1877,7 @@
         "Level_Required": 123,
         "Rarity": "Gold",
         "Attack": 123,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Dark Oodachi of Desire - Nadir":
@@ -1886,7 +1886,7 @@
         "Level_Required": 123,
         "Rarity": "Gold",
         "Attack": 150,
-        "Elements": ["Dark"]
+        "Elements": ["Slice", "Dark"]
     },
 
     "Bamboo Bow":
@@ -1895,7 +1895,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 1,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Fledgling Sparrow Bow":
@@ -1904,7 +1904,7 @@
         "Level_Required": 10,
         "Rarity": "White",
         "Attack": 7,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Kabura Bow":
@@ -1913,7 +1913,7 @@
         "Level_Required": 13,
         "Rarity": "Red",
         "Attack": 12,
-        "Elements": ["Holy"]
+        "Elements": ["Pierce", "Holy"]
     },
 
     "Dark Fledgling Sparrow Bow":
@@ -1922,7 +1922,7 @@
         "Level_Required": 16,
         "Rarity": "Blue",
         "Attack": 13,
-        "Elements": ["Dark"]
+        "Elements": ["Pierce", "Dark"]
     },
 
     "Greatbow":
@@ -1931,7 +1931,7 @@
         "Level_Required": 17,
         "Rarity": "Gold",
         "Attack": 17,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Heavy Rattan Bow":
@@ -1940,7 +1940,7 @@
         "Level_Required": 19,
         "Rarity": "White",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Gandiva":
@@ -1949,7 +1949,7 @@
         "Level_Required": 21,
         "Rarity": "Gold",
         "Attack": 21,
-        "Elements": ["Fire"]
+        "Elements": ["Pierce", "Fire"]
     },
 
     "Artemis Bow":
@@ -1958,7 +1958,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Holy"]
+        "Elements": ["Pierce", "Holy"]
     },
 
     "Bow of Love":
@@ -1967,7 +1967,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Holy"]
+        "Elements": ["Pierce", "Holy"]
     },
 
     "Fuedou Bow":
@@ -1976,7 +1976,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Black Cloud Bow":
@@ -1985,7 +1985,7 @@
         "Level_Required": 29,
         "Rarity": "Red",
         "Attack": 26,
-        "Elements": ["Dark"]
+        "Elements": ["Pierce", "Dark"]
     },
 
     "Raijyoudou":
@@ -1994,7 +1994,7 @@
         "Level_Required": 33,
         "Rarity": "Gold",
         "Attack": 33,
-        "Elements": ["Lightning"]
+        "Elements": ["Pierce", "Lightning"]
     },
 
     "Black Pine Bow":
@@ -2003,7 +2003,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 24,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Ice Heavy Rattan Bow":
@@ -2012,7 +2012,7 @@
         "Level_Required": 35,
         "Rarity": "Blue",
         "Attack": 28,
-        "Elements": ["Ice"]
+        "Elements": ["Pierce", "Ice"]
     },
 
     "Thunderbolt":
@@ -2021,7 +2021,7 @@
         "Level_Required": 37,
         "Rarity": "Red",
         "Attack": 33,
-        "Elements": ["Lightning"]
+        "Elements": ["Pierce", "Lightning"]
     },
 
     "Failnaught":
@@ -2030,7 +2030,7 @@
         "Level_Required": 41,
         "Rarity": "Red",
         "Attack": 37,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Minamoto Bow":
@@ -2039,7 +2039,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Kinkousen":
@@ -2048,7 +2048,7 @@
         "Level_Required": 45,
         "Rarity": "Gold",
         "Attack": 45,
-        "Elements": ["Lightning"]
+        "Elements": ["Pierce", "Lightning"]
     },
 
     "Blooming Flower Bow":
@@ -2057,7 +2057,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Amanokako Bow":
@@ -2066,7 +2066,7 @@
         "Level_Required": 49,
         "Rarity": "Gold",
         "Attack": 49,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Chikurinbou Spirit Bow":
@@ -2075,7 +2075,7 @@
         "Level_Required": 52,
         "Rarity": "Red",
         "Attack": 47,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Water Fuedou Bow":
@@ -2084,7 +2084,7 @@
         "Level_Required": 54,
         "Rarity": "Blue",
         "Attack": 43,
-        "Elements": ["Rain"]
+        "Elements": ["Pierce", "Rain"]
     },
 
     "Yuusai Bow":
@@ -2093,7 +2093,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Life Bow":
@@ -2102,7 +2102,7 @@
         "Level_Required": 56,
         "Rarity": "Gold",
         "Attack": 56,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
 
@@ -2119,7 +2119,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 1,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Iron Battleaxe":
@@ -2128,7 +2128,7 @@
         "Level_Required": 10,
         "Rarity": "White",
         "Attack": 7,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Boulder Battleaxe":
@@ -2137,7 +2137,7 @@
         "Level_Required": 12,
         "Rarity": "Blue",
         "Attack": 10,
-        "Elements": ["Mountain"]
+        "Elements": ["Impact", "Mountain"]
     },
 
     "Bardiche":
@@ -2146,7 +2146,7 @@
         "Level_Required": 13,
         "Rarity": "Red",
         "Attack": 12,
-        "Elements": ["Dark"]
+        "Elements": ["Impact", "Dark"]
     },
 
     "Rusted Battleaxe":
@@ -2155,7 +2155,7 @@
         "Level_Required": 19,
         "Rarity": "White",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Demon Lord's Mallet":
@@ -2164,7 +2164,7 @@
         "Level_Required": 21,
         "Rarity": "Gold",
         "Attack": 21,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Double Bladed Axe":
@@ -2173,7 +2173,7 @@
         "Level_Required": 25,
         "Rarity": "Red",
         "Attack": 22,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Legendary Smith's Mallet":
@@ -2182,7 +2182,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Lightning"]
+        "Elements": ["Impact", "Lightning"]
     },
 
     "Seidou Battleaxe":
@@ -2191,7 +2191,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Houtenga Halberd":
@@ -2200,7 +2200,7 @@
         "Level_Required": 29,
         "Rarity": "Red",
         "Attack": 26,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Water Rusted Battleaxe":
@@ -2209,7 +2209,7 @@
         "Level_Required": 31,
         "Rarity": "Blue",
         "Attack": 25,
-        "Elements": ["Rain"]
+        "Elements": ["Impact", "Rain"]
     },
 
     "Goutengou":
@@ -2218,7 +2218,7 @@
         "Level_Required": 33,
         "Rarity": "Red",
         "Attack": 30,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Steel Battleaxe":
@@ -2227,7 +2227,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 17,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Grim Reaper":
@@ -2236,7 +2236,7 @@
         "Level_Required": 37,
         "Rarity": "Red",
         "Attack": 33,
-        "Elements": ["Dark"]
+        "Elements": ["Impact", "Dark"]
     },
 
     "Ukonvasara":
@@ -2245,7 +2245,7 @@
         "Level_Required": 41,
         "Rarity": "Red",
         "Attack": 37,
-        "Elements": ["Lightning"]
+        "Elements": ["Impact", "Lightning"]
     },
 
     "Intetsu Battleaxe":
@@ -2254,7 +2254,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Ugenhaou":
@@ -2263,7 +2263,7 @@
         "Level_Required": 45,
         "Rarity": "Gold",
         "Attack": 45,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Sekkou Battleaxe":
@@ -2272,7 +2272,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Deathbringer":
@@ -2281,7 +2281,7 @@
         "Level_Required": 49,
         "Rarity": "Red",
         "Attack": 44,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Lightning Seidou Battleaxe":
@@ -2290,7 +2290,7 @@
         "Level_Required": 49,
         "Rarity": "Blue",
         "Attack": 39,
-        "Elements": ["Lightning"]
+        "Elements": ["Impact", "Lightning"]
     },
 
     "Mjollnir":
@@ -2299,7 +2299,7 @@
         "Level_Required": 53,
         "Rarity": "Gold",
         "Attack": 53,
-        "Elements": ["Lightning"]
+        "Elements": ["Impact", "Lightning"]
     },
 
     "Sekinseki Battleaxe":
@@ -2308,7 +2308,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Heat Hawk":
@@ -2317,7 +2317,7 @@
         "Level_Required": 57,
         "Rarity": "Gold",
         "Attack": 57,
-        "Elements": ["Fire"]
+        "Elements": ["Impact", "Fire"]
     },
 
 
@@ -2336,7 +2336,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 1,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Gingko Spear":
@@ -2345,7 +2345,7 @@
         "Level_Required": 10,
         "Rarity": "White",
         "Attack": 7,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Nihongou":
@@ -2354,7 +2354,7 @@
         "Level_Required": 12,
         "Rarity": "Gold",
         "Attack": 12,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Ice Cedar Spear":
@@ -2363,7 +2363,7 @@
         "Level_Required": 14,
         "Rarity": "Blue",
         "Attack": 11,
-        "Elements": ["Ice"]
+        "Elements": ["Pierce", "Ice"]
     },
 
     "Dainsleif":
@@ -2372,7 +2372,7 @@
         "Level_Required": 16,
         "Rarity": "Red",
         "Attack": 14,
-        "Elements": ["Dark"]
+        "Elements": ["Pierce", "Dark"]
     },
 
     "Adorned Bamboo Spear":
@@ -2381,7 +2381,7 @@
         "Level_Required": 19,
         "Rarity": "White",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Longinus":
@@ -2390,7 +2390,7 @@
         "Level_Required": 20,
         "Rarity": "Red",
         "Attack": 18,
-        "Elements": ["Dark"]
+        "Elements": ["Pierce", "Dark"]
     },
 
     "Otegine":
@@ -2399,7 +2399,7 @@
         "Level_Required": 24,
         "Rarity": "Gold",
         "Attack": 24,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Actualized Spear":
@@ -2408,7 +2408,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Dark"]
+        "Elements": ["Pierce", "Dark"]
     },
 
     "Red Lacquer Spear":
@@ -2417,7 +2417,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Ningenmukotsu":
@@ -2426,7 +2426,7 @@
         "Level_Required": 28,
         "Rarity": "Gold",
         "Attack": 28,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Raitei":
@@ -2435,7 +2435,7 @@
         "Level_Required": 32,
         "Rarity": "Gold",
         "Attack": 32,
-        "Elements": ["Lightning"]
+        "Elements": ["Pierce", "Lightning"]
     },
 
     "Lightning Adorned Bamboo Spear":
@@ -2444,7 +2444,7 @@
         "Level_Required": 33,
         "Rarity": "Blue",
         "Attack": 26,
-        "Elements": ["Lightning"]
+        "Elements": ["Pierce", "Lightning"]
     },
 
     "Maple Spear":
@@ -2453,7 +2453,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 24,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Ikkokunagayoshi":
@@ -2462,7 +2462,7 @@
         "Level_Required": 36,
         "Rarity": "Gold",
         "Attack": 36,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Dahou":
@@ -2471,7 +2471,7 @@
         "Level_Required": 40,
         "Rarity": "Gold",
         "Attack": 40,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Aburahinoki Spear":
@@ -2480,7 +2480,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Seiryuu Scimitar":
@@ -2489,7 +2489,7 @@
         "Level_Required": 44,
         "Rarity": "Red",
         "Attack": 40,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Gae Bolg":
@@ -2498,7 +2498,7 @@
         "Level_Required": 48,
         "Rarity": "Red",
         "Attack": 43,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Chained Magnolia Spear":
@@ -2507,7 +2507,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Trident":
@@ -2516,7 +2516,7 @@
         "Level_Required": 52,
         "Rarity": "Red",
         "Attack": 47,
-        "Elements": ["Rain"]
+        "Elements": ["Pierce", "Rain"]
     },
 
     "Wind Red Lacquer Spear":
@@ -2525,7 +2525,7 @@
         "Level_Required": 52,
         "Rarity": "Blue",
         "Attack": 42,
-        "Elements": ["Wind"]
+        "Elements": ["Pierce", "Wind"]
     },
 
     "Shouinmatsu Spear":
@@ -2534,7 +2534,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Pierce"]
     },
 
     "Beast Spear":
@@ -2543,7 +2543,7 @@
         "Level_Required": 56,
         "Rarity": "Gold",
         "Attack": 56,
-        "Elements": ["Dark"]
+        "Elements": ["Pierce", "Dark"]
     },
 
 
@@ -2561,7 +2561,7 @@
         "Level_Required": 1,
         "Rarity": "White",
         "Attack": 1,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Oak Staff":
@@ -2570,7 +2570,7 @@
         "Level_Required": 10,
         "Rarity": "White",
         "Attack": 7,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Thirty Six Poets":
@@ -2579,7 +2579,7 @@
         "Level_Required": 13,
         "Rarity": "Gold",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Gungnir":
@@ -2588,7 +2588,7 @@
         "Level_Required": 17,
         "Rarity": "Red",
         "Attack": 15,
-        "Elements": ["Lightning"]
+        "Elements": ["Impact", "Lightning"]
     },
 
     "Plum Staff":
@@ -2597,7 +2597,7 @@
         "Level_Required": 19,
         "Rarity": "White",
         "Attack": 13,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Iwaotoshi":
@@ -2606,7 +2606,7 @@
         "Level_Required": 21,
         "Rarity": "Red",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Water Oak Staff":
@@ -2615,7 +2615,7 @@
         "Level_Required": 21,
         "Rarity": "Blue",
         "Attack": 17,
-        "Elements": ["Rain"]
+        "Elements": ["Impact", "Rain"]
     },
 
     "Caduceus":
@@ -2624,7 +2624,7 @@
         "Level_Required": 25,
         "Rarity": "Red",
         "Attack": 22,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Super Sushi Rod":
@@ -2633,7 +2633,7 @@
         "Level_Required": 25,
         "Rarity": "Gold",
         "Attack": 25,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Kashi Staff":
@@ -2642,7 +2642,7 @@
         "Level_Required": 27,
         "Rarity": "White",
         "Attack": 19,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Nyoibou":
@@ -2651,7 +2651,7 @@
         "Level_Required": 29,
         "Rarity": "Gold",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Gennou":
@@ -2660,7 +2660,7 @@
         "Level_Required": 33,
         "Rarity": "Gold",
         "Attack": 33,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Tea Oak Staff":
@@ -2669,7 +2669,7 @@
         "Level_Required": 35,
         "Rarity": "White",
         "Attack": 24,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Kanasaibou":
@@ -2678,7 +2678,7 @@
         "Level_Required": 37,
         "Rarity": "Gold",
         "Attack": 37,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Kareyanagi Staff":
@@ -2687,7 +2687,7 @@
         "Level_Required": 40,
         "Rarity": "White",
         "Attack": 28,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Dark Kashi Staff":
@@ -2696,7 +2696,7 @@
         "Level_Required": 40,
         "Rarity": "Blue",
         "Attack": 32,
-        "Elements": ["Dark"]
+        "Elements": ["Impact", "Dark"]
     },
 
     "Kamatarizakura":
@@ -2705,7 +2705,7 @@
         "Level_Required": 41,
         "Rarity": "Red",
         "Attack": 37,
-        "Elements": ["Mountain"]
+        "Elements": ["Impact", "Mountain"]
     },
 
     "Whitecap Staff":
@@ -2714,7 +2714,7 @@
         "Level_Required": 42,
         "Rarity": "White",
         "Attack": 29,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Kinben":
@@ -2723,7 +2723,7 @@
         "Level_Required": 45,
         "Rarity": "Red",
         "Attack": 40,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Pearl Staff":
@@ -2732,7 +2732,7 @@
         "Level_Required": 49,
         "Rarity": "White",
         "Attack": 34,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Genma":
@@ -2741,7 +2741,7 @@
         "Level_Required": 49,
         "Rarity": "Gold",
         "Attack": 49,
-        "Elements": ["Dark"]
+        "Elements": ["Impact", "Dark"]
     },
 
     "Guyouhoujyou":
@@ -2750,7 +2750,7 @@
         "Level_Required": 53,
         "Rarity": "Red",
         "Attack": 48,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Flourite Staff":
@@ -2759,7 +2759,7 @@
         "Level_Required": 55,
         "Rarity": "White",
         "Attack": 38,
-        "Elements": null
+        "Elements": ["Impact"]
     },
 
     "Amidahijiri":
@@ -2768,7 +2768,7 @@
         "Level_Required": 57,
         "Rarity": "Gold",
         "Attack": 57,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
     "Heavenly Tea Oak Staff":
@@ -2777,7 +2777,7 @@
         "Level_Required": 59,
         "Rarity": "Blue",
         "Attack": 47,
-        "Elements": ["Holy"]
+        "Elements": ["Impact", "Holy"]
     },
 
 

@@ -388,7 +388,7 @@
         {
             "Name": "Kani-bouzu",
             "HP": 500,
-            "Resistances": ["Rain"],
+            "Resistances": ["Rain", "Holy", "Wind", "Slice"],
             "Weaknesses": ["Ice", "Mountain"]
         },
         "Rewards":
@@ -559,7 +559,7 @@
         {
             "Name": "Nurikabe",
             "HP": 700,
-            "Resistances": ["Mountain"],
+            "Resistances": ["Mountain", "Slice"],
             "Weaknesses": ["Ice", "Rain"]
         },
         "Rewards":
@@ -646,7 +646,7 @@
         {
             "Name": "Chief Daruma",
             "HP": 1000,
-            "Resistances": ["Fire"],
+            "Resistances": ["Fire", "Lightning", "Dark", "Holy", "Mountain"],
             "Weaknesses": ["Rain"]
         },
         "Rewards":
@@ -732,7 +732,7 @@
         {
             "Name": "Oogama",
             "HP": 1200,
-            "Resistances": ["Fire", "Mountain"],
+            "Resistances": ["Fire", "Mountain", "Rain"],
             "Weaknesses": ["Ice", "Dark"]
         },
         "Rewards":
@@ -817,7 +817,7 @@
         {
             "Name": "Oni-basami",
             "HP": 1300,
-            "Resistances": ["Rain"],
+            "Resistances": ["Rain", "Impact"],
             "Weaknesses": ["Lightning", "Mountain"]
         },
         "Rewards":
@@ -902,8 +902,8 @@
         {
             "Name": "Lantern Ghost",
             "HP": 1400,
-            "Resistances": ["Fire", "Dark"],
-            "Weaknesses": ["Holy"]
+            "Resistances": ["Fire", "Dark", "Slice"],
+            "Weaknesses": ["Rain", "Holy"]
         },
         "Rewards":
         {
@@ -988,7 +988,7 @@
         {
             "Name": "Nurikabe",
             "HP": 1500,
-            "Resistances": ["Mountain"],
+            "Resistances": ["Mountain", "Slice"],
             "Weaknesses": ["Ice", "Rain"]
         },
         "Rewards":
@@ -1207,7 +1207,7 @@
         {
             "Name": "Tiamat",
             "HP": 4000,
-            "Resistances": ["Fire", "Dark"],
+            "Resistances": ["Fire", "Dark", "Pierce"],
             "Weaknesses": ["Rain"]
         },
         "Rewards":
@@ -1943,7 +1943,7 @@
         {
             "Name": "Armored Mukade",
             "HP": 5200,
-            "Resistances": ["Dark", "Holy", "Mountain"],
+            "Resistances": ["Dark", "Holy", "Mountain", "Impact"],
             "Weaknesses": ["Wind"]
         },
         "Rewards":
@@ -2037,7 +2037,7 @@
         {
             "Name": "Wanyuudou",
             "HP": 5400,
-            "Resistances": ["Dark", "Fire"],
+            "Resistances": ["Dark", "Fire", "Pierce"],
             "Weaknesses": ["Ice", "Wind"]
         },
         "Rewards":
@@ -2130,7 +2130,7 @@
         {
             "Name": "Nue",
             "HP": 5600,
-            "Resistances": ["Lightning", "Holy"],
+            "Resistances": ["Lightning", "Holy", "Impact"],
             "Weaknesses": ["Mountain", "Rain"]
         },
         "Rewards":
@@ -2226,7 +2226,7 @@
         {
             "Name": "Yatsukazou",
             "HP": 5800,
-            "Resistances": ["Fire", "Dark", "Mountain", "Ice", "Lightning"],
+            "Resistances": ["Fire", "Dark", "Mountain", "Ice", "Lightning", "Slice"],
             "Weaknesses": ["Rain"]
         },
         "Rewards":
@@ -2319,7 +2319,7 @@
         {
             "Name": "Nurikabe",
             "HP": 6000,
-            "Resistances": ["Mountain"],
+            "Resistances": ["Mountain", "Slice"],
             "Weaknesses": ["Ice", "Rain"]
         },
         "Rewards":
@@ -2412,7 +2412,7 @@
         {
             "Name": "Beelzebub",
             "HP": 8000,
-            "Resistances": ["Dark", "Ice", "Lightning", "Rain", "Mountain"],
+            "Resistances": ["Dark", "Ice", "Lightning", "Rain", "Mountain", "Impact"],
             "Weaknesses": ["Holy"]
         },
         "Rewards":
@@ -2679,7 +2679,7 @@
         {
             "Name": "Gedoumaru",
             "HP": 7400,
-            "Resistances": ["Mountain", "Ice", "Lightning", "Dark"],
+            "Resistances": ["Mountain", "Ice", "Lightning", "Dark", "Slice"],
             "Weaknesses": ["Wind"]
         },
         "Rewards":
@@ -2859,7 +2859,7 @@
         {
             "Name": "Bloodstained Nyuudou",
             "HP": 7800,
-            "Resistances": ["Dark", "Fire", "Holy"],
+            "Resistances": ["Dark", "Fire", "Holy", "Pierce"],
             "Weaknesses": ["Lightning", "Wind"]
         },
         "Rewards":
@@ -2955,7 +2955,7 @@
         {
             "Name": "Ungaikyou",
             "HP": 8000,
-            "Resistances": ["Holy", "Rain"],
+            "Resistances": ["Holy", "Rain", "Slice"],
             "Weaknesses": ["Fire", "Mountain"]
         },
         "Rewards":
@@ -3045,7 +3045,7 @@
         {
             "Name": "Benkei",
             "HP": 8500,
-            "Resistances": ["Lightning", "Ice", "Dark", "Holy", "Wind"],
+            "Resistances": ["Lightning", "Ice", "Dark", "Holy", "Wind", "Impact", "Slice"],
             "Weaknesses": ["Rain"]
         },
         "Rewards":
@@ -3139,7 +3139,7 @@
         {
             "Name": ["Shikigami Slice", "Shikigami Stab", "Shikigami Curse"],
             "HP": 9000,
-            "Resistances": ["Poison"],
+            "Resistances": ["Poison", "Slice", "Impact", "Pierce"],
             "Weaknesses": []
         },
         "Rewards":
@@ -3231,7 +3231,7 @@
         {
             "Name": "Odin",
             "HP": 12000,
-            "Resistances": ["Holy", "Fire"],
+            "Resistances": ["Holy", "Fire", "Slice"],
             "Weaknesses": ["Dark", "Rain"]
         },
         "Rewards":
@@ -3415,7 +3415,7 @@
         {
             "Name": "Oni-basami",
             "HP": 14000,
-            "Resistances": ["Rain"],
+            "Resistances": ["Rain", "Impact"],
             "Weaknesses": ["Lightning", "Mountain"]
         },
         "Rewards":
@@ -3507,7 +3507,7 @@
         {
             "Name": "Akamekabe",
             "HP": 15000,
-            "Resistances": ["Mountain", "Fire", "Lightning", "Wind"],
+            "Resistances": ["Mountain", "Fire", "Lightning", "Wind", "Slice"],
             "Weaknesses": ["Rain", "Ice", "Dark", "Holy"]
         },
         "Rewards":
@@ -3785,8 +3785,8 @@
         {
             "Name": "Ethereal Cerberus",
             "HP": 18000,
-            "Resistances": ["Rain", "Ice", "Dark", "Wind", "Mountain"],
-            "Weaknesses": ["Fire", "Holy"]
+            "Resistances": ["Rain", "Ice", "Dark", "Wind", "Mountain", "Slice", "Impact"],
+            "Weaknesses": ["Fire", "Holy", "Pierce"]
         },
         "Rewards":
         {
@@ -3877,8 +3877,8 @@
         {
             "Name": "Revived Cerberus",
             "HP": 19000,
-            "Resistances": ["Lightning", "Ice", "Dark", "Rain", "Wind"],
-            "Weaknesses": ["Fire", "Holy"]
+            "Resistances": ["Lightning", "Ice", "Dark", "Rain", "Wind", "Impact", "Pierce"],
+            "Weaknesses": ["Fire", "Holy", "Slice"]
         },
         "Rewards":
         {
@@ -3969,8 +3969,8 @@
         {
             "Name": "Preserved Cerberus",
             "HP": 20000,
-            "Resistances": ["Ice", "Lightning", "Dark", "Wind", "Mountain"],
-            "Weaknesses": ["Fire", "Holy", "Rain"]
+            "Resistances": ["Ice", "Lightning", "Dark", "Wind", "Mountain", "Pierce", "Slice"],
+            "Weaknesses": ["Fire", "Holy", "Rain", "Impact"]
         },
         "Rewards":
         {
@@ -4017,7 +4017,7 @@
         {
             "Name": "Hades",
             "HP": 30000,
-            "Resistances": ["Dark", "Fire", "Lightning", "Wind", "Mountain"],
+            "Resistances": ["Dark", "Fire", "Lightning", "Wind", "Mountain", "Slice", "Pierce"],
             "Weaknesses": ["Holy"]
         },
         "Rewards":
