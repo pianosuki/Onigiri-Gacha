@@ -3437,7 +3437,7 @@ async def seeds(ctx, target = None):
 @bot.command(aliases = ["equipment", "weapon", "magatama", "mag", "swap"])
 @commands.check(checkChannel)
 async def equip(ctx, *input):
-    ''' | Usage: +equip [weapon name | magatama name | inv] '''
+    ''' | Usage: +equip [weapon name | magatama name | inv | inv mobile] '''
     user_id = ctx.author.id
     default_color = config.default_color
     argument = ' '.join(list(input))
@@ -3612,7 +3612,7 @@ async def equip(ctx, *input):
     if not input:
         level = getPlayerLevel(user_id)
         chakra = getPlayerChakra(user_id)
-        commands = ["", "Equip a weapon/magatama:", "(+equip <item name>)", "", "View your inventory:", "(+equip inv)", "", "Clear your magatama slots:", "(+equip clear)", ""]
+        commands = ["", "Equip a weapon/magatama:", "(+equip <item name>)", "", "View your inventory:", "(+equip inv [mobile])", "", "Clear your magatama slots:", "(+equip clear)", ""]
         e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing equipment of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
         e.add_field(name = "⚔️ ─ Equipped Weapon ─ ⚔️", value = formatEquippedWeapon(equipment), inline = True)
