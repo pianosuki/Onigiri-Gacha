@@ -640,8 +640,10 @@ async def dungeons(ctx, *input):
             self.goldaruma_spawnrate = self.properties["goldaruma_spawnrate"] if "goldaruma_spawnrate" in self.properties else config.default_goldaruma_spawnrate
             self.goldaruma_spawnrate /= 100.
             self.chest_loot = self.properties["chest_loot"] if "chest_loot" in self.properties else config.default_chest_loot
-            self.yokai_modulations = config.default_yokai_modulations.copy()
-            self.yokai_modulations.update(self.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_yokai_modulations.copy())
+            self.yokai_modulations = config.default_modulations.copy()
+            self.yokai_modulations.update(self.properties["yokai_modulations"] if "yokai_modulations" in self.properties else config.default_modulations.copy())
+            self.boss_modulations = config.default_modulations.copy()
+            self.boss_modulations.update(self.properties["boss_modulations"] if "boss_modulations" in self.properties else config.default_modulations.copy())
 
             # Seed
             if seed is None:
@@ -1437,13 +1439,13 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {mob}!")
                 if mob == "Gold Daruma":
                     random_amount = random.randint(1000, 10000)
-                    ryou_amount = math.floor((random_amount * dg.level) + ((random_amount * dg.level * dg.multiplier) / 2))
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {'{:,}'.format(math.floor(ryou_amount / 2))} Ryou)")
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({'{:,}'.format(math.floor(ryou_amount / 2))} Ryou added to dungeon pool)")
+                    ryou_amount = round(((random_amount * dg.level) / 3) + ((random_amount * dg.level * dg.multiplier) / 6))
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {'{:,}'.format(math.floor(ryou_amount))} Ryou)")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Half taken, half added to dungeon pool)")
                     await reward(ctx, ctx.author.mention, "ryou", math.floor(ryou_amount / 2))
                     dg.Cache.pool += math.floor(ryou_amount / 2)
                 exp_row = ExpTable[dg.level - 1][1]
-                exp_amount = round((random.randint(10, 20) * dg.level) + ((exp_row / 500) * dg.multiplier))
+                exp_amount = round((random.uniform(10, 20) * dg.level) + ((exp_row / 3000) * dg.multiplier))
                 exp_reward = addPlayerExp(user_id, exp_amount)
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_reward)} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
@@ -1564,9 +1566,9 @@ async def dungeons(ctx, *input):
     async def fightBoss(ctx, message, flag, dg, boss, e):
         clear_rewards = {}
         dg.Boss.name = boss["Name"]
-        base_boss_hp = boss["HP"]
-        base_boss_atk = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
-        base_boss_def = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier))
+        base_boss_hp = boss["HP"] + dg.boss_modulations["HP"]
+        base_boss_atk = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier)) + dg.boss_modulations["ATK"]
+        base_boss_def = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier)) + dg.boss_modulations["DEF"]
         dg.Boss.HP = base_boss_hp
         dg.Boss.ATK = base_boss_atk
         dg.Boss.DEF = base_boss_def

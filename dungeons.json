@@ -4006,10 +4006,22 @@
         "Energy_Metric": 60,
         "Difficulties":
         {
-            "Normal": {},
-            "Hard": {},
-            "Hell": {},
-            "Oni": {}
+            "Normal":
+            {
+                "boss_modulations": {"ATK": 40, "DEF": 20}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"ATK": 40, "DEF": 20}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"ATK": 40, "DEF": 20}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"ATK": 40, "DEF": 20}
+            }
         },
         "Floors": 1,
         "Yokai": [],
