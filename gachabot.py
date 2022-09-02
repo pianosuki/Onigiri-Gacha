@@ -3530,6 +3530,13 @@ async def equip(ctx, *input):
             sf = magatamas[slot][1]["Effects"]["Skill Force"]
         return sf
 
+    def getMagatamaCriticalRate(slot):
+        magatamas = listEquippedMagatamas(equipment)
+        critical = 0
+        if "Critical" in magatamas[slot][1]["Effects"]:
+            critical = magatamas[slot][1]["Effects"]["Critical"]
+        return critical
+
     def formatEquippedMagatamas(equipment):
         magatamas = listEquippedMagatamas(equipment)
         formatted_string = ""
@@ -3541,8 +3548,12 @@ async def equip(ctx, *input):
                 formatted_string += f" ╰─  Level: **{magatamas[slot][1]['Level_Required']}**\n"
                 formatted_string += f" ╰─  Chakra: **{magatamas[slot][1]['Chakra']}**\n"
                 formatted_string += f" ╰─  Defence: **{'{:,}'.format(magatamas[slot][1]['Defence'])}**\n"
-                formatted_string += f" ╰─  Elements: **{getMagatamaElements(slot)}**\n"
-                formatted_string += f" ╰─  Skill Force: **+{getMagatamaSkillForce(slot)}%**\n"
+                if not magatamas[slot][1]["Elements"] is None:
+                    formatted_string += f" ╰─  Elements: **{getMagatamaElements(slot)}**\n"
+                if "Skill Force" in magatamas[slot][1]["Effects"]:
+                    formatted_string += f" ╰─  Skill Force: **+{getMagatamaSkillForce(slot)}%**\n"
+                if "Critical" in magatamas[slot][1]["Effects"]:
+                    formatted_string += f" ╰─  Critical: **+{getMagatamaCriticalRate(slot)}%**\n"
                 formatted_string += "──────────────────\n"
             else:
                 formatted_string += f"{Icons[getMagatamaEmoji(slot)]} ─ Slot {slot + 1}: None\n"
@@ -3604,6 +3615,7 @@ async def equip(ctx, *input):
                 chakra = Magatamas[magatama]["Chakra"]
                 defence = Magatamas[magatama]["Defence"]
                 sf = Magatamas[magatama]["Effects"]["Skill Force"] if "Skill Force" in Magatamas[magatama]["Effects"] else 0
+                critical = Magatamas[magatama]["Effects"]["Critical"] if "Critical" in Magatamas[magatama]["Effects"] else 0
                 elements = ""
                 if not Magatamas[magatama]["Elements"] is None:
                     for index, element in enumerate(Magatamas[magatama]["Elements"]):
@@ -3620,8 +3632,12 @@ async def equip(ctx, *input):
                     formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
                     formatted_string += f" ╰─  *Level:* **{lvl}** ┃ *Chakra:* **{chakra}**\n"
                     formatted_string += f" ╰─  *Defence:* **{defence}**\n"
-                    formatted_string += f" ╰─  *Elements:* **{elements}**\n"
-                    formatted_string += f" ╰─  *Skill Force:* **+{sf}%**\n"
+                    if not Magatamas[magatama]["Elements"] is None:
+                        formatted_string += f" ╰─  *Elements:* **{elements}**\n"
+                    if "Skill Force" in Magatamas[magatama]["Effects"]:
+                        formatted_string += f" ╰─  *Skill Force:* **+{sf}%**\n"
+                    if "Critical" in Magatamas[magatama]["Effects"]:
+                        formatted_string += f" ╰─  *Critical:* **+{critical}%**\n"
                 else:
                     formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
                 counter += 1
