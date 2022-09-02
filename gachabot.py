@@ -2984,7 +2984,7 @@ async def roll(ctx, skip=None):
                             givePlayerMagatama(user_id, choice)
                             magatama_string = f"{Icons['magatama_' + Magatamas[choice]['Type'].lower().replace(' ', '_')]} **{choice}**"
                             await ctx.send(f"🎉 Rewarded {ctx.author.mention} with {magatama_string}!")
-                            choosing = false
+                            choosing = False
                         else:
                             continue
                 case x if x == grand_prize_string:
@@ -3526,58 +3526,81 @@ async def equip(ctx, *input):
                 formatted_string += "──────────────────\n"
         return formatted_string
 
-    def formatWeaponInventory():
+    def formatWeaponInventory(offset, size, half):
         weapons_inv = getPlayerWeaponsInv(user_id)
         weapons_list = weapons_inv.split(", ")
         formatted_string = ""
-        if weapons_inv:
+        counter = 0
+        size = math.floor(size / 2)
+        if half == "second":
+            offset += size
+        if weapons_inv and not offset >= len(weapons_list):
             for index, weapon in enumerate(weapons_list):
+                if index < offset:
+                    # Skipping to next entry until arriving at the proper page/offset
+                    continue
                 lvl = Weapons[weapon]["Level_Required"]
-                elements = "┃ "
+                elements = ""
                 if not Weapons[weapon]["Elements"] is None:
                     for index, element in enumerate(Weapons[weapon]["Elements"]):
-                        elements += f"*{element}*"
+                        elements += f"{Icons[element]}"
                         if index + 1 < len(Weapons[weapon]["Elements"]):
                             elements += ", "
                 else:
-                    elements = ""
-                match Weapons[weapon]["Rarity"]:
-                    case "White":
-                        circle = "⚪"
-                    case "Blue":
-                        circle = "🔵"
-                    case "Red":
-                        circle = "🔴"
-                    case "Gold":
-                        circle = "🟡"
-                formatted_string += f"{circle} ┃ __{weapon}__ ┃ **Lvl.{lvl}** {elements}\n"
+                    elements = "None"
+                formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} ┃ **__{weapon}__**\n"
+                formatted_string += f" ╰─  *Rarity:* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}\n"
+                formatted_string += f" ╰─  *Level:* **{lvl}**\n"
+                formatted_string += f" ╰─  *Attack:* **{Weapons[weapon]['Attack']}**\n"
+                formatted_string += f" ╰─  *Elements:* **{elements}**\n"
+                counter += 1
+                # Once a full page is assembled, print it
+                if counter == size or index + 1 == len(weapons_list):
+                    break
         else:
-            formatted_string = "None"
+            formatted_string = "**None**"
         return formatted_string
 
-    def formatMagatamaInventory():
+    def formatMagatamaInventory(offset, size, half):
         magatamas_inv = getPlayerMagatamasInv(user_id)
         magatamas_list = magatamas_inv.split(", ")
         formatted_string = ""
-        if magatamas_inv:
+        counter = 0
+        size = math.floor(size / 2)
+        if half == "second":
+            offset += size
+        if magatamas_inv and not offset >= len(magatamas_list):
             for index, magatama in enumerate(magatamas_list):
+                if index < offset:
+                    # Skipping to next entry until arriving at the proper page/offset
+                    continue
                 lvl = Magatamas[magatama]["Level_Required"]
                 chakra = Magatamas[magatama]["Chakra"]
-                elements = "┃ "
+                defence = Magatamas[magatama]["Defence"]
+                sf = Magatamas[magatama]["Effects"]["Skill Force"] if "Skill Force" in Magatamas[magatama]["Effects"] else 0
+                elements = ""
                 if not Magatamas[magatama]["Elements"] is None:
                     for index, element in enumerate(Magatamas[magatama]["Elements"]):
                         if Magatamas[magatama]["Elements"][element]:
-                            elements += f"(+{element})"
+                            elements += f"+{Icons[element]}"
                         else:
-                            elements += f"(-{element})"
+                            elements += f"-{Icons[element]}"
                         if index + 1 < len(Magatamas[magatama]["Elements"]):
                             elements += ", "
                 else:
-                    elements = ""
+                    elements = "None"
                 type = Magatamas[magatama]["Type"].lower().replace(" ", "_")
-                formatted_string += f"{Icons['magatama_' + type]} ┃ __{magatama}__ ┃ **Lvl.{lvl}** ┃ *Chakra:* **{chakra}** {elements}\n"
+                formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
+                formatted_string += f" ╰─  *Level:* **{lvl}** ┃ *Chakra:* **{chakra}**\n"
+                formatted_string += f" ╰─  *Defence:* **{defence}**\n"
+                formatted_string += f" ╰─  *Elements:* **{elements}**\n"
+                formatted_string += f" ╰─  *Skill Force:* **+{sf}%**\n"
+                counter += 1
+                # Once a full page is assembled, print it
+                if counter == size or index + 1 == len(magatamas_list):
+                    break
         else:
-            formatted_string = "None"
+            formatted_string = "**None**"
         return formatted_string
 
     if not input:
@@ -3586,22 +3609,76 @@ async def equip(ctx, *input):
         commands = ["", "Equip a weapon/magatama:", "(+equip <item name>)", "", "View your inventory:", "(+equip inv)", "", "Clear your magatama slots:", "(+equip clear)", ""]
         e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing equipment of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        # e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
         e.add_field(name = "⚔️ ─ Equipped Weapon ─ ⚔️", value = formatEquippedWeapon(equipment), inline = True)
         e.add_field(name = f"{Icons['magatama']} ─ Equipped Magatamas ─ {Icons['magatama']}", value = formatEquippedMagatamas(equipment), inline = True)
         e.add_field(name = "Commands:", value = boxifyArray(commands, padding = 2), inline = False)
         await ctx.send(embed = e)
     else:
         if argument == "inventory" or argument == "inv":
+            message = None
             level = getPlayerLevel(user_id)
             chakra = getPlayerChakra(user_id)
-            e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing inventory of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
-            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            # e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-            e.add_field(name = "Weapon Inventory:", value = formatWeaponInventory(), inline = True)
-            e.add_field(name = "Magatama Inventory:", value = formatMagatamaInventory(), inline = True)
-            await ctx.send(embed = e)
-            return
+            w_length = len(getPlayerWeaponsInv(user_id).split(", "))
+            m_length = len(getPlayerMagatamasInv(user_id).split(", "))
+            w_offset = 0
+            m_offset = 0
+            size = 6
+            separator = ""
+            for _ in range(0, math.floor(size / 2) * 5):
+                separator += "┃\n"
+            flag = True
+            # Set offset to 0 (page 1) and begin bidirectional page system
+            while flag:
+                e = discord.Embed(title = "🛠️ ─ Equipment Screen ─ 🛠️", description = f"Viewing inventory of <@{user_id}> ┃ *Chakra* = **{chakra} / {level}**", color = default_color)
+                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                e.add_field(name = "Weapon Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatWeaponInventory(w_offset, size, half = "first"), inline = True)
+                e.add_field(name = "┃", value = separator, inline = True)
+                e.add_field(name = "Magatama Inventory:\n━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMagatamaInventory(m_offset, size, half = "first"), inline = True)
+                e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatWeaponInventory(w_offset, size, half = "second"), inline = True)
+                e.add_field(name = "┃", value = separator, inline = True)
+                e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatMagatamaInventory(m_offset, size, half = "second"), inline = True)
+                e.set_footer(text = f"Page: {max(math.floor(w_offset / size) + 1, math.floor(m_offset / size) + 1)}/{max(math.ceil(w_length / size), math.ceil(m_length / size))}")
+                message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
+                emojis = ["⏪", "⏩", "❌"]
+                reaction, user = await waitForReaction(ctx, message, e, emojis)
+                if reaction is None:
+                    flag = False
+                    break
+                match str(reaction.emoji):
+                    case "⏩":
+                        if not w_offset + size >= w_length or not m_offset + size >= m_length:
+                            # Tell upcomming re-iteration to skip to the next page's offset
+                            if not w_offset + size >= w_length:
+                                if w_length > size:
+                                    w_offset += size
+                            if not m_offset + size >= m_length:
+                                if m_length > size:
+                                    m_offset += size
+                        else:
+                            # Skip to the first page
+                            w_offset = 0
+                            m_offset = 0
+                        await message.clear_reactions()
+                        continue
+                    case "⏪":
+                        if not w_offset == 0 or not m_offset == 0:
+                            # Tell upcomming re-iteration to skip to the previous page's offset
+                            if not w_offset == 0:
+                                if w_offset >= size:
+                                    w_offset -= size
+                            if not m_offset == 0:
+                                if m_offset >= size:
+                                    m_offset -= size
+                        else:
+                            # Skip to the last page
+                            w_offset = size * math.floor(w_length / size)
+                            m_offset = size * math.floor(m_length / size)
+                        await message.clear_reactions()
+                        continue
+                    case "❌":
+                        await message.clear_reactions()
+                        flag = False
+                        break
         elif argument == "clear" or argument == "reset":
             clearPlayerEquipment(user_id)
             await ctx.reply("You have successfully cleared your equipment slots!")
