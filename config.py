@@ -126,7 +126,8 @@ custom_emojis   = {
     "statsreset": "<:statsreset:1010726645885308928>",
     "supercharge": "<:supercharge:1011404535505371146>",
     "evade": "<:evade:1011404551565365308>",
-    "magatama": "<:magatama:1012803114761465916>"
+    "magatama": "<:magatama:1012803114761465916>",
+    "heal": "<:heal:1015310715323686973>"
 }
 mode_emojis     = {
     "normal": "<:normal:1007526343501688862>",

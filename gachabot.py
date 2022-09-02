@@ -1316,7 +1316,6 @@ async def dungeons(ctx, *input):
             return message
 
         async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
-            # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Yokai, Party)
             if is_supercharging:
                 damage *= 2
@@ -1327,21 +1326,17 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} supercharged damage to {mob}!")
             if is_critical:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
-            # message = await printToConsole(message, e, console, "")
             return message
 
         async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
             dg.Player.DEF *= 3
             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
-            # message = await printToConsole(message, e, console, "")
             return message
 
         async def yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
             damage, is_critical = damageCalculator(dg.Yokai, dg.Player, Party)
             if is_charging and not is_defending:
                 damage *= 2
-            # time.sleep(0.5)
             if not is_evading:
                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
                 if not is_charging:
@@ -1357,14 +1352,23 @@ async def dungeons(ctx, *input):
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Yokai.name}!")
                 if is_critical:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
-            # message = await printToConsole(message, e, console, "")
             return message
 
         async def yokaiDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
             dg.Yokai.DEF *= 2
             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} fortified its defences!")
-            # message = await printToConsole(message, e, console, "")
+            return message
+
+        async def healPartyMember(message, e, console, turn, atk_gauge, def_gauge):
+            heal, is_critical = healCalculator(dg.Player, Party)
+            if Party["Current"] == "1":
+                dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > getPlayerHP(Party["Player_2"]["ID"]) else getPlayerHP(Party["Player_2"]["ID"])
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Healed {'{:,}'.format(heal)} HP to {Party['Player_2']['Name']}!")
+            else:
+                dg.Player1.HP = dg.Player1.HP + heal if not dg.Player1.HP + heal > getPlayerHP(Party["Player_1"]["ID"]) else getPlayerHP(Party["Player_1"]["ID"])
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Healed {'{:,}'.format(heal)} HP to {Party['Player_1']['Name']}!")
+            if is_critical:
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             return message
 
         # Loading screen
@@ -1470,6 +1474,7 @@ async def dungeons(ctx, *input):
                     emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
                     if atk_gauge == 5: emojis.append(Icons["supercharge"])
                     if def_gauge == 5: emojis.append(Icons["evade"])
+                    if Weapons[dg.Player.weapon]["Type"] == "Staff" and not Party is None and Party["Player_1"]["Alive"] and Party["Player_2"]["Alive"]: emojis.append(Icons["heal"])
                     if not Party is None and (not player_1_killed and not player_2_killed): emojis.append("🔀")
                     emojis.append(Icons["exit"])
                     if Party is None:
@@ -1546,6 +1551,21 @@ async def dungeons(ctx, *input):
                                 is_evading = True
                                 def_gauge = 0
                                 continue
+                            case x if x == Icons["heal"]:
+                                await message.clear_reactions()
+                                if is_player_turn:
+                                    if yokai_action == "Defend":
+                                        message = await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await healPartyMember(message, e, console, turn, atk_gauge, def_gauge)
+                                    if yokai_action == "Attack":
+                                        message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+                                else:
+                                    message = await yokaiAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if yokai_action == "Attack" else await yokaiDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    if not dg.Player.HP > 0:
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                        break
+                                    message = await healPartyMember(message, e, console, turn, atk_gauge, def_gauge)
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case "🔀":
                                 await message.clear_reactions()
                                 if not is_player_turn:
@@ -1712,10 +1732,14 @@ async def dungeons(ctx, *input):
         e.set_image(url = Resource["Chest"][0])
         await message.edit(embed = e)
         while flag:
-            emojis = [Icons["chest"], "⏭️", Icons["exit"]]
+            emojis = [Icons["chest"], "⏭️"]
+            if not Party is None: emojis.append("🔀")
+            emojis.append(Icons["exit"])
             if Party is None:
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
             else:
+                e.set_author(name = Party[f"Player_{Party['Current']}"]["Name"], icon_url = Party[f"Player_{Party['Current']}"]["Member"].display_avatar)
+                await message.edit(embed = e)
                 reaction, user = await waitForReaction(ctx, message, e, emojis, user_override = Party[f"Player_{Party['Current']}"]["Member"])
             if reaction is None:
                 flag = False
@@ -1741,6 +1765,16 @@ async def dungeons(ctx, *input):
                         await message.clear_reactions()
                         message = await loadNextRoom(message, e)
                         break
+                    case "🔀":
+                        await message.clear_reactions()
+                        if Party["Current"] == 1:
+                            dg.Player = dg.Player2
+                            Party.update({"Current": 2})
+                            continue
+                        else:
+                            dg.Player = dg.Player1
+                            Party.update({"Current": 1})
+                            continue
                     case x if x == Icons["exit"]:
                         await message.clear_reactions()
                         message, flag, result = await exitDungeon(message, flag, e, field = 4, Party = Party)
@@ -1817,16 +1851,16 @@ async def dungeons(ctx, *input):
             e.set_image(url = Resource[f"{name}-2"][0].replace(" ", "%20"))
             e.description = "🔄 **Loading Combat Engine** 🔄"
             await message.edit(embed = e)
-            time.sleep(0.5)
+            time.sleep(1)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️"
             await message.edit(embed = e)
-            time.sleep(0.5)
+            time.sleep(1)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(0.5)
+            time.sleep(1)
             e.description = "🔄 **Loading Combat Engine** 🔄 ▫️ ▫️ ▫️"
             await message.edit(embed = e)
-            time.sleep(0.5)
+            time.sleep(1)
             e.remove_field(3)
             if Party is None:
                 e.description = None
@@ -1836,7 +1870,6 @@ async def dungeons(ctx, *input):
             return message
 
         async def playerAttack(message, e, console, turn, atk_gauge, def_gauge, is_supercharging = False):
-            # time.sleep(0.5)
             damage, is_critical = damageCalculator(dg.Player, dg.Boss, Party)
             effectiveness = 0
             weapon_elements = Weapons[dg.Player.weapon]["Elements"]
@@ -1878,21 +1911,17 @@ async def dungeons(ctx, *input):
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Astronomically uneffective)")
                 case x if x < -2:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Missed due to immunity)")
-            # message = await printToConsole(message, e, console, "")
             return message
 
         async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
             dg.Player.DEF *= 3
             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You fortified your defences!")
-            # message = await printToConsole(message, e, console, "")
             return message
 
         async def bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending = False, is_evading = False):
             damage, is_critical = damageCalculator(dg.Boss, dg.Player, Party)
             if is_charging and not is_defending:
                 damage *= 2
-            # time.sleep(0.5)
             if not is_evading:
                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
                 if not is_charging:
@@ -1908,14 +1937,23 @@ async def dungeons(ctx, *input):
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Boss.name}!")
                 if is_critical:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical evaded!)")
-            # message = await printToConsole(message, e, console, "")
             return message
 
         async def bossDefend(message, e, console, turn, atk_gauge, def_gauge):
-            # time.sleep(0.5)
             dg.Boss.DEF *= 2
             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} fortified its defences!")
-            # message = await printToConsole(message, e, console, "")
+            return message
+
+        async def healPartyMember(message, e, console, turn, atk_gauge, def_gauge):
+            heal, is_critical = healCalculator(dg.Player, Party)
+            if Party["Current"] == "1":
+                dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > getPlayerHP(Party["Player_2"]["ID"]) else getPlayerHP(Party["Player_2"]["ID"])
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Healed {'{:,}'.format(heal)} HP to {Party['Player_2']['Name']}!")
+            else:
+                dg.Player1.HP = dg.Player1.HP + heal if not dg.Player1.HP + heal > getPlayerHP(Party["Player_1"]["ID"]) else getPlayerHP(Party["Player_1"]["ID"])
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Healed {'{:,}'.format(heal)} HP to {Party['Player_1']['Name']}!")
+            if is_critical:
+                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
             return message
 
         # Loading screen
@@ -1988,6 +2026,7 @@ async def dungeons(ctx, *input):
                     emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
                     if atk_gauge == 5: emojis.append(Icons["supercharge"])
                     if def_gauge == 5: emojis.append(Icons["evade"])
+                    if Weapons[dg.Player.weapon]["Type"] == "Staff" and not Party is None and Party["Player_1"]["Alive"] and Party["Player_2"]["Alive"]: emojis.append(Icons["heal"])
                     if not Party is None and (not player_1_killed and not player_2_killed): emojis.append("🔀")
                     emojis.append(Icons["exit"])
                     if Party is None:
@@ -2064,6 +2103,21 @@ async def dungeons(ctx, *input):
                                 is_evading = True
                                 def_gauge = 0
                                 continue
+                            case x if x == Icons["heal"]:
+                                await message.clear_reactions()
+                                if is_player_turn:
+                                    if boss_action == "Defend":
+                                        message = await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    message = await healPartyMember(message, e, console, turn, atk_gauge, def_gauge)
+                                    if boss_action == "Attack":
+                                        message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading)
+                                else:
+                                    message = await bossAttack(message, e, console, turn, atk_gauge, def_gauge, is_charging, is_defending, is_evading) if boss_action == "Attack" else await bossDefend(message, e, console, turn, atk_gauge, def_gauge)
+                                    if not dg.Player.HP > 0:
+                                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                        break
+                                    message = await healPartyMember(message, e, console, turn, atk_gauge, def_gauge)
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                             case "🔀":
                                 await message.clear_reactions()
                                 if not is_player_turn:
@@ -2294,6 +2348,19 @@ async def dungeons(ctx, *input):
         damage += round(damage * (sf / 100.))
         damage *= 2 if is_critical else 1
         return damage, is_critical
+
+    def healCalculator(healer, Party):
+        sf = getPlayerSkillForce(Party[f"Player_{Party['Current']}"]["ID"])
+        critical = getPlayerCriticalRate(Party[f"Player_{Party['Current']}"]["ID"])
+        rate = math.floor(critical / 100.)
+        is_critical = True if random.random() < rate else False
+        heal = healer.ATK * 2
+        variance = round(heal / 10)
+        var_roll = random.randint(-variance, variance)
+        heal += var_roll
+        heal += round(heal * sf * (sf / 100.))
+        heal *= 2 if is_critical else 1
+        return heal, is_critical
 
     def getDungeonEnergy(dungeon):
         dungeon_metric = Dungeons[dungeon]["Energy_Metric"]
