@@ -3671,7 +3671,7 @@ async def equip(ctx, *input):
                     e.add_field(name = "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─", value = formatMagatamaInventory(m_offset, size, half, is_compact), inline = False)
                 e.set_footer(text = f"Page: {max(math.floor(w_offset / size) + 1, math.floor(m_offset / size) + 1)}/{max(math.ceil(w_length / size), math.ceil(m_length / size))}")
                 message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
-                emojis = ["⏪", "⏩", "📏", "❌"]
+                emojis = ["⏪", "⏩", "📏", "📱", "❌"]
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 if reaction is None:
                     flag = False
@@ -3709,6 +3709,9 @@ async def equip(ctx, *input):
                         continue
                     case "📏":
                         is_compact = True if not is_compact else False
+                        await message.clear_reactions()
+                    case "📱":
+                        is_mobile = True if not is_mobile else False
                         await message.clear_reactions()
                     case "❌":
                         await message.clear_reactions()
