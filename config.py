@@ -17,6 +17,7 @@ default_rooms_range         = [2, 5]
 default_mob_spawnrate       = [0, 3]
 default_max_population      = 3
 default_goldaruma_spawnrate = 1
+default_critical_rate       = 10
 default_chest_loot          = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"pool": {"EXP": [100, 200]}, "rate": 50}]
 default_modulations         = {"HP": 0, "ATK": 0, "DEF": 0}
 tax                         = 0.5
@@ -179,7 +180,8 @@ magatama_emojis = {
     "magatama_bow": "<:magatama_bow:1013652377921929246>",
     "magatama_sword": "<:magatama_sword:1013652395596726402>",
     "magatama_odachi": "<:magatama_odachi:1013652408603263067>",
-    "magatama_spear": "<:magatama_spear:1013652422897451139>"
+    "magatama_spear": "<:magatama_spear:1013652422897451139>",
+    "magatama_critical": "<:magatama_critical:1015167646720872498>"
 }
 rarity_emojis   = {
     "rarity_white": "<:rarity_white:1012809065715474472>",

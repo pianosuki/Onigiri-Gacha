@@ -461,6 +461,20 @@ def getPlayerSkillForce(user_id):
             sf += magatamas[slot][1]["Effects"]["Skill Force"]
     return sf
 
+def getPlayerCriticalRate(user_id):
+    equipment = getPlayerEquipment(user_id)
+    critical = config.default_critical_rate
+    equipped_weap = equipment["weapon"]
+    equipped_mags = equipment["magatamas"]
+    magatamas = []
+    for magatama in equipped_mags:
+        magatamas.append((magatama, Magatamas[magatama]) if magatama != "" else ())
+    for slot, magatama in enumerate(magatamas):
+        if magatama and "Critical" in Magatamas[magatamas[slot][0]]["Effects"]:
+            mag_crit = magatamas[slot][1]["Effects"]["Critical"]
+            critical = critical + mag_crit if critical + mag_crit <= 100 else 100
+    return critical
+
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
     weights_sum = weights.sum()
@@ -1938,8 +1952,15 @@ async def dungeons(ctx, *input):
         return file, founder
 
     def damageCalculator(attacker, defender):
-        sf = getPlayerSkillForce(user_id)
-        is_critical = True if random.random() < 0.1 else False
+        if attacker.name == user_name:
+            sf = getPlayerSkillForce(user_id)
+            critical = getPlayerCriticalRate(user_id)
+            print(critical)
+            rate = math.floor(critical / 100.)
+        else:
+            sf = 0
+            rate = math.floor(config.default_critical_rate / 100.)
+        is_critical = True if random.random() < rate else False
         damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
         variance = round(damage / 10)
         var_roll = random.randint(-variance, variance)

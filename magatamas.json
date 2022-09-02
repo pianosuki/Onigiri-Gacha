@@ -1622,5 +1622,239 @@
         {
             "Skill Force": 170
         }
+    },
+
+    "Kanetsugu Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 3
+        }
+    },
+
+    "Kojyuurou Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 17,
+        "Chakra": 7,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 6
+        }
+    },
+
+    "Michizane Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 25,
+        "Chakra": 10,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 8
+        }
+    },
+
+    "Yukimura Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 33,
+        "Chakra": 13,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 11
+        }
+    },
+
+    "Shingen Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 42,
+        "Chakra": 17,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 14
+        }
+    },
+
+    "Kenshin Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 50,
+        "Chakra": 20,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 17
+        }
+    },
+
+    "Nobunaga Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 58,
+        "Chakra": 23,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 19
+        }
+    },
+
+    "Masakado Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 67,
+        "Chakra": 27,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 22
+        }
+    },
+
+    "Hanzou Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 75,
+        "Chakra": 30,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 25
+        }
+    },
+
+    "Masamune Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 83,
+        "Chakra": 33,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 28
+        }
+    },
+
+    "Tadakatsu Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 92,
+        "Chakra": 37,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 31
+        }
+    },
+
+    "Kiyomasa Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 33
+        }
+    },
+
+    "Masanori Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 108,
+        "Chakra": 43,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 36
+        }
+    },
+
+    "Katsuie Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 39
+        }
+    },
+
+    "Nagayoshi Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 125,
+        "Chakra": 50,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 42
+        }
+    },
+
+    "Naomasa Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 133,
+        "Chakra": 53,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 44
+        }
+    },
+
+    "Yoshihiro Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 142,
+        "Chakra": 57,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 47
+        }
+    },
+
+    "Dousetsu Magatama":
+    {
+        "Type": "Critical",
+        "Level_Required": 150,
+        "Chakra": 60,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical": 50
+        }
     }
 }
