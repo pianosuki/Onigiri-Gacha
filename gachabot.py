@@ -2328,18 +2328,18 @@ async def dungeons(ctx, *input):
             if attacker.name == user_name:
                 sf = getPlayerSkillForce(user_id)
                 critical = getPlayerCriticalRate(user_id)
-                rate = math.floor(critical / 100.)
+                rate = critical / 100.
             else:
                 sf = 0
-                rate = math.floor(config.default_critical_rate / 100.)
+                rate = config.default_critical_rate / 100.
         else:
             if attacker.name == Party[f"Player_{Party['Current']}"]["Name"]:
                 sf = getPlayerSkillForce(Party[f"Player_{Party['Current']}"]["ID"])
                 critical = getPlayerCriticalRate(Party[f"Player_{Party['Current']}"]["ID"])
-                rate = math.floor(critical / 100.)
+                rate = critical / 100.
             else:
                 sf = 0
-                rate = math.floor(config.default_critical_rate / 100.)
+                rate = config.default_critical_rate / 100.
         is_critical = True if random.random() < rate else False
         damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
         variance = round(damage / 10)
@@ -2352,7 +2352,7 @@ async def dungeons(ctx, *input):
     def healCalculator(healer, Party):
         sf = getPlayerSkillForce(Party[f"Player_{Party['Current']}"]["ID"])
         critical = getPlayerCriticalRate(Party[f"Player_{Party['Current']}"]["ID"])
-        rate = math.floor(critical / 100.)
+        rate = critical / 100.
         is_critical = True if random.random() < rate else False
         heal = healer.ATK * 2
         variance = round(heal / 10)
