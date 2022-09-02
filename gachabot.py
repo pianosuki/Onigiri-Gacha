@@ -1441,7 +1441,7 @@ async def dungeons(ctx, *input):
                     random_amount = random.randint(1000, 10000)
                     ryou_amount = round(((random_amount * dg.level) / 3) + ((random_amount * dg.level * dg.multiplier) / 6))
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({mob} dropped {'{:,}'.format(math.floor(ryou_amount))} Ryou)")
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Half taken, half added to dungeon pool)")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Half taken, half added to dungeon pool)")
                     await reward(ctx, ctx.author.mention, "ryou", math.floor(ryou_amount / 2))
                     dg.Cache.pool += math.floor(ryou_amount / 2)
                 exp_row = ExpTable[dg.level - 1][1]
