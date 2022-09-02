@@ -43,8 +43,7 @@
                     {"pool": {"EXP": [10, 20], "Ryou": [100, 200]}, "rate": 89},
                     {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
                     {"pool": {"Tuna Nigiri": [1, 4]}, "rate": 10}
-                ],
-                "yokai_modulations": {"ATK": 500}
+                ]
             }
         },
         "Floors": 2,
