@@ -2201,7 +2201,7 @@ async def dungeons(ctx, *input):
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_amount)} EXP!)")
                 else:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_1)} EXP!)")
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_2)} EXP!)")
+                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_amount_2)} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
                 break
