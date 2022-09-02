@@ -1109,7 +1109,7 @@ async def dungeons(ctx, *input):
             if Party is None:
                 congrats += f"🎊 {ctx.author.mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
             else:
-                congrats += f"🎊 {Party['Player_1']['Member'].mention} & {Party['Player_2']['Member'].mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
+                congrats += f"🎊 {'💀' if not Party['Player_1']['Alive'] else ''}{Party['Player_1']['Member'].mention} & {'💀' if not Party['Player_2']['Alive'] else ''}{Party['Player_2']['Member'].mention} Congratulations on clearing __**{dg.dungeon}**__ on __*{dg.mode_name}*__ mode!\n"
             if clear_rewards:
                 congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
                 if dg.Cache.pool > 0:
@@ -1421,6 +1421,24 @@ async def dungeons(ctx, *input):
             yokai_state, player_state = updateAgents()
             yokai_killed = False if dg.Yokai.HP > 0 else True
             player_killed = False if dg.Player.HP > 0 else True
+            if not Party is None:
+                player_1_killed = False if dg.Player1.HP > 0 else True
+                player_2_killed = False if dg.Player2.HP > 0 else True
+                if player_killed:
+                    if not player_1_killed or not player_2_killed:
+                        player_killed = False
+                        if player_1_killed and Party["Player_1"]["Alive"]:
+                            dg.Player = dg.Player2
+                            Party.update({"Current": 2})
+                            Party.update({"Player_1": {"Alive": False}})
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} has slain {Party['Player_1']['Name']}")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                        elif player_2_killed and Party["Player_2"]["Alive"]:
+                            dg.Player = dg.Player1
+                            Party.update({"Current": 1})
+                            Party.update({"Player_2": {"Alive": False}})
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} has slain {Party['Player_2']['Name']}")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
             if not yokai_killed and not player_killed:
                 turn += 1
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
@@ -1452,7 +1470,7 @@ async def dungeons(ctx, *input):
                     emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
                     if atk_gauge == 5: emojis.append(Icons["supercharge"])
                     if def_gauge == 5: emojis.append(Icons["evade"])
-                    if not Party is None: emojis.append("🔀")
+                    if not Party is None and (not player_1_killed and not player_2_killed): emojis.append("🔀")
                     emojis.append(Icons["exit"])
                     if Party is None:
                         reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -1570,8 +1588,8 @@ async def dungeons(ctx, *input):
                     if Party is None:
                         await reward(ctx, ctx.author.mention, "ryou", math.floor(ryou_amount / 2))
                     else:
-                        await reward(ctx, Party["Player_1"]["Member"].mention, "ryou", math.floor(ryou_amount / 4))
-                        await reward(ctx, Party["Player_2"]["Member"].mention, "ryou", math.floor(ryou_amount / 4))
+                        if Party["Player_1"]["Alive"]: await reward(ctx, Party["Player_1"]["Member"].mention, "ryou", math.floor(ryou_amount / (4 if Party["Player_2"]["Alive"] else 2)))
+                        if Party["Player_2"]["Alive"]: await reward(ctx, Party["Player_2"]["Member"].mention, "ryou", math.floor(ryou_amount / (4 if Party["Player_1"]["Alive"] else 2)))
                     dg.Cache.pool += math.floor(ryou_amount / 2)
                 exp_row = ExpTable[dg.level - 1][1]
                 exp_amount = round((random.uniform(10, 20) * dg.level) + ((exp_row / 3000) * dg.multiplier))
@@ -1579,10 +1597,10 @@ async def dungeons(ctx, *input):
                     exp_reward = addPlayerExp(user_id, exp_amount)
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_reward)} EXP!)")
                 else:
-                    exp_reward_1 = addPlayerExp(Party["Player_1"]["ID"], math.floor(exp_amount / 2))
-                    exp_reward_2 = addPlayerExp(Party["Player_2"]["ID"], math.floor(exp_amount / 2))
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_reward_1)} EXP!)")
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_reward_2)} EXP!)")
+                    if Party["Player_1"]["Alive"]: exp_reward_1 = addPlayerExp(Party["Player_1"]["ID"], math.floor(exp_amount / (2 if Party["Player_2"]["Alive"] else 1)))
+                    if Party["Player_2"]["Alive"]: exp_reward_2 = addPlayerExp(Party["Player_2"]["ID"], math.floor(exp_amount / (2 if Party["Player_1"]["Alive"] else 1)))
+                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_reward_1)} EXP!)")
+                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_reward_2)} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
@@ -1638,14 +1656,14 @@ async def dungeons(ctx, *input):
                         if Party is None:
                             addPlayerRyou(user_id, value)
                         else:
-                            addPlayerRyou(Party["Player_1"]["ID"], math.floor(value / 2))
-                            addPlayerRyou(Party["Player_2"]["ID"], math.floor(value / 2))
+                            if Party["Player_1"]["Alive"]: addPlayerRyou(Party["Player_1"]["ID"], math.floor(value / (2 if Party["Player_2"]["Alive"] else 1)))
+                            if Party["Player_2"]["Alive"]: addPlayerRyou(Party["Player_2"]["ID"], math.floor(value / (2 if Party["Player_1"]["Alive"] else 1)))
                     case "EXP":
                         if Party is None:
                             addPlayerExp(user_id, value)
                         else:
-                            addPlayerExp(Party["Player_1"]["ID"], math.floor(value / 2))
-                            addPlayerExp(Party["Player_2"]["ID"], math.floor(value / 2))
+                            if Party["Player_1"]["Alive"]: addPlayerExp(Party["Player_1"]["ID"], math.floor(value / (2 if Party["Player_2"]["Alive"] else 1)))
+                            if Party["Player_2"]["Alive"]: addPlayerExp(Party["Player_2"]["ID"], math.floor(value / (2 if Party["Player_1"]["Alive"] else 1)))
                     case "Gacha Fragment" | "Gacha Fragments":
                         if Party is None:
                             fragments = GachaDB.query("SELECT gacha_fragments FROM userdata WHERE user_id = {}".format(user_id))[0][0]
@@ -1707,7 +1725,7 @@ async def dungeons(ctx, *input):
                         await message.clear_reactions()
                         loot = await formatLoot(chest)
                         if not Party is None:
-                            random_user = random.choice([Party["Player_1"]["ID"], Party["Player_2"]["ID"]])
+                            random_user = random.choice([Party["Player_1"]["ID"], Party["Player_2"]["ID"]]) if Party["Player_1"]["Alive"] and Party["Player_2"]["Alive"] else Party[f"Player_{Party['Current']}"]["ID"]
                             for key, value in chest.items():
                                 if key != "Ryou" and key != "EXP":
                                     await ctx.send(f"Randomly chose <@{random_user}> to receive: **{value} {key}**")
@@ -1921,6 +1939,24 @@ async def dungeons(ctx, *input):
             boss_state, player_state = updateAgents()
             boss_killed = False if dg.Boss.HP > 0 else True
             player_killed = False if dg.Player.HP > 0 else True
+            if not Party is None:
+                player_1_killed = False if dg.Player1.HP > 0 else True
+                player_2_killed = False if dg.Player2.HP > 0 else True
+                if player_killed:
+                    if not player_1_killed or not player_2_killed:
+                        player_killed = False
+                        if player_1_killed and Party["Player_1"]["Alive"]:
+                            dg.Player = dg.Player2
+                            Party.update({"Current": 2})
+                            Party.update({"Player_1": {"Alive": False}})
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has slain {Party['Player_1']['Name']}")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                        elif player_2_killed and Party["Player_2"]["Alive"]:
+                            dg.Player = dg.Player1
+                            Party.update({"Current": 1})
+                            Party.update({"Player_2": {"Alive": False}})
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{dg.Boss.name} has slain {Party['Player_2']['Name']}")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
             if not boss_killed and not player_killed:
                 turn += 1
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Turn: #{turn}")
@@ -1931,11 +1967,11 @@ async def dungeons(ctx, *input):
                     dg.Player.DEF = base_player_def
                 else:
                     if Party["Current"] == 1:
-                        e.set_author(name = Party[f"Player_1"]["Name"], icon_url = Party[f"Player_1"]["Member"].display_avatar)
+                        e.set_author(name = Party["Player_1"]["Name"], icon_url = Party["Player_1"]["Member"].display_avatar)
                         dg.Player.ATK = base_player_1_atk
                         dg.Player.DEF = base_player_1_def
                     else:
-                        e.set_author(name = Party[f"Player_2"]["Name"], icon_url = Party[f"Player_2"]["Member"].display_avatar)
+                        e.set_author(name = Party["Player_2"]["Name"], icon_url = Party["Player_2"]["Member"].display_avatar)
                         dg.Player.ATK = base_player_2_atk
                         dg.Player.DEF = base_player_2_def
                 is_charging = True if random.random() < 0.25 else False
@@ -1952,7 +1988,7 @@ async def dungeons(ctx, *input):
                     emojis = [Icons["attack"], Icons["defend"], Icons["riceball"]]
                     if atk_gauge == 5: emojis.append(Icons["supercharge"])
                     if def_gauge == 5: emojis.append(Icons["evade"])
-                    if not Party is None: emojis.append("🔀")
+                    if not Party is None and (not player_1_killed and not player_2_killed): emojis.append("🔀")
                     emojis.append(Icons["exit"])
                     if Party is None:
                         reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -2088,8 +2124,8 @@ async def dungeons(ctx, *input):
                 if Party is None:
                     exp_amount = addPlayerExp(user_id, exp_amount)
                 else:
-                    exp_amount_1 = addPlayerExp(Party['Player_1']['ID'], math.floor(exp_amount / 2))
-                    exp_amount_2 = addPlayerExp(Party['Player_2']['ID'], math.floor(exp_amount / 2))
+                    if Party["Player_1"]["Alive"]: exp_amount_1 = addPlayerExp(Party['Player_1']['ID'], math.floor(exp_amount / (2 if Party["Player_2"]["Alive"] else 1)))
+                    if Party["Player_2"]["Alive"]: exp_amount_2 = addPlayerExp(Party['Player_2']['ID'], math.floor(exp_amount / (2 if Party["Player_1"]["Alive"] else 1)))
                 boost = getUserBoost(ctx)
                 if boost > 0:
                     ryou_amount = ryou_amount + math.floor(ryou_amount * (boost / 100.))
@@ -2097,8 +2133,8 @@ async def dungeons(ctx, *input):
                     ryou_amount = addPlayerRyou(user_id, ryou_amount)
                     clear_rewards.update({"ryou": ryou_amount, "exp": exp_amount})
                 else:
-                    ryou_amount_1 = addPlayerRyou(Party['Player_1']['ID'], math.floor(ryou_amount / 2))
-                    ryou_amount_2 = addPlayerRyou(Party['Player_2']['ID'], math.floor(ryou_amount / 2))
+                    if Party["Player_1"]["Alive"]: ryou_amount_1 = addPlayerRyou(Party['Player_1']['ID'], math.floor(ryou_amount / (2 if Party["Player_2"]["Alive"] else 1)))
+                    if Party["Player_2"]["Alive"]: ryou_amount_2 = addPlayerRyou(Party['Player_2']['ID'], math.floor(ryou_amount / (2 if Party["Player_1"]["Alive"] else 1)))
                     clear_rewards.update({"ryou": ryou_amount_1 + ryou_amount_2, "exp": exp_amount_1 + exp_amount_2})
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You have defeated {dg.Boss.name}!")
                 if "Weapons" in dg.rewards:
@@ -2116,14 +2152,14 @@ async def dungeons(ctx, *input):
                         for weapon, rate in dg.rewards["Weapons"].items():
                             random_number_1 = random.uniform(0, 100)
                             random_number_2 = random.uniform(0, 100)
-                            if random_number_1 <= rate * dg.multiplier:
+                            if random_number_1 <= rate * dg.multiplier and Party["Player_1"]["Alive"]:
                                 weapons_inv = getPlayerWeaponsInv(Party['Player_1']['ID'])
                                 weapons_list = weapons_inv.split(", ")
                                 if not weapon in weapons_list:
                                     givePlayerWeapon(Party['Player_1']['ID'], weapon)
                                 dg.Cache.weapon_rewards.append(weapon)
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{Party['Player_1']['Name']} found '{weapon}'")
-                            elif random_number_2 <= rate * dg.multiplier:
+                            elif random_number_2 <= rate * dg.multiplier and Party["Player_2"]["Alive"]:
                                 weapons_inv = getPlayerWeaponsInv(Party['Player_2']['ID'])
                                 weapons_list = weapons_inv.split(", ")
                                 if not weapon in weapons_list:
@@ -2145,14 +2181,14 @@ async def dungeons(ctx, *input):
                         for magatama, rate in dg.rewards["Magatamas"].items():
                             random_number_1 = random.uniform(0, 100)
                             random_number_2 = random.uniform(0, 100)
-                            if random_number_1 <= rate * dg.multiplier:
+                            if random_number_1 <= rate * dg.multiplier and Party["Player_1"]["Alive"]:
                                 magatamas_inv = getPlayerMagatamasInv(Party['Player_1']['ID'])
                                 magatamas_list = magatamas_inv.split(", ")
                                 if not magatama in magatamas_list:
                                     givePlayerMagatama(Party['Player_1']['ID'], magatama)
                                 dg.Cache.magatama_rewards.append(magatama)
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{Party['Player_1']['Name']} found '{magatama}'")
-                            elif random_number_2 <= rate * dg.multiplier:
+                            elif random_number_2 <= rate * dg.multiplier and Party["Player_2"]["Alive"]:
                                 magatamas_inv = getPlayerMagatamasInv(Party['Player_2']['ID'])
                                 magatamas_list = magatamas_inv.split(", ")
                                 if not magatama in magatamas_list:
@@ -2162,8 +2198,8 @@ async def dungeons(ctx, *input):
                 if Party is None:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(ryou_amount)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(ryou_amount_1)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(ryou_amount_2)} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
+                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(ryou_amount_1 * (1 if Party['Player_2']['Alive'] else 2))} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
+                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(ryou_amount_2 * (1 if Party['Player_1']['Alive'] else 2))} Ryou!{' ─ +' + str(boost) + '%' if boost > 0 else ''})")
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
                         whitelist = getUserWhitelist(dg.founder)
@@ -2185,23 +2221,23 @@ async def dungeons(ctx, *input):
                             pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool - dg.Cache.tax)
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
                         else:
-                            pooled_ryou = addPlayerRyou(Party['Player_1']['ID'], math.floor(dg.Cache.pool / 2) - dg.Cache.tax)
-                            pooled_ryou = addPlayerRyou(Party['Player_2']['ID'], math.floor(dg.Cache.pool / 2) - dg.Cache.tax)
+                            if Party["Player_1"]["Alive"]: pooled_ryou = addPlayerRyou(Party['Player_1']['ID'], math.floor(dg.Cache.pool / (2 if Party["Player_2"]["Alive"] else 1)) - dg.Cache.tax)
+                            if Party["Player_2"]["Alive"]: pooled_ryou = addPlayerRyou(Party['Player_2']['ID'], math.floor(dg.Cache.pool / (2 if Party["Player_1"]["Alive"] else 1)) - dg.Cache.tax)
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool each)")
                     else:
                         if Party is None:
                             pooled_ryou = addPlayerRyou(user_id, dg.Cache.pool)
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool)")
                         else:
-                            pooled_ryou = addPlayerRyou(Party['Player_1']['ID'], math.floor(dg.Cache.pool / 2))
-                            pooled_ryou = addPlayerRyou(Party['Player_2']['ID'], math.floor(dg.Cache.pool / 2))
+                            if Party["Player_1"]["Alive"]: pooled_ryou = addPlayerRyou(Party['Player_1']['ID'], math.floor(dg.Cache.pool / (2 if Party["Player_2"]["Alive"] else 1)))
+                            if Party["Player_2"]["Alive"]: pooled_ryou = addPlayerRyou(Party['Player_2']['ID'], math.floor(dg.Cache.pool / (2 if Party["Player_1"]["Alive"] else 1)))
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool each)")
 
                 if Party is None:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_amount)} EXP!)")
                 else:
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_1)} EXP!)")
-                    message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_amount_2)} EXP!)")
+                    if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_1 * (1 if Party['Player_2']['Alive'] else 2))} EXP!)")
+                    if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_amount_2 * (1 if Party['Player_1']['Alive'] else 2))} EXP!)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
                 break
@@ -2498,7 +2534,11 @@ async def dungeons(ctx, *input):
                         await verify.clear_reactions()
                         e.set_field_at(0, name = "Verify party invite:", value = "✅ Accepted!")
                         await verify.edit(embed = e)
-                        Party = {"Player_1": {"ID": user_id, "Name": user_name, "Member": user_1}, "Player_2": {"ID": user_2_id, "Name": user_2_name, "Member": user_2}, "Curernt": 0}
+                        Party = {
+                            "Player_1": {"ID": user_id, "Name": user_name, "Member": user_1, "Alive": True}, \
+                            "Player_2": {"ID": user_2_id, "Name": user_2_name, "Member": user_2, "Alive": True}, \
+                            "Current": 0
+                        }
                     case "❌":
                         await verify.clear_reactions()
                         e.set_field_at(0, name = "Verify party invite:", value = "❌ Denied!")
