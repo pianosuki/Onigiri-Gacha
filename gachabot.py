@@ -1350,7 +1350,7 @@ async def dungeons(ctx, *input):
             if not is_evading:
                 if is_critical:
                     for magatama in dg.Player.magatamas:
-                        if "Critical Immunity" in Magatamas[magatama]["Effects"]:
+                        if magatama != "" and "Critical Immunity" in Magatamas[magatama]["Effects"]:
                             if not is_charging:
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} damage from {dg.Yokai.name}!")
                             else:
@@ -1950,7 +1950,7 @@ async def dungeons(ctx, *input):
             if not is_evading:
                 if is_critical:
                     for magatama in dg.Player.magatamas:
-                        if "Critical Immunity" in Magatamas[magatama]["Effects"]:
+                        if magatama != "" and "Critical Immunity" in Magatamas[magatama]["Effects"]:
                             if not is_charging:
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} damage from {dg.Boss.name}!")
                             else:
