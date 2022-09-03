@@ -126,7 +126,8 @@ custom_emojis   = {
     "statsreset": "<:statsreset:1010726645885308928>",
     "supercharge": "<:supercharge:1011404535505371146>",
     "evade": "<:evade:1011404551565365308>",
-    "magatama": "<:magatama:1012803114761465916>"
+    "magatama": "<:magatama:1012803114761465916>",
+    "heal": "<:heal:1015310715323686973>"
 }
 mode_emojis     = {
     "normal": "<:normal:1007526343501688862>",
@@ -143,7 +144,10 @@ element_emojis  = {
     "Wind": "<:wind:1007710345961418772>",
     "Holy": "<:holy:1007710333252665345>",
     "Dark": "<:dark:1007710321571541052>",
-    "Poison": "<:poison:1012765124135747645>"
+    "Poison": "<:poison:1012765124135747645>",
+    "Slice": "<:slice:1015126758082740285>",
+    "Pierce": "<:pierce:1015126787119923270>",
+    "Impact": "<:impact:1015126772280471615>"
 }
 nigiri_emojis   = {
     "riceball": "<:riceball:1010803854838861856>",
@@ -214,3 +218,21 @@ role_boosts = {
     "(First 500)": 7,
     "Aotu-Booster": 20
 }
+
+# Tips
+tip_rate = 10
+tips = [
+    "❓ ┃ **Did you know?** You can use seeds for unique dungeon generation just like how minecraft works!\n- Try adding `-seed <TEXT_HERE>` to the end of your `=dungeon` command.",
+    "❓ ┃ **Did you know?** You can play Co-Op in dungeons with a friend!\n- Try adding `-party <@USER>` to the end of your `=dungeon` command.",
+    "❓ ┃ **Did you know?** You can view the fastest clear time records in any dungeon!\n- Try `=records <DUNGEON_NAME>` to check them out.",
+    "❓ ┃ **Did you know?** You can equip Weapons and Magatamas to make your character stronger!\n- Try `=equip` to get started.",
+    "❓ ┃ **Did you know?** You can upgrade your stats to make your character stronger!\n- Try `=stats` to get started.",
+    "❓ ┃ **Did you know?** You can view how many times the seeds you discover have been used!\n- Try `=seeds` or `=seeds global` to get see.",
+    "❓ ┃ **Did you know?** You can decide how much to tax someone for using your seed!\n- Try `=whitelist <@USER> <DISCOUNT_INTEGER>` to set how much/little they pay you.\n- From __0 - 100__: where **0 = 50% tax** and **100 = 0% tax**",
+    "❓ ┃ **Did you know?** Your energy restores by 1 every 6 minues, but you can fully restore it by using **Energy Restores**!\n- Try `=restore` to get started.\n- You can obtain **Energy Restores** from the `=market` or from the **Gacha**.",
+    "❓ ┃ **Did you know?** All dungeons have a rare chance to drop Weapons and Magatamas when you clear them!\n- Try clicking 🎁 after you select a dungeon difficulty to see its drop pools.",
+    "❓ ┃ **Did you know?** You can heal yourself in combat by eating **Nigiri**!\n- Try clicking <:riceball:1010803854838861856> while in combat to eat one.\n- You can obtain **Nigiri** from the `=market` or from the **Gacha**.",
+    "❓ ┃ **Did you know?** You can heal your party member in combat if you have a **Staff** equipped!\n- Try clicking <:heal:1015310715323686973> while in a party to heal your teammate.",
+    "❓ ┃ **Did you know?** You have 2 special Ougi skills you can activate in combat after filling up a 5-turn gauge!\n- Try clicking <:supercharge:1011404535505371146> after filling your **ATK gauge** to unleash a super powerful attack.\n- Try clicking <:evade:1011404551565365308> after filling your **DEF gauge** to guarantee dodging the enemy's attack.",
+    "❓ ┃ **Did you know?** You can craft **Gacha Tickets** from collecting 4 **Gacha Fragments**!\n- Try `=craft` to get started."
+]

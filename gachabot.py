@@ -109,6 +109,16 @@ async def on_ready():
 #             await ctx.add_reaction(Icons["ryou"])
 #     await bot.process_commands(ctx)
 
+@bot.event
+async def on_message(ctx):
+    if ctx.author.bot:
+        return
+    if ctx.channel.id in config.channels["dungeons"]:
+        if random.random() <= config.tip_rate / 100.:
+            tip = random.choice(config.tips)
+            await ctx.send(tip)
+    await bot.process_commands(ctx)
+
 ### Functions
 def checkChannel(ctx):
     command = str(ctx.command)
