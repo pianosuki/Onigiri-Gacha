@@ -4876,7 +4876,7 @@ async def leaderboard(ctx):
     marketdata = MarketDB.query("SELECT * from userdata")
     marketdata.sort(key=sortSecond, reverse=True)
 
-    e = discord.Embed(title = f"Top eight {Icons['ryou']} ballers", description = f"Leader: <@{marketdata[0][0]}>", color = default_color)
+    e = discord.Embed(title = f"Top eight {Icons['ryou']} ballers", description = f"Leader: {'<@'+str(marketdata[0][0])+'>' if marketdata else 'None'}", color = default_color)
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
     for index, account in enumerate(marketdata):
         if index == 8:
