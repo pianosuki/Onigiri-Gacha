@@ -37,15 +37,15 @@ consumables                 = {
 }
 
 # RNG
-weights         = {"tier_1": [25, 25, 20, 15, 10, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
-                   "tier_2": [25, 25, 20, 15, 10, 5],
-                   "tier_3": [25, 25, 20, 15, 10, 5],
-                   "tier_4": [25, 25, 20, 15, 10, 5]}
+weights         = {"tier_1": [30, 23, 17, 13, 12, 5], # Probability % out of 100 for each capsule respectively. (Must add up to 100 total!)
+                   "tier_2": [30, 23, 17, 13, 12, 5],
+                   "tier_3": [30, 23, 17, 13, 12, 5],
+                   "tier_4": [30, 23, 17, 13, 12, 5]}
 weight_mods     = [0] # Applied respectively according to how many times prize has been rolled. 0 rolled = weight_mods[0], 1 rolled = weight_mods[1], etc.
-encouragement   = {"tier_1": [32, 25, 18, 12, 8, 5],
-                   "tier_2": [32, 25, 18, 12, 8, 5],
-                   "tier_3": [32, 25, 18, 12, 8, 5],
-                   "tier_4": [32, 25, 18, 12, 8, 5]}
+encouragement   = {"tier_1": [30, 23, 17, 13, 12, 5],
+                   "tier_2": [30, 23, 17, 13, 12, 5],
+                   "tier_3": [30, 23, 17, 13, 12, 5],
+                   "tier_4": [30, 23, 17, 13, 12, 5]}
 
 # Server
 ip              = "137.220.33.63"

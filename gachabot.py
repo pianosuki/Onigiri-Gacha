@@ -3453,6 +3453,96 @@ async def roll(ctx, skip=None):
                             choosing = False
                         else:
                             continue
+                case x if x == "1 Random White Weapon":
+                    weapons_inv = getPlayerWeaponsInv(user_id)
+                    weapons_list = weapons_inv.split(", ")
+                    weapons = list(Weapons.keys())
+                    choosing = True
+                    while choosing:
+                        choice = random.choice(weapons)
+                        if not choice in weapons_list and Weapons[choice]["Rarity"] == "White":
+                            givePlayerWeapon(user_id, choice)
+                            weapon_string = f"{Icons[Weapons[choice]['Type'].lower().replace(' ', '_')]} **{choice}** {Icons['rarity_' + Weapons[choice]['Rarity'].lower()]}"
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with {weapon_string}!")
+                            choosing = False
+                        else:
+                            continue
+                case x if x == "1 Random Blue Weapon":
+                    weapons_inv = getPlayerWeaponsInv(user_id)
+                    weapons_list = weapons_inv.split(", ")
+                    weapons = list(Weapons.keys())
+                    choosing = True
+                    while choosing:
+                        choice = random.choice(weapons)
+                        if not choice in weapons_list and Weapons[choice]["Rarity"] == "Blue":
+                            givePlayerWeapon(user_id, choice)
+                            weapon_string = f"{Icons[Weapons[choice]['Type'].lower().replace(' ', '_')]} **{choice}** {Icons['rarity_' + Weapons[choice]['Rarity'].lower()]}"
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with {weapon_string}!")
+                            choosing = False
+                        else:
+                            continue
+                case x if x == "1 Random Red Weapon":
+                    weapons_inv = getPlayerWeaponsInv(user_id)
+                    weapons_list = weapons_inv.split(", ")
+                    weapons = list(Weapons.keys())
+                    choosing = True
+                    while choosing:
+                        choice = random.choice(weapons)
+                        if not choice in weapons_list and Weapons[choice]["Rarity"] == "Red":
+                            givePlayerWeapon(user_id, choice)
+                            weapon_string = f"{Icons[Weapons[choice]['Type'].lower().replace(' ', '_')]} **{choice}** {Icons['rarity_' + Weapons[choice]['Rarity'].lower()]}"
+                            await ctx.send(f"🎉 Rewarded {ctx.author.mention} with {weapon_string}!")
+                            choosing = False
+                        else:
+                            continue
+                case x if x == "Crab Nigiri":
+                    product = "Crab Nigiri"
+                    amount = int(x.rstrip(" Crab Nigiri"))
+                    if await updateStock(ctx, product):
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        if item_quantity == None:
+                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, amount))
+                        else:
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
+                    else:
+                        continue
+                case x if x == "Lobster Nigiri":
+                    product = "Lobster Nigiri"
+                    amount = int(x.rstrip(" Lobster Nigiri"))
+                    if await updateStock(ctx, product):
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        if item_quantity == None:
+                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, amount))
+                        else:
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
+                    else:
+                        continue
+                case x if x == "Shachihoko Nigiri":
+                    product = "Shachihoko Nigiri"
+                    amount = int(x.rstrip(" Shachihoko Nigiri"))
+                    if await updateStock(ctx, product):
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        if item_quantity == None:
+                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, amount))
+                        else:
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
+                    else:
+                        continue
+                case x if x == "Shenlong Nigiri":
+                    product = "Shenlong Nigiri"
+                    amount = int(x.rstrip(" Shenlong Nigiri"))
+                    if await updateStock(ctx, product):
+                        item_quantity = getUserItemQuantity(user_id, product)
+                        if item_quantity == None:
+                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, amount))
+                        else:
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
+                        await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
+                    else:
+                        continue
                 case x if x == grand_prize_string:
                     role_id = config.gacha_mod_role
                     if await updateStock(ctx, sub_prize):

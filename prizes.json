@@ -1,69 +1,69 @@
 {
-  "tier_1":
-  {
-    "name": "Tier 1",
-    "symbol": "🥉",
-    "tickets_required": 1,
-    "regulated": false,
-    "prizes":
+    "tier_1":
     {
-      "blue": ["100 EXP"],
-      "green": ["200 EXP", "1 Gacha Fragment"],
-      "red": ["300 EXP", "2 Gacha Fragments"],
-      "silver": ["100000 Ryou", "3 Gacha Fragments"],
-      "gold": ["WL", "1 Gacha Ticket"],
-      "platinum": ["1 Energy Restores"]
-    }
-  },
+        "name": "Tier 1",
+        "symbol": "🥉",
+        "tickets_required": 1,
+        "regulated": false,
+        "prizes":
+        {
+            "blue": ["10000 Ryou", "200 EXP", "1 Gacha Fragments"],
+            "green": ["20000 Ryou", "500 EXP", "2 Gacha Fragments"],
+            "red": ["30000 Ryou", "1000 EXP", "3 Gacha Fragments"],
+            "silver": ["WL", "1 Stats Reset"],
+            "gold": ["10 Crab Nigiri", "1 Energy Restores"],
+            "platinum": ["1 Random White Weapon"]
+        }
+    },
 
-  "tier_2":
-  {
-    "name": "Tier 2",
-    "symbol": "🥈",
-    "tickets_required": 3,
-    "regulated": false,
-    "prizes":
+    "tier_2":
     {
-      "blue": ["200 EXP"],
-      "green": ["300 EXP", "2 Gacha Fragments"],
-      "red": ["500 EXP", "3 Gacha Fragments"],
-      "silver": ["200000 Ryou", "1 Gacha Tickets"],
-      "gold": ["WL", "2 Gacha Tickets"],
-      "platinum": ["2 Energy Restores"]
-    }
-  },
+        "name": "Tier 2",
+        "symbol": "🥈",
+        "tickets_required": 3,
+        "regulated": false,
+        "prizes":
+        {
+            "blue": ["40000 Ryou", "2000 EXP", "4 Gacha Fragments"],
+            "green": ["60000 Ryou", "3000 EXP", "5 Gacha Fragments"],
+            "red": ["80000 Ryou", "4000 EXP", "6 Gacha Fragments"],
+            "silver": ["WL", "1 Stats Reset"],
+            "gold": ["10 Lobster Nigiri", "2 Energy Restores"],
+            "platinum": ["1 Random Blue Weapon"]
+        }
+    },
 
-  "tier_3":
-  {
-    "name": "Tier 3",
-    "symbol": "🥇",
-    "tickets_required": 5,
-    "regulated": false,
-    "prizes":
+    "tier_3":
     {
-      "blue": ["500 EXP"],
-      "green": ["750 EXP", "1 Gacha Tickets"],
-      "red": ["1000 EXP", "2 Gacha Tickets"],
-      "silver": ["300000 Ryou", "3 Gacha Tickets"],
-      "gold": ["OG", "4 Gacha Tickets"],
-      "platinum": ["3 Energy Restores"]
-    }
-  },
+        "name": "Tier 3",
+        "symbol": "🥇",
+        "tickets_required": 5,
+        "regulated": false,
+        "prizes":
+        {
+            "blue": ["100000 Ryou", "5000 EXP", "8 Gacha Fragments"],
+            "green": ["200000 Ryou", "6000 EXP", "10 Gacha Fragments"],
+            "red": ["300000 Ryou", "7000 EXP", "12 Gacha Fragments"],
+            "silver": ["OG", "1 Stats Reset"],
+            "gold": ["10 Shachihoko Nigiri", "3 Energy Restores"],
+            "platinum": ["1 Random Red Weapon"]
+        }
+    },
 
-  "tier_4":
-  {
-    "name": "Tier 4",
-    "symbol": "🏅",
-    "tickets_required": 10,
-    "regulated": false,
-    "prizes":
+    "tier_4":
     {
-      "blue": ["1000 EXP"],
-      "green": ["1500 EXP", "2 Gacha Tickets"],
-      "red": ["2000 EXP", "4 Gacha Tickets"],
-      "silver": ["500000 Ryou", "6 Gacha Tickets"],
-      "gold": ["OG", "8 Gacha Tickets"],
-      "platinum": ["1 Random Magatama"]
+        "name": "Tier 4",
+        "symbol": "🏅",
+        "tickets_required": 10,
+        "regulated": false,
+        "prizes":
+        {
+            "blue": ["400000 Ryou", "8000 EXP", "14 Gacha Fragments"],
+            "green": ["500000 Ryou", "9000 EXP", "16 Gacha Fragments"],
+            "red": ["600000 Ryou", "10000 EXP", "18 Gacha Fragments"],
+            "silver": ["OG", "1 Stats Reset"],
+            "gold": ["10 Shenlong Nigiri", "4 Energy Restores"],
+            "platinum": ["1 Random Magatama"]
+        }
     }
-  }
 }
