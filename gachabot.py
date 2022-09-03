@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Aotuverse"
 bot_version = "1.9"
-debug_mode  = True
+debug_mode  = False
 
 import config, dresource
 from database import Database
