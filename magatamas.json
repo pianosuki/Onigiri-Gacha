@@ -1,0 +1,1626 @@
+{
+    "Kougasha Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Asougi Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 15,
+        "Chakra": 6,
+        "Defence": 4,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 12
+        }
+    },
+
+    "Nayuta Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 23,
+        "Chakra": 10,
+        "Defence": 7,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 18
+        }
+    },
+
+    "Araya Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 31,
+        "Chakra": 13,
+        "Defence": 9,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 25
+        }
+    },
+
+    "Amara Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 38,
+        "Chakra": 16,
+        "Defence": 11,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 30
+        }
+    },
+
+    "Kouha Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 46,
+        "Chakra": 19,
+        "Defence": 14,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 37
+        }
+    },
+
+    "Limitless Spin Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 54,
+        "Chakra": 22,
+        "Defence": 16,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 43
+        }
+    },
+
+    "Infinite Spin Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 62,
+        "Chakra": 26,
+        "Defence": 19,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 50
+        }
+    },
+
+    "Unstopped Spin Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 69,
+        "Chakra": 29,
+        "Defence": 21,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 55
+        }
+    },
+
+    "Yujyun Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 77,
+        "Chakra": 32,
+        "Defence": 23,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 62
+        }
+    },
+
+    "Fukasetsu Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 85,
+        "Chakra": 35,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 68
+        }
+    },
+
+    "Fukasetsu Fukasetsuten Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 92,
+        "Chakra": 38,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Ronin Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Sky Rending Magatama":
+    {
+        "Type": "Sword",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Fire": true, "Rain": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Sky Rending Magatama - Fused":
+    {
+        "Type": "Sword",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Fire": true, "Lightning": true, "Rain": false, "Mountain": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Sky Rending Magatama - Tempest":
+    {
+        "Type": "Sword",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Fire": true, "Lightning": true, "Rain": false, "Mountain": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Tesso Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Inari Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 17,
+        "Chakra": 7,
+        "Defence": 5,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 14
+        }
+    },
+
+    "Lion-Dog Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 25,
+        "Chakra": 10,
+        "Defence": 7,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 20
+        }
+    },
+
+    "Nekomata Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 33,
+        "Chakra": 13,
+        "Defence": 10,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 26
+        }
+    },
+
+    "Fuuri Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 42,
+        "Chakra": 17,
+        "Defence": 13,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 34
+        }
+    },
+
+    "Zhen Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 50,
+        "Chakra": 20,
+        "Defence": 15,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 40
+        }
+    },
+
+    "Shouko Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 58,
+        "Chakra": 23,
+        "Defence": 17,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 46
+        }
+    },
+
+    "Enku Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 67,
+        "Chakra": 27,
+        "Defence": 20,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 54
+        }
+    },
+
+    "Kirin Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 75,
+        "Chakra": 30,
+        "Defence": 22,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 60
+        }
+    },
+
+    "Tankaku Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 83,
+        "Chakra": 33,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 66
+        }
+    },
+
+    "Sakumei Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 92,
+        "Chakra": 37,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Hunter's Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Dancing Water Magatama":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Ice": true, "Fire": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Dancing Water Magatama - Fused":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Ice": true, "Rain": true, "Fire": false, "Lightning": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Dancing Water Magatama - Tempest":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Ice": true, "Rain": true, "Fire": false, "Lightning": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Tasogare Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Yoake Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 15,
+        "Chakra": 6,
+        "Defence": 4,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 12
+        }
+    },
+
+    "Sougyou Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 23,
+        "Chakra": 10,
+        "Defence": 7,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 18
+        }
+    },
+
+    "Akebono Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 31,
+        "Chakra": 13,
+        "Defence": 9,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 25
+        }
+    },
+
+    "Dusk Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 38,
+        "Chakra": 16,
+        "Defence": 11,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 30
+        }
+    },
+
+    "Shinonome Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 46,
+        "Chakra": 19,
+        "Defence": 14,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 37
+        }
+    },
+
+    "Fuugyou Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 54,
+        "Chakra": 22,
+        "Defence": 16,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 43
+        }
+    },
+
+    "Ariake Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 62,
+        "Chakra": 26,
+        "Defence": 19,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 50
+        }
+    },
+
+    "Reimei Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 69,
+        "Chakra": 29,
+        "Defence": 21,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 55
+        }
+    },
+
+    "Hakubo Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 77,
+        "Chakra": 32,
+        "Defence": 23,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 62
+        }
+    },
+
+    "Kawatare Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 85,
+        "Chakra": 35,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 68
+        }
+    },
+
+    "Akatsuki Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 92,
+        "Chakra": 38,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Heroic Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Wicked Wolf Magatama":
+    {
+        "Type": "Odachi",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Wind": true, "Ice": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Wicked Wolf Magatama - Fused":
+    {
+        "Type": "Odachi",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Wind": true, "Fire": true, "Ice": false, "Rain": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Wicked Wolf Magatama - Tempest":
+    {
+        "Type": "Odachi",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Wind": true, "Fire": true, "Ice": false, "Rain": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Mikan Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 9,
+        "Chakra": 4,
+        "Defence": 3,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 7
+        }
+    },
+
+    "Banana Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 18,
+        "Chakra": 7,
+        "Defence": 5,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 14
+        }
+    },
+
+    "Pineapple Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 27,
+        "Chakra": 11,
+        "Defence": 8,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 22
+        }
+    },
+
+    "Melon Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 36,
+        "Chakra": 14,
+        "Defence": 11,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 29
+        }
+    },
+
+    "Grape Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 45,
+        "Chakra": 18,
+        "Defence": 13,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 36
+        }
+    },
+
+    "Strawberry Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 55,
+        "Chakra": 22,
+        "Defence": 16,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 44
+        }
+    },
+
+    "Watermelon Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 64,
+        "Chakra": 26,
+        "Defence": 19,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 51
+        }
+    },
+
+    "Mango Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 73,
+        "Chakra": 29,
+        "Defence": 22,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 58
+        }
+    },
+
+    "Lemon Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 82,
+        "Chakra": 33,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 66
+        }
+    },
+
+    "Durian Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 91,
+        "Chakra": 36,
+        "Defence": 27,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 73
+        }
+    },
+
+    "Pressure Point Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Attack Star Magatama":
+    {
+        "Type": "Bow",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Rain": true, "Lightning": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Attack Star Magatama - Fused":
+    {
+        "Type": "Bow",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Rain": true, "Mountain": true, "Lightning": false, "Wind": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Attack Star Magatama - Tempest":
+    {
+        "Type": "Bow",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Rain": true, "Mountain": true, "Lightning": false, "Wind": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Bonnou Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Oumagatoki Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 15,
+        "Chakra": 6,
+        "Defence": 4,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 12
+        }
+    },
+
+    "Hangon Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 23,
+        "Chakra": 10,
+        "Defence": 7,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 18
+        }
+    },
+
+    "Gedatsu Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 31,
+        "Chakra": 13,
+        "Defence": 9,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 25
+        }
+    },
+
+    "Konron Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 38,
+        "Chakra": 16,
+        "Defence": 11,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 30
+        }
+    },
+
+    "Kakuryo Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 46,
+        "Chakra": 19,
+        "Defence": 14,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 37
+        }
+    },
+
+    "Houzen Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 54,
+        "Chakra": 22,
+        "Defence": 16,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 43
+        }
+    },
+
+    "Himorogi Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 62,
+        "Chakra": 26,
+        "Defence": 19,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 50
+        }
+    },
+
+    "Wadatsumi Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 69,
+        "Chakra": 29,
+        "Defence": 21,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 55
+        }
+    },
+
+    "Gokuraku Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 77,
+        "Chakra": 32,
+        "Defence": 23,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 62
+        }
+    },
+
+    "Nehan Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 85,
+        "Chakra": 35,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 68
+        }
+    },
+
+    "Rinne Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 92,
+        "Chakra": 38,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Bloody Festival Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Raretsu Magatama":
+    {
+        "Type": "Axe",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Mountain": true, "Wind": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Raretsu Magatama - Fused":
+    {
+        "Type": "Axe",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Mountain": true, "Ice": true, "Wind": false, "Fire": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Raretsu Magatama - Tempest":
+    {
+        "Type": "Axe",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Mountain": true, "Ice": true, "Wind": false, "Fire": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Aries Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Taurus Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 15,
+        "Chakra": 6,
+        "Defence": 4,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 12
+        }
+    },
+
+    "Gemini Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 23,
+        "Chakra": 10,
+        "Defence": 7,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 18
+        }
+    },
+
+    "Cancer Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 31,
+        "Chakra": 13,
+        "Defence": 9,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 25
+        }
+    },
+
+    "Leo Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 38,
+        "Chakra": 16,
+        "Defence": 11,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 30
+        }
+    },
+
+    "Virgo Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 46,
+        "Chakra": 19,
+        "Defence": 14,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 37
+        }
+    },
+
+    "Libra Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 54,
+        "Chakra": 22,
+        "Defence": 16,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 43
+        }
+    },
+
+    "Scorpio Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 62,
+        "Chakra": 26,
+        "Defence": 19,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 50
+        }
+    },
+
+    "Sagittarius Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 69,
+        "Chakra": 29,
+        "Defence": 21,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 55
+        }
+    },
+
+    "Capricorn Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 77,
+        "Chakra": 32,
+        "Defence": 23,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 62
+        }
+    },
+
+    "Aquarius Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 85,
+        "Chakra": 35,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 68
+        }
+    },
+
+    "Pisces Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 92,
+        "Chakra": 38,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Log Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Thunder Quake Magatama":
+    {
+        "Type": "Spear",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Lightning": true, "Mountain": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Thunder Quake Magatama - Fused":
+    {
+        "Type": "Spear",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Lightning": true, "Wind": true, "Mountain": false, "Ice": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Thunder Quake Magatama - Tempest":
+    {
+        "Type": "Spear",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Lightning": true, "Wind": true, "Mountain": false, "Ice": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Lord Shinkou Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 7,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Lord Shokou Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 14,
+        "Chakra": 6,
+        "Defence": 4,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 11
+        }
+    },
+
+    "Lord Soutei Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 21,
+        "Chakra": 8,
+        "Defence": 6,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 17
+        }
+    },
+
+    "Lord Gokan Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 29,
+        "Chakra": 12,
+        "Defence": 9,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 23
+        }
+    },
+
+    "Lord Enma Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 36,
+        "Chakra": 14,
+        "Defence": 11,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 29
+        }
+    },
+
+    "Lord Henjyo Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 43,
+        "Chakra": 17,
+        "Defence": 13,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 34
+        }
+    },
+
+    "Lord Taizan Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 50,
+        "Chakra": 20,
+        "Defence": 15,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 40
+        }
+    },
+
+    "Lord Byoudou Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 57,
+        "Chakra": 23,
+        "Defence": 17,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 46
+        }
+    },
+
+    "Lord Toshi Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 64,
+        "Chakra": 26,
+        "Defence": 19,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 51
+        }
+    },
+
+    "Lord Godoutenrin Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 71,
+        "Chakra": 28,
+        "Defence": 21,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 57
+        }
+    },
+
+    "Lord Renge Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 79,
+        "Chakra": 32,
+        "Defence": 24,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 63
+        }
+    },
+
+    "Lord Gion Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 86,
+        "Chakra": 34,
+        "Defence": 26,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 69
+        }
+    },
+
+    "Lord Houkai Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 93,
+        "Chakra": 37,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Magic Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Talon Breaker Magatama":
+    {
+        "Type": "Wand",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Dark": true, "Holy": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Talon Breaker Magatama - Fused":
+    {
+        "Type": "Wand",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Dark": true, "Fire": true, "Holy": false, "Rain": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Talon Breaker Magatama - Tempest":
+    {
+        "Type": "Wand",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Dark": true, "Fire": true, "Holy": false, "Rain": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    },
+
+    "Kousei Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 8,
+        "Chakra": 3,
+        "Defence": 2,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 6
+        }
+    },
+
+    "Sekisei Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 17,
+        "Chakra": 7,
+        "Defence": 5,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 14
+        }
+    },
+
+    "Kouryuu Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 25,
+        "Chakra": 10,
+        "Defence": 7,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 20
+        }
+    },
+
+    "Taiitsu Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 33,
+        "Chakra": 13,
+        "Defence": 10,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 26
+        }
+    },
+
+    "Gyokutei Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 42,
+        "Chakra": 17,
+        "Defence": 13,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 34
+        }
+    },
+
+    "Reihou Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 50,
+        "Chakra": 20,
+        "Defence": 15,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 40
+        }
+    },
+
+    "Doukou Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 58,
+        "Chakra": 23,
+        "Defence": 17,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 46
+        }
+    },
+
+    "Doutoku Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 67,
+        "Chakra": 27,
+        "Defence": 20,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 54
+        }
+    },
+
+    "Kuryuu Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 75,
+        "Chakra": 30,
+        "Defence": 22,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 60
+        }
+    },
+
+    "Kouhou Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 83,
+        "Chakra": 33,
+        "Defence": 25,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 66
+        }
+    },
+
+    "Fugen Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 92,
+        "Chakra": 37,
+        "Defence": 28,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 74
+        }
+    },
+
+    "Fake Staff Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 100,
+        "Chakra": 40,
+        "Defence": 30,
+        "Elements": null,
+        "Effects":
+        {
+            "Skill Force": 80
+        }
+    },
+
+    "Crucifix Magatama":
+    {
+        "Type": "Staff",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 31,
+        "Elements": {"Holy": true, "Dark": false},
+        "Effects":
+        {
+            "Skill Force": 100
+        }
+    },
+
+    "Crucifix Magatama - Fused":
+    {
+        "Type": "Staff",
+        "Level_Required": 117,
+        "Chakra": 47,
+        "Defence": 35,
+        "Elements": {"Holy": true, "Rain": true, "Dark": false, "Lightning": false},
+        "Effects":
+        {
+            "Skill Force": 120
+        }
+    },
+
+    "Crucifix Magatama - Tempest":
+    {
+        "Type": "Staff",
+        "Level_Required": 128,
+        "Chakra": 51,
+        "Defence": 38,
+        "Elements": {"Holy": true, "Rain": true, "Dark": false, "Lightning": false},
+        "Effects":
+        {
+            "Skill Force": 170
+        }
+    }
+}

@@ -1,0 +1,225 @@
+{
+    "A Little Warrior's Adventure":
+    {
+        "Level_Required": 1,
+        "NPC": "Minimusha",
+        "Dialogue":
+        [
+            "I am a pwoud Handamachii Mucha! Should I manage to defeat a Toudaiki,",
+            "I will be able to return to my owiginal form! I apowogise in advance,",
+            "but would you be sho kind as to bwing me to the Den of Karma?",
+            "If posshible could you alsho help me defeat the Oni? Pwease!"
+        ],
+        "Conditions":
+        [
+            {"Clear": ["Den of Karma", -1]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [10, 100],
+            "EXP": [10, 100]
+        }
+    },
+
+    "Challenging the Daiku Cave":
+    {
+        "Level_Required": 2,
+        "NPC": "Tetsumaru the Mighty",
+        "Dialogue":
+        [
+            "You headed to the Onigashima Training Grounds? Give it up,",
+            "if you go up there, you're just gonna get hurt.",
+            "I know, why don't you go to Daiku Cave instead?",
+            "Of course, I'm strong enough to challenge the Training Grounds instead.",
+            "At least, I'm pretty sure I am!"
+        ],
+        "Conditions":
+        [
+            {"Clear": ["Daiku Cave", -1]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [50, 150],
+            "EXP": [50, 150]
+        }
+    },
+
+    "For Dango's Sake":
+    {
+        "Level_Required": 3,
+        "NPC": "Manjyuu Store O-Aya",
+        "Dialogue":
+        [
+            "My red bean fields are being ravaged by Amagaeru!",
+            "They used to be so peaceful, too... You've got to help me!",
+            "Could you take down about 5 Amagaeru and teach them a lesson for me?"
+        ],
+        "Conditions":
+        [
+            {"Defeat": ["Amagaeru", 5]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [100, 200],
+            "EXP": [100, 200]
+        }
+    },
+
+    "Sushi Store Troubles":
+    {
+        "Level_Required": 4,
+        "NPC": "Sushi Worker",
+        "Dialogue":
+        [
+            "Those damn Kappa are trashing our fishing grounds,",
+            "it's getting real hard to get any quality ingredients in these days.",
+            "At this rate, I'm gonna go outta business.",
+            "Ahh! If only someone would take down 10 of those annoying Kappa!"
+        ],
+        "Conditions":
+        [
+            {"Defeat": ["Kappa", 10]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [150, 250],
+            "EXP": [150, 250]
+        }
+    },
+
+    "Sightseeing and Daruma Destruction":
+    {
+        "Level_Required": 5,
+        "NPC": "Dept. Store Worker",
+        "Dialogue":
+        [
+            "Lately the Daruma have been attacking people,",
+            "which is turning people away from visiting Onigashima.",
+            "If this continues, my business is going to crumble. I need a favor,",
+            "can you take down a few Gloom Daruma in Kikaigahara and knock 'em down a few pegs?"
+        ],
+        "Conditions":
+        [
+            {"Defeat": ["Gloom Daruma", 5]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [200, 300],
+            "EXP": [200, 300]
+        }
+    },
+
+    "The Village Handy ...man?":
+    {
+        "Level_Required": 10,
+        "NPC": "Yukine the Handywoman",
+        "Dialogue":
+        [
+            "Hey, I'm glad you're showing interest in my work!",
+            "Let me explain the jobs I've got lined up right now.",
+            "First up is investigating the Hoori shrine to ensure the village's safety.",
+            "After that, I need to defeat a few Kijimuna and Ittanmomen.",
+            "Last job I've got is to haul some stuff up to the former Ooyama household.",
+            "None of these are particularly difficult, you shouldn't have any trouble."
+        ],
+        "Conditions":
+        [
+            {"Defeat": ["Kijimuna", 3]},
+            {"Defeat": ["Ittanmomen", 3]},
+            {"Clear": ["Hoori Shrine", -1]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [1000, 1500],
+            "EXP": [1000, 1500]
+        }
+    },
+
+    "I'm bad with those things...":
+    {
+        "Level_Required": 11,
+        "NPC": "Isuzu the Warrior",
+        "Dialogue":
+        [
+            "Since you came up from Onigashima, you must have seen those things, right?",
+            "You know what I'm talking about, the Abura-sumashi! Ugh, their faces are just so creepy!",
+            "I can't stand to look at them...",
+            "Just thinking that I might run into them again makes it hard for me to leave the village.",
+            "Would you go defeat 10 Aburasumashi for me?",
+            "I'm sure they'll stay out of sight if you get rid of that many. P-please, do it for me!"
+        ],
+        "Conditions":
+        [
+            {"Defeat": ["Aburasumashi", 10]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [1500, 2000],
+            "EXP": [1500, 2000]
+        }
+    },
+
+    "1 Step Back, 2 Steps Forward":
+    {
+        "Level_Required": 12,
+        "NPC": "Darumaru the Diminutive",
+        "Dialogue":
+        [
+            "I'm tryin' to be a Sumo, but since I'm so small, I can't beat the bigger Daruma-koron...",
+            "Couldja show me how you fight bigger enemies, [player]-san?",
+            "I'd like to see how you fight the Gama in the southern part of the Oosumi Plains-koron!"
+        ],
+        "Conditions":
+        [
+            {"Defeat": ["Gama", 5]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [2000, 2500],
+            "EXP": [2000, 2500]
+        }
+    },
+
+    "Brotherly Bonds":
+    {
+        "Level_Required": 13,
+        "NPC": "Matashige the Eldest son",
+        "Dialogue":
+        [
+            "Our little bro got kidnapped by a Oni-basami in Hosuseri Shrine!",
+            "He's too important to us, I don't know what we'd do if anything happened to him!",
+            "Oni, I beg for your assistance in retreiving him!"
+        ],
+        "Conditions":
+        [
+            {"Clear": ["Hosuseri Shrine", -1]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [2500, 3000],
+            "EXP": [2500, 3000]
+        }
+    },
+
+    "Defeat the Oogama":
+    {
+        "Level_Required": 14,
+        "NPC": "Tadayoshi the Farmer",
+        "Dialogue":
+        [
+            "The frog leader around here is riling up all the frogs into making a mess of the village.",
+            "They've settled into the Hoderi Shrine, which is too close to the village for comfort.",
+            "We villager's have a hard enough time dealing with the Amagaeru as it is...",
+            "Please, you gotta do something about that Oogama!"
+        ],
+        "Conditions":
+        [
+            {"Clear": ["Hoderi Shrine", -1]}
+        ],
+        "Rewards":
+        {
+            "Ryou": [3000, 3500],
+            "EXP": [3000, 3500]
+        }
+    }
+}
