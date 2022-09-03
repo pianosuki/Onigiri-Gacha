@@ -3433,9 +3433,9 @@ async def roll(ctx, skip=None):
                     if await updateStock(ctx, product):
                         item_quantity = getUserItemQuantity(user_id, product)
                         if item_quantity == None:
-                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, 1))
+                            ItemsDB.execute("INSERT INTO {} (item, quantity) VALUES ('{}', {})".format(f"user_{user_id}", product, amount))
                         else:
-                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + 1, product))
+                            ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
                     else:
                         continue
