@@ -3983,6 +3983,9 @@ async def seeds(ctx, target = None):
                 formatted_string += "┃\n"
         return formatted_string
 
+    if not getTopSeeds(1):
+        await ctx.send("There are no seeds yet in the database!")
+        return
     e = discord.Embed(title = "Top ten most popular seeds", description = f"Viewing seeds founded by user: {target if not is_global else '**GLOBAL**'}", color = default_color)
     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
     e.add_field(name = "┏━━━━━━", value = formatTopFrequencies(getTopSeeds(10)), inline = True)
