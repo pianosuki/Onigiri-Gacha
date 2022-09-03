@@ -107,6 +107,10 @@ async def on_message(ctx):
             MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou + ryou_earned, user_id))
             ActivityDB.execute("UPDATE chat SET last_activity = ? WHERE user_id = ?", (now + chat_earn_wait, user_id))
             await ctx.add_reaction(Icons["ryou"])
+    if ctx.channel.id in config.channels["dungeons"]:
+        if random.random() <= config.tip_rate / 100.:
+            tip = random.choice(config.tips)
+            await ctx.send(tip)
     await bot.process_commands(ctx)
 
 ### Functions
