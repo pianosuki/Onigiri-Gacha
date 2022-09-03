@@ -1,5 +1,5 @@
 {
-    "1 Onigiri NFT":
+    "1 Aotuverse NFT":
     {
         "Price": 1000000000,
         "Type": "Consumable",
@@ -15,7 +15,7 @@
         }
     },
 
-    "Diamond-Oni":
+    "Diamond-Aotu":
     {
         "Price": 500000000,
         "Type": "Passive",
@@ -23,8 +23,8 @@
         "Attributes":
         [
             "+50% Exp & Ryou boost",
-            "Required for: '1 Onigiri NFT'",
-            "Requires: 'Gold-Oni'"
+            "Required for: '1 Aotuverse NFT'",
+            "Requires: 'Gold-Aotu'"
         ],
         "Requirements":
         {
@@ -32,7 +32,7 @@
         }
     },
 
-    "Gold-Oni":
+    "Gold-Aotu":
     {
         "Price": 100000000,
         "Type": "Passive",
@@ -40,8 +40,8 @@
         "Attributes":
         [
             "+30% Exp & Ryou boost",
-            "Required for: 'Diamond-Oni'",
-            "Requires: 'Silver-Oni'"
+            "Required for: 'Diamond-Aotu'",
+            "Requires: 'Silver-Aotu'"
         ],
         "Requirements":
         {
@@ -49,7 +49,7 @@
         }
     },
 
-    "Silver-Oni":
+    "Silver-Aotu":
     {
         "Price": 50000000,
         "Type": "Passive",
@@ -57,7 +57,7 @@
         "Attributes":
         [
             "+20% Exp & Ryou boost",
-            "Required for: 'Gold-Oni'"
+            "Required for: 'Gold-Aotu'"
         ],
         "Requirements":
         {
