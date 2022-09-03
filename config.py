@@ -182,7 +182,8 @@ magatama_emojis = {
     "magatama_sword": "<:magatama_sword:1013652395596726402>",
     "magatama_odachi": "<:magatama_odachi:1013652408603263067>",
     "magatama_spear": "<:magatama_spear:1013652422897451139>",
-    "magatama_critical": "<:magatama_critical:1015167646720872498>"
+    "magatama_critical": "<:magatama_critical:1015167646720872498>",
+    "magatama_omni": "<:magatama_omni:1015500213349273600>"
 }
 rarity_emojis   = {
     "rarity_white": "<:rarity_white:1012809065715474472>",

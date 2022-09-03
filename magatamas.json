@@ -1856,5 +1856,159 @@
         {
             "Critical": 50
         }
+    },
+
+    "Chiami Magatama x1":
+    {
+        "Type": "Omni",
+        "Level_Required": 15,
+        "Chakra": 6,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 10
+        },
+        "Comment": "Heals 10% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x2":
+    {
+        "Type": "Omni",
+        "Level_Required": 30,
+        "Chakra": 12,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 20
+        },
+        "Comment": "Heals 20% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x3":
+    {
+        "Type": "Omni",
+        "Level_Required": 45,
+        "Chakra": 18,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 30
+        },
+        "Comment": "Heals 30% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x4":
+    {
+        "Type": "Omni",
+        "Level_Required": 60,
+        "Chakra": 24,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 40
+        },
+        "Comment": "Heals 40% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x5":
+    {
+        "Type": "Omni",
+        "Level_Required": 75,
+        "Chakra": 30,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 50
+        },
+        "Comment": "Heals 50% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x6":
+    {
+        "Type": "Omni",
+        "Level_Required": 90,
+        "Chakra": 36,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 60
+        },
+        "Comment": "Heals 60% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x7":
+    {
+        "Type": "Omni",
+        "Level_Required": 105,
+        "Chakra": 42,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 70
+        },
+        "Comment": "Heals 70% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x8":
+    {
+        "Type": "Omni",
+        "Level_Required": 120,
+        "Chakra": 48,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 80
+        },
+        "Comment": "Heals 80% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x9":
+    {
+        "Type": "Omni",
+        "Level_Required": 135,
+        "Chakra": 54,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 90
+        },
+        "Comment": "Heals 90% of HP when a critical hit is dealt"
+    },
+
+    "Chiami Magatama x10":
+    {
+        "Type": "Omni",
+        "Level_Required": 150,
+        "Chakra": 60,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Heal": 100
+        },
+        "Comment": "Heals 100% of HP when a critical hit is dealt"
+    },
+
+    "Haidara Magatama":
+    {
+        "Type": "Omni",
+        "Level_Required": 50,
+        "Chakra": 20,
+        "Defence": 0,
+        "Elements": null,
+        "Effects":
+        {
+            "Critical Immunity": true
+        },
+        "Comment": "Immune to critical hits"
     }
 }

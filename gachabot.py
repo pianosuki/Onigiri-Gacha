@@ -1330,6 +1330,12 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} supercharged damage to {mob}!")
             if is_critical:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+                for magatama in dg.Player.magatamas:
+                    if magatama.startswith("Chiami Magatama"):
+                        max_hp = getPlayerHP(dg.Player.id)
+                        heal = round(max_hp * (Magatamas[magatama]["Effects"]["Heal"] / 100.))
+                        dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > max_hp else max_hp
+                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Healed {heal} HP)")
             return message
 
         async def playerDefend(message, e, console, turn, atk_gauge, def_gauge):
@@ -1342,6 +1348,15 @@ async def dungeons(ctx, *input):
             if is_charging and not is_defending:
                 damage *= 2
             if not is_evading:
+                if is_critical:
+                    for magatama in dg.Player.magatamas:
+                        if "Critical Immunity" in Magatamas[magatama]["Effects"]:
+                            if not is_charging:
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} damage from {dg.Yokai.name}!")
+                            else:
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Yokai.name}!")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Immune to critical hit)")
+                            return message
                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
                 if not is_charging:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} damage from {dg.Yokai.name}!")
@@ -1902,6 +1917,12 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Dealt {'{:,}'.format(damage)} supercharged damage to {dg.Boss.name}!")
             if is_critical:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(2x Critical!)")
+                for magatama in dg.Player.magatamas:
+                    if magatama.startswith("Chiami Magatama"):
+                        max_hp = getPlayerHP(dg.Player.id)
+                        heal = round(max_hp * (Magatamas[magatama]["Effects"]["Heal"] / 100.))
+                        dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > max_hp else max_hp
+                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Healed {heal} HP)")
             match effectiveness:
                 case 1:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Super effective!)")
@@ -1927,6 +1948,15 @@ async def dungeons(ctx, *input):
             if is_charging and not is_defending:
                 damage *= 2
             if not is_evading:
+                if is_critical:
+                    for magatama in dg.Player.magatamas:
+                        if "Critical Immunity" in Magatamas[magatama]["Effects"]:
+                            if not is_charging:
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} damage from {dg.Boss.name}!")
+                            else:
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Boss.name}!")
+                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Immune to critical hit)")
+                            return message
                 dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
                 if not is_charging:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} damage from {dg.Boss.name}!")
