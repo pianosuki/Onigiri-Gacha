@@ -800,7 +800,7 @@ async def dungeons(ctx, *input):
         banner = generateFileObject("Aotu-Dungeons", Graphics["Banners"]["Aotu-Dungeons"][0])
         e = discord.Embed(title = "⛩️  ─  Dungeon Listing  ─  ⛩️", description = f"Which dungeon will you be running today?\n**Your level:** {Icons['level']}**{level}**", color = 0x9575cd)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["King-1"][0])
 
         # unlocked_dungeons = []
         # for dungeon in Dungeons:
@@ -881,7 +881,7 @@ async def dungeons(ctx, *input):
                 e = discord.Embed(title = f"⛩️  ─  __{dungeon}__  ─  ⛩️", description = "Which difficulty will you enter this dungeon on?", color = 0x9575cd)
                 if not Party is None: e.description = f"Which difficulty will you enter this dungeon on?\n**Party: <@{Party['Player_1']['ID']}>, <@{Party['Player_2']['ID']}>**"
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+                e.set_thumbnail(url = Resource["King-1"][0])
                 e.add_field(name = "Level required", value = f"{Icons['level']}**{dungeon_level}**", inline = True)
                 if Party is None:
                     e.add_field(name = "Energy cost", value = f"{Icons['energy']}**{dungeon_energy[0]} - {dungeon_energy[3]}**", inline = True)
@@ -919,7 +919,6 @@ async def dungeons(ctx, *input):
             e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?", color = 0x9575cd)
             if not Party is None: e.description = f"Enter this dungeon on *__{mode_mapping[mode]}__* mode?\n**Party: <@{Party['Player_1']['ID']}>, <@{Party['Player_2']['ID']}>**"
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
             e.add_field(name = "Level required", value = f"{Icons['level']} **{dg.level}**", inline = True)
             if Party is None:
                 e.add_field(name = "Energy cost", value = f"{Icons['energy']} **{dg.energy}**", inline = True)
@@ -971,7 +970,6 @@ async def dungeons(ctx, *input):
                     await message.clear_reactions()
                     e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list for mode: __{dg.mode_name}__", color = 0x9575cd)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                    # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                     e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards, dg.multiplier), inline = True)
                     e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = formatMagatamaRewards(dg.rewards, dg.multiplier), inline = True)
 
@@ -2801,7 +2799,7 @@ async def tavern(ctx):
         banner = generateFileObject("Aotu-Tavern", Graphics["Banners"]["Aotu-Tavern"][0])
         e = discord.Embed(title = f"Welcome to the {branch_name} Tavern!", description = "What would you like to do today?", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+        e.set_thumbnail(url = Resource["King-1"][0])
         e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
         e.add_field(name = "▷ ⚖️  ──────  Trade  ───────  ⚖️ ◁", value = menu_separator, inline = False)
         e.add_field(name = "▷ 🛒 ─────── Buy ──────── 🛒 ◁", value = menu_separator, inline = False)
@@ -2842,7 +2840,7 @@ async def tavern(ctx):
             ryou        = inv_market.ryou
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *Ryou D-Coins* and *Gacha Tickets*!", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
             e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
@@ -2887,7 +2885,7 @@ async def tavern(ctx):
         if ryou >= conv_rate[0]:
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Ryou D-Coins* into *Gacha Tickets*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
             e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
             e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
@@ -2950,7 +2948,7 @@ async def tavern(ctx):
                     return message, flag
             e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Ryou D-Coins* into *Gacha Tickets*!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "Traded *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
             e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
             e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - ryou_traded)}`", inline = False)
@@ -2963,7 +2961,7 @@ async def tavern(ctx):
         else:
             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(conv_rate[0] - ryou)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
@@ -2979,7 +2977,7 @@ async def tavern(ctx):
         if tickets >= conv_rate[1]:
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Gacha Tickets* into *Ryou D-Coins*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
             e.add_field(name = "Bulk Ryou D-Coins yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * (conv_rate[0] / 10)))}`", inline = True)
@@ -3042,7 +3040,7 @@ async def tavern(ctx):
                     return message, flag
             e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Tickets* into *Ryou D-Coins*!", color = 0x4caf50)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "Traded *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
             e.add_field(name = "Obtained *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou_traded)}`", inline = True)
             e.add_field(name = "You now have this many *Gacha Tickets* left:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets - tickets_traded)}`", inline = False)
@@ -3055,7 +3053,7 @@ async def tavern(ctx):
         else:
             e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {Icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
@@ -3065,7 +3063,7 @@ async def tavern(ctx):
         products_length = len(Products)
         e = discord.Embed(title = f"Welcome to the {branch_name} Shop!", description = "Select a product to purchase:", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
+        e.set_thumbnail(url = Resource["King-1"][0])
         # Set offset to 0 (page 1) and begin bidirectional page system
         offset = 0
         while flag:
@@ -3138,7 +3136,7 @@ async def tavern(ctx):
         attributes = getProductAttributes(product)
         e = discord.Embed(title = f"Cart Checkout", description = f"Properties of product selected:", color = default_color)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+        e.set_thumbnail(url = Resource["King-1"][0])
         e.add_field(name = "Product name", value = f"🏷️ **{product}**", inline = True)
         e.add_field(name = "Price", value = f"{Icons['ryou']} x `{'{:,}'.format(Products[product]['Price'])}`", inline = True)
         e.add_field(name = "Current stock", value = f"🏦 `{stock}`", inline = True)
@@ -3196,7 +3194,7 @@ async def tavern(ctx):
                         MarketDB.execute("UPDATE userdata SET ryou = ? WHERE user_id = ?", (ryou - price, user_id))
                         e = discord.Embed(title = "Checkout Result", description = f"✅ Purchase was successful!", color = 0x4caf50)
                         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                        e.set_thumbnail(url = Resource["Kinka_Mei-4"][0])
+                        e.set_thumbnail(url = Resource["King-1"][0])
                         e.add_field(name = "Spent *Ryou D-Coins*:", value = f"{Icons['ryou']} x `{'{:,}'.format(price)}`", inline = True)
                         e.add_field(name = "Obtained *Item*:", value = f"🏷️ ***{product}***", inline = True)
                         e.add_field(name = "You now have this many *Ryou D-Coins* left:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou - price)}`", inline = False)
@@ -3206,25 +3204,25 @@ async def tavern(ctx):
                     else:
                         e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
                         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                        e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                        e.set_thumbnail(url = Resource["King-1"][0])
                         e.add_field(name = "This item is not stackable!", value =  "You already have one of this item.", inline = False)
                         await ctx.send(embed = e)
                 else:
                     e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                    e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                    e.set_thumbnail(url = Resource["King-1"][0])
                     e.add_field(name = "You have insufficient *Ryou D-Coins*.", value =  f"Need {Icons['ryou']} x `{'{:,}'.format(price - ryou)}` more!", inline = False)
                     await ctx.send(embed = e)
             else:
                 e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+                e.set_thumbnail(url = Resource["King-1"][0])
                 e.add_field(name = "You do not meet the product requirements.", value =  f"Check your {config.prefix}inv to compare your items to the requirements above.", inline = False)
                 await ctx.send(embed = e)
         else:
             e = discord.Embed(title = "Checkout Result", description = "❌ Purchase Failed!", color = 0xef5350)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.set_thumbnail(url = Resource["King-1"][0])
             e.add_field(name = "This product is out of stock!", value = "Sorry! Please come again~", inline = False)
             await ctx.send(embed = e)
         return message, flag
