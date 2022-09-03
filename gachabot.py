@@ -110,7 +110,7 @@ async def on_message(ctx):
     if ctx.channel.id in config.channels["dungeons"]:
         if random.random() <= config.tip_rate / 100.:
             tip = random.choice(config.tips)
-            await ctx.send(tip)
+            await ctx.channel.send(tip)
     await bot.process_commands(ctx)
 
 ### Functions
