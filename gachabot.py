@@ -2456,9 +2456,9 @@ async def dungeons(ctx, *input):
         damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
         variance = round(damage / 10)
         var_roll = random.randint(-variance, variance)
-        damage += var_roll
         damage += round(damage * (sf / 100.))
         damage *= 2 if is_critical else 1
+        damage += var_roll
         return damage, is_critical
 
     def healCalculator(healer, Party):
@@ -2466,12 +2466,12 @@ async def dungeons(ctx, *input):
         critical = getPlayerCriticalRate(Party[f"Player_{Party['Current']}"]["ID"])
         rate = critical / 100.
         is_critical = True if random.random() < rate else False
-        heal = healer.ATK * 2
+        heal = healer.atk + (healer.weapon_atk ** 2)
         variance = round(heal / 10)
         var_roll = random.randint(-variance, variance)
-        heal += var_roll
-        heal += round(heal * sf * (sf / 100.))
+        heal += round(heal * (sf / 100.))
         heal *= 2 if is_critical else 1
+        heal += var_roll
         return heal, is_critical
 
     def getDungeonEnergy(dungeon):
