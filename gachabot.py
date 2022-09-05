@@ -986,9 +986,15 @@ async def dungeons(ctx, *input):
                                 message, flag = await dungeonEntry(ctx, message, flag, dg, seed, Party)
                                 flag = False
                             else:
-                                await ctx.send(f"⚠️ **You don't have enough energy to enter this dungeon!** You need `{dg.energy - min(energy_1, energy_2)}` more.")
+                                if not energy_1 >= math.floor(dg.energy / 2):
+                                    await ctx.send(f"⚠️ {Party['Player_1']['Member'].mention} **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy_1}` more.")
+                                if not energy_2 >= math.floor(dg.energy / 2):
+                                    await ctx.send(f"⚠️ {Party['Player_2']['Member'].mention} **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy_2}` more.")
                         else:
-                            await ctx.send(f"⚠️ **You are not high enough level to access __{dungeon}__!** Need `{dg.level - min(dg.Player1.level, dg.Player2.level)}` more levels!")
+                            if not dg.Player1.level >= dg.level:
+                                await ctx.send(f"⚠️ {Party['Player_1']['Member'].mention} **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player1.level}` more levels!")
+                            if not dg.Player2.level >= dg.level:
+                                await ctx.send(f"⚠️ {Party['Player_2']['Member'].mention} **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player2.level}` more levels!")
                             flag = False
                 case "🎁":
                     await message.clear_reactions()
@@ -1232,14 +1238,20 @@ async def dungeons(ctx, *input):
                     if item_quantity - 1 == 0:
                         ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), product))
                     base_player_hp = getPlayerHP(user_id)
+                    heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
+                    dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
                 else:
                     item_quantity = getUserItemQuantity(Party[f"Player_{Party['Current']}"]["ID"], product)
                     ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(Party[f"Player_{Party['Current']}"]["ID"]), item_quantity - 1, product))
                     if item_quantity - 1 == 0:
                         ItemsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(Party[f"Player_{Party['Current']}"]["ID"]), product))
                     base_player_hp = getPlayerHP(Party[f"Player_{Party['Current']}"]["ID"])
-                heal_amount = heal if not dg.Player.HP + heal > base_player_hp else base_player_hp - dg.Player.HP
-                dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > base_player_hp else base_player_hp
+                    if Party["Current"] == 1:
+                        heal_amount = heal if not dg.Player1.HP + heal > base_player_hp else base_player_hp - dg.Player1.HP
+                        dg.Player1.HP = dg.Player1.HP + heal if not dg.Player1.HP + heal > base_player_hp else base_player_hp
+                    else:
+                        heal_amount = heal if not dg.Player2.HP + heal > base_player_hp else base_player_hp - dg.Player2.HP
+                        dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > base_player_hp else base_player_hp
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"You ate some tasty {product}!")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(healed for {'{:,}'.format(heal_amount)})")
                 result = True
@@ -1335,7 +1347,13 @@ async def dungeons(ctx, *input):
                     if magatama.startswith("Chiami Magatama"):
                         max_hp = getPlayerHP(dg.Player.id)
                         heal = round(max_hp * (Magatamas[magatama]["Effects"]["Heal"] / 100.))
-                        dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > max_hp else max_hp
+                        if Party is None:
+                            dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > max_hp else max_hp
+                        else:
+                            if Party["Current"] == 1:
+                                dg.Player1.HP = dg.Player1.HP + heal if not dg.Player1.HP + heal > max_hp else max_hp
+                            else:
+                                dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > max_hp else max_hp
                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Healed {heal} HP)")
             return message
 
@@ -1358,7 +1376,13 @@ async def dungeons(ctx, *input):
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Yokai.name}!")
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Immune to critical hit)")
                             return message
-                dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+                if Party is None:
+                    dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+                else:
+                    if Party["Current"] == 1:
+                        dg.Player1.HP = dg.Player1.HP - damage if not dg.Player1.HP - damage < 0 else 0
+                    else:
+                        dg.Player2.HP = dg.Player2.HP - damage if not dg.Player2.HP - damage < 0 else 0
                 if not is_charging:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} damage from {dg.Yokai.name}!")
                 else:
@@ -1381,7 +1405,7 @@ async def dungeons(ctx, *input):
 
         async def healPartyMember(message, e, console, turn, atk_gauge, def_gauge):
             heal, is_critical = healCalculator(dg.Player, Party)
-            if Party["Current"] == "1":
+            if Party["Current"] == 1:
                 dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > getPlayerHP(Party["Player_2"]["ID"]) else getPlayerHP(Party["Player_2"]["ID"])
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Healed {'{:,}'.format(heal)} HP to {Party['Player_2']['Name']}!")
             else:
@@ -1416,25 +1440,34 @@ async def dungeons(ctx, *input):
         dg.Yokai.DEF = base_yokai_def
         if Party is None:
             base_player_hp = getPlayerHP(user_id)
+            base_player_hp = config.stats_cap if base_player_hp > config.stats_cap else base_player_hp
             base_player_atk = getPlayerATK(user_id) + dg.Player.weapon_atk
             base_player_atk = config.stats_cap if base_player_atk > config.stats_cap else base_player_atk
             base_player_def = getPlayerDEF(user_id)
+            base_player_def = getPlayerDEF(user_id) + dg.Player.magatamas_def
+            base_player_def = config.stats_cap if base_player_def > config.stats_cap else base_player_def
             if getPlayerLevel(user_id) > dg.Player.level:
                 dg.Player.level = getPlayerLevel(user_id)
                 dg.Player.HP = getPlayerHP(user_id)
         else:
             base_player_1_hp = getPlayerHP(Party["Player_1"]["ID"])
+            base_player_1_hp = config.stats_cap if base_player_1_hp > config.stats_cap else base_player_1_hp
             base_player_1_atk = getPlayerATK(Party["Player_1"]["ID"]) + dg.Player1.weapon_atk
             base_player_1_atk = config.stats_cap if base_player_1_atk > config.stats_cap else base_player_1_atk
             base_player_1_def = getPlayerDEF(Party["Player_1"]["ID"])
+            base_player_1_def = getPlayerDEF(Party["Player_1"]["ID"]) + dg.Player1.magatamas_def
+            base_player_1_def = config.stats_cap if base_player_1_def > config.stats_cap else base_player_1_def
             if getPlayerLevel(Party["Player_1"]["ID"]) > dg.Player1.level:
                 dg.Player1.level = getPlayerLevel(Party["Player_1"]["ID"])
                 dg.Player1.HP = getPlayerHP(Party["Player_1"]["ID"])
 
             base_player_2_hp = getPlayerHP(Party["Player_2"]["ID"])
+            base_player_2_hp = config.stats_cap if base_player_2_hp > config.stats_cap else base_player_2_hp
             base_player_2_atk = getPlayerATK(Party["Player_2"]["ID"]) + dg.Player2.weapon_atk
             base_player_2_atk = config.stats_cap if base_player_2_atk > config.stats_cap else base_player_2_atk
             base_player_2_def = getPlayerDEF(Party["Player_2"]["ID"])
+            base_player_2_def = getPlayerDEF(Party["Player_2"]["ID"]) + dg.Player2.magatamas_def
+            base_player_2_def = config.stats_cap if base_player_2_def > config.stats_cap else base_player_2_def
             if getPlayerLevel(Party["Player_2"]["ID"]) > dg.Player2.level:
                 dg.Player2.level = getPlayerLevel(Party["Player_2"]["ID"])
                 dg.Player2.HP = getPlayerHP(Party["Player_2"]["ID"])
@@ -1645,14 +1678,18 @@ async def dungeons(ctx, *input):
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                emojis = ["⏭️", Icons["exit"]]
-                if Party is None:
-                    reaction, user = await waitForReaction(ctx, message, e, emojis)
-                else:
-                    reaction, user = await waitForReaction(ctx, message, e, emojis, user_override = Party[f"Player_{Party['Current']}"]["Member"])
-                if reaction is None:
-                    flag = False
-                else:
+
+                while True:
+                    emojis = ["⏭️"]
+                    if not Party is None and (not player_1_killed and not player_2_killed): emojis.append("🔀")
+                    emojis.append(Icons["exit"])
+                    if Party is None:
+                        reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    else:
+                        reaction, user = await waitForReaction(ctx, message, e, emojis, user_override = Party[f"Player_{Party['Current']}"]["Member"])
+                    if reaction is None:
+                        flag = False
+                        return message, flag
                     match str(reaction.emoji):
                         case "⏭️":
                             await message.clear_reactions()
@@ -1662,14 +1699,33 @@ async def dungeons(ctx, *input):
                             e.remove_field(5)
                             e.remove_field(4)
                             e.remove_field(3)
-                            message = await message.edit(embed = e)
-                            break
+                            await message.edit(embed = e)
+                            return message, flag
+                        case "🔀":
+                            await message.clear_reactions()
+                            if Party["Current"] == 1:
+                                dg.Player = dg.Player2
+                                Party.update({"Current": 2})
+                                e.set_author(name = Party[f"Player_2"]["Name"], icon_url = Party[f"Player_2"]["Member"].display_avatar)
+                                await message.edit(embed = e)
+                                continue
+                            else:
+                                dg.Player = dg.Player1
+                                Party.update({"Current": 1})
+                                e.set_author(name = Party[f"Player_1"]["Name"], icon_url = Party[f"Player_1"]["Member"].display_avatar)
+                                await message.edit(embed = e)
+                                continue
                         case x if x == Icons["exit"]:
                             await message.clear_reactions()
-                            e.description = "Player aborted the dungeon!"
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
-                            message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
-                            flag = False
+                            message, flag, result = await exitDungeon(message, flag, e, field = 9, Party = Party)
+                            if result:
+                                e.description = "**Player aborted the dungeon!**"
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
+                                message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
+                                flag = False
+                                return message, flag
+                            else:
+                                continue
             elif player_killed:
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{mob} has killed you!")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Aborting dungeon)")
@@ -1753,7 +1809,7 @@ async def dungeons(ctx, *input):
         await message.edit(embed = e)
         while flag:
             emojis = [Icons["chest"], "⏭️"]
-            if not Party is None: emojis.append("🔀")
+            if not Party is None and Party["Player_1"]["Alive"] and Party["Player_2"]["Alive"]: emojis.append("🔀")
             emojis.append(Icons["exit"])
             if Party is None:
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -1817,25 +1873,34 @@ async def dungeons(ctx, *input):
         dg.Boss.DEF = base_boss_def
         if Party is None:
             base_player_hp = getPlayerHP(user_id)
+            base_player_hp = config.stats_cap if base_player_hp > config.stats_cap else base_player_hp
             base_player_atk = getPlayerATK(user_id) + dg.Player.weapon_atk
             base_player_atk = config.stats_cap if base_player_atk > config.stats_cap else base_player_atk
             base_player_def = getPlayerDEF(user_id)
+            base_player_def = getPlayerDEF(user_id) + dg.Player.magatamas_def
+            base_player_def = config.stats_cap if base_player_def > config.stats_cap else base_player_def
             if getPlayerLevel(user_id) > dg.Player.level:
                 dg.Player.level = getPlayerLevel(user_id)
                 dg.Player.HP = getPlayerHP(user_id)
         else:
             base_player_1_hp = getPlayerHP(Party["Player_1"]["ID"])
+            base_player_1_hp = config.stats_cap if base_player_1_hp > config.stats_cap else base_player_1_hp
             base_player_1_atk = getPlayerATK(Party["Player_1"]["ID"]) + dg.Player1.weapon_atk
             base_player_1_atk = config.stats_cap if base_player_1_atk > config.stats_cap else base_player_1_atk
             base_player_1_def = getPlayerDEF(Party["Player_1"]["ID"])
+            base_player_1_def = getPlayerDEF(Party["Player_1"]["ID"]) + dg.Player1.magatamas_def
+            base_player_1_def = config.stats_cap if base_player_1_def > config.stats_cap else base_player_1_def
             if getPlayerLevel(Party["Player_1"]["ID"]) > dg.Player1.level:
                 dg.Player1.level = getPlayerLevel(Party["Player_1"]["ID"])
                 dg.Player1.HP = getPlayerHP(Party["Player_1"]["ID"])
 
             base_player_2_hp = getPlayerHP(Party["Player_2"]["ID"])
+            base_player_2_hp = config.stats_cap if base_player_2_hp > config.stats_cap else base_player_2_hp
             base_player_2_atk = getPlayerATK(Party["Player_2"]["ID"]) + dg.Player2.weapon_atk
             base_player_2_atk = config.stats_cap if base_player_2_atk > config.stats_cap else base_player_2_atk
             base_player_2_def = getPlayerDEF(Party["Player_2"]["ID"])
+            base_player_2_def = getPlayerDEF(Party["Player_2"]["ID"]) + dg.Player2.magatamas_def
+            base_player_2_def = config.stats_cap if base_player_2_def > config.stats_cap else base_player_2_def
             if getPlayerLevel(Party["Player_2"]["ID"]) > dg.Player2.level:
                 dg.Player2.level = getPlayerLevel(Party["Player_2"]["ID"])
                 dg.Player2.HP = getPlayerHP(Party["Player_2"]["ID"])
@@ -1922,7 +1987,13 @@ async def dungeons(ctx, *input):
                     if magatama.startswith("Chiami Magatama"):
                         max_hp = getPlayerHP(dg.Player.id)
                         heal = round(max_hp * (Magatamas[magatama]["Effects"]["Heal"] / 100.))
-                        dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > max_hp else max_hp
+                        if Party is None:
+                            dg.Player.HP = dg.Player.HP + heal if not dg.Player.HP + heal > max_hp else max_hp
+                        else:
+                            if Party["Current"] == 1:
+                                dg.Player1.HP = dg.Player1.HP + heal if not dg.Player1.HP + heal > max_hp else max_hp
+                            else:
+                                dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > max_hp else max_hp
                         message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Healed {heal} HP)")
             match effectiveness:
                 case 1:
@@ -1958,7 +2029,13 @@ async def dungeons(ctx, *input):
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Evaded {'{:,}'.format(damage)} heavy damage from {dg.Boss.name}!")
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Immune to critical hit)")
                             return message
-                dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+                if Party is None:
+                    dg.Player.HP = dg.Player.HP - damage if not dg.Player.HP - damage < 0 else 0
+                else:
+                    if Party["Current"] == 1:
+                        dg.Player1.HP = dg.Player1.HP - damage if not dg.Player1.HP - damage < 0 else 0
+                    else:
+                        dg.Player2.HP = dg.Player2.HP - damage if not dg.Player2.HP - damage < 0 else 0
                 if not is_charging:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Took {'{:,}'.format(damage)} damage from {dg.Boss.name}!")
                 else:
@@ -1981,7 +2058,7 @@ async def dungeons(ctx, *input):
 
         async def healPartyMember(message, e, console, turn, atk_gauge, def_gauge):
             heal, is_critical = healCalculator(dg.Player, Party)
-            if Party["Current"] == "1":
+            if Party["Current"] == 1:
                 dg.Player2.HP = dg.Player2.HP + heal if not dg.Player2.HP + heal > getPlayerHP(Party["Player_2"]["ID"]) else getPlayerHP(Party["Player_2"]["ID"])
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"Healed {'{:,}'.format(heal)} HP to {Party['Player_2']['Name']}!")
             else:
