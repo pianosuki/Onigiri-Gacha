@@ -985,14 +985,14 @@ async def dungeons(ctx, *input):
                                 flag = False
                             else:
                                 if not energy_1 >= math.floor(dg.energy / 2):
-                                    await ctx.send(f"⚠️ {Player['Player_1']['Member'].mention} **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy_1}` more.")
+                                    await ctx.send(f"⚠️ {Party['Player_1']['Member'].mention} **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy_1}` more.")
                                 if not energy_2 >= math.floor(dg.energy / 2):
-                                    await ctx.send(f"⚠️ {Player['Player_2']['Member'].mention} **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy_2}` more.")
+                                    await ctx.send(f"⚠️ {Party['Player_2']['Member'].mention} **You don't have enough energy to enter this dungeon!** You need `{dg.energy - energy_2}` more.")
                         else:
                             if not dg.Player1.level >= dg.level:
-                                await ctx.send(f"⚠️ {Player['Player_1']['Member'].mention} **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player1.level}` more levels!")
+                                await ctx.send(f"⚠️ {Party['Player_1']['Member'].mention} **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player1.level}` more levels!")
                             if not dg.Player2.level >= dg.level:
-                                await ctx.send(f"⚠️ {Player['Player_2']['Member'].mention} **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player2.level}` more levels!")
+                                await ctx.send(f"⚠️ {Party['Player_2']['Member'].mention} **You are not high enough level to access __{dungeon}__!** Need `{dg.level - dg.Player2.level}` more levels!")
                             flag = False
                 case "🎁":
                     await message.clear_reactions()
