@@ -4119,7 +4119,7 @@
             }
         },
         "Floors": 1,
-        "Yokai": [],
+        "Yokai": ["None"],
         "Boss":
         {
             "Name": "Hades",
