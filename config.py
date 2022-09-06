@@ -177,12 +177,12 @@ weapon_emojis   = {
 magatama_emojis = {
     "magatama_axe": "<:magatama_axe:1013652287119425596>",
     "magatama_staff": "<:magatama_staff:1013652329989423195>",
-    "magatama_wand": "<:magatama_wand:1013652462290350180>",
+    "magatama_wand": "<:magatama_wand:1016545329002332260>",
     "magatama_twin_swords": "<:magatama_twin_swords:1013652358850433224>",
     "magatama_bow": "<:magatama_bow:1013652377921929246>",
-    "magatama_sword": "<:magatama_sword:1013652395596726402>",
-    "magatama_odachi": "<:magatama_odachi:1013652408603263067>",
-    "magatama_spear": "<:magatama_spear:1013652422897451139>",
+    "magatama_sword": "<:magatama_sword:1016545257510404136>",
+    "magatama_odachi": "<:magatama_odachi:1016545187025129522>",
+    "magatama_spear": "<:magatama_spear:1016545218247524383>",
     "magatama_critical": "<:magatama_critical:1015167646720872498>",
     "magatama_omni": "<:magatama_omni:1015500213349273600>"
 }
