@@ -68,6 +68,9 @@ EquipmentDB.execute("CREATE TABLE IF NOT EXISTS inventory (user_id INTEGER PRIMA
 SeedsDB = Database("seeds.db")
 SeedsDB.execute("CREATE TABLE IF NOT EXISTS seeds (id INTEGER PRIMARY KEY, seed TEXT, user_id TEXT, dungeon TEXT, mode INTEGER, note TEXT)")
 
+# Materials
+MaterialsDB = Database("usermaterials.db")
+
 # Objects
 Prizes      = json.load(open("prizes.json")) # Load list of prizes for the gacha to pull from
 Products    = json.load(open("products.json")) # Load list of products for shop to sell
@@ -77,6 +80,8 @@ Dungeons    = json.load(open("dungeons.json")) # Load list of dungeons for the d
 Tables      = json.load(open("tables.json")) # Load tables for systems to use constants from
 Weapons     = json.load(open("weapons.json")) # Load weapons dictionary
 Magatamas   = json.load(open("magatamas.json")) # Load magatamas dictionary
+Monsters    = json.load(open("monsters.json")) # Load monsters dictionary
+Materials   = json.load(open("materials.json")) # Load materials dictionary
 Resource    = dresource.resCreate(Graphics) # Generate discord file attachment resource
 Icons       = {**config.custom_emojis, **config.mode_emojis, **config.element_emojis, **config.nigiri_emojis, **config.weapon_emojis, **config.magatama_emojis, **config.rarity_emojis}
 
@@ -170,11 +175,6 @@ def getUserGachaInv(user_id):
 def getUserMarketInv(user_id):
     MarketDB.execute("INSERT OR IGNORE INTO userdata (user_id, ryou) VALUES (%s, '0')" % str(user_id))
     inventory = MarketDB.userdata[user_id]
-    return inventory
-
-def getUserItemInv(user_id):
-    ItemsDB.execute("CREATE TABLE IF NOT EXISTS user_%s (item TEXT PRIMARY KEY UNIQUE, quantity INTEGER)" % str(user_id))
-    inventory = ItemsDB.query("SELECT * FROM user_%s" % str(user_id))
     return inventory
 
 def getUserWhitelist(user_id):
@@ -359,6 +359,11 @@ def getAllDungeonClears():
     dungeon_clears = DungeonsDB.query(f"SELECT * FROM clears")
     return dungeon_clears
 
+def getUserItemInv(user_id):
+    ItemsDB.execute("CREATE TABLE IF NOT EXISTS user_%s (item TEXT PRIMARY KEY UNIQUE, quantity INTEGER)" % str(user_id))
+    inventory = ItemsDB.query("SELECT * FROM user_%s" % str(user_id))
+    return inventory
+
 def getUserItemQuantity(user_id, product):
     items_inv = getUserItemInv(user_id)
     if not items_inv:
@@ -370,6 +375,34 @@ def getUserItemQuantity(user_id, product):
         else:
             item_quantity = None
     return item_quantity
+
+def getUserMaterialInv(user_id):
+    MaterialsDB.execute("CREATE TABLE IF NOT EXISTS user_%s (item TEXT PRIMARY KEY UNIQUE, quantity INTEGER)" % str(user_id))
+    inventory = MaterialsDB.query("SELECT * FROM user_%s" % str(user_id))
+    return inventory
+
+def getUserMaterialQuantity(user_id, material):
+    material_inv = getUserMaterialInv(user_id)
+    if not material_inv:
+        return None
+    for item in material_inv:
+        if item[0] == material:
+            item_quantity = item[1]
+            break
+        else:
+            item_quantity = None
+    return item_quantity
+
+def giveUserMaterial(user_id, material, quantity):
+    item_quantity = getUserMaterialQuantity(user_id, material)
+    if item_quantity is None:
+        MaterialsDB.execute("INSERT INTO user_{} (item, quantity) VALUES (?, ?)".format(str(user_id)), (material, 0))
+        item_quantity = 0
+    if not item_quantity + quantity <= 0:
+        MaterialsDB.execute("UPDATE user_{} SET quantity = ? WHERE item = ?".format(str(user_id)), (item_quantity + quantity, material))
+    else:
+        MaterialsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), material))
+    return
 
 def getPlayerDungeonRecord(user_id, dungeon, mode):
     clears = getPlayerDungeonClears(user_id)
@@ -1674,6 +1707,31 @@ async def dungeons(ctx, *input):
                     if Party["Player_2"]["Alive"]: exp_reward_2 = addPlayerExp(Party["Player_2"]["ID"], math.floor(exp_amount / (2 if Party["Player_1"]["Alive"] else 1)))
                     if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_reward_1)} EXP!)")
                     if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_reward_2)} EXP!)")
+                if Monsters[mob]["Materials"]:
+                    for material in Monsters[mob]["Materials"]:
+                        modes = Monsters[mob]["Materials"][material]["modes"]
+                        if not -1 in modes and not dg.mode in modes:
+                            continue
+                        rate = Monsters[mob]["Materials"][material]["rate"]
+                        if Monsters[mob]["Materials"][material]["scalable"]:
+                            rate *= dg.multiplier
+                        dupe_rate = rate - 100 if rate - 100 > 0 else 0
+                        quantity = Monsters[mob]["Materials"][material]["quantity"]
+                        total_quantity = 0
+                        if random.random() <= rate / 100.:
+                            total_quantity += quantity
+                        while dupe_rate > 0:
+                            if random.random() <= dupe_rate / 100.:
+                                total_quantity += quantity
+                            dupe_rate = dupe_rate - 100 if dupe_rate - 100 > 0 else 0
+                        if total_quantity == 0:
+                            continue
+                        if Party is None:
+                            giveUserMaterial(user_id, material, total_quantity)
+                        else:
+                            if Party["Player_1"]["Alive"]: giveUserMaterial(Party["Player_1"]["ID"], material, total_quantity)
+                            if Party["Player_2"]["Alive"]: giveUserMaterial(Party["Player_2"]["ID"], material, total_quantity)
+                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {total_quantity}x {material})")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "Choose an action to perform")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "(Proceed | Leave Dungeon)")
@@ -2403,12 +2461,36 @@ async def dungeons(ctx, *input):
                             if Party["Player_1"]["Alive"]: pooled_ryou = addPlayerRyou(Party['Player_1']['ID'], math.floor(dg.Cache.pool / (2 if Party["Player_2"]["Alive"] else 1)))
                             if Party["Player_2"]["Alive"]: pooled_ryou = addPlayerRyou(Party['Player_2']['ID'], math.floor(dg.Cache.pool / (2 if Party["Player_1"]["Alive"] else 1)))
                             message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(pooled_ryou)} Ryou from pool each)")
-
                 if Party is None:
                     message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {'{:,}'.format(exp_amount)} EXP!)")
                 else:
                     if Party["Player_1"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_1']['Name']} Gained {'{:,}'.format(exp_amount_1 * (1 if not Party['Player_2']['Alive'] else 2))} EXP!)")
                     if Party["Player_2"]["Alive"]: message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"({Party['Player_2']['Name']} Gained {'{:,}'.format(exp_amount_2 * (1 if not Party['Player_1']['Alive'] else 2))} EXP!)")
+                if Monsters[dg.Boss.name]["Materials"]:
+                    for material in Monsters[dg.Boss.name]["Materials"]:
+                        modes = Monsters[dg.Boss.name]["Materials"][material]["modes"]
+                        if not -1 in modes and not dg.mode in modes:
+                            continue
+                        rate = Monsters[dg.Boss.name]["Materials"][material]["rate"]
+                        if Monsters[dg.Boss.name]["Materials"][material]["scalable"]:
+                            rate *= dg.multiplier
+                        dupe_rate = rate - 100 if rate - 100 > 0 else 0
+                        quantity = Monsters[dg.Boss.name]["Materials"][material]["quantity"]
+                        total_quantity = 0
+                        if random.random() <= rate / 100.:
+                            total_quantity += quantity
+                        while dupe_rate > 0:
+                            if random.random() <= dupe_rate / 100.:
+                                total_quantity += quantity
+                            dupe_rate = dupe_rate - 100 if dupe_rate - 100 > 0 else 0
+                        if total_quantity == 0:
+                            continue
+                        if Party is None:
+                            giveUserMaterial(user_id, material, total_quantity)
+                        else:
+                            if Party["Player_1"]["Alive"]: giveUserMaterial(Party["Player_1"]["ID"], material, total_quantity)
+                            if Party["Player_2"]["Alive"]: giveUserMaterial(Party["Player_2"]["ID"], material, total_quantity)
+                        message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"(Gained {total_quantity}x {material})")
                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, "")
                 dg.Cache.cleared = True
                 break
@@ -4793,6 +4875,7 @@ async def inv(ctx, target = None):
         target = ctx.author.mention
     # Ensure valid discord ID
     if re.match(r"<(@|@&)[0-9]{18,19}>", target):
+        message         = None
         user_id         = convertMentionToId(target)
         inv_gacha       = getUserGachaInv(user_id)
         inv_market      = getUserMarketInv(user_id)
@@ -4806,23 +4889,110 @@ async def inv(ctx, target = None):
         level           = getPlayerLevel(user_id)
         energy          = getPlayerEnergy(user_id)
         total_clears    = len(getPlayerDungeonClears(user_id))
-        e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
-        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.set_thumbnail(url = Resource["Ray-1"][0])
-        e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
-        e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
-        e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
-        e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
-        e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
-        e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
-        e.add_field(name = "Energy:", value = f"{Icons['energy']} `{'{:,}'.format(energy)}`", inline = True)
-        e.add_field(name = "Dungeons cleared:", value = f"{Icons['dungeon']} `{'{:,}'.format(total_clears)}`", inline = True)
-        for slot, item in enumerate(inv_items):
-            border = ""
-            for _ in item[0]:
-                border += "═"
-            e.add_field(name = f"📍 Slot {slot + 1}  ─  (x{item[1]})", value = f"```╔{border}╗\n║{item[0]}║\n╚{border}╝```", inline = False)
-        await ctx.send(embed = e)
+        while True:
+            e = discord.Embed(title = "Viewing inventory of user:", description = target, color = 0xfdd835)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Ray-1"][0])
+            e.add_field(name = "Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
+            e.add_field(name = "Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
+            e.add_field(name = "Total roll count:", value = f"🎲 x `{'{:,}'.format(total_rolls)}`", inline = True)
+            e.add_field(name = "Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
+            e.add_field(name = "EXP:", value = f"{Icons['exp']} x `{'{:,}'.format(exp)}`", inline = True)
+            e.add_field(name = "Level:", value = f"{Icons['level']} `{'{:,}'.format(level)}`", inline = True)
+            e.add_field(name = "Energy:", value = f"{Icons['energy']} `{'{:,}'.format(energy)}`", inline = True)
+            e.add_field(name = "Dungeons cleared:", value = f"{Icons['dungeon']} `{'{:,}'.format(total_clears)}`", inline = True)
+            message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
+            emojis = ["📦", Icons["material_common"], "❌"]
+            reaction, user = await waitForReaction(ctx, message, e, emojis)
+            if reaction is None:
+                return
+            match str(reaction.emoji):
+                case "📦":
+                    await message.clear_reactions()
+                    inv_items = getUserItemInv(user_id)
+                    e = discord.Embed(title = "Viewing __product inventory__ of user:", description = target, color = 0xfdd835)
+                    e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                    if inv_items:
+                        for slot, item in enumerate(inv_items):
+                            border = ""
+                            for _ in item[0]:
+                                border += "═"
+                            e.add_field(name = f"📍 Slot {slot + 1}  ─  (x{item[1]})", value = f"```╔{border}╗\n║{item[0]}║\n╚{border}╝```", inline = False)
+                    else:
+                        e.add_field(name = "Products:", value = "None")
+                    await message.edit(embed = e)
+                    emojis = ["↩️"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        return
+                    match str(reaction.emoji):
+                        case "↩️":
+                            await message.clear_reactions()
+                            continue
+                case x if x == Icons["material_common"]:
+                    await message.clear_reactions()
+                    inv = list(reversed(getUserMaterialInv(user_id)))
+                    inv_length = len(inv)
+                    offset = 0
+                    size = 45
+                    def formatMaterialInventory(offset, size, third = 1):
+                        formatted_string = ""
+                        counter = 0
+                        size = math.floor(size / 3)
+                        offset += size * (third - 1)
+                        if inv and not offset >= len(inv):
+                            for index, item in enumerate(inv):
+                                if index < offset:
+                                    # Skipping to next entry until arriving at the proper page/offset
+                                    continue
+                                formatted_string += f"{Icons['material_' + Materials[item[0]]['type']]} **{item[1]}x** __{item[0]}__\n"
+                                counter += 1
+                                # Once a full page is assembled, print it
+                                if counter == size or index + 1 == len(inv):
+                                    break
+                        else:
+                            formatted_string = "**Blank**"
+                        return formatted_string
+                    # Set offset to 0 (page 1) and begin bidirectional page system
+                    while True:
+                        e = discord.Embed(title = "Viewing __material inventory__ of user:", description = target, color = 0xfdd835)
+                        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+                        e.add_field(name = "━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMaterialInventory(offset, size, 1), inline = True)
+                        e.add_field(name = "━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMaterialInventory(offset, size, 2), inline = True)
+                        e.add_field(name = "━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━", value = formatMaterialInventory(offset, size, 3), inline = True)
+                        e.set_footer(text = f"Page: {math.floor(offset / size) + 1}/{math.ceil(inv_length / size)}")
+                        message = await ctx.send(embed = e) if message == None else await message.edit(embed = e)
+                        emojis = ["⏪", "⏩", "↩️"]
+                        reaction, user = await waitForReaction(ctx, message, e, emojis)
+                        if reaction is None:
+                            return
+                        match str(reaction.emoji):
+                            case "⏩":
+                                await message.clear_reactions()
+                                if not offset + size >= inv_length:
+                                    # Tell upcomming re-iteration to skip to the next page's offset
+                                    if inv_length > size:
+                                        offset += size
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
+                                continue
+                            case "⏪":
+                                await message.clear_reactions()
+                                if not offset == 0:
+                                    # Tell upcomming re-iteration to skip to the previous page's offset
+                                    if offset >= size:
+                                        offset -= size
+                                else:
+                                    # Skip to the last page
+                                    offset = size * math.floor(inv_length / size)
+                                continue
+                            case "↩️":
+                                await message.clear_reactions()
+                                break
+                case "❌":
+                    await message.clear_reactions()
+                    return
     else:
         await ctx.send("Please **@ mention** a valid user to check their inventory (+help inv)")
 
