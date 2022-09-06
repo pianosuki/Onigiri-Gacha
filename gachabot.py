@@ -3683,7 +3683,7 @@ async def roll(ctx, skip=None):
                             choosing = False
                         else:
                             continue
-                case x if x == "Crab Nigiri":
+                case x if x.endswith("Crab Nigiri"):
                     product = "Crab Nigiri"
                     amount = int(x.rstrip(" Crab Nigiri"))
                     if await updateStock(ctx, product):
@@ -3695,7 +3695,7 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
                     else:
                         continue
-                case x if x == "Lobster Nigiri":
+                case x if x.endswith("Lobster Nigiri"):
                     product = "Lobster Nigiri"
                     amount = int(x.rstrip(" Lobster Nigiri"))
                     if await updateStock(ctx, product):
@@ -3707,7 +3707,7 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
                     else:
                         continue
-                case x if x == "Shachihoko Nigiri":
+                case x if x.endswith("Shachihoko Nigiri"):
                     product = "Shachihoko Nigiri"
                     amount = int(x.rstrip(" Shachihoko Nigiri"))
                     if await updateStock(ctx, product):
@@ -3719,7 +3719,7 @@ async def roll(ctx, skip=None):
                         await ctx.send(f"🎉 Rewarded {ctx.author.mention} with **{sub_prize}**!")
                     else:
                         continue
-                case x if x == "Shenlong Nigiri":
+                case x if x.endswith("Shenlong Nigiri"):
                     product = "Shenlong Nigiri"
                     amount = int(x.rstrip(" Shenlong Nigiri"))
                     if await updateStock(ctx, product):
