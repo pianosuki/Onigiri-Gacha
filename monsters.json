@@ -1,0 +1,757 @@
+{
+    "Gloom Daruma":
+    {
+        "Materials":
+        {
+            "Gloom Daruma Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Thick Paper": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Daruma Whiskey": {"modes": [-1], "rate": 0.02, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Pain Daruma":
+    {
+        "Materials":
+        {
+            "Pain Daruma Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Dried Abalone": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Daruma Whiskey": {"modes": [-1], "rate": 0.02, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Life Daruma":
+    {
+        "Materials":
+        {
+            "Life Daruma Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Gift Bag": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Daruma Whiskey": {"modes": [-1], "rate": 0.02, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Luck Daruma":
+    {
+        "Materials":
+        {
+            "Luck Daruma Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Daifuku": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Daruma Whiskey": {"modes": [-1], "rate": 0.02, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Loss Daruma":
+    {
+        "Materials":
+        {
+            "Loss Daruma Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Ink": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Daruma Whiskey": {"modes": [-1], "rate": 0.02, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gold Daruma":
+    {
+        "Materials":
+        {
+            "Fortitude Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Miracle Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Inferno Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Ice Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Thunder Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Light Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Dark Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Cutting Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Piercing Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1},
+            "Crushing Horn Stone": {"modes": [-1], "rate": 10, "scalable": false, "quantity": 1}
+        }
+    },
+
+    "Kijimuna":
+    {
+        "Materials":
+        {
+            "Refreshing Leaf": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Green Furball": {"modes": [-1], "rate": 15, "scalable": true, "quantity": 1},
+            "Soft Bill": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Momijina":
+    {
+        "Materials":
+        {
+            "Pumice Stone": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Maple Leaf": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Dark Sticky":
+    {
+        "Materials":
+        {
+            "Crow Feather": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Blackened Rose-coloured Glasses": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Swamp Sticky":
+    {
+        "Materials":
+        {
+            "Water Plant": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Lotus Spoon": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Rock Sticky":
+    {
+        "Materials":
+        {
+            "Mountain Water": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Hardy Daikon": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Grass Sticky":
+    {
+        "Materials":
+        {
+            "Bug Repellant Coil": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Healthy Drink Powder": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Sunset Sticky":
+    {
+        "Materials":
+        {
+            "Orange Peel Juice": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Twilight Melancholy": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Peach Sticky":
+    {
+        "Materials":
+        {
+            "Tart Peach": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "White Peach Pudding": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Fukuwarai":
+    {
+        "Materials":
+        {
+            "Headband Blindfold": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Small Geta": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Sticky Material": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Laughing Bag": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Handamashii Musha":
+    {
+        "Materials":
+        {
+            "Crest Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Rotted Helm": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Bloodied Face Guard": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gankubi":
+    {
+        "Materials":
+        {
+            "Bristly Beard": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Tanuki Tail": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gaikotsu":
+    {
+        "Materials":
+        {
+            "Fragile Rib": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Jaw Bone": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Amagaeru":
+    {
+        "Materials":
+        {
+            "Amagaeru Mucus": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Amagaeru Tongue": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Lantern Ghost":
+    {
+        "Materials":
+        {
+            "Bamboo Strip": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Pufferfish Lantern": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kappa":
+    {
+        "Materials":
+        {
+            "Shell Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Shirikodama": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Ittanmomen":
+    {
+        "Materials":
+        {
+            "Cotton Strip": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Fine Cloth": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "New Fundoshi": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kyoukotsu":
+    {
+        "Materials":
+        {
+            "Sinister Bones": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Large Skull": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Chief Daruma":
+    {
+        "Materials":
+        {
+            "Daruma's Pipe": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Embroidered Cushion": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Shunoban":
+    {
+        "Materials":
+        {
+            "Shunoban Horn": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Dried Tongue": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Nurikabe":
+    {
+        "Materials":
+        {
+            "Gypsum": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Onigawara": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kikuzou":
+    {
+        "Materials":
+        {
+            "Tricolor Dango": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Broken Fishing Rod": {"modes": [-1], "rate": 20, "scalable": true, "quantity": 1},
+            "Wriggling Moss": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Punk Kappa":
+    {
+        "Materials":
+        {
+            "Giant Cucumber": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Punk Kappa Fin": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Toudaiki":
+    {
+        "Materials":
+        {
+            "Broken Lantern": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Burnt Talisman": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kani-bouzu":
+    {
+        "Materials":
+        {
+            "Crab Pearl": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Chestnut Pearl": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gama":
+    {
+        "Materials":
+        {
+            "Toad Oil": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Toad Stomach": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "High Grade Toad Oil": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Nuppepou":
+    {
+        "Materials":
+        {
+            "Jiggling Meat": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Melting Meat": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Oogama":
+    {
+        "Materials":
+        {
+            "Toad Oil": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Toad Stomach": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "High Grade Toad Oil": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Oni-basami":
+    {
+        "Materials":
+        {
+            "Dried Seaweed": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Crab Meat": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Cursed Crab Claws": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Aburasumashi":
+    {
+        "Materials":
+        {
+            "Dark Oil": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Waxen Fragment": {"modes": [-1], "rate": 20, "scalable": true, "quantity": 1},
+            "Magical Staff": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Child Mukade":
+    {
+        "Materials":
+        {
+            "Baby Centipede Feelers": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Putrid Gastric Juice": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "3-eyed Sumashi":
+    {
+        "Materials":
+        {
+            "Dark Oil": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Waxen Fragment": {"modes": [-1], "rate": 20, "scalable": true, "quantity": 1},
+            "Purified Oil": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Giant Mukade":
+    {
+        "Materials":
+        {
+            "Centipede Eggs": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Centipede's Poison": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Tiamat":
+    {
+        "Materials":
+        {
+            "Pale Colored Scale": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Pale Colored Thorn": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Crazed Momotarou":
+    {
+        "Materials":
+        {
+            "Stained Bandage": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Kibidango": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Oomusha":
+    {
+        "Materials":
+        {
+            "Ornate Handle": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Peerless Crest": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Bloodied Face Guard": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kubire Oni":
+    {
+        "Materials":
+        {
+            "Unkempt Hair": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Straw Rope": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Bakeneko":
+    {
+        "Materials":
+        {
+            "Cat Whiskers": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Cat Pawprint": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Hiderigami":
+    {
+        "Materials":
+        {
+            "Hiderigami's Sigh": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Scorching Furnace": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Yagyou-san":
+    {
+        "Materials":
+        {
+            "Yagyou-san's Tears": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Ancient Coin": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Ungaikyou":
+    {
+        "Materials":
+        {
+            "Spirit Mirror Shard": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Eternal Cloud": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Ahriman":
+    {
+        "Materials":
+        {
+            "Black Moth Scales": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Gray Apple": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gaki":
+    {
+        "Materials":
+        {
+            "Black Body Hair": {"modes": [-1], "rate": 20, "scalable": true, "quantity": 1},
+            "Skull Mask": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Penanggalan":
+    {
+        "Materials":
+        {
+            "Red Scale": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Penanggalan Tail": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Musca":
+    {
+        "Materials":
+        {
+            "Baby Fly Wings": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Glittering Baby Fly Wings": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Armored Mukade":
+    {
+        "Materials":
+        {
+            "Centipede Feelers": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Centidote": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Wanyuudou":
+    {
+        "Materials":
+        {
+            "Wheel": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Eternal Torch": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Nue":
+    {
+        "Materials":
+        {
+            "Iron Sand": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Nue Heart": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Nue's Cry": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Yatsukazou":
+    {
+        "Materials":
+        {
+            "Bronze Fragment": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Decorative Legs": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kusareppou":
+    {
+        "Materials":
+        {
+            "Jiggling Meat": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Melting Meat": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Infernal Mukade":
+    {
+        "Materials":
+        {
+            "Centipede Fluids": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Potent Venom": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Beelzebub":
+    {
+        "Materials":
+        {
+            "Sulfur": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Reversed Compass": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Bengara":
+    {
+        "Materials":
+        {
+            "Red Dyes": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Red Claw": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Bamboo Rotocoptor": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Hashihime":
+    {
+        "Materials":
+        {
+            "Unkempt Hair": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Straw Rope": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gedoumaru":
+    {
+        "Materials":
+        {
+            "Bristly Beard": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Tanuki Tail": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Bloodstained Nyuudou":
+    {
+        "Materials":
+        {
+            "Crushed Nail": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Cursed Blood": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Shikigami Slice":
+    {
+        "Materials":
+        {
+            "Ashes": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Paper Helmet": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Star Ornament": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Shikigami Stab":
+    {
+        "Materials":
+        {
+            "Ashes": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Paper Crane": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Warding Peach": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Shikigami Curse":
+    {
+        "Materials":
+        {
+            "Ashes": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Paper Baloon": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Council Painting": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Tsujigami":
+    {
+        "Materials":
+        {
+            "Old Thread": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Bell of the Curse God": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Shikifuda":
+    {
+        "Materials":
+        {
+            "Ashes": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Mantra": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Kokushiki":
+    {
+        "Materials":
+        {
+            "Ashes": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Mantra": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Aoshiki":
+    {
+        "Materials":
+        {
+            "Ashes": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Mantra": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Akamekabe":
+    {
+        "Materials":
+        {
+            "Charcoal": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Diamond Dust": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Benkei":
+    {
+        "Materials":
+        {
+            "Metal Gear": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Burning Water": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Odin":
+    {
+        "Materials":
+        {
+            "Golden Helm Fragment": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Raisins": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Tsuchikorobi":
+    {
+        "Materials":
+        {
+            "Wild Plants": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Rock Roots": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Death Scythe":
+    {
+        "Materials":
+        {
+            "Sickle Whetstone": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Herbissacre": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Nozuchi":
+    {
+        "Materials":
+        {
+            "Nozuchi Stomach Acid": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Matsutake Mushroom": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Reaper":
+    {
+        "Materials":
+        {
+            "Withering Spirit": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Lifespan Candle": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Ethereal Cerberus":
+    {
+        "Materials":
+        {
+            "Spiked Collar": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Honey": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Cerberus Vinegar": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Revived Cerberus":
+    {
+        "Materials":
+        {
+            "Spiked Collar": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Honey": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Cerberus Vinegar": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Preserved Cerberus":
+    {
+        "Materials":
+        {
+            "Spiked Collar": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Honey": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Cerberus Vinegar": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Hades":
+    {
+        "Materials":
+        {
+            "Black Smoke": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
+            "Hell's Bible": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    }
+}
