@@ -9,6 +9,16 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Sukedachi Sword": 1,
+            "Sinister Bones": 3,
+            "Large Skull": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Gloom Daruma Fragment": 10,
+            "Thick Paper": 1
         }
     },
 
@@ -22,6 +32,19 @@
         "Effects":
         {
             "Skill Force": 12
+        },
+        "Recipe":
+        {
+            "Nameless Sword": 1,
+            "Toad Oil": 3,
+            "Toad Stomach": 2,
+            "High Grade Toad Oil": 1,
+            "Water Plant": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Lotus Spoon": 1,
+            "Shell Fragment": 10,
+            "Shirikodama": 1
         }
     },
 
@@ -35,6 +58,21 @@
         "Effects":
         {
             "Skill Force": 18
+        },
+        "Recipe":
+        {
+            "Ochimusha Sword": 1,
+            "Ornate Handle": 3,
+            "Peerless Crest": 2,
+            "Bloodied Face Guard": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Mountain Water": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Hardy Daikon": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1
         }
     },
 
@@ -48,6 +86,19 @@
         "Effects":
         {
             "Skill Force": 25
+        },
+        "Recipe":
+        {
+            "Ishikiri Sword": 1,
+            "Centipede Feelers": 3,
+            "Centidote": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1,
+            "Broken Lantern": 8,
+            "Burnt Talisman": 1,
+            "Red Scale": 10,
+            "Penanggalan Tail": 1
         }
     },
 
@@ -61,6 +112,18 @@
         "Effects":
         {
             "Skill Force": 30
+        },
+        "Recipe":
+        {
+            "Tatsujin Sword": 1,
+            "Wheel": 3,
+            "Eternal Torch": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Baby Fly Wings": 10,
+            "Glittering Baby Fly Wings": 1
         }
     },
 
@@ -74,6 +137,21 @@
         "Effects":
         {
             "Skill Force": 37
+        },
+        "Recipe":
+        {
+            "Helm-Splitter Sword": 1,
+            "Sinister Bones": 3,
+            "Large Skull": 1,
+            "Cotton Strip": 10,
+            "Fine Cloth": 2,
+            "New Fundoshi": 1,
+            "Unkempt Hair": 10,
+            "Straw Rope": 1,
+            "Spirit Mirror Shard": 10,
+            "Eternal Cloud": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1
         }
     },
 
@@ -87,6 +165,20 @@
         "Effects":
         {
             "Skill Force": 43
+        },
+        "Recipe":
+        {
+            "Fusemachi Sword": 1,
+            "Shunoban Horn": 3,
+            "Dried Tongue": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1,
+            "Crab Pearl": 10,
+            "Chestnut Pearl": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2
         }
     },
 
@@ -217,6 +309,18 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Nora Twin Blades": 1,
+            "Tricolor Dango": 3,
+            "Broken Fishing Rod": 2,
+            "Wriggling Moss": 1,
+            "Refreshing Leaf": 10,
+            "Green Furball": 2,
+            "Soft Bill": 1,
+            "Pain Daruma Fragment": 10,
+            "Dried Abalone": 1
         }
     },
 
@@ -230,6 +334,17 @@
         "Effects":
         {
             "Skill Force": 14
+        },
+        "Recipe":
+        {
+            "Yamaneko Twin Blades": 1,
+            "Dried Seaweed": 3,
+            "Crab Meat": 2,
+            "Cursed Crab Claws": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1,
+            "Toad Oil": 10,
+            "Toad Stomach": 1
         }
     },
 
@@ -243,6 +358,20 @@
         "Effects":
         {
             "Skill Force": 20
+        },
+        "Recipe":
+        {
+            "Arawashi Twin Blades": 1,
+            "Unkempt Hair": 3,
+            "Straw Rope": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1,
+            "Water Plant": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Lotus Spoon": 1
         }
     },
 
@@ -256,6 +385,19 @@
         "Effects":
         {
             "Skill Force": 26
+        },
+        "Recipe":
+        {
+            "Kokuto Twin Blades": 1,
+            "Iron Sand": 3,
+            "Nue Heart": 2,
+            "Nue's Cry": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Unkempt Hair": 10,
+            "Straw Rope": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1
         }
     },
 
@@ -269,6 +411,20 @@
         "Effects":
         {
             "Skill Force": 34
+        },
+        "Recipe":
+        {
+            "Tokage Twin Blades": 1,
+            "Crushed Nail": 3,
+            "Cursed Blood": 1,
+            "Toad Oil": 10,
+            "Toad Stomach": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Gloom Daruma Fragment": 10,
+            "Thick Paper": 1
         }
     },
 
@@ -282,6 +438,21 @@
         "Effects":
         {
             "Skill Force": 40
+        },
+        "Recipe":
+        {
+            "Tiger Claw Twin Blades": 1,
+            "Dried Seaweed": 3,
+            "Crab Meat": 2,
+            "Cursed Crab Claws": 1,
+            "Toad Oil": 10,
+            "Toad Stomach": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Shell Fragment": 10,
+            "Shirikodama": 1
         }
     },
 
@@ -295,6 +466,20 @@
         "Effects":
         {
             "Skill Force": 46
+        },
+        "Recipe":
+        {
+            "Seiu Twin Blades": 1,
+            "Sickle Whetstone": 3,
+            "Herbissacre": 1,
+            "Centipede Eggs": 5,
+            "Centipede's Poison": 1,
+            "Wheel": 10,
+            "Eternal Torch": 1,
+            "Wild Plants": 10,
+            "Rock Roots": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1
         }
     },
 
@@ -412,6 +597,18 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Nodachi": 1,
+            "Broken Lantern": 3,
+            "Burnt Talisman": 1,
+            "Bug Repellant Coil": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Healthy Drink Powder": 1,
+            "Pumice Stone": 10,
+            "Maple Leaf": 1
         }
     },
 
@@ -425,6 +622,17 @@
         "Effects":
         {
             "Skill Force": 12
+        },
+        "Recipe":
+        {
+            "Oshikiri Tachi": 1,
+            "Bamboo Strip": 3,
+            "Pufferfish Lantern": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1,
+            "Tricolor Dango": 10,
+            "Broken Fishing Rod": 3,
+            "Wriggling Moss": 1
         }
     },
 
@@ -438,6 +646,18 @@
         "Effects":
         {
             "Skill Force": 18
+        },
+        "Recipe":
+        {
+            "Araburi Tachi": 1,
+            "Hiderigami's Sigh": 3,
+            "Scorching Furnace": 1,
+            "Shell Fragment": 10,
+            "Shirikodama": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1
         }
     },
 
@@ -451,6 +671,18 @@
         "Effects":
         {
             "Skill Force": 25
+        },
+        "Recipe":
+        {
+            "Ariake Tachi": 1,
+            "Bronze Fragment": 3,
+            "Decorative Legs": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1,
+            "Crab Pearl": 10,
+            "Chestnut Pearl": 1,
+            "Life Daruma Fragment": 10,
+            "Gift Bag": 1
         }
     },
 
@@ -464,6 +696,18 @@
         "Effects":
         {
             "Skill Force": 30
+        },
+        "Recipe":
+        {
+            "Nyuudou Tachi": 1,
+            "Gypsum": 3,
+            "Onigawara": 1,
+            "Spirit Mirror Shard": 10,
+            "Eternal Cloud": 1,
+            "Yagyou-san's Tears":  8,
+            "Ancient Coin": 1,
+            "Bristly Beard": 10,
+            "Tanuki Tail": 1
         }
     },
 
@@ -477,6 +721,22 @@
         "Effects":
         {
             "Skill Force": 37
+        },
+        "Recipe":
+        {
+            "Ikkaku Tachi": 1,
+            "Sulfur": 3,
+            "Reversed Compass": 1,
+            "Luck Daruma Fragment": 10,
+            "Daifuku": 1,
+            "Loss Daruma Fragment": 10,
+            "Ink": 1,
+            "Mountain Water": 5,
+            "Small Geta": 6,
+            "Sticky Material": 2,
+            "Hardy Daikon": 1,
+            "Crow Feather": 5,
+            "Blackened Rose-coloured Glasses": 1
         }
     },
 
@@ -490,6 +750,21 @@
         "Effects":
         {
             "Skill Force": 43
+        },
+        "Recipe":
+        {
+            "Touda Tachi": 1,
+            "Sickle Whetstone": 3,
+            "Herbissacre": 1,
+            "Bristly Beard": 10,
+            "Tanuki Tail": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1,
+            "Centipede Feelers": 10,
+            "Centidote": 1,
+            "Old Thread": 10,
+            "Bell of the Curse God": 1
         }
     },
 
@@ -620,6 +895,18 @@
         "Effects":
         {
             "Skill Force": 7
+        },
+        "Recipe":
+        {
+            "Fledgling Sparrow Bow": 1,
+            "Shunoban Horn": 3,
+            "Dried Tongue": 1,
+            "Luck Daruma Fragment": 10,
+            "Daifuku": 1,
+            "Mountain Water": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Hardy Daikon": 1
         }
     },
 
@@ -633,6 +920,16 @@
         "Effects":
         {
             "Skill Force": 14
+        },
+        "Recipe":
+        {
+            "Heavy Rattan Bow": 1,
+            "Gypsum": 3,
+            "Onigawara": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Bristly Beard": 10,
+            "Tanuki Tail": 1
         }
     },
 
@@ -646,6 +943,20 @@
         "Effects":
         {
             "Skill Force": 22
+        },
+        "Recipe":
+        {
+            "Fuedou Bow": 1,
+            "Broken Lantern": 3,
+            "Burnt Talisman": 1,
+            "Toad Oil": 10,
+            "Toad Stomach": 1,
+            "Gloom Daruma Fragment": 10,
+            "Thick Paper": 1,
+            "Tart Peach": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "White Peach Pudding": 1
         }
     },
 
@@ -659,6 +970,18 @@
         "Effects":
         {
             "Skill Force": 29
+        },
+        "Recipe":
+        {
+            "Black Pine Bow": 1,
+            "Sulfur": 3,
+            "Reversed Compass": 1,
+            "Gypsum": 10,
+            "Onigawara": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1,
+            "Luck Daruma Fragment": 10,
+            "Daifuku": 1
         }
     },
 
@@ -672,6 +995,20 @@
         "Effects":
         {
             "Skill Force": 36
+        },
+        "Recipe":
+        {
+            "Minamoto Bow": 1,
+            "Black Moth Scales": 3,
+            "Gray Apple": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1,
+            "Black Body Hair": 3,
+            "Skull Mask": 1,
+            "Cat Whiskers": 8,
+            "Cat Pawprint": 1
         }
     },
 
@@ -685,6 +1022,23 @@
         "Effects":
         {
             "Skill Force": 44
+        },
+        "Recipe":
+        {
+            "Yuusai Bow": 1,
+            "Spiked Collar": 3,
+            "Honey": 2,
+            "Cerberus Vinegar": 1,
+            "Iron Sand": 10,
+            "Nue Heart": 1,
+            "Centipede Fluids": 10,
+            "Potent Venom": 1,
+            "Charcoal": 10,
+            "Diamond Dust": 1,
+            "Bug Repellant Coil": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Healthy Drink Powder": 1
         }
     },
 
@@ -802,6 +1156,18 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Stone Battleaxe": 1,
+            "Crab Pearl": 3,
+            "Chestnut Pearl": 1,
+            "Orange Peel Juice": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Twilight Melancholy": 1,
+            "Shell Fragment": 10,
+            "Shirikodama": 1
         }
     },
 
@@ -815,6 +1181,17 @@
         "Effects":
         {
             "Skill Force": 12
+        },
+        "Recipe":
+        {
+            "Iron Battleaxe": 1,
+            "Dark Oil": 3,
+            "Waxen Fragment": 2,
+            "Purified Oil": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4
         }
     },
 
@@ -828,6 +1205,19 @@
         "Effects":
         {
             "Skill Force": 18
+        },
+        "Recipe":
+        {
+            "Rusted Battleaxe": 1,
+            "Yagyou-san's Tears": 3,
+            "Ancient Coin": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1,
+            "Cat Whiskers": 8,
+            "Cat Pawprint": 1,
+            "Life Daruma Fragment": 10,
+            "Gift Bag": 1
         }
     },
 
@@ -841,6 +1231,20 @@
         "Effects":
         {
             "Skill Force": 25
+        },
+        "Recipe":
+        {
+            "Seidou Battleaxe": 1,
+            "Centipede Feelers": 3,
+            "Centidote": 1,
+            "Loss Daruma Fragment": 10,
+            "Ink": 1,
+            "Mountain Water": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Hardy Daikon": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1
         }
     },
 
@@ -854,6 +1258,19 @@
         "Effects":
         {
             "Skill Force": 30
+        },
+        "Recipe":
+        {
+            "Steel Battleaxe": 1,
+            "Wheel": 3,
+            "Eternal Torch": 1,
+            "Black Body Hair": 3,
+            "Skull Mask": 1,
+            "Centipede Fluids": 10,
+            "Potent Venom": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1
         }
     },
 
@@ -867,6 +1284,21 @@
         "Effects":
         {
             "Skill Force": 37
+        },
+        "Recipe":
+        {
+            "Sekkou Battleaxe": 1,
+            "Daruma's Pipe": 3,
+            "Embroidered Cushion": 1,
+            "Red Scale": 10,
+            "Penanggalan Tail": 1,
+            "Old Thread": 10,
+            "Bell of the Curse God": 1,
+            "Ashes": 20,
+            "Paper Helmet": 10,
+            "Star Ornament": 1,
+            "Paper Helmet": 10,
+            "Star Ornament": 1
         }
     },
 
@@ -880,6 +1312,21 @@
         "Effects":
         {
             "Skill Force": 43
+        },
+        "Recipe":
+        {
+            "Sekinseki Battleaxe": 1,
+            "Spiked Collar": 3,
+            "Honey": 2,
+            "Cerberus Vinegar": 1,
+            "Red Scale": 10,
+            "Penanggalan Tail": 1,
+            "Nozuchi Stomach Acid": 10,
+            "Matsutake Mushroom": 1,
+            "Spirit Mirror Shard": 10,
+            "Eternal Cloud": 1,
+            "Unkempt Hair": 10,
+            "Straw Rope": 1
         }
     },
 
@@ -1010,6 +1457,19 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Cedar Spear": 1,
+            "Giant Cucumber": 3,
+            "Punk Kappa Fin": 1,
+            "Cotton Strip": 10,
+            "Fine Cloth": 2,
+            "New Fundoshi": 1,
+            "Water Plant": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Lotus Spoon": 1
         }
     },
 
@@ -1023,6 +1483,19 @@
         "Effects":
         {
             "Skill Force": 12
+        },
+        "Recipe":
+        {
+            "Gingko Spear": 1,
+            "Crest Fragment": 3,
+            "Rotted Helm": 2,
+            "Bloodied Face Guard": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2,
+            "Mountain Water": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Hardy Daikon": 1
         }
     },
 
@@ -1036,6 +1509,18 @@
         "Effects":
         {
             "Skill Force": 18
+        },
+        "Recipe":
+        {
+            "Adorned Bamboo Spear": 1,
+            "Black Moth Scales": 3,
+            "Gray Apple": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2,
+            "Luck Daruma Fragment": 10,
+            "Daifuku": 1,
+            "Loss Daruma Fragment": 10,
+            "Ink": 1
         }
     },
 
@@ -1049,6 +1534,19 @@
         "Effects":
         {
             "Skill Force": 25
+        },
+        "Recipe":
+        {
+            "Red Lacquer Spear": 1,
+            "Iron Sand": 3,
+            "Nue Heart": 2,
+            "Nue's Cry": 1,
+            "Broken Lantern": 8,
+            "Burnt Talisman": 1,
+            "Red Scale": 10,
+            "Penanggalan Tail": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2
         }
     },
 
@@ -1062,6 +1560,18 @@
         "Effects":
         {
             "Skill Force": 30
+        },
+        "Recipe":
+        {
+            "Maple Spear": 1,
+            "Bronze Fragment": 3,
+            "Decorative Legs": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Baby Fly Wings": 10,
+            "Glittering Baby Fly Wings": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4
         }
     },
 
@@ -1075,6 +1585,20 @@
         "Effects":
         {
             "Skill Force": 37
+        },
+        "Recipe":
+        {
+            "Chained Magnolia Spear": 1,
+            "Pale Colored Scale": 3,
+            "Pale Colored Thorn": 1,
+            "Ashes": 20,
+            "Paper Crane": 10,
+            "Warding Peach": 1,
+            "Iron Sand": 10,
+            "Nue Heart": 1,
+            "Mantra": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2
         }
     },
 
@@ -1088,6 +1612,21 @@
         "Effects":
         {
             "Skill Force": 43
+        },
+        "Recipe":
+        {
+            "Shouinmatsu Spear": 1,
+            "Spiked Collar": 3,
+            "Honey": 2,
+            "Cerberus Vinegar": 1,
+            "Black Body Hair": 3,
+            "Skull Mask": 1,
+            "Withering Spirit": 10,
+            "Lifespan Candle": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1
         }
     },
 
@@ -1218,6 +1757,16 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Manjusri Talisman": 1,
+            "Gypsum": 3,
+            "Onigawara": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1
         }
     },
 
@@ -1231,6 +1780,18 @@
         "Effects":
         {
             "Skill Force": 11
+        },
+        "Recipe":
+        {
+            "Jizou Talisman": 1,
+            "Pale Colored Scale": 3,
+            "Pale Colored Thorn": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Orange Peel Juice": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Twilight Melancholy": 1
         }
     },
 
@@ -1244,6 +1805,21 @@
         "Effects":
         {
             "Skill Force": 17
+        },
+        "Recipe":
+        {
+            "Sunlight Talisman": 1,
+            "Ornate Handle": 3,
+            "Peerless Crest": 2,
+            "Bloodied Face Guard": 1,
+            "Bristly Beard": 10,
+            "Tanuki Tail": 1,
+            "Gypsum": 10,
+            "Onigawara": 1,
+            "Crow Feather": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Blackened Rose-coloured Glasses": 1
         }
     },
 
@@ -1257,6 +1833,20 @@
         "Effects":
         {
             "Skill Force": 23
+        },
+        "Recipe":
+        {
+            "Moonlight Talisman": 1,
+            "Unkempt Hair": 3,
+            "Straw Rope": 1,
+            "Spirit Mirror Shard": 10,
+            "Eternal Cloud": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Mountain Water": 5,
+            "Small Geta": 3,
+            "Sticky Material": 1,
+            "Hardy Daikon": 1
         }
     },
 
@@ -1270,6 +1860,18 @@
         "Effects":
         {
             "Skill Force": 29
+        },
+        "Recipe":
+        {
+            "Kisshouten Talisman": 1,
+            "Gypsum": 3,
+            "Onigawara": 1,
+            "Unkempt Hair": 10,
+            "Straw Rope": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1
         }
     },
 
@@ -1283,6 +1885,21 @@
         "Effects":
         {
             "Skill Force": 34
+        },
+        "Recipe":
+        {
+            "Byakue Talisman": 1,
+            "Metal Gear": 3,
+            "Burning Water": 1,
+            "Pumice Stone": 10,
+            "Maple Leaf": 1,
+            "Amagaeru Mucus": 10,
+            "Amagaeru Tongue": 1,
+            "Red Dyes": 8,
+            "Red Claw": 8,
+            "Bamboo Rotocoptor": 1,
+            "Charcoal": 10,
+            "Diamond Dust": 1
         }
     },
 
@@ -1296,6 +1913,20 @@
         "Effects":
         {
             "Skill Force": 40
+        },
+        "Recipe":
+        {
+            "Daikokuten Talisman": 1,
+            "Black Smoke": 3,
+            "Hell's Bible": 1,
+            "Crab Pearl": 10,
+            "Chestnut Pearl": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2,
+            "Toad Oil": 10,
+            "Toad Stomach": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1
         }
     },
 
@@ -1309,6 +1940,20 @@
         "Effects":
         {
             "Skill Force": 46
+        },
+        "Recipe":
+        {
+            "Peacock Talisman": 1,
+            "Shunoban Horn": 3,
+            "Dried Tongue": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Shell Fragment": 10,
+            "Shirikodama": 1,
+            "Centipede Eggs": 5,
+            "Centipede's Poison": 1,
+            "Wheel": 10,
+            "Eternal Torch": 1
         }
     },
 
@@ -1439,6 +2084,16 @@
         "Effects":
         {
             "Skill Force": 6
+        },
+        "Recipe":
+        {
+            "Oak Staff": 1,
+            "Daruma's Pipe": 3,
+            "Embroidered Cushion": 1,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2,
+            "Life Daruma Fragment": 10,
+            "Gift Bag": 1
         }
     },
 
@@ -1452,6 +2107,17 @@
         "Effects":
         {
             "Skill Force": 14
+        },
+        "Recipe":
+        {
+            "Plum Staff": 1,
+            "Stained Bandage": 3,
+            "Kibidango": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1,
+            "Centipede Eggs": 5,
+            "Centipede's Poison": 1
         }
     },
 
@@ -1465,6 +2131,18 @@
         "Effects":
         {
             "Skill Force": 20
+        },
+        "Recipe":
+        {
+            "Kashi Staff": 1,
+            "Hiderigami's Sigh": 3,
+            "Scorching Furnace": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1
         }
     },
 
@@ -1478,6 +2156,18 @@
         "Effects":
         {
             "Skill Force": 26
+        },
+        "Recipe":
+        {
+            "Tea Oak Staff": 1,
+            "Sulfur": 3,
+            "Reversed Compass": 1,
+            "Crab Pearl": 10,
+            "Chestnut Pearl": 1,
+            "Life Daruma Fragment": 10,
+            "Gift Bag": 1,
+            "Spirit Mirror Shard": 10,
+            "Eternal Cloud": 1
         }
     },
 
@@ -1491,6 +2181,21 @@
         "Effects":
         {
             "Skill Force": 34
+        },
+        "Recipe":
+        {
+            "Whitecap Staff": 1,
+            "Golden Helm Fragment": 3,
+            "Raisins": 1,
+            "Cotton Strip": 10,
+            "Fine Cloth": 2,
+            "New Fundoshi": 1,
+            "Unkempt Hair": 10,
+            "Straw Rope": 1,
+            "Spirit Mirror Shard": 10,
+            "Eternal Cloud": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1
         }
     },
 
@@ -1504,6 +2209,22 @@
         "Effects":
         {
             "Skill Force": 40
+        },
+        "Recipe":
+        {
+            "Pearl Staff": 1,
+            "Dried Seaweed": 3,
+            "Crab Meat": 2,
+            "Cursed Crab Claws": 1,
+            "Wild Plants": 10,
+            "Rock Roots": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Bristly Beard": 10,
+            "Tanuki Tail": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1
         }
     },
 
@@ -1517,6 +2238,20 @@
         "Effects":
         {
             "Skill Force": 46
+        },
+        "Recipe":
+        {
+            "Flourite Staff": 1,
+            "Sickle Whetstone": 3,
+            "Herbissacre": 1,
+            "Centipede Feelers": 10,
+            "Centidote": 1,
+            "Old Thread": 10,
+            "Bell of the Curse God": 1,
+            "Iron Sand": 10,
+            "Nue Heart": 1,
+            "Centipede Fluids": 10,
+            "Potent Venom": 1
         }
     },
 
@@ -2008,6 +2743,26 @@
         "Effects":
         {
             "Critical Immunity": true
+        },
+        "Recipe":
+        {
+            "Fortitude Stone": 1,
+            "Miracle Stone": 1,
+            "Inferno Stone": 1,
+            "Ice Stone": 1,
+            "Thunder Stone": 1,
+            "Light Stone": 1,
+            "Dark Stone": 1,
+            "Cutting Stone": 1,
+            "Piercing Stone": 1,
+            "Crushing Horn Stone": 1,
+            "Black Smoke": 3,
+            "Hell's Bible": 1,
+            "Spiked Collar": 3,
+            "Honey": 2,
+            "Cerberus Vinegar": 1,
+            "Sickle Whetstone": 3,
+            "Herbissacre": 1
         },
         "Comment": "Immune to critical hits"
     }

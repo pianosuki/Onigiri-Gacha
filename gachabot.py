@@ -457,16 +457,30 @@ def equipMagatama(user_id, magatama, slot):
     EquipmentDB.execute("UPDATE equipment SET magatama_%s = ? WHERE user_id = ?" % str(slot), (magatama, user_id))
     return
 
-def givePlayerWeapon(user_id, weapon):
+def givePlayerWeapon(user_id, weapon, remove = False):
     weapons = getPlayerWeaponsInv(user_id)
-    weapons = weapons + f", {weapon}" if weapons != "" else weapon
-    EquipmentDB.execute("UPDATE inventory SET weapons = ? WHERE user_id = ?", (weapons, user_id))
+    weapons_list = weapons.split(", ")
+    if not weapon in weapons_list and not remove:
+        # Add weapon to user inventory
+        weapons = weapons + f", {weapon}" if weapons != "" else weapon
+        EquipmentDB.execute("UPDATE inventory SET weapons = ? WHERE user_id = ?", (weapons, user_id))
+    elif weapon in weapons_list and remove:
+        # Remove weapon from user inventory
+        weapons = weapons.replace(", {}".format(weapon), "")
+        EquipmentDB.execute("UPDATE inventory SET weapons = ? WHERE user_id = ?", (weapons, user_id))
     return
 
-def givePlayerMagatama(user_id, magatama):
+def givePlayerMagatama(user_id, magatama, remove = False):
     magatamas = getPlayerMagatamasInv(user_id)
-    magatamas = magatamas + f", {magatama}" if magatamas != "" else magatama
-    EquipmentDB.execute("UPDATE inventory SET magatamas = ? WHERE user_id = ?", (magatamas, user_id))
+    magatamas_list = magatamas.split(", ")
+    if not magatama in magatamas_list and not remove:
+        # Add magatama to user inventory
+        magatamas = magatamas + f", {magatama}" if magatamas != "" else magatama
+        EquipmentDB.execute("UPDATE inventory SET magatamas = ? WHERE user_id = ?", (magatamas, user_id))
+    elif magatama in magatamas_list and remove:
+        # Remove magatama from user inventory
+        magatamas = magatamas.replace(", {}".format(magatama), "")
+        EquipmentDB.execute("UPDATE inventory SET magatamas = ? WHERE user_id = ?", (magatamas, user_id))
     return
 
 def getPlayerChakra(user_id):
@@ -884,6 +898,7 @@ async def dungeons(ctx, *input):
                 counter += 1
                 # Once a full page is assembled, print it
                 if counter == 10 or index + 1 == dungeons_length:
+                    e.set_footer(text = f"Page: {math.floor(offset / 10) + 1}/{math.ceil(dungeons_length / 10)}")
                     message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
                     if index + 1 > 10 and index + 1 < dungeons_length:
                         # Is a middle page
@@ -2999,7 +3014,8 @@ async def tavern(ctx):
     conv_rate       = config.conv_rate
     conv_rates      = [
         f"{Icons['ryou']} x `{'{:,}'.format(conv_rate[0])}` *Ryou D-Coins*  =  {Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*",
-        f"{Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*  =  {Icons['ryou']} x `{'{:,}'.format(int(conv_rate[0] / 10))}` *Ryou D-Coins*"
+        f"{Icons['ticket']} x `{'{:,}'.format(conv_rate[1])}` *Gacha Tickets*  =  {Icons['ryou']} x `{'{:,}'.format(int(conv_rate[0] / 10))}` *Ryou D-Coins*",
+        f"{Icons['fragment']} x `{4}` *Gacha Fragments*  =  {Icons['ticket']} x `{1}` *Gacha Tickets*"
     ]
 
     async def menuMain(ctx, message, flag):
@@ -3048,15 +3064,16 @@ async def tavern(ctx):
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Exchange between *Ryou D-Coins* and *Gacha Tickets*!", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-3"][0])
-            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
+            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1] + "\n" + conv_rates[2], inline = False)
             e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
             e.add_field(name = f"▷ {Icons['ticket']} ─ Ryou D-Coins ─> Tickets ─  {Icons['ticket']} ◁", value = menu_separator, inline = False)
             e.add_field(name = f"▷ {Icons['ryou']} ─ Tickets ─> Ryou D-Coins ─  {Icons['ryou']} ◁", value = menu_separator, inline = False)
+            e.add_field(name = f"▷ {Icons['fragment']}  ─  Fragments   ─>  Tickets  ─  {Icons['fragment']} ◁", value = menu_separator, inline = False)
             e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
             await message.edit(embed = e)
-            emojis = [Icons['ticket'], Icons['ryou'], "↩️"]
+            emojis = [Icons['ticket'], Icons['ryou'], Icons['fragment'], "↩️"]
             reaction, user = await waitForReaction(ctx, message, e, emojis)
             if reaction is None:
                 flag = False
@@ -3072,8 +3089,13 @@ async def tavern(ctx):
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     message, flag = await ticketsToRyou(ctx, message, flag)
+                case x if x == Icons['fragment']:
+                    e.set_field_at(6, name = f"►{Icons['fragment']}  ─  Fragments   ─>  Tickets  ─  {Icons['fragment']} ◄", value = menu_separator, inline = False)
+                    await message.edit(embed = e)
+                    await message.clear_reactions()
+                    message, flag = await fragmentsToTickets(ctx, message, flag)
                 case "↩️":
-                    e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                    e.set_field_at(7, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
                     await message.edit(embed = e)
                     await message.clear_reactions()
                     return message, flag
@@ -3093,7 +3115,7 @@ async def tavern(ctx):
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Ryou D-Coins* into *Gacha Tickets*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
+            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1] + "\n" + conv_rates[2], inline = False)
             e.add_field(name = "Your Ryou D-Coins:", value = f"{Icons['ryou']} x `{'{:,}'.format(ryou)}`", inline = True)
             e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(ryou / conv_rate[0]))}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
@@ -3185,7 +3207,7 @@ async def tavern(ctx):
             e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Gacha Tickets* into *Ryou D-Coins*", color = default_color)
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
-            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1], inline = False)
+            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1] + "\n" + conv_rates[2], inline = False)
             e.add_field(name = "Your Gacha Tickets:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets)}`", inline = True)
             e.add_field(name = "Bulk Ryou D-Coins yield:", value = f"{Icons['ryou']} x `{'{:,}'.format(math.floor(tickets * (conv_rate[0] / 10)))}`", inline = True)
             e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
@@ -3262,6 +3284,85 @@ async def tavern(ctx):
             e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
             e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
             e.add_field(name = "You have insufficient *Gacha Tickets*.", value =  f"Need {Icons['ticket']} x `{'{:,}'.format(conv_rate[1] - tickets)}` more!", inline = False)
+            message = await ctx.send(embed = e)
+            flag = False
+            return message, flag
+
+    async def fragmentsToTickets(ctx, message, flag):
+        inv_gacha   = getUserGachaInv(user_id)
+        tickets     = inv_gacha.gacha_tickets
+        fragments   = inv_gacha.gacha_fragments
+        total_rolls = inv_gacha.total_rolls
+        if fragments >= 4:
+            e = discord.Embed(title = f"Welcome to the {branch_name} Exchange!", description = "Trade your *Gacha Fragments* into *Gacha Tickets*", color = default_color)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
+            e.add_field(name = "Conversion Rates:", value = conv_rates[0] + "\n" + conv_rates[1] + "\n" + conv_rates[2], inline = False)
+            e.add_field(name = "Your Gacha Fragments:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments)}`", inline = True)
+            e.add_field(name = "Bulk Gacha Ticket yield:", value = f"{Icons['ticket']} x `{'{:,}'.format(math.floor(fragments / 4))}`", inline = True)
+            e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+            e.add_field(name = "▷ 1️⃣  ──── Exchange  One ────  1️⃣ ◁", value = menu_separator, inline = False)
+            e.add_field(name = "▷ *️⃣  ──── Exchange  Bulk ────  *️⃣ ◁", value = menu_separator, inline = False)
+            e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+            await message.edit(embed = e)
+            emojis = ["1️⃣", "*️⃣", "↩️"]
+            reaction, user = await waitForReaction(ctx, message, e, emojis)
+            if reaction is None:
+                flag = False
+                return message, flag
+            match str(reaction.emoji):
+                case "1️⃣":
+                    e.set_field_at(4, name = "►1️⃣  ──── Exchange  One ────  1️⃣ ◄", value = menu_separator, inline = False)
+                    await message.edit(embed = e)
+                    await message.clear_reactions()
+                    fragments_traded = 4
+                    tickets_traded = 1
+                case "*️⃣":
+                    e.set_field_at(5, name = "►*️⃣  ──── Exchange  Bulk ────  *️⃣ ◄", value = menu_separator, inline = False)
+                    await message.edit(embed = e)
+                    await message.clear_reactions()
+                    e.remove_field(6)
+                    e.remove_field(5)
+                    e.remove_field(4)
+                    e.remove_field(3)
+                    e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+                    e.add_field(name = "▷ *️⃣  ──── Exchange  ALL  ────  *️⃣ ◁", value = menu_separator, inline = False)
+                    e.add_field(name = "▷ ↩️ ───── Main  Menu ───── ↩️ ◁", value = menu_bottom, inline = False)
+                    await message.edit(embed = e)
+                    emojis = ["*️⃣", "↩️"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        return message, flag
+                    match str(reaction.emoji):
+                        case "*️⃣":
+                            await message.clear_reactions()
+                            fragments_traded = math.floor(fragments / 4) * 4
+                            tickets_traded = math.floor(fragments / 4)
+                        case "↩️":
+                            await message.clear_reactions()
+                            return message, flag
+                case "↩️":
+                    e.set_field_at(6, name = "►↩️ ───── Main  Menu ───── ↩️ ◄", value = menu_bottom, inline = False)
+                    await message.edit(embed = e)
+                    await message.clear_reactions()
+                    return message, flag
+            e = discord.Embed(title = "Trade Result", description = f"✅ Successfully Exchanged *Gacha Fragments* into *Gacha Tickets*!", color = 0x4caf50)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+            e.add_field(name = "Traded *Gacha Fragments*:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments_traded)}`", inline = True)
+            e.add_field(name = "Obtained *Gacha Tickets*:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets_traded)}`", inline = True)
+            e.add_field(name = "You now have this many *Gacha Fragments* left:", value = f"{Icons['fragment']} x `{'{:,}'.format(fragments - fragments_traded)}`", inline = False)
+            e.add_field(name = "Your total *Gacha Tickets* are now:", value = f"{Icons['ticket']} x `{'{:,}'.format(tickets + tickets_traded)}`", inline = False)
+            message = await ctx.send(embed = e)
+            GachaDB.userdata[user_id] = {"gacha_tickets": tickets + tickets_traded, "gacha_fragments": fragments - fragments_traded, "total_rolls": total_rolls}
+            flag = False
+            return message, flag
+        else:
+            e = discord.Embed(title = "Trade Result", description = "❌ Exchange Failed!", color = 0xef5350)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+            e.add_field(name = "You have insufficient *Gacha Fragments*.", value =  f"Need {Icons['fragment']} x `{'{:,}'.format(4 / fragments)}` more!", inline = False)
             message = await ctx.send(embed = e)
             flag = False
             return message, flag
@@ -4083,6 +4184,397 @@ async def roll(ctx, skip=None):
                 await message.edit(embed = e)
                 await message.clear_reactions()
                 return
+
+@bot.command()
+@commands.check(checkChannel)
+async def craft(ctx, *input):
+    ''' | Usage: +craft [weapon/magatama name] | Craft Weapons and Magatamas '''
+    user_id = ctx.author.id
+    numbers = config.numbers
+
+    async def menuCrafting(ctx, message, flag):
+        while flag:
+            banner = generateFileObject("Oni-Crafting", Graphics["Banners"]["Oni-Crafting"][0])
+            e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = "What type of item would you like to craft?", color = 0xf885a4)
+            e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+            e.add_field(name = "Weapons", value = f"╔══╗\n║{Icons['twin_swords']} ║\n╚══╝", inline = True)
+            e.add_field(name = "Magatamas", value = f"╔══╗\n║{Icons['magatama']} ║\n╚══╝", inline = True)
+            message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+            emojis = [Icons["twin_swords"], Icons["magatama"]]
+            reaction, user = await waitForReaction(ctx, message, e, emojis)
+            if reaction is None:
+                return
+            match str(reaction.emoji):
+                case x if x == Icons["twin_swords"]:
+                    await message.clear_reactions()
+                    message, flag = await menuWeapons(ctx, message, flag)
+                case x if x == Icons["magatama"]:
+                    await message.clear_reactions()
+                    message, flag = await menuMagatamas(ctx, message, flag)
+
+    async def menuWeapons(ctx, message, flag):
+        def sortByLevel(weapon):
+            return Weapons[weapon]["Level_Required"]
+        sorted_weapons = sorted(Weapons.keys(), key = sortByLevel)
+        craftable_weapons = []
+        for weapon in sorted_weapons:
+            if "Recipe" in Weapons[weapon]:
+                craftable_weapons.append(weapon)
+
+        weapons_length = len(craftable_weapons)
+        level = getPlayerLevel(user_id)
+
+        e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = "List of craftable **Weapons**", color = 0xf885a4)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+
+        # Set offset to 0 (page 1) and begin bidirectional page system
+        offset = 0
+        flag = True
+        while flag:
+            counter = 0
+            # Iterate through weapons in groups of 10
+            for index, weapon in enumerate(craftable_weapons):
+                if index < offset:
+                    # Skipping to next entry until arriving at the proper page/offset
+                    continue
+                weapon_level = Weapons[weapon]["Level_Required"]
+                weapon_emoji = Icons[Weapons[weapon]["Type"].lower().replace(" ", "_")]
+                number_emoji = numbers[counter]
+                unlocked_emoji = "🔓" if level >= weapon_level else "🔒"
+                crossout = "~~" if not level >= weapon_level else ""
+                bold_or_italics = "**" if not level >= weapon_level else "*"
+                weapon_string = f"{weapon_emoji} __{weapon}__"
+                e.add_field(name = f"{number_emoji}  ─  {crossout}{weapon_string}{crossout}", value = f"{unlocked_emoji}  **─**  {bold_or_italics}Level Required:{bold_or_italics} {Icons['level']}**{weapon_level}**\n`{config.prefix}craft {weapon}`", inline = True)
+                if not counter % 2 == 0:
+                    e.add_field(name = "\u200b", value = "\u200b", inline = True)
+                counter += 1
+                # Once a full page is assembled, print it
+                if counter == 10 or index + 1 == weapons_length:
+                    e.set_footer(text = f"Page: {math.floor(offset / 10) + 1}/{math.ceil(weapons_length / 10)}")
+                    await message.edit(embed = e)
+                    if index + 1 > 10 and index + 1 < weapons_length:
+                        # Is a middle page
+                        emojis = ["⏪", "⏩", "↩️"]
+                    elif index + 1 < weapons_length:
+                        # Is the first page
+                        emojis = ["⏪", "⏩", "↩️"]
+                    elif weapons_length > 10:
+                        # Is the last page
+                        emojis = ["⏪", "↩️"]
+                    else:
+                        # Is the only page
+                        emojis = ["↩️"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        break
+                    match str(reaction.emoji):
+                        case "⏩":
+                            # Tell upcomming re-iteration to skip to the next page's offset
+                            offset += 10
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "⏪":
+                            # Tell upcomming re-iteration to skip to the previous page's offset
+                            if offset >= 10:
+                                offset -= 10
+                            else:
+                                # Skip to the last page
+                                offset = weapons_length - (10 - (math.floor(weapons_length / 10)))
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "↩️":
+                            await message.clear_reactions()
+                            return message, flag
+        return message, flag
+
+    async def menuMagatamas(ctx, message, flag):
+        def sortByLevel(magatama):
+            return Magatamas[magatama]["Level_Required"]
+        sorted_magatamas = sorted(Magatamas.keys(), key = sortByLevel)
+        craftable_magatamas = []
+        for magatama in sorted_magatamas:
+            if "Recipe" in Magatamas[magatama]:
+                craftable_magatamas.append(magatama)
+        magatamas_length = len(craftable_magatamas)
+        level = getPlayerLevel(user_id)
+
+        e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = "List of craftable **Magatamas**", color = 0xf885a4)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+
+        # Set offset to 0 (page 1) and begin bidirectional page system
+        offset = 0
+        flag = True
+        while flag:
+            counter = 0
+            # Iterate through magatamas in groups of 10
+            for index, magatama in enumerate(craftable_magatamas):
+                if index < offset:
+                    # Skipping to next entry until arriving at the proper page/offset
+                    continue
+                magatama_level = Magatamas[magatama]["Level_Required"]
+                magatama_emoji = Icons["magatama_" + Magatamas[magatama]["Type"].lower().replace(" ", "_")]
+                number_emoji = numbers[counter]
+                unlocked_emoji = "🔓" if level >= magatama_level else "🔒"
+                crossout = "~~" if not level >= magatama_level else ""
+                bold_or_italics = "**" if not level >= magatama_level else "*"
+                magatama_string = f"{magatama_emoji} __{magatama}__"
+                e.add_field(name = f"{number_emoji}  ─  {crossout}{magatama_string}{crossout}", value = f"{unlocked_emoji}  **─**  {bold_or_italics}Level Required:{bold_or_italics} {Icons['level']}**{magatama_level}**\n`{config.prefix}craft {magatama}`", inline = True)
+                if not counter % 2 == 0:
+                    e.add_field(name = "\u200b", value = "\u200b", inline = True)
+                counter += 1
+                # Once a full page is assembled, print it
+                if counter == 10 or index + 1 == magatamas_length:
+                    e.set_footer(text = f"Page: {math.floor(offset / 10) + 1}/{math.ceil(magatamas_length / 10)}")
+                    await message.edit(embed = e)
+                    if index + 1 > 10 and index + 1 < magatamas_length:
+                        # Is a middle page
+                        emojis = ["⏪", "⏩", "↩️"]
+                    elif index + 1 < magatamas_length:
+                        # Is the first page
+                        emojis = ["⏪", "⏩", "↩️"]
+                    elif magatamas_length > 10:
+                        # Is the last page
+                        emojis = ["⏪", "↩️"]
+                    else:
+                        # Is the only page
+                        emojis = ["↩️"]
+                    reaction, user = await waitForReaction(ctx, message, e, emojis)
+                    if reaction is None:
+                        flag = False
+                        break
+                    match str(reaction.emoji):
+                        case "⏩":
+                            # Tell upcomming re-iteration to skip to the next page's offset
+                            offset += 10
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "⏪":
+                            # Tell upcomming re-iteration to skip to the previous page's offset
+                            if offset >= 10:
+                                offset -= 10
+                            else:
+                                # Skip to the last page
+                                offset = magatamas_length - (10 - (math.floor(magatamas_length / 10)))
+                            await message.clear_reactions()
+                            e.clear_fields()
+                            break
+                        case "↩️":
+                            await message.clear_reactions()
+                            return message, flag
+        return message, flag
+
+    async def craftWeapon(ctx, message, flag, weapon):
+        pass
+
+    async def craftMagatama(ctx, message, flag, magatama):
+
+        def getMagatamaElements(magatama):
+            if not Magatamas[magatama]['Elements'] is None:
+                for element in Magatamas[magatama]['Elements']:
+                    if Magatamas[magatama]['Elements'][element]:
+                        elements += f"(+{Icons[element]})"
+                    else:
+                        elements += f"(-{Icons[element]})"
+                    if index + 1 < len(Magatamas[magatama]['Elements']):
+                        elements += ", "
+            else:
+                elements = "None"
+            return elements
+
+        def getMagatamaSkillForce(magatama):
+            sf = 0
+            if "Skill Force" in Magatamas[magatama]["Effects"]:
+                sf = Magatamas[magatama]["Effects"]["Skill Force"]
+            return sf
+
+        def getMagatamaCriticalRate(magatama):
+            critical = 0
+            if "Critical" in Magatamas[magatama]["Effects"]:
+                critical = Magatamas[magatama]["Effects"]["Critical"]
+            return critical
+
+        m_emoji = Icons["magatama_" + Magatamas[magatama]["Type"].lower().replace(" ", "_")]
+        m_level = Magatamas[magatama]["Level_Required"]
+        m_chakra = Magatamas[magatama]["Chakra"]
+        m_def = Magatamas[magatama]["Defence"]
+        m_elements = getMagatamaElements(magatama)
+        m_sf = getMagatamaSkillForce(magatama)
+        m_critical = getMagatamaCriticalRate(magatama)
+
+        def formatMagatamaDetails(magatama):
+            formatted_string = ""
+            formatted_string += "──────────────────\n"
+            formatted_string += f"{m_emoji} **__{magatama}__**\n"
+            formatted_string += f" ╰─  Level: **{m_level}**\n"
+            formatted_string += f" ╰─  Chakra: **{m_chakra}**\n"
+            formatted_string += f" ╰─  Defence: **{'{:,}'.format(m_def)}**\n"
+            formatted_string += f" ╰─  Elements: **{m_elements}**\n"
+            if "Skill Force" in Magatamas[magatama]["Effects"]:
+                formatted_string += f" ╰─  Skill Force: **+{m_sf}%**\n"
+            if "Critical" in Magatamas[magatama]["Effects"]:
+                formatted_string += f" ╰─  Critical: **+{m_critical}%**\n"
+            return formatted_string
+
+        def formatMagatamaRecipe(magatama):
+            formatted_string = ""
+            formatted_string += "──────────────────\n"
+            for material, amount in Magatamas[magatama]["Recipe"].items():
+                if material in Materials:
+                    material_emoji = Icons["material_" + Materials[material]["type"]]
+                elif material in Weapons:
+                    material_emoji = Icons[Weapons[material]["Type"].lower().replace(" ", "_")]
+                elif material in Magatamas:
+                    material_emoji = Icons["magatama_" + Magatamas[material]["Type"].lower().replace(" ", "_")]
+                formatted_string += f"{material_emoji} **{amount}x** __{material}__\n"
+            return formatted_string
+
+        banner = generateFileObject("Oni-Crafting", Graphics["Banners"]["Oni-Crafting"][0])
+        e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = f"Viewing recipe of __{magatama}__", color = 0xf885a4)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.add_field(name = f"{Icons['recipe']} ─ Magatama Recipe ─ {Icons['recipe']}", value = formatMagatamaRecipe(magatama), inline = True)
+        e.add_field(name = f"{Icons['magatama']} ─ Magatama Details ─ {Icons['magatama']}", value = formatMagatamaDetails(magatama), inline = True)
+        reformatting = True
+        while reformatting:
+            d = e.to_dict()
+            for n in range(0, len(d["fields"])):
+                if len(d["fields"][n]["value"]) > 1024:
+                    field_name = d["fields"][n]["name"]
+                    inline = d["fields"][n]["inline"]
+                    recipe_list = d["fields"][n]["value"].split("\n")
+                    recipe_1 = ""
+                    recipe_2 = ""
+                    for index, line in enumerate(recipe_list):
+                        if index <= math.floor(len(recipe_list) / 2):
+                            recipe_1 += line + "\n"
+                        else:
+                            recipe_2 += line + "\n"
+                    e.set_field_at(n, name = field_name, value = recipe_1, inline = inline)
+                    e.add_field(name = f"{Icons['recipe']} ─ (Continued) Recipe ─ {Icons['recipe']}", value = recipe_2, inline = False)
+                    reformatting = True
+                    break
+                else:
+                    reformatting = False
+        message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+        emojis = ["⚒️", "❌"]
+        reaction, user = await waitForReaction(ctx, message, e, emojis)
+        if reaction is None:
+            return
+        match str(reaction.emoji):
+            case "⚒️":
+                await message.clear_reactions()
+                inv_materials = {mat[0]:mat[1] for mat in getUserMaterialInv(user_id)}
+                inv_weapons = getPlayerWeaponsInv(user_id)
+                inv_magatamas = getPlayerMagatamasInv(user_id)
+
+                # Check if user is missing any ingredients
+                missing = {}
+                for material, amount_req in Magatamas[magatama]["Recipe"].items():
+                    if material in Materials:
+                        if material in inv_materials:
+                            amount_have = inv_materials[material]
+                            if amount_have >= amount_req:
+                                continue
+                            else:
+                                missing[material] = amount_req - amount_have
+                        else:
+                            missing[material] = amount_req
+                    elif material in Weapons:
+                        if material in inv_weapons:
+                            if material == getPlayerEquipment(user_id)["weapon"]:
+                                await ctx.reply(f"⚠️ **You must unequip {Icons[Weapons[material]['Type'].lower().replace(' ', '_')]} __{material}__ in order to use it as an ingredient!**")
+                        else:
+                            missing[material] = 1
+                    elif material in Magatamas:
+                        if material in inv_magatamas:
+                            if material in getPlayerEquipment(user_id)["magatamas"]:
+                                await ctx.reply(f"⚠️ **You must unequip {Icons['magatama_' + Magatamas[material]['Type'].lower().replace(' ', '_')]} __{material}__ in order to use it as an ingredient!**")
+                        else:
+                            missing[material] = 1
+
+                if not missing:
+                    # Craft the magatama
+                    for material, amount_req in Magatamas[magatama]["Recipe"].items():
+                        if material in Materials:
+                            giveUserMaterial(user_id, material, -amount_req)
+                        elif material in Weapons:
+                            givePlayerWeapon(user_id, material, remove = True)
+                        elif material in Magatamas:
+                            givePlayerMagatama(user_id, material, remove = True)
+                    givePlayerMagatama(user_id, magatama)
+                    await ctx.reply(f"✅ Successfully crafted {m_emoji} __{magatama}__!")
+                else:
+                    await ctx.reply(formatMissing(missing))
+            case "❌":
+                await message.clear_reactions()
+        return
+
+    def checkIfWeapon(q_string):
+        for weapon in Weapons:
+            if q_string.casefold() == weapon.casefold():
+                if "Recipe" in Weapons[weapon]:
+                    return True, weapon
+                else:
+                    return False, weapon
+        return False, None
+
+    def checkIfMagatama(q_string):
+        for magatama in Magatamas:
+            if q_string.casefold() == magatama.casefold():
+                if "Recipe" in Magatamas[magatama]:
+                    return True, magatama
+                else:
+                    return False, magatama
+        return False, None
+
+    def formatMissing(missing):
+        formatted_string = "⚠️ **Missing Ingredients:**\n"
+        for material, amount in missing.items():
+            if material in Materials:
+                material_emoji = Icons["material_" + Materials[material]["type"]]
+            elif material in Weapons:
+                material_emoji = Icons[Weapons[material]["Type"].lower().replace(" ", "_")]
+            elif material in Magatamas:
+                material_emoji = Icons["magatama_" + Magatamas[material]["Type"].lower().replace(" ", "_")]
+            formatted_string += f"{material_emoji} **{amount}x** __{material}__\n"
+        return formatted_string
+
+    # main()
+    message = None
+    flag = True
+    if input:
+        # User provided arguments
+        query = list(input)
+        q_string = ' '.join(query)
+        w_result, weapon = checkIfWeapon(q_string)
+        m_result, magatama = checkIfMagatama(q_string)
+        if w_result:
+            inv_weapons = getPlayerWeaponsInv(user_id)
+            weapons_list = inv_weapons.split(", ")
+            if not weapon in weapons_list:
+                await craftWeapon(ctx, message, flag, weapon)
+            else:
+                await ctx.reply(f"⚠️ **You already have the weapon:** {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} __{weapon}__")
+        elif m_result:
+            inv_magatamas = getPlayerMagatamasInv(user_id)
+            magatamas_list = inv_magatamas.split(", ")
+            if not magatama in magatamas_list:
+                await craftMagatama(ctx, message, flag, magatama)
+            else:
+                await ctx.reply(f"⚠️ **You already have the magatama:** {Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} __{magatama}__")
+        elif not weapon is None:
+            await ctx.reply(f"⚠️ **The weapon you chose is not craftable:** `{weapon}`")
+        elif not magatama is None:
+            await ctx.reply(f"⚠️ **The magatama you chose is not craftable:** `{magatama}`")
+        else:
+            await ctx.reply(f"⚠️ **There doesn't exist any Weapons nor Magatamas with the name:** `{q_string}`")
+    else:
+        await menuCrafting(ctx, message, flag)
+    # EOF
+    return
 
 @bot.command(aliases = ["seed"])
 @commands.check(checkChannel)
@@ -4979,73 +5471,73 @@ async def inv(ctx, target = None):
     else:
         await ctx.send("Please **@ mention** a valid user to check their inventory (+help inv)")
 
-@bot.command()
-@commands.check(checkChannel)
-async def craft(ctx, amount:str = "1"):
-    ''' | Usage: +craft [integer or "all"] | Craft a Gacha Ticket from 4 Gacha Pieces '''
-    menu_top        = "┌───────────────────────┐"
-    menu_separator  = "├───────────────────────┤"
-    menu_bottom     = "└───────────────────────┘"
-    user_id = convertMentionToId(ctx.author.mention)
-    GachaDB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
-    inventory   = GachaDB.userdata[user_id]
-    tickets     = inventory.gacha_tickets
-    fragments   = inventory.gacha_fragments
-    total_rolls = inventory.total_rolls
-
-    if amount == "all":
-        # Calculate maximum number of tickets user can craft with their current fragments
-        craft_amount = math.trunc(fragments / 4)
-        if craft_amount == 0:
-            # Assume user is trying to craft at least 1 ticket
-            craft_amount += 1
-    else:
-        try:
-            craft_amount = int(amount)
-            if craft_amount == 0:
-                raise ValueError
-        except ValueError:
-            await ctx.send("Please enter a valid amount of tickets to craft! (**integer** or **\"all\"**)")
-            return
-
-    e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
-    e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-    e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
-    e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
-    e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
-    e.add_field(name = "Tickets to craft:", value = f"🎟️ x {craft_amount} ticket(s)", inline = True)
-    e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
-    e.add_field(name = "▷ ⚒️  ── Craft Gacha Ticket(s) ──  ⚒️ ◁", value = menu_separator, inline = False)
-    e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
-    message = await ctx.send(embed = e)
-    emojis = ["⚒️", "❌"]
-    reaction, user = await waitForReaction(ctx, message, e, emojis)
-    if reaction is None:
-        return
-    match str(reaction.emoji):
-        case "⚒️":
-            e.set_field_at(4, name = "►⚒️ ─── Craft Gacha Ticket ─── ⚒️ ◄", value = menu_separator, inline = False)
-            await message.edit(embed = e)
-            await message.clear_reactions()
-            if fragments >= craft_amount * 4:
-                e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
-                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
-                e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
-                e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
-                await ctx.send(embed = e)
-                # Add crafted tickets to and subtract used fragments from database
-                GachaDB.userdata[user_id] = {"gacha_tickets": tickets + craft_amount, "gacha_fragments": fragments - craft_amount * 4, "total_rolls": total_rolls}
-            else:
-                e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
-                e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
-                e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
-                await ctx.send(embed = e)
-        case "❌":
-            e.set_field_at(5, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
-            await message.edit(embed = e)
-            await message.clear_reactions()
+# @bot.command()
+# @commands.check(checkChannel)
+# async def craft(ctx, amount:str = "1"):
+#     ''' | Usage: +craft [integer or "all"] | Craft a Gacha Ticket from 4 Gacha Pieces '''
+#     menu_top        = "┌───────────────────────┐"
+#     menu_separator  = "├───────────────────────┤"
+#     menu_bottom     = "└───────────────────────┘"
+#     user_id = convertMentionToId(ctx.author.mention)
+#     GachaDB.execute("INSERT OR IGNORE INTO userdata (user_id, gacha_tickets, gacha_fragments, total_rolls) values ("+str(user_id)+", '0', '0', '0')")
+#     inventory   = GachaDB.userdata[user_id]
+#     tickets     = inventory.gacha_tickets
+#     fragments   = inventory.gacha_fragments
+#     total_rolls = inventory.total_rolls
+#
+#     if amount == "all":
+#         # Calculate maximum number of tickets user can craft with their current fragments
+#         craft_amount = math.trunc(fragments / 4)
+#         if craft_amount == 0:
+#             # Assume user is trying to craft at least 1 ticket
+#             craft_amount += 1
+#     else:
+#         try:
+#             craft_amount = int(amount)
+#             if craft_amount == 0:
+#                 raise ValueError
+#         except ValueError:
+#             await ctx.send("Please enter a valid amount of tickets to craft! (**integer** or **\"all\"**)")
+#             return
+#
+#     e = discord.Embed(title = "Crafting Menu", description = "Turn your Gacha Ticket Fragments into Gacha Tickets!", color = 0x00897b)
+#     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#     e.set_thumbnail(url = Resource["Kinka_Mei-1"][0])
+#     e.add_field(name = "Conversion Rate:", value = "`🧩 x 4 Pieces  =  🎟️ x 1 Gacha Ticket`", inline = False)
+#     e.add_field(name = "Your Gacha Fragments:", value = f"🧩 x {fragments} piece(s)", inline = True)
+#     e.add_field(name = "Tickets to craft:", value = f"🎟️ x {craft_amount} ticket(s)", inline = True)
+#     e.add_field(name = "Reaction Menu:", value = menu_top, inline = False)
+#     e.add_field(name = "▷ ⚒️  ── Craft Gacha Ticket(s) ──  ⚒️ ◁", value = menu_separator, inline = False)
+#     e.add_field(name = "▷ ❌ ─────  Exit  Menu  ─────  ❌ ◁", value = menu_bottom, inline = False)
+#     message = await ctx.send(embed = e)
+#     emojis = ["⚒️", "❌"]
+#     reaction, user = await waitForReaction(ctx, message, e, emojis)
+#     if reaction is None:
+#         return
+#     match str(reaction.emoji):
+#         case "⚒️":
+#             e.set_field_at(4, name = "►⚒️ ─── Craft Gacha Ticket ─── ⚒️ ◄", value = menu_separator, inline = False)
+#             await message.edit(embed = e)
+#             await message.clear_reactions()
+#             if fragments >= craft_amount * 4:
+#                 e = discord.Embed(title = "Crafting Result", description = f"✅ Successfully crafted {craft_amount} Gacha Ticket(s)!", color = 0x00897b)
+#                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                 e.set_thumbnail(url = Resource["Kinka_Mei-6"][0])
+#                 e.add_field(name = "Used fragments:", value = f"🧩 x {craft_amount * 4}", inline = False)
+#                 e.add_field(name = "You now have this many Gacha Tickets:", value = f"🎟️ x {tickets + craft_amount}", inline = False)
+#                 await ctx.send(embed = e)
+#                 # Add crafted tickets to and subtract used fragments from database
+#                 GachaDB.userdata[user_id] = {"gacha_tickets": tickets + craft_amount, "gacha_fragments": fragments - craft_amount * 4, "total_rolls": total_rolls}
+#             else:
+#                 e = discord.Embed(title = "Crafting Result", description = "❌ Craft failed!", color = 0x00897b)
+#                 e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+#                 e.set_thumbnail(url = Resource["Kinka_Mei-2"][0])
+#                 e.add_field(name = "You have insufficient ticket pieces.", value =  f"Need 🧩 x {craft_amount * 4 - fragments} more!", inline = False)
+#                 await ctx.send(embed = e)
+#         case "❌":
+#             e.set_field_at(5, name = "►❌ ─────  Exit  Menu  ─────  ❌ ◄", value = menu_bottom, inline = False)
+#             await message.edit(embed = e)
+#             await message.clear_reactions()
 
 @bot.command()
 @commands.check(checkChannel)
@@ -5258,6 +5750,9 @@ async def reward(ctx, target: str, item: str, quantity):
                         await ctx.send(f"Rewarded {target} with `{quantity}` of item: **{x}**")
                         if x in config.role_boosts:
                             await addRole(ctx, x)
+                    case x if x in Materials:
+                        giveUserMaterial(user_id, x, quantity)
+                        await ctx.send(f"Rewarded {target} with `{quantity}` of item: **{x}**")
                     case _:
                         await ctx.send(f"Please enter a **valid item** to reward ({config.prefix}help reward)")
             except ValueError:

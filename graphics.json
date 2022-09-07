@@ -3,7 +3,8 @@
     {
         "Oni-Tavern": ["Graphics/Banners/Oni-Tavern.png", "Oni-Tavern.png", "attachment://oni-tavern.png"],
         "Oni-Quests": ["Graphics/Banners/Oni-Quests.png", "Oni-Quests.png", "attachment://oni-quests.png"],
-        "Oni-Dungeons": ["Graphics/Banners/Oni-Dungeons.png", "Oni-Dungeons.png", "attachment://oni-dungeons.png"]
+        "Oni-Dungeons": ["Graphics/Banners/Oni-Dungeons.png", "Oni-Dungeons.png", "attachment://oni-dungeons.png"],
+        "Oni-Crafting": ["Graphics/Banners/Oni-Crafting.png", "Oni-Crafting.png", "attachment://oni-crafting.png"]
     },
 
     "Capsules":

@@ -755,6 +755,15 @@
         "Elements": ["Slice", "Holy"]
     },
 
+    "Yamaneko Twin Blades":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 10,
+        "Rarity": "White",
+        "Attack": 7,
+        "Elements": ["Slice"]
+    },
+
     "Kikusenkaku":
     {
         "Type": "Twin Swords",
@@ -1292,7 +1301,15 @@
         "Level_Required": 10,
         "Rarity": "Gold",
         "Attack": 10,
-        "Elements": ["Slice"]
+        "Elements": ["Slice"],
+        "Recipe":
+        {
+            "Gloom Daruma Fragment": 5,
+            "Daruma's Pipe": 1,
+            "Shell Fragment": 3,
+            "Cotton Strip": 2,
+            "Sinister Bones": 1
+        }
     },
 
     "Onikiri":
@@ -2554,240 +2571,6 @@
 
 
 
-
-    "Pine Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 1,
-        "Rarity": "White",
-        "Attack": 1,
-        "Elements": ["Impact"]
-    },
-
-    "Oak Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 10,
-        "Rarity": "White",
-        "Attack": 7,
-        "Elements": ["Impact"]
-    },
-
-    "Thirty Six Poets":
-    {
-        "Type": "Staff",
-        "Level_Required": 13,
-        "Rarity": "Gold",
-        "Attack": 13,
-        "Elements": ["Impact"]
-    },
-
-    "Gungnir":
-    {
-        "Type": "Staff",
-        "Level_Required": 17,
-        "Rarity": "Red",
-        "Attack": 15,
-        "Elements": ["Impact", "Lightning"]
-    },
-
-    "Plum Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 19,
-        "Rarity": "White",
-        "Attack": 13,
-        "Elements": ["Impact"]
-    },
-
-    "Iwaotoshi":
-    {
-        "Type": "Staff",
-        "Level_Required": 21,
-        "Rarity": "Red",
-        "Attack": 19,
-        "Elements": ["Impact"]
-    },
-
-    "Water Oak Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 21,
-        "Rarity": "Blue",
-        "Attack": 17,
-        "Elements": ["Impact", "Rain"]
-    },
-
-    "Caduceus":
-    {
-        "Type": "Staff",
-        "Level_Required": 25,
-        "Rarity": "Red",
-        "Attack": 22,
-        "Elements": ["Impact"]
-    },
-
-    "Super Sushi Rod":
-    {
-        "Type": "Staff",
-        "Level_Required": 25,
-        "Rarity": "Gold",
-        "Attack": 25,
-        "Elements": ["Impact", "Holy"]
-    },
-
-    "Kashi Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 27,
-        "Rarity": "White",
-        "Attack": 19,
-        "Elements": ["Impact"]
-    },
-
-    "Nyoibou":
-    {
-        "Type": "Staff",
-        "Level_Required": 29,
-        "Rarity": "Gold",
-        "Attack": 29,
-        "Elements": ["Impact"]
-    },
-
-    "Gennou":
-    {
-        "Type": "Staff",
-        "Level_Required": 33,
-        "Rarity": "Gold",
-        "Attack": 33,
-        "Elements": ["Impact", "Holy"]
-    },
-
-    "Tea Oak Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 35,
-        "Rarity": "White",
-        "Attack": 24,
-        "Elements": ["Impact"]
-    },
-
-    "Kanasaibou":
-    {
-        "Type": "Staff",
-        "Level_Required": 37,
-        "Rarity": "Gold",
-        "Attack": 37,
-        "Elements": ["Impact"]
-    },
-
-    "Kareyanagi Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 40,
-        "Rarity": "White",
-        "Attack": 28,
-        "Elements": ["Impact"]
-    },
-
-    "Dark Kashi Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 40,
-        "Rarity": "Blue",
-        "Attack": 32,
-        "Elements": ["Impact", "Dark"]
-    },
-
-    "Kamatarizakura":
-    {
-        "Type": "Staff",
-        "Level_Required": 41,
-        "Rarity": "Red",
-        "Attack": 37,
-        "Elements": ["Impact", "Mountain"]
-    },
-
-    "Whitecap Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 42,
-        "Rarity": "White",
-        "Attack": 29,
-        "Elements": ["Impact"]
-    },
-
-    "Kinben":
-    {
-        "Type": "Staff",
-        "Level_Required": 45,
-        "Rarity": "Red",
-        "Attack": 40,
-        "Elements": ["Impact", "Holy"]
-    },
-
-    "Pearl Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 49,
-        "Rarity": "White",
-        "Attack": 34,
-        "Elements": ["Impact"]
-    },
-
-    "Genma":
-    {
-        "Type": "Staff",
-        "Level_Required": 49,
-        "Rarity": "Gold",
-        "Attack": 49,
-        "Elements": ["Impact", "Dark"]
-    },
-
-    "Guyouhoujyou":
-    {
-        "Type": "Staff",
-        "Level_Required": 53,
-        "Rarity": "Red",
-        "Attack": 48,
-        "Elements": ["Impact", "Holy"]
-    },
-
-    "Flourite Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 55,
-        "Rarity": "White",
-        "Attack": 38,
-        "Elements": ["Impact"]
-    },
-
-    "Amidahijiri":
-    {
-        "Type": "Staff",
-        "Level_Required": 57,
-        "Rarity": "Gold",
-        "Attack": 57,
-        "Elements": ["Impact", "Holy"]
-    },
-
-    "Heavenly Tea Oak Staff":
-    {
-        "Type": "Staff",
-        "Level_Required": 59,
-        "Rarity": "Blue",
-        "Attack": 47,
-        "Elements": ["Impact", "Holy"]
-    },
-
-
-
-
-
-
-
-
-
     "Manjusri Talisman":
     {
         "Type": "Wand",
@@ -3034,6 +2817,235 @@
 
 
 
+
+
+
+
+
+    "Pine Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 1,
+        "Rarity": "White",
+        "Attack": 1,
+        "Elements": ["Impact"]
+    },
+
+    "Oak Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 10,
+        "Rarity": "White",
+        "Attack": 7,
+        "Elements": ["Impact"]
+    },
+
+    "Thirty Six Poets":
+    {
+        "Type": "Staff",
+        "Level_Required": 13,
+        "Rarity": "Gold",
+        "Attack": 13,
+        "Elements": ["Impact"]
+    },
+
+    "Gungnir":
+    {
+        "Type": "Staff",
+        "Level_Required": 17,
+        "Rarity": "Red",
+        "Attack": 15,
+        "Elements": ["Impact", "Lightning"]
+    },
+
+    "Plum Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 19,
+        "Rarity": "White",
+        "Attack": 13,
+        "Elements": ["Impact"]
+    },
+
+    "Iwaotoshi":
+    {
+        "Type": "Staff",
+        "Level_Required": 21,
+        "Rarity": "Red",
+        "Attack": 19,
+        "Elements": ["Impact"]
+    },
+
+    "Water Oak Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 21,
+        "Rarity": "Blue",
+        "Attack": 17,
+        "Elements": ["Impact", "Rain"]
+    },
+
+    "Caduceus":
+    {
+        "Type": "Staff",
+        "Level_Required": 25,
+        "Rarity": "Red",
+        "Attack": 22,
+        "Elements": ["Impact"]
+    },
+
+    "Super Sushi Rod":
+    {
+        "Type": "Staff",
+        "Level_Required": 25,
+        "Rarity": "Gold",
+        "Attack": 25,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Kashi Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 27,
+        "Rarity": "White",
+        "Attack": 19,
+        "Elements": ["Impact"]
+    },
+
+    "Nyoibou":
+    {
+        "Type": "Staff",
+        "Level_Required": 29,
+        "Rarity": "Gold",
+        "Attack": 29,
+        "Elements": ["Impact"]
+    },
+
+    "Gennou":
+    {
+        "Type": "Staff",
+        "Level_Required": 33,
+        "Rarity": "Gold",
+        "Attack": 33,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Tea Oak Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 35,
+        "Rarity": "White",
+        "Attack": 24,
+        "Elements": ["Impact"]
+    },
+
+    "Kanasaibou":
+    {
+        "Type": "Staff",
+        "Level_Required": 37,
+        "Rarity": "Gold",
+        "Attack": 37,
+        "Elements": ["Impact"]
+    },
+
+    "Kareyanagi Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 40,
+        "Rarity": "White",
+        "Attack": 28,
+        "Elements": ["Impact"]
+    },
+
+    "Dark Kashi Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 40,
+        "Rarity": "Blue",
+        "Attack": 32,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Kamatarizakura":
+    {
+        "Type": "Staff",
+        "Level_Required": 41,
+        "Rarity": "Red",
+        "Attack": 37,
+        "Elements": ["Impact", "Mountain"]
+    },
+
+    "Whitecap Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 42,
+        "Rarity": "White",
+        "Attack": 29,
+        "Elements": ["Impact"]
+    },
+
+    "Kinben":
+    {
+        "Type": "Staff",
+        "Level_Required": 45,
+        "Rarity": "Red",
+        "Attack": 40,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Pearl Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 49,
+        "Rarity": "White",
+        "Attack": 34,
+        "Elements": ["Impact"]
+    },
+
+    "Genma":
+    {
+        "Type": "Staff",
+        "Level_Required": 49,
+        "Rarity": "Gold",
+        "Attack": 49,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Guyouhoujyou":
+    {
+        "Type": "Staff",
+        "Level_Required": 53,
+        "Rarity": "Red",
+        "Attack": 48,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Flourite Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 55,
+        "Rarity": "White",
+        "Attack": 38,
+        "Elements": ["Impact"]
+    },
+
+    "Amidahijiri":
+    {
+        "Type": "Staff",
+        "Level_Required": 57,
+        "Rarity": "Gold",
+        "Attack": 57,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Heavenly Tea Oak Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 59,
+        "Rarity": "Blue",
+        "Attack": 47,
+        "Elements": ["Impact", "Holy"]
+    },
 
 
 
