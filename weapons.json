@@ -3054,6 +3054,1063 @@
 
 
 
+
+    "Icetusk Jahannam":
+    {
+        "Type": "Sword",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Icetalon Flogger":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Icetailed Fafnir":
+    {
+        "Type": "Odachi",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Iceeye Meteor":
+    {
+        "Type": "Bow",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Icejaw Gibbet":
+    {
+        "Type": "Axe",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Icefoot Guardian":
+    {
+        "Type": "Spear",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Icefinger Phantom":
+    {
+        "Type": "Wand",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Icearm Preghiera":
+    {
+        "Type": "Staff",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Sleetsword Scale": 3,
+            "Sleetsword Shell": 1
+        }
+    },
+
+    "Flametusk Jahannam":
+    {
+        "Type": "Sword",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Flametalon Flogger":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Flametailed Fafnir":
+    {
+        "Type": "Odachi",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Embereye Meteor":
+    {
+        "Type": "Bow",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Flamejaw Gibbet":
+    {
+        "Type": "Axe",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Flamefoot Guardian":
+    {
+        "Type": "Spear",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Flamefinger Phantom":
+    {
+        "Type": "Wand",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Flamearm Preghiera":
+    {
+        "Type": "Staff",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Infernal Scale": 3,
+            "Infernal Shell": 1
+        }
+    },
+
+    "Thundertusk Jahannam":
+    {
+        "Type": "Sword",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Thundertalon Flogger":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Thundertailed Fafnir":
+    {
+        "Type": "Odachi",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Thundereye Meteor":
+    {
+        "Type": "Bow",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Thunderjaw Gibbet":
+    {
+        "Type": "Axe",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Flashfoot Guardian":
+    {
+        "Type": "Spear",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Thunderfinger Phantom":
+    {
+        "Type": "Wand",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Thunderarm Preghiera":
+    {
+        "Type": "Staff",
+        "Level_Required": 50,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Levinlance Scale": 3,
+            "Levinlance Shell": 1
+        }
+    },
+
+    "Icetusk Jahannam - Frost":
+    {
+        "Type": "Sword",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icetusk Jahannam": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Icetalon Flogger - Frost":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icetalon Flogger": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Icetailed Fafnir - Frost":
+    {
+        "Type": "Odachi",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icetailed Fafnir": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Iceeye Meteor - Frost":
+    {
+        "Type": "Bow",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Iceeye Meteor": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Icejaw Gibbet - Frost":
+    {
+        "Type": "Axe",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icejaw Gibbet": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Icefoot Guardian - Frost":
+    {
+        "Type": "Spear",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icefoot Guardian": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Icefinger Phantom - Frost":
+    {
+        "Type": "Wand",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icefinger Phantom": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Icearm Preghiera - Frost":
+    {
+        "Type": "Staff",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icearm Preghiera": 1,
+            "Sleetsword Grudge": 3,
+            "Sleetsword Wing": 1
+        }
+    },
+
+    "Flametusk Jahannam - Flare":
+    {
+        "Type": "Sword",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flametusk Jahannam": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Flametalon Flogger - Flare":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flametalon Flogger": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Flametailed Fafnir - Flare":
+    {
+        "Type": "Odachi",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flametailed Fafnir": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Embereye Meteor - Flare":
+    {
+        "Type": "Bow",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Embereye Meteor": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Flamejaw Gibbet - Flare":
+    {
+        "Type": "Axe",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamejaw Gibbet": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Flamefoot Guardian - Flare":
+    {
+        "Type": "Spear",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamefoot Guardian": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Flamefinger Phantom - Flare":
+    {
+        "Type": "Wand",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamefinger Phantom": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Flamearm Preghiera - Flare":
+    {
+        "Type": "Staff",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamearm Preghiera": 1,
+            "Infernal Grudge": 3,
+            "Infernal Wing": 1
+        }
+    },
+
+    "Thundertusk Jahannam - Bolt":
+    {
+        "Type": "Sword",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundertusk Jahannam": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Thundertalon Flogger - Bolt":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundertalon Flogger": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Thundertailed Fafnir - Bolt":
+    {
+        "Type": "Odachi",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundertailed Fafnir": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Thundereye Meteor - Bolt":
+    {
+        "Type": "Bow",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundereye Meteor": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Thunderjaw Gibbet - Bolt":
+    {
+        "Type": "Axe",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thunderjaw Gibbet": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Flashfoot Guardian - Bolt":
+    {
+        "Type": "Spear",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Flashfoot Guardian": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Thunderfinger Phantom - Bolt":
+    {
+        "Type": "Wand",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thunderfinger Phantom": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Thunderarm Preghiera - Bolt":
+    {
+        "Type": "Staff",
+        "Level_Required": 75,
+        "Rarity": "Gold",
+        "Attack": 97,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thunderarm Preghiera": 1,
+            "Levinlance Grudge": 3,
+            "Levinlance Wing": 1
+        }
+    },
+
+    "Icetusk Jahannam - Rime":
+    {
+        "Type": "Sword",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icetusk Jahannam - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Icetalon Flogger - Rime":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icetalon Flogger - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Icetailed Fafnir - Rime":
+    {
+        "Type": "Odachi",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icetailed Fafnir - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Iceeye Meteor - Rime":
+    {
+        "Type": "Bow",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Iceeye Meteor - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Icejaw Gibbet - Rime":
+    {
+        "Type": "Axe",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icejaw Gibbet - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Icefoot Guardian - Rime":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icefoot Guardian - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Icefinger Phantom - Rime":
+    {
+        "Type": "Wand",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icefinger Phantom - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Icearm Preghiera - Rime":
+    {
+        "Type": "Staff",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Ice", "Rain"],
+        "Recipe":
+        {
+            "Icearm Preghiera - Frost": 1,
+            "Sleetsword Heart": 3,
+            "Sleetsword Marrow": 1
+        }
+    },
+
+    "Flametusk Jahannam - Nova":
+    {
+        "Type": "Sword",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flametusk Jahannam - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Flametalon Flogger - Nova":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flametalon Flogger - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Flametailed Fafnir - Nova":
+    {
+        "Type": "Odachi",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flametailed Fafnir - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Embereye Meteor - Nova":
+    {
+        "Type": "Bow",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Embereye Meteor - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Flamejaw Gibbet - Nova":
+    {
+        "Type": "Axe",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamejaw Gibbet - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Flamefoot Guardian - Nova":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamefoot Guardian - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Flamefinger Phantom - Nova":
+    {
+        "Type": "Wand",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamefinger Phantom - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Flamearm Preghiera - Nova":
+    {
+        "Type": "Staff",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Fire", "Wind"],
+        "Recipe":
+        {
+            "Flamearm Preghiera - Flare": 1,
+            "Infernal Heart": 3,
+            "Infernal Marrow": 1
+        }
+    },
+
+    "Thundertusk Jahannam - Storm":
+    {
+        "Type": "Sword",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundertusk Jahannam - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Thundertalon Flogger - Storm":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundertalon Flogger - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Thundertailed Fafnir - Storm":
+    {
+        "Type": "Odachi",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundertailed Fafnir - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Thundereye Meteor - Storm":
+    {
+        "Type": "Bow",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thundereye Meteor - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Thunderjaw Gibbet - Storm":
+    {
+        "Type": "Axe",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thunderjaw Gibbet - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Flashfoot Guardian - Storm":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Flashfoot Guardian - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Thunderfinger Phantom - Storm":
+    {
+        "Type": "Wand",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thunderfinger Phantom - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
+    "Thunderarm Preghiera - Storm":
+    {
+        "Type": "Staff",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning", "Mountain"],
+        "Recipe":
+        {
+            "Thunderarm Preghiera - Bolt": 1,
+            "Levinlance Heart": 3,
+            "Levinlance Marrow": 1
+        }
+    },
+
     "SUKI's SMACKER":
     {
         "Type": "Sword",

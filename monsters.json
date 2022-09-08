@@ -753,5 +753,55 @@
             "Black Smoke": {"modes": [-1], "rate": 95, "scalable": true, "quantity": 1},
             "Hell's Bible": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
         }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    "Sleetsword Gargoyle":
+    {
+        "Materials":
+        {
+            "Sleetsword Scale": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Sleetsword Shell": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Sleetsword Grudge": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Sleetsword Wing": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Sleetsword Heart": {"modes": [2], "rate": 100, "scalable": false, "quantity": 1},
+            "Sleetsword Marrow": {"modes": [2], "rate": 50, "scalable": false, "quantity": 1}
+        }
+    },
+
+    "Infernal Gargoyle":
+    {
+        "Materials":
+        {
+            "Infernal Scale": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Infernal Shell": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Infernal Grudge": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Infernal Wing": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Infernal Heart": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Infernal Marrow": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
+        }
+    },
+
+    "Levinlance Gargoyle":
+    {
+        "Materials":
+        {
+            "Levinlance Scale": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Levinlance Shell": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Levinlance Grudge": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Levinlance Wing": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Levinlance Heart": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Levinlance Marrow": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
+        }
     }
 }

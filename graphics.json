@@ -308,6 +308,21 @@
         [
             ["Graphics/Yokai/Hades/1.png", "hades-1.png", "attachment://hades-1.png"],
             ["Graphics/Yokai/Hades/2.png", "hades-2.png", "attachment://hades-2.png"]
+        ],
+        "Sleetsword Gargoyle":
+        [
+            ["Graphics/Yokai/Sleetsword Gargoyle/1.png", "sleetswordgargoyle-1.png", "attachment://sleetswordgargoyle-1.png"],
+            ["Graphics/Yokai/Sleetsword Gargoyle/2.png", "sleetswordgargoyle-2.png", "attachment://sleetswordgargoyle-2.png"]
+        ],
+        "Infernal Gargoyle":
+        [
+            ["Graphics/Yokai/Infernal Gargoyle/1.png", "infernalgargoyle-1.png", "attachment://infernalgargoyle-1.png"],
+            ["Graphics/Yokai/Infernal Gargoyle/2.png", "infernalgargoyle-2.png", "attachment://infernalgargoyle-2.png"]
+        ],
+        "Levinlance Gargoyle":
+        [
+            ["Graphics/Yokai/Levinlance Gargoyle/1.png", "levinlancegargoyle-1.png", "attachment://levinlancegargoyle-1.png"],
+            ["Graphics/Yokai/Levinlance Gargoyle/2.png", "levinlancegargoyle-2.png", "attachment://levinlancegargoyle-2.png"]
         ]
     },
 

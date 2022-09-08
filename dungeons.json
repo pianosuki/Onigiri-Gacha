@@ -4158,5 +4158,133 @@
                 "Haidara Magatama": 0.1
             }
         }
+    },
+
+
+
+
+
+
+
+
+
+    "Assault! Sleetsword Gargoyle":
+    {
+
+        "Level_Required": 50,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"HP": 15000, "ATK": 200, "DEF": 200}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"HP": 50000, "ATK": 300, "DEF": 300}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+            }
+        },
+        "Floors": 1,
+        "Yokai": ["None"],
+        "Boss":
+        {
+            "Name": "Sleetsword Gargoyle",
+            "HP": 35000,
+            "Resistances": ["Dark", "Rain", "Fire", "Ice", "Holy", "Wind", "Poison", "Slice", "Impact"],
+            "Weaknesses": ["Lightning", "Mountain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 350000], "rate": 100},
+            "EXP": {"range": [20000, 30000], "rate": 100}
+        }
+    },
+
+    "Assault! Infernal Gargoyle":
+    {
+
+        "Level_Required": 50,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"HP": 15000, "ATK": 200, "DEF": 200}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"HP": 50000, "ATK": 300, "DEF": 300}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+            }
+        },
+        "Floors": 1,
+        "Yokai": ["None"],
+        "Boss":
+        {
+            "Name": "Infernal Gargoyle",
+            "HP": 35000,
+            "Resistances": ["Fire", "Dark", "Wind", "Lightning", "Holy", "Mountain", "Poison", "Impact", "Pierce"],
+            "Weaknesses": ["Ice", "Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 350000], "rate": 100},
+            "EXP": {"range": [20000, 30000], "rate": 100}
+        }
+    },
+
+    "Assault! Levinlance Gargoyle":
+    {
+
+        "Level_Required": 50,
+        "Energy_Metric": 50,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"HP": 15000, "ATK": 200, "DEF": 200}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"HP": 50000, "ATK": 300, "DEF": 300}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+            }
+        },
+        "Floors": 1,
+        "Yokai": ["None"],
+        "Boss":
+        {
+            "Name": "Levinlance Gargoyle",
+            "HP": 35000,
+            "Resistances": ["Lightning", "Dark", "Mountain", "Ice", "Holy", "Rain", "Poison", "Pierce", "Slice"],
+            "Weaknesses": ["Fire", "Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 350000], "rate": 100},
+            "EXP": {"range": [20000, 30000], "rate": 100}
+        }
     }
 }

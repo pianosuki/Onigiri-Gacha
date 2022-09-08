@@ -160,5 +160,34 @@
     "Honey": {"type": "rare"},
     "Cerberus Vinegar": {"type": "rare"},
     "Black Smoke": {"type": "common"},
-    "Hell's Bible": {"type": "rare"}
+    "Hell's Bible": {"type": "rare"},
+
+
+
+
+
+
+
+
+
+
+
+    "Sleetsword Scale": {"type": "common"},
+    "Sleetsword Shell": {"type": "common"},
+    "Sleetsword Grudge": {"type": "rare"},
+    "Sleetsword Wing": {"type": "rare"},
+    "Sleetsword Heart": {"type": "rare"},
+    "Sleetsword Marrow": {"type": "rare"},
+    "Infernal Scale": {"type": "common"},
+    "Infernal Shell": {"type": "common"},
+    "Infernal Grudge": {"type": "rare"},
+    "Infernal Wing": {"type": "rare"},
+    "Infernal Heart": {"type": "rare"},
+    "Infernal Marrow": {"type": "rare"},
+    "Levinlance Scale": {"type": "common"},
+    "Levinlance Shell": {"type": "common"},
+    "Levinlance Grudge": {"type": "rare"},
+    "Levinlance Wing": {"type": "rare"},
+    "Levinlance Heart": {"type": "rare"},
+    "Levinlance Marrow": {"type": "rare"}
 }

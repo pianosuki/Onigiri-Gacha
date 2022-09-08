@@ -812,7 +812,7 @@ async def dungeons(ctx, *input):
                 boss_schematic.update({"Name": random.choice(Dungeons[self.dungeon]["Boss"]["Name"])})
             base_hp = Dungeons[self.dungeon]["Boss"]["HP"]
             scaled_hp = math.floor((base_hp * 0.75) + (base_hp / 4 * self.multiplier))
-            boss_schematic.update({"HP": scaled_hp})
+            boss_schematic.update({"HP": scaled_hp + self.boss_modulations["HP"]})
             return boss_schematic
 
         def spawnMobs(self, population):
@@ -998,7 +998,7 @@ async def dungeons(ctx, *input):
             e.add_field(name = "Your level", value = f"{Icons['level']} **{getPlayerLevel(user_id)}**", inline = True)
             e.add_field(name = "Your energy", value = f"{Icons['energy']} **{getPlayerEnergy(user_id)}**", inline = True)
             e.add_field(name = "Best time", value = f"⏱️ __{getPlayerDungeonRecord(user_id, dungeon, mode)}__", inline = True)
-            e.add_field(name = "Boss stats:", value = formatBossStats(dg.boss, dg.mode), inline = True)
+            e.add_field(name = "Boss stats:", value = formatBossStats(dg.boss, dg.mode, dg.boss_modulations), inline = True)
             e.add_field(name = "Rewards:", value = formatDungeonRewards(ctx, dg.rewards, dg.mode), inline = True)
             e.add_field(name = "Instance seed:", value = (f"`{dg.seed}`" if not seed is None else "*Randomized*"), inline = False)
             message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
@@ -1934,7 +1934,7 @@ async def dungeons(ctx, *input):
     async def fightBoss(ctx, message, flag, dg, boss, e, Party):
         clear_rewards = {}
         dg.Boss.name = boss["Name"]
-        base_boss_hp = boss["HP"] + dg.boss_modulations["HP"]
+        base_boss_hp = boss["HP"]
         base_boss_atk = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier)) + dg.boss_modulations["ATK"]
         base_boss_def = math.floor((dg.level * random.uniform(8, 9)) + (dg.level * dg.multiplier)) + dg.boss_modulations["DEF"]
         dg.Boss.HP = base_boss_hp
@@ -2596,11 +2596,11 @@ async def dungeons(ctx, *input):
             case "dict":
                 return default_dict
 
-    def formatBossStats(stats, mode):
+    def formatBossStats(stats, mode, modulations):
         multiplier          = mode_multipliers[mode]
         boss_name           = stats["Name"]
         base_hp             = stats["HP"]
-        scaled_hp           = math.floor((base_hp * 0.75) + (base_hp / 4 * multiplier))
+        scaled_hp           = math.floor((base_hp * 0.75) + (base_hp / 4 * multiplier)) + modulations["HP"]
         boss_resistances    = stats["Resistances"]
         boss_weaknesses     = stats["Weaknesses"]
         resistance_emojis   = getElementEmojis(boss_resistances)
@@ -4368,7 +4368,126 @@ async def craft(ctx, *input):
         return message, flag
 
     async def craftWeapon(ctx, message, flag, weapon):
-        pass
+
+        def getWeaponElements(weapon):
+            if not Weapons[weapon]['Elements'] is None:
+                for element in Weapons[weapon]['Elements']:
+                    if Weapons[weapon]['Elements'][element]:
+                        elements += f"(+{Icons[element]})"
+                    else:
+                        elements += f"(-{Icons[element]})"
+                    if index + 1 < len(Weapons[weapon]['Elements']):
+                        elements += ", "
+            else:
+                elements = "None"
+            return elements
+
+        w_emoji = Icons[Weapons[weapon]["Type"].lower().replace(" ", "_")]
+        w_level = Weapons[weapon]["Level_Required"]
+        w_atk = Weapons[weapon]["Attack"]
+        w_elements = getWeaponElements(weapon)
+
+        def formatWeaponDetails(weapon):
+            formatted_string = ""
+            formatted_string += "──────────────────\n"
+            formatted_string += f"{w_emoji} **__{weapon}__**\n"
+            formatted_string += f" ╰─  Level: **{w_level}**\n"
+            formatted_string += f" ╰─  Attack: **{'{:,}'.format(w_atk)}**\n"
+            formatted_string += f" ╰─  Elements: **{w_elements}**\n"
+            return formatted_string
+
+        def formatWeaponRecipe(weapon):
+            formatted_string = ""
+            formatted_string += "──────────────────\n"
+            for material, amount in Weapons[weapon]["Recipe"].items():
+                if material in Materials:
+                    material_emoji = Icons["material_" + Materials[material]["type"]]
+                elif material in Weapons:
+                    material_emoji = Icons[Weapons[material]["Type"].lower().replace(" ", "_")]
+                elif material in Magatamas:
+                    material_emoji = Icons["magatama_" + Magatamas[material]["Type"].lower().replace(" ", "_")]
+                formatted_string += f"{material_emoji} **{amount}x** __{material}__\n"
+            return formatted_string
+
+        banner = generateFileObject("Oni-Crafting", Graphics["Banners"]["Oni-Crafting"][0])
+        e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = f"Viewing recipe of __{weapon}__", color = 0xf885a4)
+        e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
+        e.add_field(name = f"{Icons['recipe']} ─ Weapon Recipe ─ {Icons['recipe']}", value = formatWeaponRecipe(weapon), inline = True)
+        e.add_field(name = f"{Icons['twin_swords']} ─ Weapon Details ─ {Icons['twin_swords']}", value = formatWeaponDetails(weapon), inline = True)
+        reformatting = True
+        while reformatting:
+            d = e.to_dict()
+            for n in range(0, len(d["fields"])):
+                if len(d["fields"][n]["value"]) > 1024:
+                    field_name = d["fields"][n]["name"]
+                    inline = d["fields"][n]["inline"]
+                    recipe_list = d["fields"][n]["value"].split("\n")
+                    recipe_1 = ""
+                    recipe_2 = ""
+                    for index, line in enumerate(recipe_list):
+                        if index <= math.floor(len(recipe_list) / 2):
+                            recipe_1 += line + "\n"
+                        else:
+                            recipe_2 += line + "\n"
+                    e.set_field_at(n, name = field_name, value = recipe_1, inline = inline)
+                    e.add_field(name = f"{Icons['recipe']} ─ (Continued) Recipe ─ {Icons['recipe']}", value = recipe_2, inline = False)
+                    reformatting = True
+                    break
+                else:
+                    reformatting = False
+        message = await ctx.send(file = banner, embed = e) if message == None else await message.edit(embed = e)
+        emojis = ["⚒️", "❌"]
+        reaction, user = await waitForReaction(ctx, message, e, emojis)
+        if reaction is None:
+            return
+        match str(reaction.emoji):
+            case "⚒️":
+                await message.clear_reactions()
+                inv_materials = {mat[0]:mat[1] for mat in getUserMaterialInv(user_id)}
+                inv_weapons = getPlayerWeaponsInv(user_id)
+                inv_magatamas = getPlayerMagatamasInv(user_id)
+
+                # Check if user is missing any ingredients
+                missing = {}
+                for material, amount_req in Weapons[weapon]["Recipe"].items():
+                    if material in Materials:
+                        if material in inv_materials:
+                            amount_have = inv_materials[material]
+                            if amount_have >= amount_req:
+                                continue
+                            else:
+                                missing[material] = amount_req - amount_have
+                        else:
+                            missing[material] = amount_req
+                    elif material in Weapons:
+                        if material in inv_weapons:
+                            if material == getPlayerEquipment(user_id)["weapon"]:
+                                await ctx.reply(f"⚠️ **You must unequip {Icons[Weapons[material]['Type'].lower().replace(' ', '_')]} __{material}__ in order to use it as an ingredient!**")
+                        else:
+                            missing[material] = amount_req
+                    elif material in Magatamas:
+                        if material in inv_magatamas:
+                            if material in getPlayerEquipment(user_id)["magatamas"]:
+                                await ctx.reply(f"⚠️ **You must unequip {Icons['magatama_' + Magatamas[material]['Type'].lower().replace(' ', '_')]} __{material}__ in order to use it as an ingredient!**")
+                        else:
+                            missing[material] = amount_req
+
+                if not missing:
+                    # Craft the weapon
+                    for material, amount_req in Weapons[weapon]["Recipe"].items():
+                        if material in Materials:
+                            giveUserMaterial(user_id, material, -amount_req)
+                        elif material in Weapons:
+                            givePlayerWeapon(user_id, material, remove = True)
+                        elif material in Magatamas:
+                            givePlayerMagatama(user_id, material, remove = True)
+                    givePlayerWeapon(user_id, weapon)
+                    await ctx.reply(f"✅ Successfully crafted {w_emoji} __{weapon}__!")
+                else:
+                    await ctx.reply(formatMissing(missing))
+            case "❌":
+                await message.clear_reactions()
+        return
 
     async def craftMagatama(ctx, message, flag, magatama):
 
@@ -4487,13 +4606,13 @@ async def craft(ctx, *input):
                             if material == getPlayerEquipment(user_id)["weapon"]:
                                 await ctx.reply(f"⚠️ **You must unequip {Icons[Weapons[material]['Type'].lower().replace(' ', '_')]} __{material}__ in order to use it as an ingredient!**")
                         else:
-                            missing[material] = 1
+                            missing[material] = amount_req
                     elif material in Magatamas:
                         if material in inv_magatamas:
                             if material in getPlayerEquipment(user_id)["magatamas"]:
                                 await ctx.reply(f"⚠️ **You must unequip {Icons['magatama_' + Magatamas[material]['Type'].lower().replace(' ', '_')]} __{material}__ in order to use it as an ingredient!**")
                         else:
-                            missing[material] = 1
+                            missing[material] = amount_req
 
                 if not missing:
                     # Craft the magatama
