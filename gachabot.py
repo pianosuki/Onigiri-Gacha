@@ -4372,7 +4372,7 @@ async def craft(ctx, *input):
         def getWeaponElements(weapon):
             elements = ""
             if not Weapons[weapon]['Elements'] is None:
-                for element in Weapons[weapon]['Elements']:
+                for index, element in enumerate(Weapons[weapon]['Elements']):
                     elements += f"(+{Icons[element]})"
                     if index + 1 < len(Weapons[weapon]['Elements']):
                         elements += ", "
@@ -4492,7 +4492,7 @@ async def craft(ctx, *input):
         def getMagatamaElements(magatama):
             elements = ""
             if not Magatamas[magatama]['Elements'] is None:
-                for element in Magatamas[magatama]['Elements']:
+                for index, element in enumerate(Magatamas[magatama]['Elements']):
                     if Magatamas[magatama]['Elements'][element]:
                         elements += f"(+{Icons[element]})"
                     else:
