@@ -4370,6 +4370,7 @@ async def craft(ctx, *input):
     async def craftWeapon(ctx, message, flag, weapon):
 
         def getWeaponElements(weapon):
+            elements = ""
             if not Weapons[weapon]['Elements'] is None:
                 for element in Weapons[weapon]['Elements']:
                     elements += f"(+{Icons[element]})"
@@ -4489,6 +4490,7 @@ async def craft(ctx, *input):
     async def craftMagatama(ctx, message, flag, magatama):
 
         def getMagatamaElements(magatama):
+            elements = ""
             if not Magatamas[magatama]['Elements'] is None:
                 for element in Magatamas[magatama]['Elements']:
                     if Magatamas[magatama]['Elements'][element]:
