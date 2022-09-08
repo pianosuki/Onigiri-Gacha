@@ -4372,10 +4372,7 @@ async def craft(ctx, *input):
         def getWeaponElements(weapon):
             if not Weapons[weapon]['Elements'] is None:
                 for element in Weapons[weapon]['Elements']:
-                    if Weapons[weapon]['Elements'][element]:
-                        elements += f"(+{Icons[element]})"
-                    else:
-                        elements += f"(-{Icons[element]})"
+                    elements += f"(+{Icons[element]})"
                     if index + 1 < len(Weapons[weapon]['Elements']):
                         elements += ", "
             else:
