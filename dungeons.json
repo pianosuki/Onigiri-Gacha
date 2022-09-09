@@ -2,7 +2,7 @@
     "Onigashima Training Grounds":
     {
         "Level_Required": 1,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -91,7 +91,7 @@
     "Abou Forest":
     {
         "Level_Required": 2,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -176,7 +176,7 @@
     "Den of Karma":
     {
         "Level_Required": 3,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -260,7 +260,7 @@
     "Cave of Screams":
     {
         "Level_Required": 4,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -347,7 +347,7 @@
     "Kokujou Forest":
     {
         "Level_Required": 5,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -433,7 +433,7 @@
     "Daiku Cave":
     {
         "Level_Required": 6,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -519,7 +519,7 @@
     "Cave of Dreams":
     {
         "Level_Required": 7,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -606,7 +606,7 @@
     "Kishinden":
     {
         "Level_Required": 8,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -694,7 +694,7 @@
     "Hoderi Shrine":
     {
         "Level_Required": 10,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -783,7 +783,7 @@
     "Hosuseri Shrine":
     {
         "Level_Required": 11,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -870,7 +870,7 @@
     "Hoori Shrine":
     {
         "Level_Required": 12,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -957,7 +957,7 @@
     "Iwanaga Cavern":
     {
         "Level_Required": 13,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1045,7 +1045,7 @@
     "Three Deity Cave":
     {
         "Level_Required": 14,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1133,7 +1133,7 @@
     "Ooyama Residence":
     {
         "Level_Required": 15,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal": {},
@@ -1180,7 +1180,7 @@
     "Sakurajima Depths":
     {
         "Level_Required": 17,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1274,7 +1274,7 @@
     "Sakurajima Depths (Blooming Flower)":
     {
         "Level_Required": 18,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1369,7 +1369,7 @@
     "Chinji Cavern":
     {
         "Level_Required": 20,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1466,7 +1466,7 @@
     "Seiryuu Grotto":
     {
         "Level_Required": 22,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1558,7 +1558,7 @@
     "Suzaku Mansion":
     {
         "Level_Required": 23,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1649,7 +1649,7 @@
     "Byakkou Cavern":
     {
         "Level_Required": 24,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1740,7 +1740,7 @@
     "Genbu Temple":
     {
         "Level_Required": 25,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1833,7 +1833,7 @@
     "Room of Rites":
     {
         "Level_Required": 28,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -1927,7 +1927,7 @@
     "Honomusubi Cavern":
     {
         "Level_Required": 30,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2023,7 +2023,7 @@
     "Cave of Nakisawame":
     {
         "Level_Required": 31,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2119,7 +2119,7 @@
     "Ooikazuchi Cavern":
     {
         "Level_Required": 33,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2214,7 +2214,7 @@
     "Oonaobi Shrine":
     {
         "Level_Required": 34,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2311,7 +2311,7 @@
     "Okuizumo":
     {
         "Level_Required": 36,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2406,7 +2406,7 @@
     "Yomotsuhirasaka":
     {
         "Level_Required": 38,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2505,7 +2505,7 @@
     "Ankan Forest":
     {
         "Level_Required": 40,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2591,7 +2591,7 @@
     "Well of Five Virtues":
     {
         "Level_Required": 41,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2682,7 +2682,7 @@
     "Gedoumaru's Hideout":
     {
         "Level_Required": 42,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2770,7 +2770,7 @@
     "Kyoukotsu's Lair":
     {
         "Level_Required": 43,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2862,7 +2862,7 @@
     "Nishidera":
     {
         "Level_Required": 44,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -2955,7 +2955,7 @@
     "Yakumo Temple":
     {
         "Level_Required": 45,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -3053,7 +3053,7 @@
     "Yellow Dragon Spire":
     {
         "Level_Required": 46,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -3145,7 +3145,7 @@
     "Shinoda Forest":
     {
         "Level_Required": 47,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -3241,7 +3241,7 @@
     "Mount Kurama":
     {
         "Level_Required": 48,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -3338,7 +3338,7 @@
     "Bare Hand Cave":
     {
         "Level_Required": 50,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -3432,7 +3432,7 @@
     "Singlesword Forest":
     {
         "Level_Required": 51,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -3526,7 +3526,7 @@
     "Inaki Woods":
     {
         "Level_Required": 52,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -3621,7 +3621,7 @@
     "Den of Needles":
     {
         "Level_Required": 53,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -3717,7 +3717,7 @@
     "Sekiyou Forest":
     {
         "Level_Required": 54,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -3813,7 +3813,7 @@
     "Burial Mound of the Ethereal":
     {
         "Level_Required": 55,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -3909,7 +3909,7 @@
     "Burial Mound of the Resurrected":
     {
         "Level_Required": 56,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -4004,7 +4004,7 @@
     "Burial Mound of the Preserved":
     {
         "Level_Required": 57,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -4099,7 +4099,7 @@
     "Netherworld Space":
     {
         "Level_Required": 58,
-        "Energy_Metric": 60,
+        "Energy_Metric": 30,
         "Difficulties":
         {
             "Normal":
@@ -4172,7 +4172,7 @@
     {
 
         "Level_Required": 50,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -4212,7 +4212,7 @@
     {
 
         "Level_Required": 50,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
@@ -4252,7 +4252,7 @@
     {
 
         "Level_Required": 50,
-        "Energy_Metric": 50,
+        "Energy_Metric": 25,
         "Difficulties":
         {
             "Normal":
