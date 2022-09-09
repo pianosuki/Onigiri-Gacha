@@ -213,7 +213,8 @@ role_boosts = {
     "Demi-God": 8,
     "Exemplar": 5,
     "OniOG": 7,
-    "Oni-Booster": 20
+    "Oni-Booster": 20,
+    "Ingame Oni": 10
 }
 
 # Tips
