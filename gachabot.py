@@ -398,7 +398,7 @@ def giveUserMaterial(user_id, material, quantity):
     if not item_quantity + quantity <= 0:
         MaterialsDB.execute("UPDATE user_{} SET quantity = ? WHERE item = ?".format(str(user_id)), (item_quantity + quantity, material))
     else:
-        MaterialsDB.execute("DELETE FROM user_{} WHERE item = '{}'".format(str(user_id), material))
+        MaterialsDB.execute("DELETE FROM user_{} WHERE item = ?".format(str(user_id)), (material,))
     return
 
 def getPlayerDungeonRecord(user_id, dungeon, mode):
@@ -4617,6 +4617,7 @@ async def craft(ctx, *input):
                     # Craft the magatama
                     for material, amount_req in Magatamas[magatama]["Recipe"].items():
                         if material in Materials:
+                            print(user_id, material, amount_req, getUserMaterialQuantity(user_id, material))
                             giveUserMaterial(user_id, material, -amount_req)
                         elif material in Weapons:
                             givePlayerWeapon(user_id, material, remove = True)
