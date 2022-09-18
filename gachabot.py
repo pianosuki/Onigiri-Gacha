@@ -2693,6 +2693,9 @@ async def dungeons(ctx, *input):
     def formatWeaponRewards(dungeon_rewards, multiplier):
         formatted_string = ""
         formatted_string += "───────────────\n"
+        if not "Weapons" in dungeon_rewards:
+            formatted_string += "None"
+            return formatted_string
         for weapon, rate in dungeon_rewards["Weapons"].items():
             elements = ""
             if not Weapons[weapon]['Elements'] is None:
@@ -2704,6 +2707,9 @@ async def dungeons(ctx, *input):
     def formatMagatamaRewards(dungeon_rewards, multiplier):
         formatted_string = ""
         formatted_string += "───────────────\n"
+        if not "Magatamas" in dungeon_rewards:
+            formatted_string += "None"
+            return formatted_string
         for magatama, rate in dungeon_rewards["Magatamas"].items():
             elements = ""
             if not Magatamas[magatama]['Elements'] is None:
