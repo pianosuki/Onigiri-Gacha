@@ -5419,14 +5419,19 @@ async def stats(ctx, target = None):
                         return
             else:
                 e.add_field(name = f"You have `{points}` available stat points.", value = "Choose an option:", inline = True)
-                e.add_field(name = "│ Options:", value = f"**│** {Icons['statsreset']} ─ **Reset Stats**\n**│** ❌ ─ **Exit**\n", inline = True)
+                options = ""
+                if target == ctx.author.mention: options += f"**│** {Icons['statsreset']} ─ **Reset Stats**\n"
+                options += f"**│** ❌ ─ **Exit**\n"
+                e.add_field(name = "│ Options:", value = options, inline = True)
                 await message.edit(embed = e)
-                emojis = [Icons["statsreset"], "❌"]
+                emojis = []
+                if target == ctx.author.mention: emojis.append(Icons["statsreset"])
+                emojis.append("❌")
                 reaction, user = await waitForReaction(ctx, message, e, emojis)
                 if reaction is None:
                     return
                 match str(reaction.emoji):
-                    case x if x == Icons["statsreset"]:
+                    case x if x == Icons["statsreset"] and target == ctx.author.mention:
                         await message.clear_reactions()
                         product = "Stats Reset"
                         item_quantity = getUserItemQuantity(user_id, product)
