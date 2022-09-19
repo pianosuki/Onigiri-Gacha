@@ -65,7 +65,11 @@
         "Loss Daruma": [["Graphics/Yokai/Loss Daruma/1.png", "lossdaruma-1.png", "attachment://lossdaruma-1.png"]],
         "Gold Daruma": [["Graphics/Yokai/Gold Daruma/1.png", "golddaruma-1.png", "attachment://golddaruma-1.png"]],
         "Kijimuna": [["Graphics/Yokai/Kijimuna/1.png", "kijimuna-1.png", "attachment://kijimuna-1.png"]],
-        "Momijina": [["Graphics/Yokai/Momijina/1.png", "momijina-1.png", "attachment://momijina-1.png"]],
+        "Momijina":
+        [
+            ["Graphics/Yokai/Momijina/1.png", "momijina-1.png", "attachment://momijina-1.png"],
+            ["Graphics/Yokai/Momijina/2.png", "momijina-2.png", "attachment://momijina-2.png"]
+        ],
         "Dark Sticky": [["Graphics/Yokai/Dark Sticky/1.png", "darksticky-1.png", "attachment://darksticky-1.png"]],
         "Swamp Sticky": [["Graphics/Yokai/Swamp Sticky/1.png", "swampsticky-1.png", "attachment://swampsticky-1.png"]],
         "Rock Sticky": [["Graphics/Yokai/Rock Sticky/1.png", "rocksticky-1.png", "attachment://rocksticky-1.png"]],
@@ -221,7 +225,11 @@
             ["Graphics/Yokai/Yatsukazou/2.png", "yatsukazou-2.png", "attachment://yatsukazou-2.png"]
         ],
         "Kusareppou": [["Graphics/Yokai/Kusareppou/1.png", "kusareppou-1.png", "attachment://kusareppou-1.png"]],
-        "Infernal Mukade": [["Graphics/Yokai/Infernal Mukade/1.png", "infernalmukade-1.png", "attachment://infernalmukade-1.png"]],
+        "Infernal Mukade":
+        [
+            ["Graphics/Yokai/Infernal Mukade/1.png", "infernalmukade-1.png", "attachment://infernalmukade-1.png"],
+            ["Graphics/Yokai/Infernal Mukade/2.png", "infernalmukade-2.png", "attachment://infernalmukade-2.png"]
+        ],
         "Beelzebub":
         [
             ["Graphics/Yokai/Beelzebub/1.png", "beelzebub-1.png", "attachment://beelzebub-1.png"],
@@ -323,6 +331,28 @@
         [
             ["Graphics/Yokai/Levinlance Gargoyle/1.png", "levinlancegargoyle-1.png", "attachment://levinlancegargoyle-1.png"],
             ["Graphics/Yokai/Levinlance Gargoyle/2.png", "levinlancegargoyle-2.png", "attachment://levinlancegargoyle-2.png"]
+        ],
+        "Veronica & Sebas-chan":
+        [
+            ["Graphics/Yokai/Veronica & Sebas-chan/1.png", "veronicasebaschan-1.png", "attachment://veronicasebaschan-1.png"],
+            ["Graphics/Yokai/Veronica & Sebas-chan/2.png", "veronicasebaschan-2.png", "attachment://veronicasebaschan-2.png"]
+        ],
+        "Ubume": [["Graphics/Yokai/Ubume/1.png", "ubume-1.png", "attachment://ubume-1.png"]],
+        "Mademoiselle Mirror":
+        [
+            ["Graphics/Yokai/Mademoiselle Mirror/1.png", "mademoisellemirror-1.png", "attachment://mademoisellemirror-1.png"],
+            ["Graphics/Yokai/Mademoiselle Mirror/2.png", "mademoisellemirror-2.png", "attachment://mademoisellemirror-2.png"]
+        ],
+        "Look Up Nyuudou":
+        [
+            ["Graphics/Yokai/Look Up Nyuudou/1.png", "lookupnyuudou-1.png", "attachment://lookupnyuudou-1.png"],
+            ["Graphics/Yokai/Look Up Nyuudou/2.png", "lookupnyuudou-2.png", "attachment://lookupnyuudou-2.png"]
+        ],
+        "Musha Archer": [["Graphics/Yokai/Musha Archer/1.png", "mushaarcher-1.png", "attachment://mushaarcher-1.png"]],
+        "Nyarlethotep":
+        [
+            ["Graphics/Yokai/Nyarlethotep/1.png", "nyarlethotep-1.png", "attachment://nyarlethotep-1.png"],
+            ["Graphics/Yokai/Nyarlethotep/2.png", "nyarlethotep-2.png", "attachment://nyarlethotep-2.png"]
         ]
     },
 

@@ -4160,6 +4160,962 @@
         }
     },
 
+    "Secret Water Garden":
+    {
+        "Level_Required": 60,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3700, 3800], "Ryou": [17000, 18000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [3, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3800, 3900], "Ryou": [18000, 19000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [3, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3900, 4000], "Ryou": [19000, 20000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [3, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4000, 4100], "Ryou": [20000, 21000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Gaikotsu",
+            "Kyoukotsu",
+            "Lantern Ghost",
+            "Giant Mukade",
+            "Child Mukade",
+            "Gaki",
+            "Reaper"
+        ],
+        "Boss":
+        {
+            "Name": "Veronica & Sebas-chan",
+            "HP": 22000,
+            "Resistances": ["Fire", "Ice", "Dark", "Holy", "Wind", "Mountain", "Slice", "Impact"],
+            "Weaknesses": ["Lightning", "Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 310000], "rate": 100},
+            "EXP": {"range": [20000, 21000], "rate": 100},
+            "Weapons":
+            {
+                "Amanonuboko": 1,
+                "Flame Oshikiri Tachi": 5,
+                "Hakujin Sword": 10,
+                "Ivory Staff": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Bamboo Thicket Well":
+    {
+        "Level_Required": 61,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3800, 3900], "Ryou": [18000, 19000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3900, 4000], "Ryou": [19000, 20000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4000, 4100], "Ryou": [20000, 21000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4100, 4200], "Ryou": [21000, 22000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Penanggalan",
+            "Gaikotsu",
+            "Gaki",
+            "Lantern Ghost",
+            "Tsuchikorobi",
+            "Infernal Mukade"
+        ],
+        "Boss":
+        {
+            "Name": "Kyoukotsu",
+            "HP": 23000,
+            "Resistances": ["Dark", "Ice", "Lightning", "Rain"],
+            "Weaknesses": ["Fire"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [310000, 320000], "rate": 100},
+            "EXP": {"range": [21000, 22000], "rate": 100},
+            "Weapons":
+            {
+                "Hinokagutsuchi": 1,
+                "Wind Tiger Claw Twin Blades": 5,
+                "Daijya Twin Blades": 10,
+                "Enmaou Talisman": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Momiji Well":
+    {
+        "Level_Required": 62,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [3900, 4000], "Ryou": [19000, 20000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4000, 4100], "Ryou": [20000, 21000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4100, 4200], "Ryou": [21000, 22000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4200, 4300], "Ryou": [22000, 23000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Kijimuna",
+            "Momijina",
+            "Kikuzou",
+            "Gama",
+            "Aburasumashi",
+            "Bengara",
+            "Gaki",
+            "Tsujigami"
+        ],
+        "Boss":
+        {
+            "Name": "Momijina",
+            "HP": 24000,
+            "Resistances": [],
+            "Weaknesses": ["Ice"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [320000, 330000], "rate": 100},
+            "EXP": {"range": [22000, 23000], "rate": 100},
+            "Weapons":
+            {
+                "Kurikaraken": 1,
+                "Lightning Fusemachi Sword": 5,
+                "Yasha Tachi": 10,
+                "Ash Spear": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Secluded Forest":
+    {
+        "Level_Required": 63,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4000, 4100], "Ryou": [20000, 21000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [3, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4100, 4200], "Ryou": [21000, 22000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [3, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4200, 4300], "Ryou": [22000, 23000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [3, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4300, 4400], "Ryou": [23000, 24000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Penanggalan",
+            "Lantern Ghost",
+            "Tsujigami",
+            "Nurikabe",
+            "Ittanmomen"
+        ],
+        "Boss":
+        {
+            "Name": "Infernal Mukade",
+            "HP": 25000,
+            "Resistances": ["Dark", "Mountain", "Rain", "Impact"],
+            "Weaknesses": ["Fire", "Ice"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [330000, 340000], "rate": 100},
+            "EXP": {"range": [23000, 24000], "rate": 100},
+            "Weapons":
+            {
+                "Daihannyanagamitsu": 1,
+                "Meteor Bow": 3,
+                "Lightning Fusemachi Sword": 5,
+                "Tachibana Bow": 10,
+                "Genbugan Battleaxe": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Elder Forest":
+    {
+        "Level_Required": 64,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4100, 4200], "Ryou": [21000, 22000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4200, 4300], "Ryou": [22000, 23000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4300, 4400], "Ryou": [23000, 24000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4400, 4500], "Ryou": [24000, 25000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Kubire Oni",
+            "Giant Mukade",
+            "Kappa",
+            "Kusareppou",
+            "Ubume",
+            "Child Mukade"
+        ],
+        "Boss":
+        {
+            "Name": "Oni-basami",
+            "HP": 26000,
+            "Resistances": ["Rain", "Impact"],
+            "Weaknesses": ["Lightning", "Mountain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [340000, 350000], "rate": 100},
+            "EXP": {"range": [24000, 25000], "rate": 100},
+            "Weapons":
+            {
+                "Heaven & Earth Blades": 1,
+                "Counterattack Staff": 3,
+                "Dark Scaled Walnut Spear": 5,
+                "Quartz Battleaxe": 10,
+                "Rasetsu Tachi": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Suisen Forest":
+    {
+        "Level_Required": 65,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4200, 4300], "Ryou": [22000, 23000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4300, 4400], "Ryou": [23000, 24000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4400, 4500], "Ryou": [24000, 25000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4500, 4600], "Ryou": [25000, 26000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Oni-basami",
+            "Kani-bouzu",
+            "Gama",
+            "Nozuchi"
+        ],
+        "Boss":
+        {
+            "Name": "Mademoiselle Mirror",
+            "HP": 27000,
+            "Resistances": ["Fire", "Holy", "Pierce"],
+            "Weaknesses": ["Ice", "Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [350000, 360000], "rate": 100},
+            "EXP": {"range": [25000, 26000], "rate": 100},
+            "Weapons":
+            {
+                "Big Viper": 1,
+                "Kagehide": 3,
+                "Scaled Walnut Spear": 10,
+                "Inugaminotou": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Grand Forest":
+    {
+        "Level_Required": 66,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4300, 4400], "Ryou": [23000, 24000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [3, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4400, 4500], "Ryou": [24000, 25000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [3, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4500, 4600], "Ryou": [25000, 26000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [3, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4600, 4700], "Ryou": [26000, 27000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Gankubi",
+            "Kappa",
+            "Lantern Ghost",
+            "Nurikabe",
+            "Child Mukade",
+            "Nuppepou",
+            "Tsujigami"
+        ],
+        "Boss":
+        {
+            "Name": "Look Up Nyuudou",
+            "HP": 28000,
+            "Resistances": ["Holy", "Rain", "Mountain"],
+            "Weaknesses": ["Ice", "Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [360000, 370000], "rate": 100},
+            "EXP": {"range": [26000, 27000], "rate": 100},
+            "Weapons":
+            {
+                "Jyuzumaru": 1,
+                "Trishula": 3,
+                "Kanshoubakuya": 3,
+                "Samantabhadra Talisman": 10,
+                "Sunoo Sword": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Forest of Humanity":
+    {
+        "Level_Required": 67,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4400, 4500], "Ryou": [24000, 25000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [2, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4500, 4600], "Ryou": [25000, 26000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4600, 4700], "Ryou": [26000, 27000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [2, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4700, 4800], "Ryou": [27000, 28000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 3,
+        "Yokai":
+        [
+            "Handamashii Musha",
+            "Punk Kappa",
+            "Ittanmomen",
+            "Nurikabe",
+            "Giant Mukade",
+            "Tsuchikorobi"
+        ],
+        "Boss":
+        {
+            "Name": "Toudaiki",
+            "HP": 29000,
+            "Resistances": ["Fire"],
+            "Weaknesses": ["Rain"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [370000, 380000], "rate": 100},
+            "EXP": {"range": [27000, 28000], "rate": 100},
+            "Weapons":
+            {
+                "Kijinmarukunishige": 1,
+                "Time Staff": 1,
+                "Dotechin": 3,
+                "Brass Staff": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Prospector's Forest":
+    {
+        "Level_Required": 68,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [2, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4500, 4600], "Ryou": [25000, 26000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [3, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4600, 4700], "Ryou": [26000, 27000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [3, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4700, 4800], "Ryou": [27000, 28000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [3, 6],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4800, 4900], "Ryou": [28000, 29000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 2,
+        "Yokai":
+        [
+            "Ubume",
+            "Kusareppou",
+            "Lantern Ghost",
+            "Infernal Mukade",
+            "Nozuchi",
+            "Musha Archer"
+        ],
+        "Boss":
+        {
+            "Name": "Yagyou-san",
+            "HP": 30000,
+            "Resistances": ["Mountain"],
+            "Weaknesses": ["Ice", "Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [380000, 390000], "rate": 100},
+            "EXP": {"range": [28000, 29000], "rate": 100},
+            "Weapons":
+            {
+                "Nebular Storm": 1,
+                "Amanohiboko": 1,
+                "Gare": 3,
+                "Mino Bow": 10
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
+    "Central Koshi-no-Shiraen":
+    {
+        "Level_Required": 69,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "rooms_range": [1, 2],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4600, 4700], "Ryou": [26000, 27000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 1]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 1]}, "rate": 10}
+                ]
+            },
+            "Hard":
+            {
+                "rooms_range": [1, 3],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4700, 4800], "Ryou": [27000, 28000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 2]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 2]}, "rate": 10}
+                ]
+            },
+            "Hell":
+            {
+                "rooms_range": [1, 4],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4800, 4900], "Ryou": [28000, 29000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 3]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 3]}, "rate": 10}
+                ]
+            },
+            "Oni":
+            {
+                "rooms_range": [1, 5],
+                "chest_loot":
+                [
+                    {"pool": {"EXP": [4900, 5000], "Ryou": [29000, 30000]}, "rate": 89},
+                    {"pool": {"Gacha Fragments": [1, 4]}, "rate": 1},
+                    {"pool": {"Lobster Nigiri": [1, 4]}, "rate": 10}
+                ]
+            }
+        },
+        "Floors": 5,
+        "Yokai":
+        [
+            "Gankubi",
+            "Handamashii Musha",
+            "Ubume",
+            "Gaki",
+            "Punk Kappa",
+            "Tsuchikorobi",
+            "Akamekabe"
+        ],
+        "Boss":
+        {
+            "Name": "Nyarlethotep",
+            "HP": 40000,
+            "Resistances": ["Dark", "Lightning", "Rain", "Wind", "Mountain", "Impact", "Pierce"],
+            "Weaknesses": ["Ice", "Wind"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [390000, 400000], "rate": 100},
+            "EXP": {"range": [29000, 30000], "rate": 100},
+            "Weapons":
+            {
+                "Drachtslave": 1,
+                "Silver Baton": 1,
+                "Usumidori": 1,
+                "Air Shooter": 3,
+                "Kamudo no Tsurugi": 3
+            },
+            "Magatamas":
+            {
+                "Infinite Spin Magatama": 0.1,
+                "Unstopped Spin Magatama": 0.1,
+                "Enku Magatama": 0.1,
+                "Ariake Magatama": 0.1,
+                "Reimei Magatama": 0.1,
+                "Watermelon Magatama": 0.1,
+                "Himorogi Magatama": 0.1,
+                "Wadatsumi Magatama": 0.1,
+                "Scorpio Magatama": 0.1,
+                "Sagittarius Magatama": 0.1,
+                "Lord Toshi Magatama": 0.1,
+                "Doutoku Magatama": 0.1,
+                "Masakado Magatama": 0.1,
+                "Chiami Magatama x4": 0.1
+            }
+        }
+    },
+
 
 
 
@@ -4203,7 +5159,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [300000, 350000], "rate": 100},
+            "Ryou": {"range": [200000, 300000], "rate": 100},
             "EXP": {"range": [20000, 30000], "rate": 100}
         }
     },
@@ -4243,7 +5199,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [300000, 350000], "rate": 100},
+            "Ryou": {"range": [200000, 300000], "rate": 100},
             "EXP": {"range": [20000, 30000], "rate": 100}
         }
     },
@@ -4283,7 +5239,7 @@
         },
         "Rewards":
         {
-            "Ryou": {"range": [300000, 350000], "rate": 100},
+            "Ryou": {"range": [200000, 300000], "rate": 100},
             "EXP": {"range": [20000, 30000], "rate": 100}
         }
     }

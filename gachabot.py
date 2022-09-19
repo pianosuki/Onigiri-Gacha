@@ -4878,12 +4878,17 @@ async def equip(ctx, *input):
             critical = magatamas[slot][1]["Effects"]["Critical"]
         return critical
 
+    def getMagatamaComment(slot):
+        magatamas = listEquippedMagatamas(equipment)
+        comment = magatamas[slot][1]["Comment"]
+        return comment
+
     def formatEquippedMagatamas(equipment):
         magatamas = listEquippedMagatamas(equipment)
         formatted_string = ""
 
-        formatted_string += "──────────────────\n"
         for slot, magatama in enumerate(magatamas):
+            formatted_string += "──────────────────\n"
             if magatama:
                 formatted_string += f"📍 **Slot {slot + 1}:** {Icons[getMagatamaEmoji(slot)]} **__{magatamas[slot][0]}__**\n"
                 formatted_string += f" ╰─  Level: **{magatamas[slot][1]['Level_Required']}**\n"
@@ -4895,10 +4900,10 @@ async def equip(ctx, *input):
                     formatted_string += f" ╰─  Skill Force: **+{getMagatamaSkillForce(slot)}%**\n"
                 if "Critical" in magatamas[slot][1]["Effects"]:
                     formatted_string += f" ╰─  Critical: **+{getMagatamaCriticalRate(slot)}%**\n"
-                formatted_string += "──────────────────\n"
+                if "Comment" in magatamas[slot][1]:
+                    formatted_string += f" ╰─  *{getMagatamaComment(slot)}*\n"
             else:
                 formatted_string += f"{Icons[getMagatamaEmoji(slot)]} ─ Slot {slot + 1}: None\n"
-                formatted_string += "──────────────────\n"
         return formatted_string
 
     def formatWeaponInventory(offset, size, half, is_compact):
@@ -4957,6 +4962,7 @@ async def equip(ctx, *input):
                 defence = Magatamas[magatama]["Defence"]
                 sf = Magatamas[magatama]["Effects"]["Skill Force"] if "Skill Force" in Magatamas[magatama]["Effects"] else 0
                 critical = Magatamas[magatama]["Effects"]["Critical"] if "Critical" in Magatamas[magatama]["Effects"] else 0
+                comment = Magatamas[magatama]["Comment"] if "Comment" in Magatamas[magatama] else "..."
                 elements = ""
                 if not Magatamas[magatama]["Elements"] is None:
                     for index, element in enumerate(Magatamas[magatama]["Elements"]):
@@ -4979,6 +4985,8 @@ async def equip(ctx, *input):
                         formatted_string += f" ╰─  *Skill Force:* **+{sf}%**\n"
                     if "Critical" in Magatamas[magatama]["Effects"]:
                         formatted_string += f" ╰─  *Critical:* **+{critical}%**\n"
+                    if "Comment" in Magatamas[magatama]:
+                        formatted_string += f" ╰─  *{comment}*\n"
                 else:
                     formatted_string += f"{Icons['magatama_' + type]} ┃ **__{magatama}__**\n"
                 counter += 1

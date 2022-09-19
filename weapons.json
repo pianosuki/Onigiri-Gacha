@@ -2122,6 +2122,60 @@
         "Elements": ["Pierce"]
     },
 
+    "Meteor Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 60,
+        "Rarity": "Red",
+        "Attack": 54,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Tachibana Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 61,
+        "Rarity": "White",
+        "Attack": 43,
+        "Elements": ["Pierce"]
+    },
+
+    "Big Viper":
+    {
+        "Type": "Bow",
+        "Level_Required": 64,
+        "Rarity": "Gold",
+        "Attack": 64,
+        "Elements": ["Pierce"]
+    },
+
+    "Mino Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 64,
+        "Rarity": "White",
+        "Attack": 45,
+        "Elements": ["Pierce"]
+    },
+
+    "Gare":
+    {
+        "Type": "Bow",
+        "Level_Required": 68,
+        "Rarity": "Red",
+        "Attack": 61,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Lightning Tachibana Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 69,
+        "Rarity": "Blue",
+        "Attack": 55,
+        "Elements": ["Pierce", "Lightning"]
+    },
+
 
 
 
@@ -2337,7 +2391,50 @@
         "Elements": ["Impact", "Fire"]
     },
 
+    "Quartz Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 61,
+        "Rarity": "White",
+        "Attack": 48,
+        "Elements": ["Impact"]
+    },
 
+    "Hinokagutsuchi":
+    {
+        "Type": "Axe",
+        "Level_Required": 61,
+        "Rarity": "Gold",
+        "Attack": 61,
+        "Elements": ["Impact", "Fire"]
+    },
+
+    "Dotechin":
+    {
+        "Type": "Axe",
+        "Level_Required": 65,
+        "Rarity": "Red",
+        "Attack": 45,
+        "Elements": ["Impact", "Mountain"]
+    },
+
+    "Genbugan Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 66,
+        "Rarity": "White",
+        "Attack": 46,
+        "Elements": ["Impact"]
+    },
+
+    "Drachtslave":
+    {
+        "Type": "Axe",
+        "Level_Required": 69,
+        "Rarity": "Gold",
+        "Attack": 69,
+        "Elements": ["Impact", "Fire"]
+    },
 
 
 
@@ -2561,6 +2658,60 @@
         "Rarity": "Gold",
         "Attack": 56,
         "Elements": ["Pierce", "Dark"]
+    },
+
+    "Amanonuboko":
+    {
+        "Type": "Spear",
+        "Level_Required": 60,
+        "Rarity": "Gold",
+        "Attack": 60,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Scaled Walnut Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 61,
+        "Rarity": "White",
+        "Attack": 48,
+        "Elements": ["Pierce"]
+    },
+
+    "Trishula":
+    {
+        "Type": "Spear",
+        "Level_Required": 64,
+        "Rarity": "Red",
+        "Attack": 58,
+        "Elements": ["Pierce", "Rain", "Wind"]
+    },
+
+    "Ash Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 66,
+        "Rarity": "White",
+        "Attack": 46,
+        "Elements": ["Pierce"]
+    },
+
+    "Dark Scaled Walnut Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 67,
+        "Rarity": "Blue",
+        "Attack": 54,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Amanohiboko":
+    {
+        "Type": "Spear",
+        "Level_Required": 68,
+        "Rarity": "Gold",
+        "Attack": 68,
+        "Elements": ["Pierce", "Holy"]
     },
 
 
@@ -2814,6 +2965,51 @@
         "Elements": ["Fire"]
     },
 
+    "Samantabhadra Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 61,
+        "Rarity": "White",
+        "Attack": 43,
+        "Elements": null
+    },
+
+    "Kurikaraken":
+    {
+        "Type": "Wand",
+        "Level_Required": 61,
+        "Rarity": "Gold",
+        "Attack": 61,
+        "Elements": ["Fire"]
+    },
+
+    "Nebular Storm":
+    {
+        "Type": "Wand",
+        "Level_Required": 65,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": null
+    },
+
+    "Enmaou Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 66,
+        "Rarity": "White",
+        "Attack": 46,
+        "Elements": null
+    },
+
+    "Air Shooter":
+    {
+        "Type": "Wand",
+        "Level_Required": 69,
+        "Rarity": "Red",
+        "Attack": 62,
+        "Elements": ["Wind"]
+    },
+
 
 
 
@@ -3044,6 +3240,51 @@
         "Level_Required": 59,
         "Rarity": "Blue",
         "Attack": 47,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Brass Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 61,
+        "Rarity": "White",
+        "Attack": 48,
+        "Elements": ["Impact"]
+    },
+
+    "Counterattack Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 61,
+        "Rarity": "Red",
+        "Attack": 55,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Time Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 65,
+        "Rarity": "Gold",
+        "Attack": 65,
+        "Elements": ["Impact"]
+    },
+
+    "Ivory Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 66,
+        "Rarity": "White",
+        "Attack": 46,
+        "Elements": ["Impact"]
+    },
+
+    "Silver Baton":
+    {
+        "Type": "Staff",
+        "Level_Required": 69,
+        "Rarity": "Gold",
+        "Attack": 69,
         "Elements": ["Impact", "Holy"]
     },
 

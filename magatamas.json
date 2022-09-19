@@ -192,6 +192,20 @@
         "Effects":
         {
             "Skill Force": 50
+        },
+        "Recipe":
+        {
+            "Hakujin Sword": 1,
+            "Sinister Bones": 3,
+            "Large Skull": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2,
+            "Centipede Eggs": 5,
+            "Centipede's Poison": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1
         }
     },
 
@@ -205,6 +219,22 @@
         "Effects":
         {
             "Skill Force": 55
+        },
+        "Recipe":
+        {
+            "Sunoo Sword": 1,
+            "Tep Extract": 3,
+            "Tep Flute": 3,
+            "Chaos Wasabi": 2,
+            "Lively Bulb": 1,
+            "Black Body Hair": 3,
+            "Skull Mask": 1,
+            "Withering Spirit": 10,
+            "Lifespan Candle": 1,
+            "Red Scale": 10,
+            "Penanggalan Tail": 1,
+            "Wild Plants": 10,
+            "Rock Roots": 1
         }
     },
 
@@ -493,6 +523,23 @@
         "Effects":
         {
             "Skill Force": 54
+        },
+        "Recipe":
+        {
+            "Inugaminotou": 1,
+            "New Pacifier": 3,
+            "Skull Remote": 2,
+            "Green Doppelganger Mushroom": 1,
+            "Centipede Fluids": 10,
+            "Potent Venom": 1,
+            "Refreshing Leaf": 10,
+            "Green Furball": 2,
+            "Soft Bill": 1,
+            "Pumice Stone": 10,
+            "Maple Leaf": 1,
+            "Tricolor Dango": 10,
+            "Broken Fishing Rod": 3,
+            "Wriggling Moss": 1
         }
     },
 
@@ -778,6 +825,22 @@
         "Effects":
         {
             "Skill Force": 50
+        },
+        "Recipe":
+        {
+            "Yasha Tachi": 1,
+            "Sinister Bones": 3,
+            "Large Skull": 1,
+            "Toad Oil": 10,
+            "Toad Stomach": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1,
+            "Red Dyes": 8,
+            "Red Claw": 8,
+            "Bamboo Rotocoptor": 1,
+            "Old Thread": 10,
+            "Bell of the Curse God": 1
         }
     },
 
@@ -791,6 +854,23 @@
         "Effects":
         {
             "Skill Force": 55
+        },
+        "Recipe":
+        {
+            "Rasetsu Tachi": 1,
+            "Tep Extract": 3,
+            "Tep Flute": 3,
+            "Chaos Wasabi": 2,
+            "Lively Bulb": 1,
+            "Gypsum": 10,
+            "Onigawara": 1,
+            "Cotton Strip": 10,
+            "Fine Cloth": 2,
+            "New Fundoshi": 1,
+            "Unkempt Hair": 10,
+            "Straw Rope": 1,
+            "Shell Fragment": 10,
+            "Shirikodama": 1
         }
     },
 
@@ -1052,6 +1132,22 @@
         "Effects":
         {
             "Skill Force": 51
+        },
+        "Recipe":
+        {
+            "Mino Bow": 1,
+            "Venemous Lipstick": 3,
+            "Pink Match": 2,
+            "Magical Hand Mirror": 1,
+            "Jiggling Meat": 8,
+            "Melting Meat": 1,
+            "Baby Bottle": 10,
+            "Childbirth Amulet": 2,
+            "Ubume Nest": 1,
+            "Dried Seaweed": 10,
+            "Crab Meat": 1,
+            "Crab Pearl": 10,
+            "Chestnut Pearl": 1
         }
     },
 
@@ -1340,6 +1436,20 @@
         "Effects":
         {
             "Skill Force": 50
+        },
+        "Recipe":
+        {
+            "Quartz Battleaxe": 1,
+            "Sinister Bones": 3,
+            "Large Skull": 1,
+            "Nozuchi Stomach Acid": 10,
+            "Matsutake Mushroom": 1,
+            "Crest Fragment": 10,
+            "Rotted Helm": 1,
+            "Giant Cucumber": 10,
+            "Punk Kappa Fin": 1,
+            "Broken Lantern": 8,
+            "Burnt Talisman": 1
         }
     },
 
@@ -1353,6 +1463,22 @@
         "Effects":
         {
             "Skill Force": 55
+        },
+        "Recipe":
+        {
+            "Genbugan Battleaxe": 1,
+            "Tep Extract": 3,
+            "Tep Flute": 3,
+            "Chaos Wasabi": 2,
+            "Lively Bulb": 1,
+            "Fletching": 10,
+            "Silk Bag": 1,
+            "Charcoal": 10,
+            "Diamond Dust": 1,
+            "Fragile Rib": 10,
+            "Jaw Bone": 4,
+            "Bamboo Strip": 10,
+            "Pufferfish Lantern": 2
         }
     },
 
@@ -1640,6 +1766,20 @@
         "Effects":
         {
             "Skill Force": 50
+        },
+        "Recipe":
+        {
+            "Scaled Walnut Spear": 1,
+            "Sinister Bones": 3,
+            "Large Skull": 1,
+            "Centipede Eggs": 5,
+            "Centipede's Poison": 1,
+            "Baby Centipede Feelers": 10,
+            "Putrid Gastric Juice": 1,
+            "Black Body Hair": 3,
+            "Skull Mask": 1,
+            "Withering Spirit": 10,
+            "Lifespan Candle": 1
         }
     },
 
@@ -1653,6 +1793,23 @@
         "Effects":
         {
             "Skill Force": 55
+        },
+        "Recipe":
+        {
+            "Ash Spear": 1,
+            "Tep Extract": 3,
+            "Tep Flute": 3,
+            "Chaos Wasabi": 2,
+            "Lively Bulb": 1,
+            "Red Scale": 10,
+            "Penanggalan Tail": 1,
+            "Wild Plants": 10,
+            "Rock Roots": 1,
+            "Centipede Fluids": 10,
+            "Potent Venom": 1,
+            "Refreshing Leaf": 10,
+            "Green Furball": 2,
+            "Soft Bill": 1
         }
     },
 
@@ -1967,6 +2124,22 @@
         "Effects":
         {
             "Skill Force": 51
+        },
+        "Recipe":
+        {
+            "Enmaou Talisman": 1,
+            "Rusted Razor": 3,
+            "Nyuudou Rosary": 1,
+            "Pumice Stone": 10,
+            "Maple Leaf": 1,
+            "Tricolor Dango": 10,
+            "Broken Fishing Rod": 3,
+            "Wriggling Moss": 1,
+            "Toad Oil": 10,
+            "Toad Stomach": 1,
+            "Dark Oil": 10,
+            "Waxen Fragment": 3,
+            "Magical Staff": 1
         }
     },
 
@@ -2265,6 +2438,23 @@
         "Effects":
         {
             "Skill Force": 54
+        },
+        "Recipe":
+        {
+            "Ivory Staff": 1,
+            "New Pacifier": 3,
+            "Skull Remote": 2,
+            "Green Doppelganger Mushroom": 1,
+            "Red Dyes": 8,
+            "Red Claw": 8,
+            "Bamboo Rotocoptor": 1,
+            "Old Thread": 10,
+            "Bell of the Curse God": 1,
+            "Gypsum": 10,
+            "Onigawara": 1,
+            "Cotton Strip": 10,
+            "Fine Cloth": 2,
+            "New Fundoshi": 1
         }
     },
 

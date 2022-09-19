@@ -755,6 +755,64 @@
         }
     },
 
+    "Veronica & Sebas-chan":
+    {
+        "Materials":
+        {
+            "New Pacifier": {"modes": [-1], "rate": 90, "scalable": true, "quantity": 1},
+            "Skull Remote": {"modes": [-1], "rate": 35, "scalable": true, "quantity": 1},
+            "Green Doppelganger Mushroom": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Ubume":
+    {
+        "Materials":
+        {
+            "Baby Bottle": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Childbirth Amulet": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Ubume Nest": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Mademoiselle Mirror":
+    {
+        "Materials":
+        {
+            "Venemous Lipstick": {"modes": [-1], "rate": 85, "scalable": true, "quantity": 1},
+            "Pink Match": {"modes": [-1], "rate": 15, "scalable": true, "quantity": 1},
+            "Magical Hand Mirror": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Look Up Nyuudou":
+    {
+        "Materials":
+        {
+            "Rusted Razor": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Nyuudou Rosary": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Musha Archer":
+    {
+        "Materials":
+        {
+            "Fletching": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Silk Bag": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Nyarlethotep":
+    {
+        "Materials":
+        {
+            "Tep Extract": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Tep Flute": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Chaos Wasabi": {"modes": [-1], "rate": 15, "scalable": true, "quantity": 1},
+            "Lively Bulb": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
 
 
 
