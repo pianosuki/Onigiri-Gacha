@@ -5082,7 +5082,7 @@
             "Name": "Nyarlethotep",
             "HP": 40000,
             "Resistances": ["Dark", "Lightning", "Rain", "Wind", "Mountain", "Impact", "Pierce"],
-            "Weaknesses": ["Ice", "Wind"]
+            "Weaknesses": []
         },
         "Rewards":
         {
