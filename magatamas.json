@@ -2559,6 +2559,38 @@
         "Effects":
         {
             "Critical": 3
+        },
+        "Recipe":
+        {
+            "Fortitude Stone": 1,
+            "Miracle Stone": 1,
+            "Inferno Stone": 1,
+            "Ice Stone": 1,
+            "Thunder Stone": 1,
+            "Light Stone": 1,
+            "Dark Stone": 1,
+            "Cutting Stone": 1,
+            "Piercing Stone": 1,
+            "Crushing Horn Stone": 1,
+            "Daruma's Pipe": 3,
+            "Embroidered Cushion": 1,
+            "Fragile Rib": 5,
+            "Gloom Daruma Fragment": 5,
+            "Refreshing Leaf": 5,
+            "Pain Daruma Fragment": 5,
+            "Bug Repellant Coil": 5,
+            "Pumice Stone": 5,
+            "Luck Daruma Fragment": 5,
+            "Mountain Water": 5,
+            "Orange Peel Juice": 5,
+            "Shell Fragment": 5,
+            "Cotton Strip": 5,
+            "Water Plant": 5,
+            "Amagaeru Mucus": 5,
+            "Crest Fragment": 5,
+            "Bamboo Strip": 5,
+            "Life Daruma Fragment": 5,
+            "Bristly Beard": 5
         }
     },
 
@@ -2572,6 +2604,28 @@
         "Effects":
         {
             "Critical": 6
+        },
+        "Recipe":
+        {
+            "Kanetsugu Magatama": 1,
+            "Stained Bandage": 3,
+            "Kibidango": 1,
+            "Water Plant": 5,
+            "Shell Fragment": 5,
+            "Amagaeru Mucus": 5,
+            "Toad Oil": 5,
+            "Jiggling Meat": 5,
+            "Tricolor Dango": 5,
+            "Giant Cucumber": 5,
+            "Bristly Beard": 5,
+            "Crest Fragment": 5,
+            "Fragile Rib": 5,
+            "Bamboo Strip": 5,
+            "Mountain Water": 5,
+            "Baby Centipede Feelers": 5,
+            "Orange Peel Juice": 5,
+            "Dark Oil": 5,
+            "Centipede Eggs": 5
         }
     },
 
@@ -2585,6 +2639,34 @@
         "Effects":
         {
             "Critical": 8
+        },
+        "Recipe":
+        {
+            "Kojyuurou Magatama": 1,
+            "Black Moth Scales": 3,
+            "Gray Apple": 1,
+            "Fragile Rib": 5,
+            "Mountain Water": 5,
+            "Crest Fragment": 5,
+            "Baby Centipede Feelers": 5,
+            "Jiggling Meat": 5,
+            "Water Plant": 5,
+            "Shell Fragment": 5,
+            "Giant Cucumber": 5,
+            "Amagaeru Mucus": 5,
+            "Toad Oil": 5,
+            "Gloom Daruma Fragment": 5,
+            "Tart Peach": 5,
+            "Dark Oil": 5,
+            "Cat Whiskers": 5,
+            "Life Daruma Fragment": 5,
+            "Bamboo Strip": 5,
+            "Luck Daruma Fragment": 5,
+            "Loss Daruma Fragment": 5,
+            "Bristly Beard": 5,
+            "Gypsum": 5,
+            "Crow Feather": 5,
+            "Spirit Mirror Shard": 5
         }
     },
 
@@ -2598,6 +2680,35 @@
         "Effects":
         {
             "Critical": 11
+        },
+        "Recipe":
+        {
+            "Michizane Magatama": 1,
+            "Sulfur": 3,
+            "Reversed Compass": 1,
+            "Dark Oil": 5,
+            "Broken Lantern": 5,
+            "Red Scale": 5,
+            "Bamboo Strip": 5,
+            "Baby Centipede Feelers": 5,
+            "Baby Fly Wings": 5,
+            "Fragile Rib": 5,
+            "Unkempt Hair": 5,
+            "Giant Cucumber": 5,
+            "Amagaeru Mucus": 5,
+            "Crab Pearl": 5,
+            "Life Daruma Fragment": 5,
+            "Spirit Mirror Shard": 5,
+            "Yagyou-san's Tears":  5,
+            "Bristly Beard": 5,
+            "Gypsum": 5,
+            "Crest Fragment": 5,
+            "Luck Daruma Fragment": 5,
+            "Loss Daruma Fragment": 5,
+            "Mountain Water": 5,
+            "Jiggling Meat": 5,
+            "Black Body Hair": 5,
+            "Centipede Fluids": 5
         }
     },
 
@@ -2611,6 +2722,41 @@
         "Effects":
         {
             "Critical": 14
+        },
+        "Recipe":
+        {
+            "Yukimura Magatama": 1,
+            "Golden Helm Fragment": 3,
+            "Raisins": 1,
+            "Cotton Strip": 5,
+            "Unkempt Hair": 5,
+            "Spirit Mirror Shard": 5,
+            "Baby Centipede Feelers": 5,
+            "Toad Oil": 5,
+            "Giant Cucumber": 5,
+            "Fragile Rib": 5,
+            "Gloom Daruma Fragment": 5,
+            "Luck Daruma Fragment": 5,
+            "Loss Daruma Fragment": 5,
+            "Mountain Water": 5,
+            "Crow Feather": 5,
+            "Crest Fragment": 5,
+            "Jiggling Meat": 5,
+            "Black Body Hair": 5,
+            "Cat Whiskers": 5,
+            "Red Scale": 5,
+            "Old Thread": 5,
+            "Paper Helmet": 5,
+            "Paper Helmet": 5,
+            "Paper Crane": 5,
+            "Iron Sand": 5,
+            "Ashes": 5,
+            "Bamboo Strip": 5,
+            "Pumice Stone": 5,
+            "Amagaeru Mucus": 5,
+            "Red Dyes": 5,
+            "Red Claw": 5,
+            "Charcoal": 5
         }
     },
 
@@ -2624,6 +2770,39 @@
         "Effects":
         {
             "Critical": 17
+        },
+        "Recipe":
+        {
+            "Shingen Magatama": 1,
+            "Spiked Collar": 3,
+            "Honey": 2,
+            "Cerberus Vinegar": 1,
+            "Giant Cucumber": 5,
+            "Amagaeru Mucus": 5,
+            "Crab Pearl": 5,
+            "Bamboo Strip": 5,
+            "Toad Oil": 5,
+            "Jiggling Meat": 5,
+            "Fragile Rib": 5,
+            "Shell Fragment": 5,
+            "Centipede Eggs": 5,
+            "Wheel": 5,
+            "Wild Plants": 5,
+            "Baby Centipede Feelers": 5,
+            "Bristly Beard": 5,
+            "Dark Oil": 5,
+            "Centipede Feelers": 5,
+            "Old Thread": 5,
+            "Iron Sand": 5,
+            "Centipede Fluids": 5,
+            "Charcoal": 5,
+            "Bug Repellant Coil": 5,
+            "Red Scale": 5,
+            "Nozuchi Stomach Acid": 5,
+            "Spirit Mirror Shard": 5,
+            "Unkempt Hair": 5,
+            "Black Body Hair": 5,
+            "Withering Spirit": 5
         }
     },
 
@@ -2637,6 +2816,38 @@
         "Effects":
         {
             "Critical": 19
+        },
+        "Recipe":
+        {
+            "Kenshin Magatama": 1,
+            "Black Smoke": 3,
+            "Hell's Bible": 1,
+            "Giant Cucumber": 5,
+            "Amagaeru Mucus": 5,
+            "Crab Pearl": 5,
+            "Bamboo Strip": 5,
+            "Toad Oil": 5,
+            "Jiggling Meat": 5,
+            "Fragile Rib": 5,
+            "Shell Fragment": 5,
+            "Centipede Eggs": 5,
+            "Wheel": 5,
+            "Wild Plants": 5,
+            "Baby Centipede Feelers": 5,
+            "Bristly Beard": 5,
+            "Dark Oil": 5,
+            "Centipede Feelers": 5,
+            "Old Thread": 5,
+            "Iron Sand": 5,
+            "Centipede Fluids": 5,
+            "Charcoal": 5,
+            "Bug Repellant Coil": 5,
+            "Red Scale": 5,
+            "Nozuchi Stomach Acid": 5,
+            "Spirit Mirror Shard": 5,
+            "Unkempt Hair": 5,
+            "Black Body Hair": 5,
+            "Withering Spirit": 5
         }
     },
 
@@ -2650,6 +2861,45 @@
         "Effects":
         {
             "Critical": 22
+        },
+        "Recipe":
+        {
+            "Nobunaga Magatama": 1,
+            "Tep Extract": 3,
+            "Tep Flute": 3,
+            "Chaos Wasabi": 2,
+            "Lively Bulb": 1,
+            "Fragile Rib": 5,
+            "Bamboo Strip": 5,
+            "Centipede Eggs": 5,
+            "Baby Centipede Feelers": 5,
+            "Black Body Hair": 5,
+            "Withering Spirit": 5,
+            "Red Scale": 5,
+            "Wild Plants": 5,
+            "Centipede Fluids": 5,
+            "Refreshing Leaf": 5,
+            "Pumice Stone": 5,
+            "Tricolor Dango": 5,
+            "Toad Oil": 5,
+            "Dark Oil": 5,
+            "Red Dyes": 5,
+            "Red Claw": 5,
+            "Old Thread": 5,
+            "Gypsum": 5,
+            "Cotton Strip": 5,
+            "Unkempt Hair": 5,
+            "Shell Fragment": 5,
+            "Jiggling Meat": 5,
+            "Baby Bottle": 5,
+            "Dried Seaweed": 5,
+            "Crab Pearl": 5,
+            "Nozuchi Stomach Acid": 5,
+            "Crest Fragment": 5,
+            "Giant Cucumber": 5,
+            "Broken Lantern": 5,
+            "Fletching": 5,
+            "Charcoal": 5
         }
     },
 

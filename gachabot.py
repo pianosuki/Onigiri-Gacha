@@ -4416,8 +4416,8 @@ async def craft(ctx, *input):
         banner = generateFileObject("Oni-Crafting", Graphics["Banners"]["Oni-Crafting"][0])
         e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = f"Viewing recipe of __{weapon}__", color = 0xf885a4)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.add_field(name = f"{Icons['recipe']} ─ Weapon Recipe ─ {Icons['recipe']}", value = formatWeaponRecipe(weapon), inline = True)
         e.add_field(name = f"{Icons['twin_swords']} ─ Weapon Details ─ {Icons['twin_swords']}", value = formatWeaponDetails(weapon), inline = True)
+        e.add_field(name = f"{Icons['recipe']} ─ Weapon Recipe ─ {Icons['recipe']}", value = formatWeaponRecipe(weapon), inline = True)
         reformatting = True
         while reformatting:
             d = e.to_dict()
@@ -4450,6 +4450,12 @@ async def craft(ctx, *input):
                 inv_materials = {mat[0]:mat[1] for mat in getUserMaterialInv(user_id)}
                 inv_weapons = getPlayerWeaponsInv(user_id)
                 inv_magatamas = getPlayerMagatamasInv(user_id)
+                weapons_list = inv_weapons.split(", ")
+
+                # Check if user already has the weapon
+                if weapon in weapons_list:
+                    await ctx.reply(f"⚠️ **You already have the weapon:** {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} __{weapon}__")
+                    return
 
                 # Check if user is missing any ingredients
                 missing = {}
@@ -4559,8 +4565,8 @@ async def craft(ctx, *input):
         banner = generateFileObject("Oni-Crafting", Graphics["Banners"]["Oni-Crafting"][0])
         e = discord.Embed(title = "⚒️ ─ Crafting Menu ─ ⚒️", description = f"Viewing recipe of __{magatama}__", color = 0xf885a4)
         e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-        e.add_field(name = f"{Icons['recipe']} ─ Magatama Recipe ─ {Icons['recipe']}", value = formatMagatamaRecipe(magatama), inline = True)
         e.add_field(name = f"{Icons['magatama']} ─ Magatama Details ─ {Icons['magatama']}", value = formatMagatamaDetails(magatama), inline = True)
+        e.add_field(name = f"{Icons['recipe']} ─ Magatama Recipe ─ {Icons['recipe']}", value = formatMagatamaRecipe(magatama), inline = True)
         reformatting = True
         while reformatting:
             d = e.to_dict()
@@ -4593,6 +4599,12 @@ async def craft(ctx, *input):
                 inv_materials = {mat[0]:mat[1] for mat in getUserMaterialInv(user_id)}
                 inv_weapons = getPlayerWeaponsInv(user_id)
                 inv_magatamas = getPlayerMagatamasInv(user_id)
+                magatamas_list = inv_magatamas.split(", ")
+
+                # Check if user already has the magatama
+                if magatama in magatamas_list:
+                    await ctx.reply(f"⚠️ **You already have the magatama:** {Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} __{magatama}__")
+                    return
 
                 # Check if user is missing any ingredients
                 missing = {}
@@ -4655,16 +4667,29 @@ async def craft(ctx, *input):
                     return False, magatama
         return False, None
 
-    def formatMissing(missing):
+    def formatMissing(missing, overflow = False):
         formatted_string = "⚠️ **Missing Ingredients:**\n"
         for material, amount in missing.items():
             if material in Materials:
-                material_emoji = Icons["material_" + Materials[material]["type"]]
+                if not overflow:
+                    material_emoji = Icons["material_" + Materials[material]["type"]]
+                else:
+                    material_emoji = "📦"
             elif material in Weapons:
-                material_emoji = Icons[Weapons[material]["Type"].lower().replace(" ", "_")]
+                if not overflow:
+                    material_emoji = Icons[Weapons[material]["Type"].lower().replace(" ", "_")]
+                else:
+                    material_emoji = "⚔️"
             elif material in Magatamas:
-                material_emoji = Icons["magatama_" + Magatamas[material]["Type"].lower().replace(" ", "_")]
+                if not overflow:
+                    material_emoji = Icons["magatama_" + Magatamas[material]["Type"].lower().replace(" ", "_")]
+                else:
+                    material_emoji = "💎"
             formatted_string += f"{material_emoji} **{amount}x** __{material}__\n"
+        if not overflow and len(formatted_string) > 2000:
+            formatted_string = formatMissing(missing, overflow = True)
+        elif overflow and len(formatted_string) > 2000:
+            formatted_string = "List too large to send!"
         return formatted_string
 
     # main()
@@ -4677,19 +4702,9 @@ async def craft(ctx, *input):
         w_result, weapon = checkIfWeapon(q_string)
         m_result, magatama = checkIfMagatama(q_string)
         if w_result:
-            inv_weapons = getPlayerWeaponsInv(user_id)
-            weapons_list = inv_weapons.split(", ")
-            if not weapon in weapons_list:
-                await craftWeapon(ctx, message, flag, weapon)
-            else:
-                await ctx.reply(f"⚠️ **You already have the weapon:** {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} __{weapon}__")
+            await craftWeapon(ctx, message, flag, weapon)
         elif m_result:
-            inv_magatamas = getPlayerMagatamasInv(user_id)
-            magatamas_list = inv_magatamas.split(", ")
-            if not magatama in magatamas_list:
-                await craftMagatama(ctx, message, flag, magatama)
-            else:
-                await ctx.reply(f"⚠️ **You already have the magatama:** {Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} __{magatama}__")
+            await craftMagatama(ctx, message, flag, magatama)
         elif not weapon is None:
             await ctx.reply(f"⚠️ **The weapon you chose is not craftable:** `{weapon}`")
         elif not magatama is None:
