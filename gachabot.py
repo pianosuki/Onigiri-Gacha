@@ -3739,11 +3739,11 @@ async def dmtest(ctx):
 @commands.is_owner()
 async def sendcodes(ctx, day: int = 0):
 
-    async def sendCode(user, code):
+    async def sendCode(user, code, day):
         msg = f"""
         Hi {user.mention}, here is your __Serial Number__ for **War of GAMA**!
 
-        ⛓ **Serial Number:** `{code}`
+        ⛓ **Day {day} Serial Number:** `{code}`
 
         ***!Pay Attention!***
         Our system will be sending "Serial Numbers" for you to redeem in game during the CBT!
@@ -3797,7 +3797,7 @@ async def sendcodes(ctx, day: int = 0):
         user_roles = [role.name for role in member.roles]
         if roles[0] in user_roles or roles[1] in user_roles:
             try:
-                await sendCode(member, code)
+                await sendCode(member, code, day)
                 UserCodes.update({member.id: code})
                 with open(f"output/day-{day}.json", "w") as outfile:
                     json_object = json.dumps(UserCodes, indent = 4)
