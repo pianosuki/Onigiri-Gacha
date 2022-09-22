@@ -3788,16 +3788,16 @@ async def sendcodes(ctx, day: int = 0):
     UserCodes = {}
     FailedUsers = {}
 
+    makedirs("output", exist_ok = True)
     message = await public_announcements.send(f"<@&{wl_id}> <@&{og_id}>\n🔄 Starting **Day {day}** __Serial Number__ code distribution...")
 
     codes_sent = 0
     for member in guild.members:
-        # member = ctx.author # remove me later
         code = Codes[codes_column].iloc[2 + codes_sent]
         user_roles = [role.name for role in member.roles]
         if roles[0] in user_roles or roles[1] in user_roles:
             try:
-                await sendCode(ctx.author, code)
+                await sendCode(member, code)
                 UserCodes.update({member.id: code})
                 with open(f"output/day-{day}.json", "w") as outfile:
                     json_object = json.dumps(UserCodes, indent = 4)
