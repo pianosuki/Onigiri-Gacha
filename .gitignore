@@ -11,3 +11,7 @@ __pycache__/
 
 # Database files
 *.db
+
+# Codes
+codes.xlsx
+output/

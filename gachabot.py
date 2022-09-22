@@ -8,7 +8,7 @@ debug_mode  = False
 
 import config, dresource
 from database import Database
-import discord, re, time, random, json, math, hashlib, urllib.parse
+import discord, re, time, random, json, math, hashlib, urllib.parse, pandas
 from discord.ext import commands
 from datetime import datetime
 import numpy as np
@@ -18,6 +18,7 @@ from os import makedirs
 
 intents                 = discord.Intents.default()
 intents.message_content = True
+intents.members         = True
 bot                     = commands.Bot(command_prefix = "!" if debug_mode else config.prefix, intents = intents)
 
 # Gacha
@@ -3711,6 +3712,109 @@ async def compensate(ctx):
         else:
             ItemsDB.execute("UPDATE user_{} SET quantity = {} WHERE item = '{}'".format(str(user_id), item_quantity + amount, product))
         await ctx.send(f"Rewarded <@{user_id}> with **{amount} __{product}__**!")
+
+@bot.command()
+@commands.is_owner()
+async def dmtest(ctx):
+    user = ctx.author
+    msg = """
+    Hi Adventurer, here is your __Serial Number__ for **War of GAMA**!
+
+    ⛓ `(input code here)`
+
+    ***!Pay Attention!***
+    Our system will be sending "Serial Numbers" for you to redeem in game during the CBT!
+    ✅ Check our website or Discord for how to use your Serial Number!
+    ❌ The team will **not** DM you any links, only __"Serial Number"__!
+    ❌ The team will **not** be asking for your private information!
+
+    **Note:**
+    *This code was sent to you automatically due to you having the WL or OG role*
+    *Any DMs you receive claiming to be us that do not follow the rules above are fake and likely scams!*
+    *Thanks for supporting War of GAMA, please enjoy the Beta!*
+    """
+    await user.send(msg)
+
+@bot.command()
+@commands.is_owner()
+async def sendcodes(ctx, day: int = 0):
+
+    async def sendCode(user, code):
+        msg = f"""
+        Hi {user.mention}, here is your __Serial Number__ for **War of GAMA**!
+
+        ⛓ **Serial Number:** `{code}`
+
+        ***!Pay Attention!***
+        Our system will be sending "Serial Numbers" for you to redeem in game during the CBT!
+        ✅ Check our website or Discord for how to use your Serial Number!
+        ❌ The team will **not** DM you any links, only __"Serial Number"__!
+        ❌ The team will **not** be asking for your private information!
+
+        **Note:**
+        *This code was sent to you automatically due to you having the WL or OG role, keep it safe.*
+        *Any DMs you receive claiming to be us that do not follow the rules above are fake and likely scams!*
+        *Thanks for supporting War of GAMA, please enjoy the Beta!*
+        """
+        await user.send(msg)
+        return True
+
+    if not type(day) is int or day < 1 or day > 7:
+        await ctx.send("⚠️ Please provide a day (must be a number from 1 to 7)")
+        return
+
+    match day:
+        case 1:
+            codes_column = "Unnamed: 1"
+        case 2:
+            codes_column = "Unnamed: 4"
+        case 3:
+            codes_column = "Unnamed: 7"
+        case 4:
+            codes_column = "Unnamed: 10"
+        case 5:
+            codes_column = "Unnamed: 13"
+        case 6:
+            codes_column = "Unnamed: 16"
+        case 7:
+            codes_column = "Unnamed: 19"
+    guild = bot.get_guild(989407410504495154)
+    roles = ["VIP WL PASS (Silver)", "o🇬 (500)"]
+    wl_id = 993343740565540944
+    og_id = 993341080567283752
+    staff_announcements = bot.get_channel(989407412094119979)
+    public_announcements = bot.get_channel(989407416506548250)
+    Codes = pandas.read_excel(r"codes.xlsx", engine = "openpyxl")
+    UserCodes = {}
+    FailedUsers = {}
+
+    message = await public_announcements.send(f"<@&{wl_id}> <@&{og_id}>\n🔄 Starting **Day {day}** __Serial Number__ code distribution...")
+
+    codes_sent = 0
+    for member in guild.members:
+        # member = ctx.author # remove me later
+        code = Codes[codes_column].iloc[2 + codes_sent]
+        user_roles = [role.name for role in member.roles]
+        if roles[0] in user_roles or roles[1] in user_roles:
+            try:
+                await sendCode(ctx.author, code)
+                UserCodes.update({member.id: code})
+                with open(f"output/day-{day}.json", "w") as outfile:
+                    json_object = json.dumps(UserCodes, indent = 4)
+                    outfile.write(json_object)
+                codes_sent += 1
+            except discord.errors.Forbidden:
+                FailedUsers.update({member.id: member.mention})
+                with open(f"output/day-{day}_failed-users.json", "w") as outfile:
+                    json_object = json.dumps(FailedUsers, indent = 4)
+                    outfile.write(json_object)
+        await message.edit(content = f"<@&{wl_id}> <@&{og_id}>\n🔄 Starting **Day {day}** __Serial Number__ code distribution...\n\n⛓️ Codes sent progress: `{codes_sent}`\n⚠️ Failed users: `{len(FailedUsers)}`")
+    if UserCodes:
+        await public_announcements.send(content = f"✅ Finished **Day {day}** __Serial Number__ code distribution! *~Check your DMs~*")
+        await staff_announcements.send(file = discord.File(f"output/day-{day}.json"), content = f"✅ Finished **Day {day}** Mass-DM code distribution!\nHere is the resulting list of users with the codes rewarded to them respectively:")
+    if FailedUsers:
+        await staff_announcements.send(file = discord.File(f"output/day-{day}_failed-users.json"), content = "🚫 List of users failed to send a code to:")
+
 
 @bot.command()
 @commands.is_owner()
