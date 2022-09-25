@@ -3803,12 +3803,14 @@ async def sendcodes(ctx, day: int = 0):
                     json_object = json.dumps(UserCodes, indent = 4)
                     outfile.write(json_object)
                 codes_sent += 1
+                print(f"Sent code: {code} to {member.name}")
             except discord.errors.Forbidden:
                 FailedUsers.update({member.id: member.mention})
                 with open(f"output/day-{day}_failed-users.json", "w") as outfile:
                     json_object = json.dumps(FailedUsers, indent = 4)
                     outfile.write(json_object)
         await message.edit(content = f"<@&{wl_id}> <@&{og_id}>\n🔄 Starting **Day {day}** __Serial Number__ code distribution...\n\n⛓️ Codes sent progress: `{codes_sent}`\n⚠️ Failed users: `{len(FailedUsers)}`")
+        time.sleep(30)
     if UserCodes:
         await public_announcements.send(content = f"✅ Finished **Day {day}** __Serial Number__ code distribution! *~Check your DMs~*")
         await staff_announcements.send(file = discord.File(f"output/day-{day}.json"), content = f"✅ Finished **Day {day}** Mass-DM code distribution!\nHere is the resulting list of users with the codes rewarded to them respectively:")
