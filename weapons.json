@@ -616,8 +616,17 @@
         "Type": "Sword",
         "Level_Required": 106,
         "Rarity": "Gold",
-        "Attack": 106,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 115,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "End of Days": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
     },
 
     "Doujikiri Sanemori":
@@ -634,8 +643,17 @@
         "Type": "Sword",
         "Level_Required": 108,
         "Rarity": "Gold",
-        "Attack": 108,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 130,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "End of Days STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
     },
 
     "Doujikiri Sanemori - Severance":
@@ -643,8 +661,14 @@
         "Type": "Sword",
         "Level_Required": 108,
         "Rarity": "Gold",
-        "Attack": 108,
-        "Elements": ["Slice", "Holy"]
+        "Attack": 120,
+        "Elements": ["Slice", "Holy"],
+        "Recipe":
+        {
+            "Doujikiri Sanemori": 1,
+            "Cutting Stone": 10,
+            "Light Stone": 10
+        }
     },
 
     "Gaillardios":
@@ -697,7 +721,7 @@
         "Type": "Sword",
         "Level_Required": 120,
         "Rarity": "Gold",
-        "Attack": 120,
+        "Attack": 150,
         "Elements": ["Slice", "Lightning", "Holy"]
     },
 
@@ -1097,6 +1121,15 @@
         "Elements": ["Slice", "Dark"]
     },
 
+    "Binary Star Swords":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 100,
+        "Rarity": "White",
+        "Attack": 70,
+        "Elements": ["Slice"]
+    },
+
     "Annapurna":
     {
         "Type": "Twin Swords",
@@ -1156,8 +1189,17 @@
         "Type": "Twin Swords",
         "Level_Required": 106,
         "Rarity": "Gold",
-        "Attack": 106,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 115,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "D3": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
     },
 
     "Amatsu Habagiri":
@@ -1174,8 +1216,17 @@
         "Type": "Twin Swords",
         "Level_Required": 108,
         "Rarity": "Gold",
-        "Attack": 108,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 130,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "D3 STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
     },
 
     "Amatsu Habagiri - Severance":
@@ -1183,8 +1234,14 @@
         "Type": "Twin Swords",
         "Level_Required": 108,
         "Rarity": "Gold",
-        "Attack": 108,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 120,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "Amatsu Habagiri": 1,
+            "Cutting Stone": 10,
+            "Thunder Stone": 10
+        }
     },
 
     "Vikken":
@@ -1246,7 +1303,7 @@
         "Type": "Twin Swords",
         "Level_Required": 120,
         "Rarity": "Gold",
-        "Attack": 120,
+        "Attack": 150,
         "Elements": ["Slice", "Lightning", "Holy"]
     },
 
@@ -1767,8 +1824,17 @@
         "Type": "Odachi",
         "Level_Required": 106,
         "Rarity": "Gold",
-        "Attack": 106,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 115,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "Catastrophy": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
     },
 
     "Nokogiri Samehada":
@@ -1785,8 +1851,17 @@
         "Type": "Odachi",
         "Level_Required": 108,
         "Rarity": "Gold",
-        "Attack": 108,
-        "Elements": ["Slice", "Lightning"]
+        "Attack": 130,
+        "Elements": ["Slice", "Lightning"],
+        "Recipe":
+        {
+            "Catastrophy STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
     },
 
     "Nokogiri Samehada - Severance":
@@ -1794,8 +1869,14 @@
         "Type": "Odachi",
         "Level_Required": 108,
         "Rarity": "Gold",
-        "Attack": 108,
-        "Elements": ["Slice", "Fire"]
+        "Attack": 120,
+        "Elements": ["Slice", "Fire"],
+        "Recipe":
+        {
+            "Nokogiri Samehada": 1,
+            "Cutting Stone": 10,
+            "Inferno Stone": 10
+        }
     },
 
     "Sky Rending Sword":
@@ -1857,7 +1938,7 @@
         "Type": "Odachi",
         "Level_Required": 120,
         "Rarity": "Gold",
-        "Attack": 120,
+        "Attack": 150,
         "Elements": ["Slice", "Lightning", "Holy"]
     },
 
@@ -2176,13 +2257,326 @@
         "Elements": ["Pierce", "Lightning"]
     },
 
+    "Hexagonal Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 71,
+        "Rarity": "White",
+        "Attack": 50,
+        "Elements": ["Pierce"]
+    },
 
+    "Lightningcrash":
+    {
+        "Type": "Bow",
+        "Level_Required": 72,
+        "Rarity": "Red",
+        "Attack": 65,
+        "Elements": ["Pierce", "Lightning"]
+    },
 
+    "Youyuuki Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 75,
+        "Rarity": "White",
+        "Attack": 52,
+        "Elements": ["Pierce"]
+    },
 
+    "Golden Eye":
+    {
+        "Type": "Bow",
+        "Level_Required": 76,
+        "Rarity": "Gold",
+        "Attack": 76,
+        "Elements": ["Pierce"]
+    },
 
+    "Hioki Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 79,
+        "Rarity": "White",
+        "Attack": 55,
+        "Elements": ["Pierce"]
+    },
 
+    "Tiger Moth":
+    {
+        "Type": "Bow",
+        "Level_Required": 80,
+        "Rarity": "Gold",
+        "Attack": 80,
+        "Elements": ["Pierce", "Wind"]
+    },
 
+    "Kakouen Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 82,
+        "Rarity": "White",
+        "Attack": 57,
+        "Elements": ["Pierce"]
+    },
 
+    "Yoichi Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 85,
+        "Rarity": "White",
+        "Attack": 59,
+        "Elements": ["Pierce"]
+    },
+
+    "Heavenly Youyuuki Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 85,
+        "Rarity": "Blue",
+        "Attack": 68,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Glazer One":
+    {
+        "Type": "Bow",
+        "Level_Required": 87,
+        "Rarity": "Gold",
+        "Attack": 87,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Albatross":
+    {
+        "Type": "Bow",
+        "Level_Required": 92,
+        "Rarity": "Red",
+        "Attack": 83,
+        "Elements": ["Pierce", "Wind"]
+    },
+
+    "Violante":
+    {
+        "Type": "Bow",
+        "Level_Required": 99,
+        "Rarity": "Red",
+        "Attack": 89,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Meteor Shower Bow":
+    {
+        "Type": "Bow",
+        "Level_Required": 100,
+        "Rarity": "White",
+        "Attack": 70,
+        "Elements": ["Pierce"]
+    },
+
+    "Galgos":
+    {
+        "Type": "Bow",
+        "Level_Required": 100,
+        "Rarity": "Red",
+        "Attack": 90,
+        "Elements": ["Pierce", "Lightning"]
+    },
+
+    "Ironwork Magbow":
+    {
+        "Type": "Bow",
+        "Level_Required": 103,
+        "Rarity": "Red",
+        "Attack": 93,
+        "Elements": ["Pierce"]
+    },
+
+    "Dark Arrow Hachiman":
+    {
+        "Type": "Bow",
+        "Level_Required": 103,
+        "Rarity": "Blue",
+        "Attack": 82,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Disruptor":
+    {
+        "Type": "Bow",
+        "Level_Required": 105,
+        "Rarity": "Gold",
+        "Attack": 105,
+        "Elements": ["Pierce"]
+    },
+
+    "Lightning Gore":
+    {
+        "Type": "Bow",
+        "Level_Required": 105,
+        "Rarity": "Red",
+        "Attack": 94,
+        "Elements": ["Pierce", "Lightning"]
+    },
+
+    "Galgos STAR":
+    {
+        "Type": "Bow",
+        "Level_Required": 106,
+        "Rarity": "Gold",
+        "Attack": 115,
+        "Elements": ["Pierce", "Lightning"],
+        "Recipe":
+        {
+            "Galgos": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
+    },
+
+    "Galeil":
+    {
+        "Type": "Bow",
+        "Level_Required": 106,
+        "Rarity": "Red",
+        "Attack": 95,
+        "Elements": ["Pierce", "Ice"]
+    },
+
+    "Galgos CROSS":
+    {
+        "Type": "Bow",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Pierce", "Lightning"],
+        "Recipe":
+        {
+            "Galgos STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
+    },
+
+    "Galeil - Severance":
+    {
+        "Type": "Bow",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 120,
+        "Elements": ["Pierce", "Ice"],
+        "Recipe":
+        {
+            "Galeil": 1,
+            "Piercing Stone": 10,
+            "Ice Stone": 10
+        }
+    },
+
+    "Nebula Disruptor":
+    {
+        "Type": "Bow",
+        "Level_Required": 113,
+        "Rarity": "Gold",
+        "Attack": 113,
+        "Elements": ["Pierce", "Ice", "Rain"]
+    },
+
+    "Moudou Ten-no-nie":
+    {
+        "Type": "Bow",
+        "Level_Required": 116,
+        "Rarity": "Red",
+        "Attack": 104,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Tsukihannya Gabimaru":
+    {
+        "Type": "Bow",
+        "Level_Required": 117,
+        "Rarity": "Gold",
+        "Attack": 117,
+        "Elements": ["Pierce", "Fire"]
+    },
+
+    "Tsukihannya Gabimaru":
+    {
+        "Type": "Bow",
+        "Level_Required": 117,
+        "Rarity": "Gold",
+        "Attack": 117,
+        "Elements": ["Pierce", "Fire"]
+    },
+
+    "L. Galgos":
+    {
+        "Type": "Bow",
+        "Level_Required": 118,
+        "Rarity": "Gold",
+        "Attack": 118,
+        "Elements": ["Pierce", "Lightning", "Holy"]
+    },
+
+    "Bow of Traurig":
+    {
+        "Type": "Bow",
+        "Level_Required": 118,
+        "Rarity": "Red",
+        "Attack": 106,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "L. Galgos Sin":
+    {
+        "Type": "Bow",
+        "Level_Required": 120,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Pierce", "Lightning", "Holy"]
+    },
+
+    "Bow of Traurig - Vow":
+    {
+        "Type": "Bow",
+        "Level_Required": 121,
+        "Rarity": "Gold",
+        "Attack": 121,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Bow of Traurig - Completion":
+    {
+        "Type": "Bow",
+        "Level_Required": 122,
+        "Rarity": "Gold",
+        "Attack": 122,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Bow of Traurig - Warped":
+    {
+        "Type": "Bow",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 123,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Bow of Traurig - Nadir":
+    {
+        "Type": "Bow",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Pierce", "Dark"]
+    },
 
     "Stone Battleaxe":
     {
@@ -2436,13 +2830,317 @@
         "Elements": ["Impact", "Fire"]
     },
 
+    "Kujakuishi Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 71,
+        "Rarity": "White",
+        "Attack": 50,
+        "Elements": ["Impact"]
+    },
 
+    "Ice Quartz Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 71,
+        "Rarity": "Blue",
+        "Attack": 57,
+        "Elements": ["Impact", "Ice"]
+    },
 
+    "Satsuki Anchor":
+    {
+        "Type": "Axe",
+        "Level_Required": 73,
+        "Rarity": "Gold",
+        "Attack": 73,
+        "Elements": ["Impact"]
+    },
 
+    "Diamond Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 75,
+        "Rarity": "White",
+        "Attack": 52,
+        "Elements": ["Impact"]
+    },
 
+    "Jinden":
+    {
+        "Type": "Axe",
+        "Level_Required": 77,
+        "Rarity": "Gold",
+        "Attack": 77,
+        "Elements": ["Impact", "Mountain"]
+    },
 
+    "Obsidian Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 79,
+        "Rarity": "White",
+        "Attack": 55,
+        "Elements": ["Impact"]
+    },
 
+    "Adventurer's Gold":
+    {
+        "Type": "Axe",
+        "Level_Required": 81,
+        "Rarity": "Gold",
+        "Attack": 81,
+        "Elements": ["Impact"]
+    },
 
+    "Koshinkai Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 82,
+        "Rarity": "White",
+        "Attack": 57,
+        "Elements": ["Impact"]
+    },
+
+    "Maseigyu Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 85,
+        "Rarity": "White",
+        "Attack": 59,
+        "Elements": ["Impact"]
+    },
+
+    "Dark Obsidian Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 87,
+        "Rarity": "Blue",
+        "Attack": 70,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Lunasymphony":
+    {
+        "Type": "Axe",
+        "Level_Required": 89,
+        "Rarity": "Gold",
+        "Attack": 89,
+        "Elements": ["Impact", "Mountain", "Holy"]
+    },
+
+    "Battleaxe Yamashiro":
+    {
+        "Type": "Axe",
+        "Level_Required": 96,
+        "Rarity": "Red",
+        "Attack": 86,
+        "Elements": ["Impact", "Mountain"]
+    },
+
+    "Meteorite Axe":
+    {
+        "Type": "Axe",
+        "Level_Required": 100,
+        "Rarity": "White",
+        "Attack": 70,
+        "Elements": ["Impact"]
+    },
+
+    "Garma Killma":
+    {
+        "Type": "Axe",
+        "Level_Required": 100,
+        "Rarity": "Red",
+        "Attack": 90,
+        "Elements": ["Impact", "Lightning"]
+    },
+
+    "Heavenly Seidou Battleaxe":
+    {
+        "Type": "Axe",
+        "Level_Required": 102,
+        "Rarity": "Blue",
+        "Attack": 82,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Bonecrusher":
+    {
+        "Type": "Axe",
+        "Level_Required": 103,
+        "Rarity": "Red",
+        "Attack": 93,
+        "Elements": ["Impact"]
+    },
+
+    "Half Moon Crimson Hanya":
+    {
+        "Type": "Axe",
+        "Level_Required": 105,
+        "Rarity": "Gold",
+        "Attack": 105,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Grand Bardiche":
+    {
+        "Type": "Axe",
+        "Level_Required": 105,
+        "Rarity": "Red",
+        "Attack": 94,
+        "Elements": ["Impact", "Mountain"]
+    },
+
+    "Garma Killma STAR":
+    {
+        "Type": "Axe",
+        "Level_Required": 106,
+        "Rarity": "Gold",
+        "Attack": 115,
+        "Elements": ["Impact", "Lightning"],
+        "Recipe":
+        {
+            "Garma Killma": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
+    },
+
+    "Baal Buster":
+    {
+        "Type": "Axe",
+        "Level_Required": 106,
+        "Rarity": "Red",
+        "Attack": 95,
+        "Elements": ["Impact", "Wind"]
+    },
+
+    "Garma Killma CROSS":
+    {
+        "Type": "Axe",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Impact", "Lightning"],
+        "Recipe":
+        {
+            "Garma Killma STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
+    },
+
+    "Baal Buster - Severance":
+    {
+        "Type": "Axe",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 120,
+        "Elements": ["Impact", "Wind"],
+        "Recipe":
+        {
+            "Baal Buster": 1,
+            "Crushing Horn Stone": 10,
+            "Miracle Stone": 10
+        }
+    },
+
+    "Rending Moon Crimson Hannya":
+    {
+        "Type": "Axe",
+        "Level_Required": 113,
+        "Rarity": "Gold",
+        "Attack": 113,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Moudou Canaria":
+    {
+        "Type": "Axe",
+        "Level_Required": 116,
+        "Rarity": "Red",
+        "Attack": 104,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Earcleaver Akatsuki":
+    {
+        "Type": "Axe",
+        "Level_Required": 117,
+        "Rarity": "Gold",
+        "Attack": 117,
+        "Elements": ["Impact", "Fire"]
+    },
+
+    "L. Garma Killma":
+    {
+        "Type": "Axe",
+        "Level_Required": 118,
+        "Rarity": "Gold",
+        "Attack": 118,
+        "Elements": ["Impact", "Lightning", "Holy"]
+    },
+
+    "Axe of Instinct":
+    {
+        "Type": "Axe",
+        "Level_Required": 118,
+        "Rarity": "Red",
+        "Attack": 106,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "L. Garma Killma Sin":
+    {
+        "Type": "Axe",
+        "Level_Required": 120,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Impact", "Lightning", "Holy"]
+    },
+
+    "Axe of Instinct - Vow":
+    {
+        "Type": "Axe",
+        "Level_Required": 121,
+        "Rarity": "Gold",
+        "Attack": 121,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Axe of Instinct - Completion":
+    {
+        "Type": "Axe",
+        "Level_Required": 122,
+        "Rarity": "Gold",
+        "Attack": 122,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Axe of Instinct - Warped":
+    {
+        "Type": "Axe",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 123,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Axe of Instinct - Nadir":
+    {
+        "Type": "Axe",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Impact", "Dark"]
+    },
 
     "Cedar Spear":
     {
@@ -2714,13 +3412,353 @@
         "Elements": ["Pierce", "Holy"]
     },
 
+    "Silver Arrowroot Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 71,
+        "Rarity": "White",
+        "Attack": 50,
+        "Elements": ["Pierce"]
+    },
 
+    "Flesh and Blood Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 72,
+        "Rarity": "Gold",
+        "Attack": 72,
+        "Elements": ["Pierce"]
+    },
 
+    "Steel Willow Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 75,
+        "Rarity": "White",
+        "Attack": 52,
+        "Elements": ["Pierce"]
+    },
 
+    "Youshin Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 76,
+        "Rarity": "Gold",
+        "Attack": 76,
+        "Elements": ["Pierce"]
+    },
 
+    "Millenial Evergreen Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 79,
+        "Rarity": "White",
+        "Attack": 55,
+        "Elements": ["Pierce"]
+    },
 
+    "Dragon Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 80,
+        "Rarity": "Gold",
+        "Attack": 80,
+        "Elements": ["Pierce", "Fire"]
+    },
 
+    "Nishikikaratake Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 82,
+        "Rarity": "White",
+        "Attack": 57,
+        "Elements": ["Pierce"]
+    },
 
+    "Rose Maiden":
+    {
+        "Type": "Spear",
+        "Level_Required": 82,
+        "Rarity": "Red",
+        "Attack": 74,
+        "Elements": ["Pierce", "Wind", "Poison"]
+    },
+
+    "Water Steel Willow Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 83,
+        "Rarity": "Blue",
+        "Attack": 66,
+        "Elements": ["Pierce", "Rain"]
+    },
+
+    "Enkou Plum Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 85,
+        "Rarity": "White",
+        "Attack": 59,
+        "Elements": ["Pierce"]
+    },
+
+    "Kubisasumata":
+    {
+        "Type": "Spear",
+        "Level_Required": 86,
+        "Rarity": "Gold",
+        "Attack": 86,
+        "Elements": ["Pierce"]
+    },
+
+    "Ice Steel Willow Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 90,
+        "Rarity": "Blue",
+        "Attack": 72,
+        "Elements": ["Pierce", "Ice"]
+    },
+
+    "Genobuster":
+    {
+        "Type": "Spear",
+        "Level_Required": 92,
+        "Rarity": "Gold",
+        "Attack": 92,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Hermit Peach Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 94,
+        "Rarity": "White",
+        "Attack": 66,
+        "Elements": ["Pierce"]
+    },
+
+    "Predator's Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 96,
+        "Rarity": "Red",
+        "Attack": 86,
+        "Elements": ["Pierce"]
+    },
+
+    "Commander's Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Rarity": "White",
+        "Attack": 70,
+        "Elements": ["Pierce"]
+    },
+
+    "Knight's Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Rarity": "Red",
+        "Attack": 90,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Omen of Doom":
+    {
+        "Type": "Spear",
+        "Level_Required": 100,
+        "Rarity": "Red",
+        "Attack": 90,
+        "Elements": ["Pierce", "Lightning"]
+    },
+
+    "Wind Walnut Spear":
+    {
+        "Type": "Spear",
+        "Level_Required": 102,
+        "Rarity": "Blue",
+        "Attack": 82,
+        "Elements": ["Pierce", "Wind"]
+    },
+
+    "Vilafint":
+    {
+        "Type": "Spear",
+        "Level_Required": 103,
+        "Rarity": "Gold",
+        "Attack": 103,
+        "Elements": ["Pierce"]
+    },
+
+    "Brigandia":
+    {
+        "Type": "Spear",
+        "Level_Required": 105,
+        "Rarity": "Gold",
+        "Attack": 105,
+        "Elements": ["Pierce", "Lightning"]
+    },
+
+    "Hyoutengou":
+    {
+        "Type": "Spear",
+        "Level_Required": 105,
+        "Rarity": "Red",
+        "Attack": 94,
+        "Elements": ["Pierce", "Ice"]
+    },
+
+    "Omen of Doom STAR":
+    {
+        "Type": "Spear",
+        "Level_Required": 106,
+        "Rarity": "Gold",
+        "Attack": 115,
+        "Elements": ["Pierce", "Lightning"],
+        "Recipe":
+        {
+            "Omen of Doom": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
+    },
+
+    "Gae Valga":
+    {
+        "Type": "Spear",
+        "Level_Required": 106,
+        "Rarity": "Red",
+        "Attack": 95,
+        "Elements": ["Pierce", "Rain"]
+    },
+
+    "Omen of Doom CROSS":
+    {
+        "Type": "Spear",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Pierce", "Lightning"],
+        "Recipe":
+        {
+            "Omen of Doom STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
+    },
+
+    "Gae Valga - Severance":
+    {
+        "Type": "Spear",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 120,
+        "Elements": ["Pierce", "Rain"],
+        "Recipe":
+        {
+            "Gae Valga": 1,
+            "Piercing Stone": 10,
+            "Ice Stone": 10
+        }
+    },
+
+    "Baldr Brigandia":
+    {
+        "Type": "Spear",
+        "Level_Required": 113,
+        "Rarity": "Gold",
+        "Attack": 113,
+        "Elements": ["Pierce", "Lightning"]
+    },
+
+    "Moudou Planetpiercer":
+    {
+        "Type": "Spear",
+        "Level_Required": 116,
+        "Rarity": "Red",
+        "Attack": 104,
+        "Elements": ["Pierce", "Holy"]
+    },
+
+    "Gekkyu Rankmeika":
+    {
+        "Type": "Spear",
+        "Level_Required": 117,
+        "Rarity": "Gold",
+        "Attack": 117,
+        "Elements": ["Pierce", "Fire"]
+    },
+
+    "L. Omen of Doom":
+    {
+        "Type": "Spear",
+        "Level_Required": 118,
+        "Rarity": "Gold",
+        "Attack": 118,
+        "Elements": ["Pierce", "Lightning", "Holy"]
+    },
+
+    "Lance of Oblivion":
+    {
+        "Type": "Spear",
+        "Level_Required": 118,
+        "Rarity": "Red",
+        "Attack": 106,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "L. Omen of Doom Sin":
+    {
+        "Type": "Spear",
+        "Level_Required": 120,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Pierce", "Lightning", "Holy"]
+    },
+
+    "Lance of Oblivion - Vow":
+    {
+        "Type": "Spear",
+        "Level_Required": 121,
+        "Rarity": "Gold",
+        "Attack": 121,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Lance of Oblivion - Completion":
+    {
+        "Type": "Spear",
+        "Level_Required": 122,
+        "Rarity": "Gold",
+        "Attack": 122,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Lance of Oblivion - Warped":
+    {
+        "Type": "Spear",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 123,
+        "Elements": ["Pierce", "Dark"]
+    },
+
+    "Lance of Oblivion - Nadir":
+    {
+        "Type": "Spear",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Pierce", "Dark"]
+    },
 
     "Manjusri Talisman":
     {
@@ -3010,13 +4048,317 @@
         "Elements": ["Wind"]
     },
 
+    "Ise Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 71,
+        "Rarity": "White",
+        "Attack": 50,
+        "Elements": null
+    },
 
+    "Elderberry Staff":
+    {
+        "Type": "Wand",
+        "Level_Required": 73,
+        "Rarity": "Gold",
+        "Attack": 73,
+        "Elements": null
+    },
 
+    "Earth Fugen Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 73,
+        "Rarity": "Blue",
+        "Attack": 58,
+        "Elements": ["Mountain"]
+    },
 
+    "Rengeshu Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 75,
+        "Rarity": "White",
+        "Attack": 52,
+        "Elements": null
+    },
 
+    "Exorcism Staff":
+    {
+        "Type": "Wand",
+        "Level_Required": 77,
+        "Rarity": "Red",
+        "Attack": 69,
+        "Elements": ["Dark"]
+    },
 
+    "Hannyu Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 79,
+        "Rarity": "White",
+        "Attack": 55,
+        "Elements": null
+    },
 
+    "Invincible Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 82,
+        "Rarity": "White",
+        "Attack": 57,
+        "Elements": null
+    },
 
+    "Dogura Magura":
+    {
+        "Type": "Wand",
+        "Level_Required": 82,
+        "Rarity": "Red",
+        "Attack": 47,
+        "Elements": ["Dark"]
+    },
+
+    "Ragaraja Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 85,
+        "Rarity": "White",
+        "Attack": 59,
+        "Elements": null
+    },
+
+    "Lorelai":
+    {
+        "Type": "Wand",
+        "Level_Required": 87,
+        "Rarity": "Gold",
+        "Attack": 87,
+        "Elements": ["Dark"]
+    },
+
+    "Ice Hannya Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 89,
+        "Rarity": "Blue",
+        "Attack": 71,
+        "Elements": ["Ice"]
+    },
+
+    "Purple Lightning":
+    {
+        "Type": "Wand",
+        "Level_Required": 93,
+        "Rarity": "Gold",
+        "Attack": 93,
+        "Elements": ["Lightning"]
+    },
+
+    "Wind Hannya Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 99,
+        "Rarity": "Blue",
+        "Attack": 79,
+        "Elements": ["Wind"]
+    },
+
+    "Starweave Talisman":
+    {
+        "Type": "Wand",
+        "Level_Required": 100,
+        "Rarity": "White",
+        "Attack": 70,
+        "Elements": null
+    },
+
+    "Gravitas":
+    {
+        "Type": "Wand",
+        "Level_Required": 100,
+        "Rarity": "Red",
+        "Attack": 90,
+        "Elements": ["Lightning"]
+    },
+
+    "Reptos":
+    {
+        "Type": "Wand",
+        "Level_Required": 103,
+        "Rarity": "Red",
+        "Attack": 93,
+        "Elements": null
+    },
+
+    "Garborg":
+    {
+        "Type": "Wand",
+        "Level_Required": 105,
+        "Rarity": "Gold",
+        "Attack": 105,
+        "Elements": null
+    },
+
+    "Inti Raimi":
+    {
+        "Type": "Wand",
+        "Level_Required": 105,
+        "Rarity": "Red",
+        "Attack": 94,
+        "Elements": ["Fire"]
+    },
+
+    "Gravitas STAR":
+    {
+        "Type": "Wand",
+        "Level_Required": 106,
+        "Rarity": "Gold",
+        "Attack": 115,
+        "Elements": ["Lightning"],
+        "Recipe":
+        {
+            "Gravitas": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
+    },
+
+    "Kurikara Ryuu-ouken":
+    {
+        "Type": "Wand",
+        "Level_Required": 106,
+        "Rarity": "Red",
+        "Attack": 95,
+        "Elements": ["Dark", "Mountain"]
+    },
+
+    "Gravitas CROSS":
+    {
+        "Type": "Wand",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Lightning"],
+        "Recipe":
+        {
+            "Gravitas STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
+    },
+
+    "Kurikara Ryuu-ouken - Severance":
+    {
+        "Type": "Wand",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 120,
+        "Elements": ["Dark", "Mountain"],
+        "Recipe":
+        {
+            "Kurikara Ryuu-ouken": 1,
+            "Dark Stone": 10,
+            "Fortitude Stone": 10
+        }
+    },
+
+    "Schnitzer Garborg":
+    {
+        "Type": "Wand",
+        "Level_Required": 113,
+        "Rarity": "Gold",
+        "Attack": 113,
+        "Elements": ["Wind"]
+    },
+
+    "Moudou Hitokuruwase":
+    {
+        "Type": "Wand",
+        "Level_Required": 116,
+        "Rarity": "Red",
+        "Attack": 104,
+        "Elements": ["Holy"]
+    },
+
+    "Yuan Ugetsu":
+    {
+        "Type": "Wand",
+        "Level_Required": 117,
+        "Rarity": "Gold",
+        "Attack": 117,
+        "Elements": ["Fire"]
+    },
+
+    "L. Gravitas":
+    {
+        "Type": "Wand",
+        "Level_Required": 118,
+        "Rarity": "Gold",
+        "Attack": 118,
+        "Elements": ["Lightning", "Holy"]
+    },
+
+    "Wand of Neigung":
+    {
+        "Type": "Wand",
+        "Level_Required": 118,
+        "Rarity": "Red",
+        "Attack": 106,
+        "Elements": ["Dark"]
+    },
+
+    "L. Gravitas Sin":
+    {
+        "Type": "Wand",
+        "Level_Required": 120,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Lightning", "Holy"]
+    },
+
+    "Wand of Neigung - Vow":
+    {
+        "Type": "Wand",
+        "Level_Required": 121,
+        "Rarity": "Gold",
+        "Attack": 121,
+        "Elements": ["Dark"]
+    },
+
+    "Wand of Neigung - Completion":
+    {
+        "Type": "Wand",
+        "Level_Required": 122,
+        "Rarity": "Gold",
+        "Attack": 122,
+        "Elements": ["Dark"]
+    },
+
+    "Wand of Neigung - Warped":
+    {
+        "Type": "Wand",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 123,
+        "Elements": ["Dark"]
+    },
+
+    "Wand of Neigung - Nadir":
+    {
+        "Type": "Wand",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Dark"]
+    },
 
     "Pine Staff":
     {
@@ -3288,13 +4630,326 @@
         "Elements": ["Impact", "Holy"]
     },
 
+    "Chalcedony Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 71,
+        "Rarity": "White",
+        "Attack": 50,
+        "Elements": ["Impact"]
+    },
 
+    "Star Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 73,
+        "Rarity": "Red",
+        "Attack": 66,
+        "Elements": ["Impact", "Holy"]
+    },
 
+    "Ragetsu's Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 75,
+        "Rarity": "White",
+        "Attack": 52,
+        "Elements": ["Impact"]
+    },
 
+    "Lightning Brass Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 75,
+        "Rarity": "Blue",
+        "Attack": 60,
+        "Elements": ["Impact", "Lightning"]
+    },
 
+    "Nekogami Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 77,
+        "Rarity": "Gold",
+        "Attack": 77,
+        "Elements": ["Impact"]
+    },
 
+    "Ruby Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 79,
+        "Rarity": "White",
+        "Attack": 55,
+        "Elements": ["Impact"]
+    },
 
+    "Schwerzkruez":
+    {
+        "Type": "Staff",
+        "Level_Required": 81,
+        "Rarity": "Red",
+        "Attack": 73,
+        "Elements": ["Impact"]
+    },
 
+    "Manten Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 82,
+        "Rarity": "White",
+        "Attack": 57,
+        "Elements": ["Impact"]
+    },
+
+    "Jade Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 85,
+        "Rarity": "White",
+        "Attack": 59,
+        "Elements": ["Impact"]
+    },
+
+    "Sunlight Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 87,
+        "Rarity": "White",
+        "Attack": 61,
+        "Elements": ["Impact"]
+    },
+
+    "Beowulf":
+    {
+        "Type": "Staff",
+        "Level_Required": 89,
+        "Rarity": "Gold",
+        "Attack": 89,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Water Crystal Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 91,
+        "Rarity": "Blue",
+        "Attack": 72,
+        "Elements": ["Impact", "Rain"]
+    },
+
+    "Oborotenjiku":
+    {
+        "Type": "Staff",
+        "Level_Required": 97,
+        "Rarity": "Red",
+        "Attack": 87,
+        "Elements": ["Impact", "Wind"]
+    },
+
+    "Starfall Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 100,
+        "Rarity": "White",
+        "Attack": 70,
+        "Elements": ["Impact"]
+    },
+
+    "Maximillian":
+    {
+        "Type": "Staff",
+        "Level_Required": 100,
+        "Rarity": "Gold",
+        "Attack": 100,
+        "Elements": ["Impact", "Lightning"]
+    },
+
+    "Emperor's Scepter":
+    {
+        "Type": "Staff",
+        "Level_Required": 103,
+        "Rarity": "Red",
+        "Attack": 93,
+        "Elements": ["Impact"]
+    },
+
+    "Lightning Crystal Staff":
+    {
+        "Type": "Staff",
+        "Level_Required": 103,
+        "Rarity": "Blue",
+        "Attack": 82,
+        "Elements": ["Impact", "Lightning"]
+    },
+
+    "Bloodsucker":
+    {
+        "Type": "Staff",
+        "Level_Required": 105,
+        "Rarity": "Gold",
+        "Attack": 105,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Oni's Mace":
+    {
+        "Type": "Staff",
+        "Level_Required": 105,
+        "Rarity": "Red",
+        "Attack": 94,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Maximillian STAR":
+    {
+        "Type": "Staff",
+        "Level_Required": 106,
+        "Rarity": "Gold",
+        "Attack": 115,
+        "Elements": ["Impact", "Lightning"],
+        "Recipe":
+        {
+            "Maximillian": 1,
+            "Thunder Stone": 5,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Demon Overlord's Chaos": 3,
+            "Flames of Rebellion": 1
+        }
+    },
+
+    "Taginben":
+    {
+        "Type": "Staff",
+        "Level_Required": 106,
+        "Rarity": "Red",
+        "Attack": 95,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Maximillian CROSS":
+    {
+        "Type": "Staff",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 130,
+        "Elements": ["Impact", "Lightning"],
+        "Recipe":
+        {
+            "Maximillian STAR": 1,
+            "Thunder Stone": 10,
+            "Frozen Darkness": 3,
+            "Shivering Wind": 1,
+            "Spellbook of Rage": 3,
+            "Fallen Angel's Wings": 1
+        }
+    },
+
+    "Taginben - Severance":
+    {
+        "Type": "Staff",
+        "Level_Required": 108,
+        "Rarity": "Gold",
+        "Attack": 120,
+        "Elements": ["Impact", "Holy"],
+        "Recipe":
+        {
+            "Taginben": 1,
+            "Dark Stone": 10,
+            "Light Stone": 10
+        }
+    },
+
+    "Phantom Bloodsucker":
+    {
+        "Type": "Staff",
+        "Level_Required": 113,
+        "Rarity": "Gold",
+        "Attack": 113,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Moudou Kingyuu":
+    {
+        "Type": "Staff",
+        "Level_Required": 116,
+        "Rarity": "Red",
+        "Attack": 104,
+        "Elements": ["Impact", "Holy"]
+    },
+
+    "Gekkou Oborodori":
+    {
+        "Type": "Staff",
+        "Level_Required": 117,
+        "Rarity": "Gold",
+        "Attack": 117,
+        "Elements": ["Impact", "Fire"]
+    },
+
+    "L. Maximillian":
+    {
+        "Type": "Staff",
+        "Level_Required": 118,
+        "Rarity": "Gold",
+        "Attack": 118,
+        "Elements": ["Impact", "Lightning", "Holy"]
+    },
+
+    "Staff of Longing":
+    {
+        "Type": "Staff",
+        "Level_Required": 118,
+        "Rarity": "Red",
+        "Attack": 106,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "L. Maximillian Sin":
+    {
+        "Type": "Staff",
+        "Level_Required": 120,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Impact", "Lightning", "Holy"]
+    },
+
+    "Staff of Longing - Vow":
+    {
+        "Type": "Staff",
+        "Level_Required": 121,
+        "Rarity": "Gold",
+        "Attack": 121,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Staff of Longing - Completion":
+    {
+        "Type": "Staff",
+        "Level_Required": 122,
+        "Rarity": "Gold",
+        "Attack": 122,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Staff of Longing - Warped":
+    {
+        "Type": "Staff",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 123,
+        "Elements": ["Impact", "Dark"]
+    },
+
+    "Staff of Longing - Nadir":
+    {
+        "Type": "Staff",
+        "Level_Required": 123,
+        "Rarity": "Gold",
+        "Attack": 150,
+        "Elements": ["Impact", "Dark"]
+    },
 
     "Icetusk Jahannam":
     {

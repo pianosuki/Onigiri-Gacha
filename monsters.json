@@ -814,15 +814,265 @@
         }
     },
 
+    "Bakezouri":
+    {
+        "Materials":
+        {
+            "Torn Sandal Strap": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "White Tabi": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Yamaoroshi":
+    {
+        "Materials":
+        {
+            "Hiderigami's Sigh": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Quiet Zeal": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Blue Flame Lantern": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1},
+            "Scorching Furnace": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Musha Cannoneer":
+    {
+        "Materials":
+        {
+            "Damp Gunpowder": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Sparkler Fireworks": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Seko":
+    {
+        "Materials":
+        {
+            "Blowgun": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Armored Territory": {"modes": [-1], "rate": 2, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Gouriki":
+    {
+        "Materials":
+        {
+            "Jiggling Meat": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Melting Meat": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Nine-Tailed Fox":
+    {
+        "Materials":
+        {
+            "Fox Mask": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Sesshouseki Fragment": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Yamanba":
+    {
+        "Materials":
+        {
+            "Yamanba Claw": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Quality Pickles": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Frost Toudaiki":
+    {
+        "Materials":
+        {
+            "Broken Lantern": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Burnt Talisman": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Oppenheimer":
+    {
+        "Materials":
+        {
+            "Protenin": {"modes": [-1], "rate": 90, "scalable": true, "quantity": 1},
+            "Shirikubenawa": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Herculean Boulder": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
 
+    "Karakasa Ghost":
+    {
+        "Materials":
+        {
+            "Oil Paper": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Western Umbrella": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Typhon":
+    {
+        "Materials":
+        {
+            "Tentacle": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Fruit of Transience": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Amefurikozou":
+    {
+        "Materials":
+        {
+            "Mochi Crackers": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Roundel Umbrella": {"modes": [-1], "rate": 6, "scalable": true, "quantity": 1},
+            "Amahata Inkstone": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Onmoraki":
+    {
+        "Materials":
+        {
+            "Flint": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Grave Marker Sword": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Cults of Ghouls": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Great Tengu":
+    {
+        "Materials":
+        {
+            "Smoke Bomb": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Tengu's Exhale": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Tengu's Feather Fan": {"modes": [-1], "rate": 4, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Venom Amagaeru":
+    {
+        "Materials":
+        {
+            "Amagaeru Mucus": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Amagaeru Tongue": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Venom Musha Archer":
+    {
+        "Materials":
+        {
+            "Fletching": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Silk Bag": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1},
+            "Poison Bottle": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Gyuuki":
+    {
+        "Materials":
+        {
+            "Gyuuki Milk": {"modes": [-1], "rate": 50, "scalable": true, "quantity": 1},
+            "Spider Silk": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Gyuuki Horn": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Venom Nurikabe":
+    {
+        "Materials":
+        {
+            "Gypsum": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Onigawara": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Venom Nuppepou":
+    {
+        "Materials":
+        {
+            "Jiggling Meat": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Melting Meat": {"modes": [-1], "rate": 5, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Hatata Nyuudou":
+    {
+        "Materials":
+        {
+            "Crushed Nail": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Lightning Rod": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Cursed Blood": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Venom Reaper":
+    {
+        "Materials":
+        {
+            "Withering Spirit": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Lifespan Candle": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Shiroku":
+    {
+        "Materials":
+        {
+            "Toad Oil": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Toad Stomach": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1},
+            "Poison Toad Neurotoxin": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Charged Bakeneko":
+    {
+        "Materials":
+        {
+            "Cat Whiskers": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Cat Pawprint": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Dodomeki":
+    {
+        "Materials":
+        {
+            "Kanten": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Contact Lens": {"modes": [-1], "rate": 30, "scalable": true, "quantity": 1},
+            "Eye Drops": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Tentouki":
+    {
+        "Materials":
+        {
+            "Broken Lantern": {"modes": [-1], "rate": 60, "scalable": true, "quantity": 1},
+            "Huge Gold Club": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Burnt Talisman": {"modes": [-1], "rate": 1, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Great Venomkabe":
+    {
+        "Materials":
+        {
+            "Gypsum": {"modes": [-1], "rate": 80, "scalable": true, "quantity": 1},
+            "Amazing Trowel": {"modes": [-1], "rate": 10, "scalable": true, "quantity": 1},
+            "Onigawara": {"modes": [-1], "rate": 3, "scalable": true, "quantity": 1}
+        }
+    },
+
+    "Satan":
+    {
+        "Materials":
+        {
+            "Frozen Darkness": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Shivering Wind": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Demon Overlord's Chaos": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Flames of Rebellion": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Spellbook of Rage": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Fallen Angel's Wings": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
+        }
+    },
 
     "Sleetsword Gargoyle":
     {
@@ -832,8 +1082,8 @@
             "Sleetsword Shell": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
             "Sleetsword Grudge": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
             "Sleetsword Wing": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
-            "Sleetsword Heart": {"modes": [2], "rate": 100, "scalable": false, "quantity": 1},
-            "Sleetsword Marrow": {"modes": [2], "rate": 50, "scalable": false, "quantity": 1}
+            "Sleetsword Heart": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Sleetsword Marrow": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
         }
     },
 

@@ -8,7 +8,7 @@ prefix          = "+"
 coin_name       = "Ryou D-Coins"
 
 # RPG
-level_cap                   = 70
+level_cap                   = 130
 mode_mapping                = {-1: "Any", 0: "Normal", 1: "Hard", 2: "Hell", 3: "Oni"}
 mode_mapping_inverse        = {"Any": -1, "Normal": 0, "Hard": 1, "Hell": 2, "Oni": 3}
 mode_multipliers            = {-1: 0, 0: 1, 1: 2, 2: 3, 3: 5}
@@ -22,6 +22,9 @@ default_chest_loot          = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"poo
 default_modulations         = {"HP": 0, "ATK": 0, "DEF": 0}
 tax                         = 0.5
 stats_cap                   = 999999999
+fever_exp                   = 300
+fever_ryou                  = 100
+fever_drop                  = 900
 consumables                 = {
     "Tuna Nigiri": 50,
     "Salmon Nigiri": 100,

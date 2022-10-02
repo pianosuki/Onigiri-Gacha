@@ -3,7 +3,7 @@
 ### https://github.com/pianosuki
 ### For use by Catheon only
 branch_name = "Onigiri"
-bot_version = "1.9"
+bot_version = "1.10"
 debug_mode  = False
 
 import config, dresource
@@ -529,6 +529,24 @@ def getPlayerCriticalRate(user_id):
             critical = critical + mag_crit if critical + mag_crit <= 100 else 100
     return critical
 
+def getPlayerMagatamaElemental(user_id):
+    equipment = getPlayerEquipment(user_id)
+    equipped_weap = equipment["weapon"]
+    equipped_mags = equipment["magatamas"]
+    elemental = 0
+    if Weapons[equipped_weap]["Elements"] is None:
+        return 0
+    for magatama in equipped_mags:
+        if magatama == "" or Magatamas[magatama]["Elements"] is None:
+            continue
+        for element in Weapons[equipped_weap]["Elements"]:
+            if element in Magatamas[magatama]["Elements"]:
+                if Magatamas[magatama]["Elements"][element]:
+                    elemental += 1
+                else:
+                    elemental -= 1
+    return elemental
+
 def randomWeighted(list, weights):
     weights = np.array(weights, dtype=np.float64)
     weights_sum = weights.sum()
@@ -702,7 +720,8 @@ async def dungeons(ctx, *input):
             self.yokai = Dungeons[dungeon]["Yokai"]
             self.boss = Dungeons[dungeon]["Boss"]
             self.rewards = Dungeons[dungeon]["Rewards"]
-            self.energy = getDungeonEnergy(dungeon)[self.mode]
+            # self.energy = getDungeonEnergy(dungeon)[self.mode]
+            self.energy = 0 # Disable energy requirements for final bot version >_<
             self.rooms_range = self.properties["rooms_range"] if "rooms_range" in self.properties else config.default_rooms_range
             self.mob_spawnrate = self.properties["mob_spawnrate"] if "mob_spawnrate" in self.properties else config.default_mob_spawnrate
             self.max_population = self.properties["max_population"] if "max_population" in self.properties else config.default_max_population
@@ -1172,8 +1191,9 @@ async def dungeons(ctx, *input):
                 congrats += f"🎁 You were rewarded with {Icons['ryou']} **{'{:,}'.format(clear_rewards['ryou'])} Ryou**, and {Icons['exp']} **{'{:,}'.format(clear_rewards['exp'])} EXP!**\n"
                 if dg.Cache.pool > 0:
                     if dg.founder != user_id:
+                        founder = await bot.fetch_user(dg.founder)
                         congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
-                        congrats += f"💸 Paid tax ({dg.Cache.tax_rate}%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: <@{dg.founder}>\n"
+                        congrats += f"💸 Paid tax ({dg.Cache.tax_rate}%) of {Icons['ryou']} **{'{:,}'.format(dg.Cache.tax)} Ryou** from pool to seed founder: __{founder.name}__\n"
                     else:
                         congrats += f"💰 Dungeon pool came out to a total of {Icons['ryou']} **{'{:,}'.format(dg.Cache.pool)} Ryou!**\n"
             congrats += f"⏱️ Your clear time was: `{dg.Cache.clear_time}`\n\n"
@@ -1726,6 +1746,7 @@ async def dungeons(ctx, *input):
                         rate = Monsters[mob]["Materials"][material]["rate"]
                         if Monsters[mob]["Materials"][material]["scalable"]:
                             rate *= dg.multiplier
+                        rate += rate * (config.fever_drop / 100.)
                         dupe_rate = rate - 100 if rate - 100 > 0 else 0
                         quantity = Monsters[mob]["Materials"][material]["quantity"]
                         total_quantity = 0
@@ -2353,6 +2374,8 @@ async def dungeons(ctx, *input):
                 exp_range = [exp0, exp1]
                 ryou_amount = random.randint(ryou_range[0], ryou_range[1])
                 exp_amount = random.randint(exp_range[0], exp_range[1])
+                ryou_amount += math.floor(ryou_amount * (config.fever_ryou / 100.))
+                exp_amount += math.floor(exp_amount * (config.fever_exp / 100.))
                 if Party is None:
                     exp_amount = addPlayerExp(user_id, exp_amount)
                 else:
@@ -2378,7 +2401,9 @@ async def dungeons(ctx, *input):
                     if Party is None:
                         for weapon, rate in dg.rewards["Weapons"].items():
                             random_number = random.uniform(0, 100)
-                            if random_number <= rate * dg.multiplier:
+                            cold_rate = rate * dg.multiplier
+                            hot_rate = cold_rate + (cold_rate * (config.fever_drop / 100.))
+                            if random_number <= hot_rate:
                                 weapons_inv = getPlayerWeaponsInv(user_id)
                                 weapons_list = weapons_inv.split(", ")
                                 if not weapon in weapons_list:
@@ -2389,14 +2414,16 @@ async def dungeons(ctx, *input):
                         for weapon, rate in dg.rewards["Weapons"].items():
                             random_number_1 = random.uniform(0, 100)
                             random_number_2 = random.uniform(0, 100)
-                            if random_number_1 <= rate * dg.multiplier and Party["Player_1"]["Alive"]:
+                            cold_rate = rate * dg.multiplier
+                            hot_rate = cold_rate + (cold_rate * (config.fever_drop / 100.))
+                            if random_number_1 <= hot_rate and Party["Player_1"]["Alive"]:
                                 weapons_inv = getPlayerWeaponsInv(Party['Player_1']['ID'])
                                 weapons_list = weapons_inv.split(", ")
                                 if not weapon in weapons_list:
                                     givePlayerWeapon(Party['Player_1']['ID'], weapon)
                                 dg.Cache.weapon_rewards.append(weapon)
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{Party['Player_1']['Name']} found '{weapon}'")
-                            elif random_number_2 <= rate * dg.multiplier and Party["Player_2"]["Alive"]:
+                            elif random_number_2 <= hot_rate and Party["Player_2"]["Alive"]:
                                 weapons_inv = getPlayerWeaponsInv(Party['Player_2']['ID'])
                                 weapons_list = weapons_inv.split(", ")
                                 if not weapon in weapons_list:
@@ -2407,7 +2434,9 @@ async def dungeons(ctx, *input):
                     if Party is None:
                         for magatama, rate in dg.rewards["Magatamas"].items():
                             random_number = random.uniform(0, 100)
-                            if random_number <= rate * dg.multiplier:
+                            cold_rate = rate * dg.multiplier
+                            hot_rate = cold_rate + (cold_rate * (config.fever_drop / 100.))
+                            if random_number <= hot_rate:
                                 magatamas_inv = getPlayerMagatamasInv(user_id)
                                 magatamas_list = magatamas_inv.split(", ")
                                 if not magatama in magatamas_list:
@@ -2418,14 +2447,16 @@ async def dungeons(ctx, *input):
                         for magatama, rate in dg.rewards["Magatamas"].items():
                             random_number_1 = random.uniform(0, 100)
                             random_number_2 = random.uniform(0, 100)
-                            if random_number_1 <= rate * dg.multiplier and Party["Player_1"]["Alive"]:
+                            cold_rate = rate * dg.multiplier
+                            hot_rate = cold_rate + (cold_rate * (config.fever_drop / 100.))
+                            if random_number_1 <= hot_rate and Party["Player_1"]["Alive"]:
                                 magatamas_inv = getPlayerMagatamasInv(Party['Player_1']['ID'])
                                 magatamas_list = magatamas_inv.split(", ")
                                 if not magatama in magatamas_list:
                                     givePlayerMagatama(Party['Player_1']['ID'], magatama)
                                 dg.Cache.magatama_rewards.append(magatama)
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{Party['Player_1']['Name']} found '{magatama}'")
-                            elif random_number_2 <= rate * dg.multiplier and Party["Player_2"]["Alive"]:
+                            elif random_number_2 <= hot_rate and Party["Player_2"]["Alive"]:
                                 magatamas_inv = getPlayerMagatamasInv(Party['Player_2']['ID'])
                                 magatamas_list = magatamas_inv.split(", ")
                                 if not magatama in magatamas_list:
@@ -2483,6 +2514,7 @@ async def dungeons(ctx, *input):
                         rate = Monsters[dg.Boss.name]["Materials"][material]["rate"]
                         if Monsters[dg.Boss.name]["Materials"][material]["scalable"]:
                             rate *= dg.multiplier
+                        rate += rate * (config.fever_drop / 100.)
                         dupe_rate = rate - 100 if rate - 100 > 0 else 0
                         quantity = Monsters[dg.Boss.name]["Materials"][material]["quantity"]
                         total_quantity = 0
@@ -2532,24 +2564,34 @@ async def dungeons(ctx, *input):
                 sf = getPlayerSkillForce(user_id)
                 critical = getPlayerCriticalRate(user_id)
                 rate = critical / 100.
+                elemental = getPlayerMagatamaElemental(user_id)
             else:
                 sf = 0
                 rate = config.default_critical_rate / 100.
+                elemental = 0
         else:
             if attacker.name == Party[f"Player_{Party['Current']}"]["Name"]:
                 sf = getPlayerSkillForce(Party[f"Player_{Party['Current']}"]["ID"])
                 critical = getPlayerCriticalRate(Party[f"Player_{Party['Current']}"]["ID"])
                 rate = critical / 100.
+                elemental = getPlayerMagatamaElemental(Party[f"Player_{Party['Current']}"]["ID"])
             else:
                 sf = 0
                 rate = config.default_critical_rate / 100.
+                elemental = 0
         is_critical = True if random.random() < rate else False
         damage = math.floor(attacker.ATK / (defender.DEF / attacker.ATK))
         variance = round(damage / 10)
         var_roll = random.randint(-variance, variance)
-        damage += round(damage * (sf / 100.))
-        damage *= 2 if is_critical else 1
         damage += var_roll
+        damage += round(damage * (sf / 100.))
+        if elemental > 0:
+            damage += round((damage * elemental) / 2)
+        elif elemental < 0:
+            for _ in range(0, abs(elemental)):
+                damage = round(damage / 2)
+        damage *= 2 if is_critical else 1
+        if damage < 0: damage = 0
         return damage, is_critical
 
     def healCalculator(healer, Party):
@@ -2666,6 +2708,8 @@ async def dungeons(ctx, *input):
                     formatted_string += "───────────────\n"
                     value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
                     value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
+                    value0 += math.floor(value0 * (config.fever_ryou / 100.))
+                    value1 += math.floor(value1 * (config.fever_ryou / 100.))
                     formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
                     if boost > 0:
                         formatted_string += f" ╰──  *Boosted:* **+{boost}%**\n"
@@ -2675,16 +2719,10 @@ async def dungeons(ctx, *input):
                     formatted_string += "───────────────\n"
                     value0 = math.floor((value["range"][0] * 0.75) + (value["range"][0] / 4) * multiplier)
                     value1 = math.floor((value["range"][1] * 0.75) + (value["range"][1] / 4) * multiplier)
+                    value0 += math.floor(value0 * (config.fever_ryou / 100.))
+                    value1 += math.floor(value1 * (config.fever_ryou / 100.))
                     formatted_string += f"{icon} ─ {key}: `{'{:,}'.format(value0)} - {'{:,}'.format(value1)}`\n"
                     formatted_string += f" ╰──  *Drop rate:* **{value['rate']}%**\n"
-                # case "Weapons":
-                #     icon = "⚔️"
-                #     formatted_string += "───────────────\n"
-                #     formatted_string += f"{icon} ─ {key}\n"
-                #     for weapon, rate in value.items():
-                #         formatted_string += f" ╰──  {Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}: **{rate}%**\n"
-                # case _:
-                #     icon = Icons["material_common"]
             index += 1
         formatted_string += "───────────────\n"
         formatted_string += "🎁 = Extended rewards list"
@@ -2701,6 +2739,7 @@ async def dungeons(ctx, *input):
             if not Weapons[weapon]['Elements'] is None:
                 for element in Weapons[weapon]['Elements']:
                     elements += Icons[element]
+            rate += rate * (config.fever_drop / 100.)
             formatted_string += f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} *__{weapon}__* {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}{' │ ' + elements if not elements == '' else ''} │ **{rate * multiplier}%**\n"
         return formatted_string
 
@@ -2720,6 +2759,7 @@ async def dungeons(ctx, *input):
                         elements += f"(-{Icons[element]})"
                     if index + 1 < len(Magatamas[magatama]['Elements']):
                         elements += ", "
+            rate += rate * (config.fever_drop / 100.)
             formatted_string += f"{Icons['magatama_' + Magatamas[magatama]['Type'].lower().replace(' ', '_')]} *__{magatama}__*{' │ ' + elements if not elements == '' else ''} │ **{rate * multiplier}%**\n"
         return formatted_string
 

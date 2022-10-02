@@ -353,6 +353,101 @@
         [
             ["Graphics/Yokai/Nyarlethotep/1.png", "nyarlethotep-1.png", "attachment://nyarlethotep-1.png"],
             ["Graphics/Yokai/Nyarlethotep/2.png", "nyarlethotep-2.png", "attachment://nyarlethotep-2.png"]
+        ],
+        "Bakezouri": [["Graphics/Yokai/Bakezouri/1.png", "bakezouri-1.png", "attachment://bakezouri-1.png"]],
+        "Yamaoroshi":
+        [
+            ["Graphics/Yokai/Yamaoroshi/1.png", "yamaoroshi-1.png", "attachment://yamaoroshi-1.png"],
+            ["Graphics/Yokai/Yamaoroshi/2.png", "yamaoroshi-2.png", "attachment://yamaoroshi-2.png"]
+        ],
+        "Musha Cannoneer": [["Graphics/Yokai/Musha Cannoneer/1.png", "mushacannoneer-1.png", "attachment://mushacannoneer-1.png"]],
+        "Seko":
+        [
+            ["Graphics/Yokai/Seko/1.png", "seko-1.png", "attachment://seko-1.png"],
+            ["Graphics/Yokai/Seko/2.png", "seko-2.png", "attachment://seko-2.png"]
+        ],
+        "Gouriki":
+        [
+            ["Graphics/Yokai/Gouriki/1.png", "gouriki-1.png", "attachment://gouriki-1.png"],
+            ["Graphics/Yokai/Gouriki/2.png", "gouriki-2.png", "attachment://gouriki-2.png"]
+        ],
+        "Nine-Tailed Fox":
+        [
+            ["Graphics/Yokai/Nine-Tailed Fox/1.png", "ninetailedfox-1.png", "attachment://ninetailedfox-1.png"],
+            ["Graphics/Yokai/Nine-Tailed Fox/2.png", "ninetailedfox-2.png", "attachment://ninetailedfox-2.png"]
+        ],
+        "Yamanba":
+        [
+            ["Graphics/Yokai/Yamanba/1.png", "yamanba-1.png", "attachment://yamanba-1.png"],
+            ["Graphics/Yokai/Yamanba/2.png", "yamanba-2.png", "attachment://yamanba-2.png"]
+        ],
+        "Frost Toudaiki":
+        [
+            ["Graphics/Yokai/Frost Toudaiki/1.png", "frosttoudaiki-1.png", "attachment://frosttoudaiki-1.png"],
+            ["Graphics/Yokai/Frost Toudaiki/2.png", "frosttoudaiki-2.png", "attachment://frosttoudaiki-2.png"]
+        ],
+        "Oppenheimer":
+        [
+            ["Graphics/Yokai/Oppenheimer/1.png", "oppenheimer-1.png", "attachment://oppenheimer-1.png"],
+            ["Graphics/Yokai/Oppenheimer/2.png", "oppenheimer-2.png", "attachment://oppenheimer-2.png"]
+        ],
+        "Karakasa Ghost": [["Graphics/Yokai/Karakasa Ghost/1.png", "karakasaghost-1.png", "attachment://karakasaghost-1.png"]],
+        "Typhon":
+        [
+            ["Graphics/Yokai/Typhon/1.png", "typhon-1.png", "attachment://typhon-1.png"],
+            ["Graphics/Yokai/Typhon/2.png", "typhon-2.png", "attachment://typhon-2.png"]
+        ],
+        "Amefurikozou": [["Graphics/Yokai/Amefurikozou/1.png", "amefurikozou-1.png", "attachment://amefurikozou-1.png"]],
+        "Onmoraki":
+        [
+            ["Graphics/Yokai/Onmoraki/1.png", "onmoraki-1.png", "attachment://onmoraki-1.png"],
+            ["Graphics/Yokai/Onmoraki/2.png", "onmoraki-2.png", "attachment://onmoraki-2.png"]
+        ],
+        "Great Tengu":
+        [
+            ["Graphics/Yokai/Great Tengu/1.png", "greattengu-1.png", "attachment://greattengu-1.png"],
+            ["Graphics/Yokai/Great Tengu/2.png", "greattengu-2.png", "attachment://greattengu-2.png"]
+        ],
+        "Venom Amagaeru": [["Graphics/Yokai/Venom Amagaeru/1.png", "venomamagaeru-1.png", "attachment://venomamagaeru-1.png"]],
+        "Venom Musha Archer": [["Graphics/Yokai/Venom Musha Archer/1.png", "venommushaarcher-1.png", "attachment://venommushaarcher-1.png"]],
+        "Gyuuki":
+        [
+            ["Graphics/Yokai/Gyuuki/1.png", "gyuuki-1.png", "attachment://gyuuki-1.png"],
+            ["Graphics/Yokai/Gyuuki/2.png", "gyuuki-2.png", "attachment://gyuuki-2.png"]
+        ],
+        "Venom Nurikabe": [["Graphics/Yokai/Venom Nurikabe/1.png", "venomnurikabe-1.png", "attachment://venomnurikabe-1.png"]],
+        "Venom Nuppepou": [["Graphics/Yokai/Venom Nuppepou/1.png", "venomnuppepou-1.png", "attachment://venomnuppepou-1.png"]],
+        "Hatata Nyuudou":
+        [
+            ["Graphics/Yokai/Hatata Nyuudou/1.png", "hatatanyuudou-1.png", "attachment://hatatanyuudou-1.png"],
+            ["Graphics/Yokai/Hatata Nyuudou/2.png", "hatatanyuudou-2.png", "attachment://hatatanyuudou-2.png"]
+        ],
+        "Venom Reaper": [["Graphics/Yokai/Venom Reaper/1.png", "venomreaper-1.png", "attachment://venomreaper-1.png"]],
+        "Shiroku":
+        [
+            ["Graphics/Yokai/Shiroku/1.png", "shiroku-1.png", "attachment://shiroku-1.png"],
+            ["Graphics/Yokai/Shiroku/2.png", "shiroku-2.png", "attachment://shiroku-2.png"]
+        ],
+        "Charged Bakeneko": [["Graphics/Yokai/Charged Bakeneko/1.png", "chargedbakeneko-1.png", "attachment://chargedbakeneko-1.png"]],
+        "Dodomeki":
+        [
+            ["Graphics/Yokai/Dodomeki/1.png", "dodomeki-1.png", "attachment://dodomeki-1.png"],
+            ["Graphics/Yokai/Dodomeki/2.png", "dodomeki-2.png", "attachment://dodomeki-2.png"]
+        ],
+        "Tentouki":
+        [
+            ["Graphics/Yokai/Tentouki/1.png", "tentouki-1.png", "attachment://tentouki-1.png"],
+            ["Graphics/Yokai/Tentouki/2.png", "tentouki-2.png", "attachment://tentouki-2.png"]
+        ],
+        "Great Venomkabe":
+        [
+            ["Graphics/Yokai/Great Venomkabe/1.png", "greatvenomkabe-1.png", "attachment://greatvenomkabe-1.png"],
+            ["Graphics/Yokai/Great Venomkabe/2.png", "greatvenomkabe-2.png", "attachment://greatvenomkabe-2.png"]
+        ],
+        "Satan":
+        [
+            ["Graphics/Yokai/Satan/1.png", "satan-1.png", "attachment://satan-1.png"],
+            ["Graphics/Yokai/Satan/2.png", "satan-2.png", "attachment://satan-2.png"]
         ]
     },
 
