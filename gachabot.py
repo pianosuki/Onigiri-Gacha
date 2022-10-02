@@ -2423,7 +2423,7 @@ async def dungeons(ctx, *input):
                                     givePlayerWeapon(Party['Player_1']['ID'], weapon)
                                 dg.Cache.weapon_rewards.append(weapon)
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{Party['Player_1']['Name']} found '{weapon}'")
-                            elif random_number_2 <= hot_rate and Party["Player_2"]["Alive"]:
+                            if random_number_2 <= hot_rate and Party["Player_2"]["Alive"]:
                                 weapons_inv = getPlayerWeaponsInv(Party['Player_2']['ID'])
                                 weapons_list = weapons_inv.split(", ")
                                 if not weapon in weapons_list:
@@ -2456,7 +2456,7 @@ async def dungeons(ctx, *input):
                                     givePlayerMagatama(Party['Player_1']['ID'], magatama)
                                 dg.Cache.magatama_rewards.append(magatama)
                                 message = await printToConsole(message, e, console, turn, atk_gauge, def_gauge, f"{Party['Player_1']['Name']} found '{magatama}'")
-                            elif random_number_2 <= hot_rate and Party["Player_2"]["Alive"]:
+                            if random_number_2 <= hot_rate and Party["Player_2"]["Alive"]:
                                 magatamas_inv = getPlayerMagatamasInv(Party['Player_2']['ID'])
                                 magatamas_list = magatamas_inv.split(", ")
                                 if not magatama in magatamas_list:
