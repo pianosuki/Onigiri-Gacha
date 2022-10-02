@@ -91,7 +91,7 @@ coin_name = config.coin_name
 @bot.event
 async def on_ready():
     # Go Online
-    await bot.change_presence(status = discord.Status.online, activity = discord.Game(f"{config.prefix}roll to spin the Gacha!"))
+    await bot.change_presence(status = discord.Status.online, activity = discord.Game(f"{config.prefix}dg - Begin your Oni Adventure!"))
     print(f"Logged in as {bot.user} | Version: {bot_version}")
 
 @bot.event
