@@ -7446,19 +7446,19 @@
         {
             "Normal":
             {
-                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+                "boss_modulations": {"HP": 0, "ATK": 200, "DEF": 200}
             },
             "Hard":
             {
-                "boss_modulations": {"HP": 30000, "ATK": 200, "DEF": 200}
+                "boss_modulations": {"HP": 30000, "ATK": 300, "DEF": 300}
             },
             "Hell":
             {
-                "boss_modulations": {"HP": 60000, "ATK": 300, "DEF": 300}
+                "boss_modulations": {"HP": 60000, "ATK": 400, "DEF": 400}
             },
             "Oni":
             {
-                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+                "boss_modulations": {"HP": 100000, "ATK": 600, "DEF": 600}
             }
         },
         "Floors": 1,
@@ -7486,19 +7486,19 @@
         {
             "Normal":
             {
-                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+                "boss_modulations": {"HP": 0, "ATK": 200, "DEF": 200}
             },
             "Hard":
             {
-                "boss_modulations": {"HP": 30000, "ATK": 200, "DEF": 200}
+                "boss_modulations": {"HP": 30000, "ATK": 300, "DEF": 300}
             },
             "Hell":
             {
-                "boss_modulations": {"HP": 60000, "ATK": 300, "DEF": 300}
+                "boss_modulations": {"HP": 60000, "ATK": 400, "DEF": 400}
             },
             "Oni":
             {
-                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+                "boss_modulations": {"HP": 100000, "ATK": 600, "DEF": 600}
             }
         },
         "Floors": 1,
@@ -7526,19 +7526,19 @@
         {
             "Normal":
             {
-                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+                "boss_modulations": {"HP": 0, "ATK": 200, "DEF": 200}
             },
             "Hard":
             {
-                "boss_modulations": {"HP": 30000, "ATK": 200, "DEF": 200}
+                "boss_modulations": {"HP": 30000, "ATK": 300, "DEF": 300}
             },
             "Hell":
             {
-                "boss_modulations": {"HP": 60000, "ATK": 300, "DEF": 300}
+                "boss_modulations": {"HP": 60000, "ATK": 400, "DEF": 400}
             },
             "Oni":
             {
-                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+                "boss_modulations": {"HP": 100000, "ATK": 600, "DEF": 600}
             }
         },
         "Floors": 1,
