@@ -1111,5 +1111,44 @@
             "Levinlance Heart": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
             "Levinlance Marrow": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
         }
+    },
+
+    "Dragon Ark Aosame":
+    {
+        "Materials":
+        {
+            "Uryuu Scale": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Uryuu Webbing": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Uryuu Spine": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Uryuu Reversed Scale": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Uryuu Bone": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Uryuu Jewel": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
+        }
+    },
+
+    "Dragon Ark Tenshou":
+    {
+        "Materials":
+        {
+            "Tenryuu Scale": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Tenryuu Webbing": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Tenryuu Spine": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Tenryuu Reversed Scale": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Tenryuu Bone": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Tenryuu Jewel": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
+        }
+    },
+
+    "Dragon Ark Gakuhou":
+    {
+        "Materials":
+        {
+            "Houryuu Scale": {"modes": [0, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Houryuu Webbing": {"modes": [0, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Houryuu Spine": {"modes": [1, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Houryuu Reversed Scale": {"modes": [1, 3], "rate": 50, "scalable": false, "quantity": 1},
+            "Houryuu Bone": {"modes": [2, 3], "rate": 100, "scalable": false, "quantity": 1},
+            "Houryuu Jewel": {"modes": [2, 3], "rate": 50, "scalable": false, "quantity": 1}
+        }
     }
 }

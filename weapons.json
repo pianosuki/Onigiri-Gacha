@@ -6103,6 +6103,1230 @@
         }
     },
 
+    "Uryuu Cloud Cleaver":
+    {
+        "Type": "Sword",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Twin Feather":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Divine Judgement":
+    {
+        "Type": "Odachi",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Newborn":
+    {
+        "Type": "Bow",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Cloven Fang":
+    {
+        "Type": "Axe",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Foe Hammer Horn":
+    {
+        "Type": "Spear",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Sky Limit":
+    {
+        "Type": "Wand",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Crimson Jewel":
+    {
+        "Type": "Staff",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Thunder Stone": 10,
+            "Ice Stone": 10,
+            "Uryuu Scale": 5,
+            "Uryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Cloud Cleaver":
+    {
+        "Type": "Sword",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Twin Feather":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Divine Judgement":
+    {
+        "Type": "Odachi",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Newborn":
+    {
+        "Type": "Bow",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Cloven Fang":
+    {
+        "Type": "Axe",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Foe Hammer Horn":
+    {
+        "Type": "Spear",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Sky Limit":
+    {
+        "Type": "Wand",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Tenryuu Crimson Jewel":
+    {
+        "Type": "Staff",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Light Stone": 10,
+            "Inferno Stone": 10,
+            "Tenryuu Scale": 5,
+            "Tenryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Cloud Cleaver":
+    {
+        "Type": "Sword",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Twin Feather":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Divine Judgement":
+    {
+        "Type": "Odachi",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Newborn":
+    {
+        "Type": "Bow",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Cloven Fang":
+    {
+        "Type": "Axe",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Foe Hammer Horn":
+    {
+        "Type": "Spear",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Sky Limit":
+    {
+        "Type": "Wand",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Houryuu Crimson Jewel":
+    {
+        "Type": "Staff",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 85,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Oninodachi": 1,
+            "Fortitude Stone": 10,
+            "Miracle Stone": 10,
+            "Houryuu Scale": 5,
+            "Houryuu Webbing": 3
+        }
+    },
+
+    "Uryuu Cloud Cleaver - Droplet":
+    {
+        "Type": "Sword",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Cloud Cleaver": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Twin Feather - Droplet":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Twin Feather": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Divine Judgement - Droplet":
+    {
+        "Type": "Odachi",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Divine Judgement": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Newborn - Droplet":
+    {
+        "Type": "Bow",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Newborn": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Cloven Fang - Droplet":
+    {
+        "Type": "Axe",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Cloven Fang": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Foe Hammer Horn - Droplet":
+    {
+        "Type": "Spear",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Foe Hammer Horn": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Sky Limit - Droplet":
+    {
+        "Type": "Wand",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Sky Limit": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Crimson Jewel - Droplet":
+    {
+        "Type": "Staff",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Crimson Jewel": 1,
+            "Thunder Stone": 15,
+            "Ice Stone": 15,
+            "Uryuu Spine": 4,
+            "Uryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Cloud Cleaver - Stratos":
+    {
+        "Type": "Sword",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Cloud Cleaver": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Twin Feather - Stratos":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Twin Feather": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Divine Judgement - Stratos":
+    {
+        "Type": "Odachi",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Divine Judgement": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Newborn - Stratos":
+    {
+        "Type": "Bow",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Newborn": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Cloven Fang - Stratos":
+    {
+        "Type": "Axe",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Cloven Fang": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Foe Hammer Horn - Stratos":
+    {
+        "Type": "Spear",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Foe Hammer Horn": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Sky Limit - Stratos":
+    {
+        "Type": "Wand",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Sky Limit": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Tenryuu Crimson Jewel - Stratos":
+    {
+        "Type": "Staff",
+        "Level_Required": 70,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Crimson Jewel": 1,
+            "Light Stone": 15,
+            "Inferno Stone": 15,
+            "Tenryuu Spine": 4,
+            "Tenryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Cloud Cleaver - Base":
+    {
+        "Type": "Sword",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Cloud Cleaver": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Twin Feather - Base":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Twin Feather": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Divine Judgement - Base":
+    {
+        "Type": "Odachi",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Divine Judgement": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Newborn - Base":
+    {
+        "Type": "Bow",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Newborn": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Cloven Fang - Base":
+    {
+        "Type": "Axe",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Cloven Fang": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Foe Hammer Horn - Base":
+    {
+        "Type": "Spear",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Foe Hammer Horn": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Sky Limit - Base":
+    {
+        "Type": "Wand",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Sky Limit": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Houryuu Crimson Jewel - Base":
+    {
+        "Type": "Staff",
+        "Level_Required": 90,
+        "Rarity": "Gold",
+        "Attack": 110,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Crimson Jewel": 1,
+            "Fortitude Stone": 15,
+            "Miracle Stone": 15,
+            "Houryuu Spine": 4,
+            "Houryuu Reversed Scale": 2
+        }
+    },
+
+    "Uryuu Cloud Cleaver - Rain Water":
+    {
+        "Type": "Sword",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Cloud Cleaver - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Twin Feather - Rain Water":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Twin Featherr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Divine Judgement - Rain Water":
+    {
+        "Type": "Odachi",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Divine Judgementr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Newborn - Rain Water":
+    {
+        "Type": "Bow",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Newbornr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Cloven Fang - Rain Water":
+    {
+        "Type": "Axe",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Cloven Fangr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Foe Hammer Horn - Rain Water":
+    {
+        "Type": "Spear",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Foe Hammer Hornr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Sky Limit - Rain Water":
+    {
+        "Type": "Wand",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Sky Limitr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Uryuu Crimson Jewel - Rain Water":
+    {
+        "Type": "Staff",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Lightning", "Rain"],
+        "Recipe":
+        {
+            "Uryuu Crimson Jewelr - Droplet": 1,
+            "Thunder Stone": 20,
+            "Ice Stone": 20,
+            "Uryuu Bone": 3,
+            "Uryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Cloud Cleaver - Heaven":
+    {
+        "Type": "Sword",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Cloud Cleaver - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Twin Feather - Heaven":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Twin Feather - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Divine Judgement - Heaven":
+    {
+        "Type": "Odachi",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Divine Judgement - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Newborn - Heaven":
+    {
+        "Type": "Bow",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Newborn - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Cloven Fang - Heaven":
+    {
+        "Type": "Axe",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Cloven Fang - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Foe Hammer Horn - Heaven":
+    {
+        "Type": "Spear",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Foe Hammer Horn - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Sky Limit - Heaven":
+    {
+        "Type": "Wand",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Sky Limit - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Tenryuu Crimson Jewel - Heaven":
+    {
+        "Type": "Staff",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Holy", "Fire"],
+        "Recipe":
+        {
+            "Tenryuu Crimson Jewel - Stratos": 1,
+            "Light Stone": 20,
+            "Inferno Stone": 20,
+            "Tenryuu Bone": 3,
+            "Tenryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Cloud Cleaver - Zenith":
+    {
+        "Type": "Sword",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Cloud Cleaver - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Twin Feather - Zenith":
+    {
+        "Type": "Twin Swords",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Twin Feather - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Divine Judgement - Zenith":
+    {
+        "Type": "Odachi",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Divine Judgement - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Newborn - Zenith":
+    {
+        "Type": "Bow",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Newborn - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Cloven Fang - Zenith":
+    {
+        "Type": "Axe",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Cloven Fang - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Foe Hammer Horn - Zenith":
+    {
+        "Type": "Spear",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Foe Hammer Hornv - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Sky Limit - Zenith":
+    {
+        "Type": "Wand",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Sky Limit - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
+    "Houryuu Crimson Jewel - Zenith":
+    {
+        "Type": "Staff",
+        "Level_Required": 110,
+        "Rarity": "Gold",
+        "Attack": 135,
+        "Elements": ["Mountain", "Wind"],
+        "Recipe":
+        {
+            "Houryuu Crimson Jewel - Base": 1,
+            "Fortitude Stone": 20,
+            "Miracle Stone": 20,
+            "Houryuu Bone": 3,
+            "Houryuu Jewel": 1
+        }
+    },
+
     "SUKI's SMACKER":
     {
         "Type": "Sword",

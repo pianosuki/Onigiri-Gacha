@@ -225,12 +225,6 @@
     "Flames of Rebellion": {"type": "rare"},
     "Spellbook of Rage": {"type": "rare"},
     "Fallen Angel's Wings": {"type": "rare"},
-
-
-
-
-
-
     "Sleetsword Scale": {"type": "common"},
     "Sleetsword Shell": {"type": "common"},
     "Sleetsword Grudge": {"type": "rare"},
@@ -248,5 +242,23 @@
     "Levinlance Grudge": {"type": "rare"},
     "Levinlance Wing": {"type": "rare"},
     "Levinlance Heart": {"type": "rare"},
-    "Levinlance Marrow": {"type": "rare"}
+    "Levinlance Marrow": {"type": "rare"},
+    "Uryuu Scale": {"type": "common"},
+    "Uryuu Webbing": {"type": "common"},
+    "Uryuu Spine": {"type": "rare"},
+    "Uryuu Reversed Scale": {"type": "rare"},
+    "Uryuu Bone": {"type": "rare"},
+    "Uryuu Jewel": {"type": "rare"},
+    "Tenryuu Scale": {"type": "common"},
+    "Tenryuu Webbing": {"type": "common"},
+    "Tenryuu Spine": {"type": "rare"},
+    "Tenryuu Reversed Scale": {"type": "rare"},
+    "Tenryuu Bone": {"type": "rare"},
+    "Tenryuu Jewel": {"type": "rare"},
+    "Houryuu Scale": {"type": "common"},
+    "Houryuu Webbing": {"type": "common"},
+    "Houryuu Spine": {"type": "rare"},
+    "Houryuu Reversed Scale": {"type": "rare"},
+    "Houryuu Bone": {"type": "rare"},
+    "Houryuu Jewel": {"type": "rare"}
 }

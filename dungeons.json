@@ -7435,5 +7435,125 @@
             "Ryou": {"range": [200000, 300000], "rate": 100},
             "EXP": {"range": [20000, 30000], "rate": 100}
         }
+    },
+
+    "Assault! Dragon Ark Aosame":
+    {
+
+        "Level_Required": 70,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"HP": 30000, "ATK": 200, "DEF": 200}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"HP": 60000, "ATK": 300, "DEF": 300}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+            }
+        },
+        "Floors": 1,
+        "Yokai": ["None"],
+        "Boss":
+        {
+            "Name": "Dragon Ark Aosame",
+            "HP": 60000,
+            "Resistances": ["Lightning", "Rain", "Ice", "Dark", "Holy", "Mountain", "Poison", "Slice", "Pierce"],
+            "Weaknesses": ["Fire", "Wind", "Impact"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 500000], "rate": 100},
+            "EXP": {"range": [50000, 100000], "rate": 100}
+        }
+    },
+
+    "Assault! Dragon Ark Tenshou":
+    {
+
+        "Level_Required": 70,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"HP": 30000, "ATK": 200, "DEF": 200}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"HP": 60000, "ATK": 300, "DEF": 300}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+            }
+        },
+        "Floors": 1,
+        "Yokai": ["None"],
+        "Boss":
+        {
+            "Name": "Dragon Ark Tenshou",
+            "HP": 60000,
+            "Resistances": ["Fire", "Holy", "Lightning", "Wind", "Mountain", "Ice", "Poison", "Impact", "Pierce"],
+            "Weaknesses": ["Dark", "Rain", "Slice"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 500000], "rate": 100},
+            "EXP": {"range": [50000, 100000], "rate": 100}
+        }
+    },
+
+    "Assault! Dragon Ark Gakuhou":
+    {
+
+        "Level_Required": 70,
+        "Energy_Metric": 35,
+        "Difficulties":
+        {
+            "Normal":
+            {
+                "boss_modulations": {"HP": 0, "ATK": 100, "DEF": 100}
+            },
+            "Hard":
+            {
+                "boss_modulations": {"HP": 30000, "ATK": 200, "DEF": 200}
+            },
+            "Hell":
+            {
+                "boss_modulations": {"HP": 60000, "ATK": 300, "DEF": 300}
+            },
+            "Oni":
+            {
+                "boss_modulations": {"HP": 100000, "ATK": 500, "DEF": 500}
+            }
+        },
+        "Floors": 1,
+        "Yokai": ["None"],
+        "Boss":
+        {
+            "Name": "Dragon Ark Gakuhou",
+            "HP": 60000,
+            "Resistances": ["Wind", "Mountain", "Fire", "Lightning", "Dark", "Holy", "Poison", "Slice", "Impact"],
+            "Weaknesses": ["Ice", "Rain", "Pierce"]
+        },
+        "Rewards":
+        {
+            "Ryou": {"range": [300000, 500000], "rate": 100},
+            "EXP": {"range": [50000, 100000], "rate": 100}
+        }
     }
 }

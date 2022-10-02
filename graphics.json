@@ -448,6 +448,21 @@
         [
             ["Graphics/Yokai/Satan/1.png", "satan-1.png", "attachment://satan-1.png"],
             ["Graphics/Yokai/Satan/2.png", "satan-2.png", "attachment://satan-2.png"]
+        ],
+        "Dragon Ark Aosame":
+        [
+            ["Graphics/Yokai/Dragon Ark Aosame/1.png", "dragonarkaosame-1.png", "attachment://dragonarkaosame-1.png"],
+            ["Graphics/Yokai/Dragon Ark Aosame/2.png", "dragonarkaosame-2.png", "attachment://dragonarkaosame-2.png"]
+        ],
+        "Dragon Ark Tenshou":
+        [
+            ["Graphics/Yokai/Dragon Ark Tenshou/1.png", "dragonarktenshou-1.png", "attachment://dragonarktenshou-1.png"],
+            ["Graphics/Yokai/Dragon Ark Tenshou/2.png", "dragonarktenshou-2.png", "attachment://dragonarktenshou-2.png"]
+        ],
+        "Dragon Ark Gakuhou":
+        [
+            ["Graphics/Yokai/Dragon Ark Gakuhou/1.png", "dragonarkgakuhou-1.png", "attachment://dragonarkgakuhou-1.png"],
+            ["Graphics/Yokai/Dragon Ark Gakuhou/2.png", "dragonarkgakuhou-2.png", "attachment://dragonarkgakuhou-2.png"]
         ]
     },
 
