@@ -927,7 +927,7 @@ async def dungeons(ctx, *input):
                         emojis = ["⏪", "⏩", "❌"]
                     elif dungeons_length > 10:
                         # Is the last page
-                        emojis = ["⏪", "❌"]
+                        emojis = ["⏪", "⏩", "❌"]
                     else:
                         # Is the only page
                         emojis = ["❌"]
@@ -938,7 +938,18 @@ async def dungeons(ctx, *input):
                     match str(reaction.emoji):
                         case "⏩":
                             # Tell upcomming re-iteration to skip to the next page's offset
-                            offset += 10
+                            if not dungeons_length % 10 == 0:
+                                if offset < dungeons_length - (dungeons_length % 10):
+                                    offset += 10
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
+                            else:
+                                if offset < dungeons_length - 10:
+                                    offset += 10
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
                             await message.clear_reactions()
                             e.clear_fields()
                             break
@@ -948,7 +959,10 @@ async def dungeons(ctx, *input):
                                 offset -= 10
                             else:
                                 # Skip to the last page
-                                offset = dungeons_length - (10 - (math.floor(dungeons_length / 10)))
+                                if not dungeons_length % 10 == 0:
+                                    offset = dungeons_length - (dungeons_length % 10)
+                                else:
+                                    offset = dungeons_length - 10
                             await message.clear_reactions()
                             e.clear_fields()
                             break
@@ -4306,7 +4320,7 @@ async def craft(ctx, *input):
                         emojis = ["⏪", "⏩", "↩️"]
                     elif weapons_length > 10:
                         # Is the last page
-                        emojis = ["⏪", "↩️"]
+                        emojis = ["⏪", "⏩", "↩️"]
                     else:
                         # Is the only page
                         emojis = ["↩️"]
@@ -4317,7 +4331,18 @@ async def craft(ctx, *input):
                     match str(reaction.emoji):
                         case "⏩":
                             # Tell upcomming re-iteration to skip to the next page's offset
-                            offset += 10
+                            if not weapons_length % 10 == 0:
+                                if offset < weapons_length - (weapons_length % 10):
+                                    offset += 10
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
+                            else:
+                                if offset < weapons_length - 10:
+                                    offset += 10
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
                             await message.clear_reactions()
                             e.clear_fields()
                             break
@@ -4327,7 +4352,10 @@ async def craft(ctx, *input):
                                 offset -= 10
                             else:
                                 # Skip to the last page
-                                offset = weapons_length - (10 - (math.floor(weapons_length / 10)))
+                                if not weapons_length % 10 == 0:
+                                    offset = weapons_length - (weapons_length % 10)
+                                else:
+                                    offset = weapons_length - 10
                             await message.clear_reactions()
                             e.clear_fields()
                             break
@@ -4383,7 +4411,7 @@ async def craft(ctx, *input):
                         emojis = ["⏪", "⏩", "↩️"]
                     elif magatamas_length > 10:
                         # Is the last page
-                        emojis = ["⏪", "↩️"]
+                        emojis = ["⏪", "⏩", "↩️"]
                     else:
                         # Is the only page
                         emojis = ["↩️"]
@@ -4394,7 +4422,18 @@ async def craft(ctx, *input):
                     match str(reaction.emoji):
                         case "⏩":
                             # Tell upcomming re-iteration to skip to the next page's offset
-                            offset += 10
+                            if not weapons_length % 10 == 0:
+                                if offset < weapons_length - (weapons_length % 10):
+                                    offset += 10
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
+                            else:
+                                if offset < weapons_length - 10:
+                                    offset += 10
+                                else:
+                                    # Skip to the first page
+                                    offset = 0
                             await message.clear_reactions()
                             e.clear_fields()
                             break
@@ -4404,7 +4443,10 @@ async def craft(ctx, *input):
                                 offset -= 10
                             else:
                                 # Skip to the last page
-                                offset = magatamas_length - (10 - (math.floor(magatamas_length / 10)))
+                                if not weapons_length % 10 == 0:
+                                    offset = weapons_length - (weapons_length % 10)
+                                else:
+                                    offset = weapons_length - 10
                             await message.clear_reactions()
                             e.clear_fields()
                             break
@@ -5144,8 +5186,14 @@ async def equip(ctx, *input):
                                     m_offset -= size
                         else:
                             # Skip to the last page
-                            w_offset = size * math.floor(w_length / size)
-                            m_offset = size * math.floor(m_length / size)
+                            if not w_length % size == 0:
+                                w_offset = w_length - (w_length % size)
+                            else:
+                                w_offset = w_length - size
+                            if not m_length % size == 0:
+                                m_offset = m_length - (m_length % size)
+                            else:
+                                m_offset = m_length - size
                         await message.clear_reactions()
                         continue
                     case "📏":
