@@ -6769,7 +6769,7 @@
     "Tenryuu Crimson Jewel - Stratos":
     {
         "Type": "Staff",
-        "Level_Required": 70,
+        "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
         "Elements": ["Holy", "Fire"],
