@@ -4422,14 +4422,14 @@ async def craft(ctx, *input):
                     match str(reaction.emoji):
                         case "⏩":
                             # Tell upcomming re-iteration to skip to the next page's offset
-                            if not weapons_length % 10 == 0:
-                                if offset < weapons_length - (weapons_length % 10):
+                            if not magatamas_length % 10 == 0:
+                                if offset < magatamas_length - (magatamas_length % 10):
                                     offset += 10
                                 else:
                                     # Skip to the first page
                                     offset = 0
                             else:
-                                if offset < weapons_length - 10:
+                                if offset < magatamas_length - 10:
                                     offset += 10
                                 else:
                                     # Skip to the first page
@@ -4443,10 +4443,10 @@ async def craft(ctx, *input):
                                 offset -= 10
                             else:
                                 # Skip to the last page
-                                if not weapons_length % 10 == 0:
-                                    offset = weapons_length - (weapons_length % 10)
+                                if not magatamas_length % 10 == 0:
+                                    offset = magatamas_length - (magatamas_length % 10)
                                 else:
-                                    offset = weapons_length - 10
+                                    offset = magatamas_length - 10
                             await message.clear_reactions()
                             e.clear_fields()
                             break
