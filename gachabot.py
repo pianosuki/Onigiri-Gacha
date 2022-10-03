@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Onigiri"
 bot_version = "1.10"
-debug_mode  = False
+debug_mode  = True
 
 import config, dresource
 from database import Database
@@ -643,6 +643,31 @@ def boxifyArray(array, padding = 1, min_width = 0, spacer_character = "-"):
     # Return fully-assembled boxified string
     return boxified_string
 
+def reformatEmbed(e):
+    reformatting = True
+    while reformatting:
+        d = e.to_dict()
+        for n in range(0, len(d["fields"])):
+            if len(d["fields"][n]["value"]) > 1024:
+                field_name = d["fields"][n]["name"]
+                inline = d["fields"][n]["inline"]
+                list_content = d["fields"][n]["value"].split("\n")
+                field_1 = ""
+                field_2 = ""
+                for index, line in enumerate(list_content):
+                    print(n, index, line)
+                    if index <= math.floor(len(list_content) / 2):
+                        field_1 += line + "\n"
+                    else:
+                        field_2 += line + "\n"
+                e.set_field_at(n, name = field_name, value = field_1, inline = inline)
+                e.insert_field_at(n + 1, name = field_name, value = field_2, inline = False)
+                reformatting = True
+                break
+            else:
+                reformatting = False
+    return e
+
 ### User Commands
 @bot.command(aliases = ["dungeon", "dg", "dung", "run", "warding", "wardings"])
 @commands.check(checkChannel)
@@ -1079,48 +1104,9 @@ async def dungeons(ctx, *input):
                     await message.clear_reactions()
                     e = discord.Embed(title = f"{dg.icon}  ─  __{dg.dungeon}__  ─  {dg.icon}", description = f"Extended dungeon rewards list for mode: __{dg.mode_name}__", color = 0x9575cd)
                     e.set_author(name = ctx.author.name, icon_url = ctx.author.display_avatar)
-                    # e.set_thumbnail(url = Resource["Kinka_Mei-5"][0])
                     e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = formatWeaponRewards(dg.rewards, dg.multiplier), inline = True)
                     e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = formatMagatamaRewards(dg.rewards, dg.multiplier), inline = True)
-
-                    d = e.to_dict()
-
-                    if len(d["fields"][0]["value"]) > 1024:
-                        weapons_list = formatWeaponRewards(dg.rewards, dg.multiplier).split("\n")
-                        weapons_1 = ""
-                        weapons_2 = ""
-                        for index, line in enumerate(weapons_list):
-                            if index <= math.floor(len(weapons_list) / 2):
-                                weapons_1 += line + "\n"
-                            else:
-                                weapons_2 += line + "\n"
-                        e.set_field_at(0, name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_1, inline = True)
-                        e.add_field(name = "⚔️ ─ Weapons Pool ─ ⚔️", value = weapons_2, inline = False)
-
-                    if len(d["fields"][1]["value"]) > 1024:
-                        magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
-                        magatamas_1 = ""
-                        magatamas_2 = ""
-                        for index, line in enumerate(magatamas_list):
-                            if index <= math.floor(len(magatamas_list) / 2):
-                                magatamas_1 += line + "\n"
-                            else:
-                                magatamas_2 += line + "\n"
-                        e.set_field_at(1, name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_1, inline = True)
-                        e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_2, inline = False)
-
-                    # if len(d["fields"][1]["value"]) > 1024:
-                    #     magatamas_list = formatMagatamaRewards(dg.rewards, dg.multiplier).split("\n")
-                    #     magatamas_1 = ""
-                    #     magagatams_2 = ""
-                    #     for index, line in enumerate(magatamas_list):
-                    #         if index <= math.floor(len(magatamas_list) / 2):
-                    #             magatamas_1 += line + "\n"
-                    #         else:
-                    #             magagatams_2 += line + "\n"
-                    #     e.set_field_at(1, name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magatamas_1, inline = True)
-                    #     e.add_field(name = f"{Icons['magatama']} ─ Magatamas Pool ─ {Icons['magatama']}", value = magagatams_2, inline = True)
-
+                    e = reformatEmbed(e)
                     await message.edit(embed = e)
                     emojis = ["↩️"]
                     reaction, user = await waitForReaction(ctx, message, e, emojis)
@@ -2062,12 +2048,16 @@ async def dungeons(ctx, *input):
             if weapon_elements:
                 for resistance in dg.boss["Resistances"]:
                     for element in weapon_elements:
+                        print("Resistance check", element, resistance)
                         if element == resistance:
                             effectiveness -= 1
+                            print(True, effectiveness)
                 for weakness in dg.boss["Weaknesses"]:
                     for element in weapon_elements:
+                        print("Weakness check", element, weakness)
                         if element == weakness:
                             effectiveness += 1
+                            print(True, effectiveness)
             if effectiveness < 0:
                 if effectiveness < -2:
                     damage = 0

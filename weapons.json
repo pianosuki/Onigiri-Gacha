@@ -4957,7 +4957,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -4973,7 +4973,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -4989,7 +4989,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5005,7 +5005,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Pierce", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5021,7 +5021,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Impact", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5037,7 +5037,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Pierce", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5069,7 +5069,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Impact", "Ice", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5085,7 +5085,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5101,7 +5101,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5117,7 +5117,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5133,7 +5133,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Pierce", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5149,7 +5149,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Impact", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5165,7 +5165,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Pierce", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5197,7 +5197,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Impact", "Fire", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5213,7 +5213,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5229,7 +5229,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5245,7 +5245,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5261,7 +5261,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Pierce", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5277,7 +5277,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Impact", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5293,7 +5293,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Pierce", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5325,7 +5325,7 @@
         "Level_Required": 50,
         "Rarity": "Gold",
         "Attack": 65,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Impact", "Lightning", "Mountain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -5341,7 +5341,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Icetusk Jahannam": 1,
@@ -5357,7 +5357,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Icetalon Flogger": 1,
@@ -5373,7 +5373,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Icetailed Fafnir": 1,
@@ -5389,7 +5389,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Pierce", "Ice", "Rain"],
         "Recipe":
         {
             "Iceeye Meteor": 1,
@@ -5405,7 +5405,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Impact", "Ice", "Rain"],
         "Recipe":
         {
             "Icejaw Gibbet": 1,
@@ -5421,7 +5421,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Pierce", "Ice", "Rain"],
         "Recipe":
         {
             "Icefoot Guardian": 1,
@@ -5453,7 +5453,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Impact", "Ice", "Rain"],
         "Recipe":
         {
             "Icearm Preghiera": 1,
@@ -5469,7 +5469,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Flametusk Jahannam": 1,
@@ -5485,7 +5485,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Flametalon Flogger": 1,
@@ -5501,7 +5501,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Flametailed Fafnir": 1,
@@ -5517,7 +5517,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Pierce", "Fire", "Wind"],
         "Recipe":
         {
             "Embereye Meteor": 1,
@@ -5533,7 +5533,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Impact", "Fire", "Wind"],
         "Recipe":
         {
             "Flamejaw Gibbet": 1,
@@ -5549,7 +5549,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Pierce", "Fire", "Wind"],
         "Recipe":
         {
             "Flamefoot Guardian": 1,
@@ -5581,7 +5581,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Impact", "Fire", "Wind"],
         "Recipe":
         {
             "Flamearm Preghiera": 1,
@@ -5597,7 +5597,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundertusk Jahannam": 1,
@@ -5613,7 +5613,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundertalon Flogger": 1,
@@ -5629,7 +5629,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundertailed Fafnir": 1,
@@ -5645,7 +5645,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Pierce", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundereye Meteor": 1,
@@ -5661,7 +5661,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Impact", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thunderjaw Gibbet": 1,
@@ -5677,7 +5677,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Pierce", "Lightning", "Mountain"],
         "Recipe":
         {
             "Flashfoot Guardian": 1,
@@ -5709,7 +5709,7 @@
         "Level_Required": 75,
         "Rarity": "Gold",
         "Attack": 97,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Impact", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thunderarm Preghiera": 1,
@@ -5725,7 +5725,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Icetusk Jahannam - Frost": 1,
@@ -5741,7 +5741,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Icetalon Flogger - Frost": 1,
@@ -5757,7 +5757,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Slice", "Ice", "Rain"],
         "Recipe":
         {
             "Icetailed Fafnir - Frost": 1,
@@ -5773,7 +5773,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Pierce", "Ice", "Rain"],
         "Recipe":
         {
             "Iceeye Meteor - Frost": 1,
@@ -5789,7 +5789,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Impact", "Ice", "Rain"],
         "Recipe":
         {
             "Icejaw Gibbet - Frost": 1,
@@ -5805,7 +5805,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Pierce", "Ice", "Rain"],
         "Recipe":
         {
             "Icefoot Guardian - Frost": 1,
@@ -5837,7 +5837,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Ice", "Rain"],
+        "Elements": ["Impact", "Ice", "Rain"],
         "Recipe":
         {
             "Icearm Preghiera - Frost": 1,
@@ -5853,7 +5853,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Flametusk Jahannam - Flare": 1,
@@ -5869,7 +5869,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Flametalon Flogger - Flare": 1,
@@ -5885,7 +5885,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Slice", "Fire", "Wind"],
         "Recipe":
         {
             "Flametailed Fafnir - Flare": 1,
@@ -5901,7 +5901,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Pierce", "Fire", "Wind"],
         "Recipe":
         {
             "Embereye Meteor - Flare": 1,
@@ -5917,7 +5917,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Impact", "Fire", "Wind"],
         "Recipe":
         {
             "Flamejaw Gibbet - Flare": 1,
@@ -5933,7 +5933,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Pierce", "Fire", "Wind"],
         "Recipe":
         {
             "Flamefoot Guardian - Flare": 1,
@@ -5965,7 +5965,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Fire", "Wind"],
+        "Elements": ["Impact", "Fire", "Wind"],
         "Recipe":
         {
             "Flamearm Preghiera - Flare": 1,
@@ -5981,7 +5981,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundertusk Jahannam - Bolt": 1,
@@ -5997,7 +5997,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundertalon Flogger - Bolt": 1,
@@ -6013,7 +6013,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Slice", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundertailed Fafnir - Bolt": 1,
@@ -6029,7 +6029,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Pierce", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thundereye Meteor - Bolt": 1,
@@ -6045,7 +6045,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Impact", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thunderjaw Gibbet - Bolt": 1,
@@ -6061,7 +6061,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Pierce", "Lightning", "Mountain"],
         "Recipe":
         {
             "Flashfoot Guardian - Bolt": 1,
@@ -6093,7 +6093,7 @@
         "Level_Required": 100,
         "Rarity": "Gold",
         "Attack": 130,
-        "Elements": ["Lightning", "Mountain"],
+        "Elements": ["Impact", "Lightning", "Mountain"],
         "Recipe":
         {
             "Thunderarm Preghiera - Bolt": 1,
@@ -6109,7 +6109,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6126,7 +6126,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6143,7 +6143,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6160,7 +6160,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Pierce", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6177,7 +6177,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Impact", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6194,7 +6194,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Pierce", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6228,7 +6228,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Impact", "Lightning", "Rain"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6245,7 +6245,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6262,7 +6262,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6279,7 +6279,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6296,7 +6296,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Pierce", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6313,7 +6313,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Impact", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6330,7 +6330,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Pierce", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6364,7 +6364,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Impact", "Holy", "Fire"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6381,7 +6381,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6398,7 +6398,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6415,7 +6415,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6432,7 +6432,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Pierce", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6449,7 +6449,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Impact", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6466,7 +6466,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Pierce", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6500,7 +6500,7 @@
         "Level_Required": 70,
         "Rarity": "Gold",
         "Attack": 85,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Impact", "Mountain", "Wind"],
         "Recipe":
         {
             "Oninodachi": 1,
@@ -6517,7 +6517,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Cloud Cleaver": 1,
@@ -6534,7 +6534,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Twin Feather": 1,
@@ -6551,7 +6551,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Divine Judgement": 1,
@@ -6568,7 +6568,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Pierce", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Newborn": 1,
@@ -6585,7 +6585,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Impact", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Cloven Fang": 1,
@@ -6602,7 +6602,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Pierce", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Foe Hammer Horn": 1,
@@ -6636,7 +6636,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Impact", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Crimson Jewel": 1,
@@ -6653,7 +6653,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Cloud Cleaver": 1,
@@ -6670,7 +6670,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Twin Feather": 1,
@@ -6687,7 +6687,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Divine Judgement": 1,
@@ -6704,7 +6704,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Pierce", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Newborn": 1,
@@ -6721,7 +6721,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Impact", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Cloven Fang": 1,
@@ -6738,7 +6738,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Pierce", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Foe Hammer Horn": 1,
@@ -6772,7 +6772,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Impact", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Crimson Jewel": 1,
@@ -6789,7 +6789,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Cloud Cleaver": 1,
@@ -6806,7 +6806,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Twin Feather": 1,
@@ -6823,7 +6823,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Divine Judgement": 1,
@@ -6840,7 +6840,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Pierce", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Newborn": 1,
@@ -6857,7 +6857,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Impact", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Cloven Fang": 1,
@@ -6874,7 +6874,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Pierce", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Foe Hammer Horn": 1,
@@ -6908,7 +6908,7 @@
         "Level_Required": 90,
         "Rarity": "Gold",
         "Attack": 110,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Impact", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Crimson Jewel": 1,
@@ -6925,7 +6925,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Cloud Cleaver - Droplet": 1,
@@ -6942,7 +6942,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Twin Featherr - Droplet": 1,
@@ -6959,7 +6959,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Slice", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Divine Judgementr - Droplet": 1,
@@ -6976,7 +6976,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Pierce", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Newbornr - Droplet": 1,
@@ -6993,7 +6993,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Impact", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Cloven Fangr - Droplet": 1,
@@ -7010,7 +7010,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Pierce", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Foe Hammer Hornr - Droplet": 1,
@@ -7044,7 +7044,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Lightning", "Rain"],
+        "Elements": ["Impact", "Lightning", "Rain"],
         "Recipe":
         {
             "Uryuu Crimson Jewelr - Droplet": 1,
@@ -7061,7 +7061,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Cloud Cleaver - Stratos": 1,
@@ -7078,7 +7078,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Twin Feather - Stratos": 1,
@@ -7095,7 +7095,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Slice", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Divine Judgement - Stratos": 1,
@@ -7112,7 +7112,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Pierce", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Newborn - Stratos": 1,
@@ -7129,7 +7129,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Impact", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Cloven Fang - Stratos": 1,
@@ -7146,7 +7146,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Pierce", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Foe Hammer Horn - Stratos": 1,
@@ -7180,7 +7180,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Holy", "Fire"],
+        "Elements": ["Impact", "Holy", "Fire"],
         "Recipe":
         {
             "Tenryuu Crimson Jewel - Stratos": 1,
@@ -7197,7 +7197,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Cloud Cleaver - Base": 1,
@@ -7214,7 +7214,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Twin Feather - Base": 1,
@@ -7231,7 +7231,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Slice", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Divine Judgement - Base": 1,
@@ -7248,7 +7248,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Pierce", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Newborn - Base": 1,
@@ -7265,7 +7265,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Impact", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Cloven Fang - Base": 1,
@@ -7282,7 +7282,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Pierce", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Foe Hammer Hornv - Base": 1,
@@ -7316,7 +7316,7 @@
         "Level_Required": 110,
         "Rarity": "Gold",
         "Attack": 135,
-        "Elements": ["Mountain", "Wind"],
+        "Elements": ["Impact", "Mountain", "Wind"],
         "Recipe":
         {
             "Houryuu Crimson Jewel - Base": 1,
