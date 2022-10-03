@@ -4,7 +4,7 @@
 ### For use by Catheon only
 branch_name = "Onigiri"
 bot_version = "1.10"
-debug_mode  = True
+debug_mode  = False
 
 import config, dresource
 from database import Database
