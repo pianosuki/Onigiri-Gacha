@@ -2833,7 +2833,17 @@ async def dungeons(ctx, *input):
             mode = -1
         for dungeon in Dungeons:
             # Check if the provided dungeon argument is an existing dungeon
-            if dg_string.casefold() == dungeon.casefold():
+            dg_words = dg_string.split(" ")
+            pattern_left = r""
+            pattern_right = r""
+            pattern_ambidextrous = r""
+            for index, word in enumerate(dg_words):
+                pattern_left += word + "+" + ".*"
+            for index, word in enumerate(reversed(dg_words)):
+                pattern_right += word + "+" + ".*"
+            pattern_ambidextrous += pattern_left + "|" + pattern_right
+            #if dg_string.casefold() == dungeon.casefold():
+            if re.search(pattern_ambidextrous, dungeon, re.IGNORECASE):
                 # A match was found! Proceed to load the dungeon
                 dungeon_ready = True
                 break
@@ -4459,6 +4469,7 @@ async def craft(ctx, *input):
             return elements
 
         w_emoji = Icons[Weapons[weapon]["Type"].lower().replace(" ", "_")]
+        w_rarity = Icons["rarity_" + Weapons[weapon]["Rarity"].lower()]
         w_level = Weapons[weapon]["Level_Required"]
         w_atk = Weapons[weapon]["Attack"]
         w_elements = getWeaponElements(weapon)
@@ -4466,7 +4477,7 @@ async def craft(ctx, *input):
         def formatWeaponDetails(weapon):
             formatted_string = ""
             formatted_string += "──────────────────\n"
-            formatted_string += f"{w_emoji} **__{weapon}__**\n"
+            formatted_string += f"{w_emoji} **__{weapon}__** {w_rarity}\n"
             formatted_string += f" ╰─  Level: **{w_level}**\n"
             formatted_string += f" ╰─  Attack: **{'{:,}'.format(w_atk)}**\n"
             formatted_string += f" ╰─  Elements: **{w_elements}**\n"
@@ -4722,8 +4733,17 @@ async def craft(ctx, *input):
         return
 
     def checkIfWeapon(q_string):
+        q_words = q_string.split(" ")
+        pattern_left = r""
+        pattern_right = r""
+        pattern_ambidextrous = r""
+        for index, word in enumerate(q_words):
+            pattern_left += word + "+" + ".*"
+        for index, word in enumerate(reversed(q_words)):
+            pattern_right += word + "+" + ".*"
+        pattern_ambidextrous += pattern_left + "|" + pattern_right
         for weapon in Weapons:
-            if q_string.casefold() == weapon.casefold():
+            if re.search(pattern_ambidextrous, weapon, re.IGNORECASE):
                 if "Recipe" in Weapons[weapon]:
                     return True, weapon
                 else:
@@ -4731,8 +4751,17 @@ async def craft(ctx, *input):
         return False, None
 
     def checkIfMagatama(q_string):
+        q_words = q_string.split(" ")
+        pattern_left = r""
+        pattern_right = r""
+        pattern_ambidextrous = r""
+        for index, word in enumerate(q_words):
+            pattern_left += word + "+" + ".*"
+        for index, word in enumerate(reversed(q_words)):
+            pattern_right += word + "+" + ".*"
+        pattern_ambidextrous += pattern_left + "|" + pattern_right
         for magatama in Magatamas:
-            if q_string.casefold() == magatama.casefold():
+            if re.search(pattern_ambidextrous, magatama, re.IGNORECASE):
                 if "Recipe" in Magatamas[magatama]:
                     return True, magatama
                 else:
@@ -5200,8 +5229,19 @@ async def equip(ctx, *input):
             clearPlayerEquipment(user_id)
             await ctx.reply("You have successfully cleared your equipment slots!")
         else:
-            weapon = [w for w in Weapons if argument.casefold() == w.casefold()]
-            magatama = [m for m in Magatamas if argument.casefold() == m.casefold()]
+            search_words = argument.split(" ")
+            pattern_left = r""
+            pattern_right = r""
+            pattern_ambidextrous = r""
+            for index, word in enumerate(search_words):
+                pattern_left += word + "+" + ".*"
+            for index, word in enumerate(reversed(search_words)):
+                pattern_right += word + "+" + ".*"
+            pattern_ambidextrous += pattern_left + "|" + pattern_right
+
+            weapon = [w for w in Weapons if re.search(pattern_ambidextrous, w, re.IGNORECASE)]
+            magatama = [m for m in Magatamas if re.search(pattern_ambidextrous, m, re.IGNORECASE)]
+
             if weapon:
                 weapon = weapon[0]
                 weapon_string = f"{Icons[Weapons[weapon]['Type'].lower().replace(' ', '_')]} **{weapon}** {Icons['rarity_' + Weapons[weapon]['Rarity'].lower()]}"
