@@ -237,3 +237,6 @@ tips = [
     "❓ ┃ **Did you know?** You have 2 special Ougi skills you can activate in combat after filling up a 5-turn gauge!\n- Try clicking <:supercharge:1011404535505371146> after filling your **ATK gauge** to unleash a super powerful attack.\n- Try clicking <:evade:1011404551565365308> after filling your **DEF gauge** to guarantee dodging the enemy's attack.",
     "❓ ┃ **Did you know?** You can craft **Gacha Tickets** from collecting 4 **Gacha Fragments**!\n- Try `+craft` to get started."
 ]
+
+# Misc
+regex_reserved = ["[", "]", "\\", ".", "^", "$", "*", "+", "?", "{", "}", "|", "(", ")"]

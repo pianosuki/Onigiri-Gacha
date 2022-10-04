@@ -2838,6 +2838,10 @@ async def dungeons(ctx, *input):
             pattern_right = r""
             pattern_ambidextrous = r""
             for index, word in enumerate(dg_words):
+                for c in word:
+                    if c in config.regex_reserved:
+                        dg_words[index] = word.replace(c, f"\{c}")
+            for index, word in enumerate(dg_words):
                 pattern_left += word + "+" + ".*"
             for index, word in enumerate(reversed(dg_words)):
                 pattern_right += word + "+" + ".*"
@@ -4738,6 +4742,10 @@ async def craft(ctx, *input):
         pattern_right = r""
         pattern_ambidextrous = r""
         for index, word in enumerate(q_words):
+            for c in word:
+                if c in config.regex_reserved:
+                    q_words[index] = word.replace(c, f"\{c}")
+        for index, word in enumerate(q_words):
             pattern_left += word + "+" + ".*"
         for index, word in enumerate(reversed(q_words)):
             pattern_right += word + "+" + ".*"
@@ -4755,6 +4763,10 @@ async def craft(ctx, *input):
         pattern_left = r""
         pattern_right = r""
         pattern_ambidextrous = r""
+        for index, word in enumerate(q_words):
+            for c in word:
+                if c in config.regex_reserved:
+                    q_words[index] = word.replace(c, f"\{c}")
         for index, word in enumerate(q_words):
             pattern_left += word + "+" + ".*"
         for index, word in enumerate(reversed(q_words)):
@@ -5233,6 +5245,10 @@ async def equip(ctx, *input):
             pattern_left = r""
             pattern_right = r""
             pattern_ambidextrous = r""
+            for index, word in enumerate(search_words):
+                for c in word:
+                    if c in config.regex_reserved:
+                        search_words[index] = word.replace(c, f"\{c}")
             for index, word in enumerate(search_words):
                 pattern_left += word + "+" + ".*"
             for index, word in enumerate(reversed(search_words)):
