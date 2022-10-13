@@ -22,8 +22,8 @@ default_chest_loot          = [{"pool": {"Ryou": [100, 200]}, "rate": 50}, {"poo
 default_modulations         = {"HP": 0, "ATK": 0, "DEF": 0}
 tax                         = 0.5
 stats_cap                   = 999999999
-fever_exp                   = 300
-fever_ryou                  = 100
+fever_exp                   = 500
+fever_ryou                  = 300
 fever_drop                  = 900
 consumables                 = {
     "Tuna Nigiri": 50,
