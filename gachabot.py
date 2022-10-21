@@ -6400,6 +6400,17 @@ async def compensate(ctx):
 
 @bot.command()
 @commands.is_owner()
+async def fetchprizes(ctx, prize):
+    all_prizes = GachaDB.query("SELECT * FROM prizehistory")
+    prize_list = []
+    pattern = "{}+.*".format(prize)
+    print(pattern)
+    for p in all_prizes:
+        if re.search(pattern, p[6], re.IGNORECASE):
+            print(p)
+
+@bot.command()
+@commands.is_owner()
 async def test(ctx):
     pass
 
